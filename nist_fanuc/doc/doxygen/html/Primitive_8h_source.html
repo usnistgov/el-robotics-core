@@ -107,7 +107,7 @@
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            std::string groupname);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::string <a class="code" href="classCPrimitive.html#a408ebf227dfb8e36bf9103f5feebcd61">ToString</a>() ;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#aef4bdc36e7575e6847e6eb3247b1cb9c">GetJointValues</a>();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">geometry_msgs::Pose</a> <a class="code" href="classCPrimitive.html#ab99019451c0dec79bc79b18497ddd834">GetRobotState_pose</a>(</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">geometry_msgs::Pose</a> <a class="code" href="classCPrimitive.html#ab99019451c0dec79bc79b18497ddd834">GetRobotState_pose</a>(</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keyword">const</span> robot_state::RobotState &amp;state) ;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#ad3736f955467bd7a916a397543d9544c">ForwardKinematics</a>() ;</div>
@@ -115,7 +115,7 @@
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    Eigen::Affine3d <a class="code" href="classCPrimitive.html#a334aa9f1b5f1946f485d54c62d47b020">ComputeForwardKinematics</a>(std::vector&lt;double&gt;  jointvalues);</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::vector&lt;double&gt; <a class="code" href="classCPrimitive.html#a85b8173077e0b5094a6d8348e5700a77">InverseKinematics</a>() ;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#a3d063adf3304dcf929fe24516e569d8d">RandomGoal</a>() ;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#aa248f6a5f8ecb5b9df1d9ffd24bc73bd">PlanPath</a>(<a class="code" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">geometry_msgs::Pose</a> &amp;pose, <span class="keywordtype">double</span> dGoalTolerance,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#aa248f6a5f8ecb5b9df1d9ffd24bc73bd">PlanPath</a>(<a class="code" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">geometry_msgs::Pose</a> &amp;pose, <span class="keywordtype">double</span> dGoalTolerance,</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordtype">int</span> bMoveFlag = 1, <span class="keywordtype">int</span> bRandomFlag = 1) ;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#ad2d40ebcacae01d171c240dd75df12d1">PrintPose</a>() ;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#aad2a64c811fab7148b0fdc8d8d834800">PrintJoints</a>(std::vector&lt;double&gt; &amp;joint_values,</div>
@@ -126,8 +126,8 @@
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#abf8f399e354026d1dfcb01db93327ba5">AddObstacle</a>(std::string <span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCPrimitive.html#acb46ffef83e3bd53f31c6cd84d91fe1f">RemoveObstacle</a>(std::string <span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="ttc" id="RCS_8h_html_aa4adb93a26caa4dacba9c9614e283245"><div class="ttname"><a href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a></div><div class="ttdeci">sensor_msgs::JointState_&lt; std::allocator&lt; void &gt; &gt; JointState</div><div class="ttdef"><b>Definition:</b> RCS.h:37</div></div>
-<div class="ttc" id="namespaceRCS_html_aac02c0fd845140ea93a2a9254b1db6f6"><div class="ttname"><a href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a></div><div class="ttdeci">urdf::Pose Pose</div><div class="ttdef"><b>Definition:</b> RCS.h:76</div></div>
+<div class="ttc" id="RCS_8h_html_aa4adb93a26caa4dacba9c9614e283245"><div class="ttname"><a href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a></div><div class="ttdeci">sensor_msgs::JointState_&lt; std::allocator&lt; void &gt; &gt; JointState</div><div class="ttdef"><b>Definition:</b> RCS.h:50</div></div>
+<div class="ttc" id="namespaceRCS_html_aa07e45d8a50e30064283d2b38087f999"><div class="ttname"><a href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a></div><div class="ttdeci">tf::Pose Pose</div><div class="ttdef"><b>Definition:</b> RCS.h:88</div></div>
 <div class="ttc" id="classCPrimitive_html_aef4bdc36e7575e6847e6eb3247b1cb9c"><div class="ttname"><a href="classCPrimitive.html#aef4bdc36e7575e6847e6eb3247b1cb9c">CPrimitive::GetJointValues</a></div><div class="ttdeci">void GetJointValues()</div><div class="ttdef"><b>Definition:</b> Primitive.cpp:63</div></div>
 <div class="ttc" id="classCPrimitive_html_a85b8173077e0b5094a6d8348e5700a77"><div class="ttname"><a href="classCPrimitive.html#a85b8173077e0b5094a6d8348e5700a77">CPrimitive::InverseKinematics</a></div><div class="ttdeci">std::vector&lt; double &gt; InverseKinematics()</div><div class="ttdef"><b>Definition:</b> Primitive.cpp:103</div></div>
 <div class="ttc" id="classCPrimitive_html_a334aa9f1b5f1946f485d54c62d47b020"><div class="ttname"><a href="classCPrimitive.html#a334aa9f1b5f1946f485d54c62d47b020">CPrimitive::ComputeForwardKinematics</a></div><div class="ttdeci">Eigen::Affine3d ComputeForwardKinematics(std::vector&lt; double &gt; jointvalues)</div><div class="ttdef"><b>Definition:</b> Primitive.cpp:92</div></div>
@@ -147,7 +147,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,8 +1,11 @@
-.TH "Crcl::CrclDelegateInterface" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "Crcl::CrclDelegateInterface" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 Crcl::CrclDelegateInterface \- 
+.PP
+\fBCrclDelegateInterface\fP parses \fBCrcl\fP commands and interprets into robot motion\&. https://github.com/usnistgov/crcl/blob/master/doc/Reference.md\&.  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -29,42 +32,58 @@ Crcl::CrclDelegateInterface \-
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBActuateJoints\fP (\fBCrcl::ActuatorJointSequence\fP joints)"
 .br
+.RI "\fIActuate the joints of the robot as specified\&. The joints argument is a list of instances of ActuateJointType\&. Each joint may appear at most once on the list\&. If a joint is not on the list, its actuation should be as previously set\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBCloseToolChanger\fP ()"
 .br
+.RI "\fIClose the tool changer on the robot so that it attaches to an end effector\&.\&. The robot must be in an appropriate position with respect to the end effector for the changer mechanism on the robot to attach to the end effector\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBConfigureJointReports\fP (std::vector< \fBCrcl::JointReport\fP > &jointReports)"
 .br
+.RI "\fISpecify how the status of the robot joints should be reported\&. This may be used only if CRCL status is being reported\&. The value of ResetAll is either true or false\&. Joints is a list of of instances of ConfigureJointReportType\&. Each joint may appear at most once on the list\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBCouple\fP (char *targetID)"
 .br
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBDwell\fP (double seconds)"
 .br
+.RI "\fIStay motionless for the given amount of time in seconds\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBEndCanon\fP ()"
 .br
-.ti -1c
-.RI "virtual \fBCrclReturn\fP \fBInitCanon\fP ()"
-.br
+.RI "\fIDo whatever is necessary to stop executing canonical robot commands\&. No specific action is required\&. The robot controller should not execute any canonical robot command except InitCanon after executing EndCanon and should signal an error if it is given one\&. This command will normally be given when execution of a plan is complete but may also be given if an error is detected, or for any other reason\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBGetStatus\fP ()"
 .br
+.RI "\fICommand to retrieve status immediately\&. This may be used only if CRCL status is being reported\&. \fP"
+.ti -1c
+.RI "virtual \fBCrclReturn\fP \fBInitCanon\fP ()"
+.br
+.RI "\fIDo whatever is necessary to get ready to move\&. All units are set to the default units\&. This command will normally be given when a plan interpreter opens a plan to be executed\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBMessage\fP (std::string message)"
 .br
+.RI "\fIDisplay the given message on the operator console\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBMoveTo\fP (\fBCrcl::PoseType\fP endpose, bool bStraight)"
 .br
+.RI "\fIMove the controlled point to the given pose, and stop there\&. The robot must reach the pose within the tolerance established (1) by the tolerance given for the pose, if there is a tolerance in the pose, or if not (2) by the most recently executed instance of SetEndPoseTolerance\&. The speed and acceleration to use are set either in the pose or by previously executed CRCL commands\&. \fP"
 .ti -1c
-.RI "virtual \fBCrclReturn\fP \fBMoveThroughTo\fP (std::vector< \fBCrcl::PoseType\fP > &poses, bool bStraight)"
+.RI "virtual \fBCrclReturn\fP \fBMoveThroughTo\fP (std::vector< \fBCrcl::PoseType\fP > &waypoints, bool bStraight)"
 .br
+.RI "\fIMove the controlled point along a trajectory passing near all but the last of the given waypoints (poses), and stop at the last of the given waypoints\&. The robot must pass each waypoint within the tolerance established 
+.br
+ (1) by the tolerance given for the pose in the waypoint, if there is a tolerance in the waypoint, or if not 
+.br
+ (2) by the most recently executed instance of SetIntermediatePoseToleranceType (or by SetEndPoseToleranceType for the final waypoint)\&. The speed and acceleration to use are set either in the waypoint or by previously executed CRCL commands\&. If the value of straight is true, the controlled point must be moved in a straight line between waypoints\&. If the value of straight is false, the controlled point may be moved along any convenient trajectory between waypoints\&. In either case, there are no restrictions on the values of XAxis and ZAxis between waypoints\&. The numberWaypoints gives the number of waypoints\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBOpenToolChanger\fP ()"
 .br
+.RI "\fIOpen the tool changer on the robot\&. If an end effector is attached to the robot when this command is given, executing the command releases the end effector\&. This command is normally given only after an end effector attached to the robot has been moved into an end effector changer\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBRunProgram\fP (std::string programText)"
 .br
+.RI "\fIRun a program written in a non-CRCL language that the robot controller understands\&.  is the program represented as a string of text\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetAbsoluteAcceleration\fP (double acceleration)"
 .br
@@ -74,33 +93,41 @@ Crcl::CrclDelegateInterface \-
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetAngleUnits\fP (std::string unitName)"
 .br
+.RI "\fISet angle units to the named unit\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetAxialSpeeds\fP (std::vector< double > speeds)"
 .br
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetEndEffector\fP (double percent)"
 .br
+.RI "\fISet the effectivity of the end effector\&. The setting is a number between zero and one\&. If an end effector has multiple control modes, the control mode must be set using a SetEndEffectorParameters command, so that the meaning of SetEndEffector commands is unambiguous\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetEndEffectorTolerance\fP (\fBCrcl::PoseToleranceType\fP dTolerance)"
 .br
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetEndPoseTolerance\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
 .br
+.RI "\fIet the tolerance for the position and orientation of the end of the arm (whenever there is no gripper there) or of the gripper (whenever a gripper is on the end of the arm) to the given value\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetForceUnits\fP (std::string unitName)"
 .br
+.RI "\fISet force units to the named unit\&. After this command is executed, all commands that use force units are in terms of the named force unit\&. The default force unit is 'newton'\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetIntermediatePoseTolerance\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
 .br
+.RI "\fISet the tolerance for smooth motion near intermediate points\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetLengthUnits\fP (std::string unitName)"
 .br
+.RI "\fISet length units to the named unit\&. After this command is executed, all commands that use length units (for location, tolerance, speed, and acceleration) are in terms of the named length unit\&. Existing values for speed, position, acceleration, etc\&. are converted automatically to the equivalent value in new length units\&. The default length unit is 'meter'\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetMotionCoordination\fP (bool bCoordinatedMotion)"
 .br
+.RI "\fIEither require rotational motion and translational motion to be coordinated or allow them to be uncoordinated\&. Motion is coordinated when rotational motion and translational motion must finish simultaneously in motion commands (including each segment in a multiple segment motion command), except as possibly temporarily overridden in the the motion command\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetParameter\fP (char *paramName, void *paramVal)"
 .br
+.RI "\fISet one or more robot parameters as specified\&. The meaning of the parameter is not known to CRCL, but the robot controller knows what it means\&. This command is not to be used to set any parameter that can be set using a CRCL command\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetRelativeAcceleration\fP (double percent)"
 .br
@@ -110,21 +137,27 @@ Crcl::CrclDelegateInterface \-
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetRotAccel\fP (double accel)"
 .br
+.RI "\fISet rotational acceleration to the given setting in current angle units per second per second\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetRotSpeed\fP (double speed)"
 .br
+.RI "\fISet rotational speed to the given setting in current angle units per second\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetTorqueUnits\fP (std::string unitName)"
 .br
+.RI "\fISet torque units to the named unit\&. This tells the robot that all further commands giving torque values will implicitly use the named unit\&. The default torque unit is 'newtonMeter'\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetTransAccel\fP (double accel)"
 .br
+.RI "\fISet translational acceleration to the given setting in current length units per second per second\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetTransSpeed\fP (double speed)"
 .br
+.RI "\fISet translational speed to the given setting in current length units per second\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBStopMotion\fP (int condition)"
 .br
+.RI "\fIStop the robot motion according to the given condition, Immediate, Fast, or Normal\&. Immediate means the robot's drives are deactivated immediately and the brakes are applied\&. This may result in the controlled point being off the commanded path when the robot stops\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBGetTool\fP (double *percent)"
 .br
@@ -139,6 +172,9 @@ Crcl::CrclDelegateInterface \-
 .RI "static \fBCrclStatus\fP \fBcrclwm\fP"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+\fBCrclDelegateInterface\fP parses \fBCrcl\fP commands and interprets into robot motion\&. https://github.com/usnistgov/crcl/blob/master/doc/Reference.md\&. 
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "Crcl::CrclDelegateInterface::CrclDelegateInterface ()\fC [inline]\fP"
@@ -147,10 +183,29 @@ Crcl::CrclDelegateInterface \-
 .PP 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::ActuateJoints (\fBCrcl::ActuatorJointSequence\fPjoints)\fC [virtual]\fP"
 
+.PP
+Actuate the joints of the robot as specified\&. The joints argument is a list of instances of ActuateJointType\&. Each joint may appear at most once on the list\&. If a joint is not on the list, its actuation should be as previously set\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjoints\fP is codesynthesis C++ representation that contains: 
+.br
+ a JointNumber that identifies the joint 
+.br
+a JointPosition that is the target position for the joint 
+.br
+JointDetails that provides either(1) the speed and acceleration to use in getting to the position or (2) the force or torque and rate of change of force or torque to use in getting to the position\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::CloseToolChanger ()\fC [virtual]\fP"
 
+.PP
+Close the tool changer on the robot so that it attaches to an end effector\&.\&. The robot must be in an appropriate position with respect to the end effector for the changer mechanism on the robot to attach to the end effector\&. 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::ConfigureJointReports (std::vector< \fBCrcl::JointReport\fP > &jointReports)\fC [virtual]\fP"
 
+.PP
+Specify how the status of the robot joints should be reported\&. This may be used only if CRCL status is being reported\&. The value of ResetAll is either true or false\&. Joints is a list of of instances of ConfigureJointReportType\&. Each joint may appear at most once on the list\&. 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::Couple (char *targetID)\fC [virtual]\fP"
 
 .SS "void CrclDelegateInterface::CrclRunProgram (::CRCLProgramType::MiddleCommand_sequencecmds)"
@@ -161,51 +216,184 @@ Crcl::CrclDelegateInterface \-
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::Dwell (doubleseconds)\fC [virtual]\fP"
 
+.PP
+Stay motionless for the given amount of time in seconds\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdwell\fP time in seconds 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::EndCanon ()\fC [virtual]\fP"
 
+.PP
+Do whatever is necessary to stop executing canonical robot commands\&. No specific action is required\&. The robot controller should not execute any canonical robot command except InitCanon after executing EndCanon and should signal an error if it is given one\&. This command will normally be given when execution of a plan is complete but may also be given if an error is detected, or for any other reason\&. 
 .SS "std::string CrclDelegateInterface::FindLeadingElement (std::stringxml)"
 
 .SS "unsigned long long& Crcl::CrclDelegateInterface::GetCommandNum ()\fC [inline]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::GetStatus ()\fC [virtual]\fP"
 
+.PP
+Command to retrieve status immediately\&. This may be used only if CRCL status is being reported\&. 
 .SS "virtual \fBCrclReturn\fP Crcl::CrclDelegateInterface::GetTool (double *percent)\fC [inline]\fP, \fC [virtual]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::InitCanon ()\fC [virtual]\fP"
 
+.PP
+Do whatever is necessary to get ready to move\&. All units are set to the default units\&. This command will normally be given when a plan interpreter opens a plan to be executed\&. 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::Message (std::stringmessage)\fC [virtual]\fP"
 
-.SS "\fBCrclReturn\fP CrclDelegateInterface::MoveThroughTo (std::vector< \fBCrcl::PoseType\fP > &poses, boolbStraight)\fC [virtual]\fP"
+.PP
+Display the given message on the operator console\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImessage\fP to display on console 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+If there is no operator console, this command has no effect and should be reported as executed without error\&. 
+.RE
+.PP
+
+.SS "\fBCrclReturn\fP CrclDelegateInterface::MoveThroughTo (std::vector< \fBCrcl::PoseType\fP > &waypoints, boolbStraight)\fC [virtual]\fP"
+
+.PP
+Move the controlled point along a trajectory passing near all but the last of the given waypoints (poses), and stop at the last of the given waypoints\&. The robot must pass each waypoint within the tolerance established 
+.br
+ (1) by the tolerance given for the pose in the waypoint, if there is a tolerance in the waypoint, or if not 
+.br
+ (2) by the most recently executed instance of SetIntermediatePoseToleranceType (or by SetEndPoseToleranceType for the final waypoint)\&. The speed and acceleration to use are set either in the waypoint or by previously executed CRCL commands\&. If the value of straight is true, the controlled point must be moved in a straight line between waypoints\&. If the value of straight is false, the controlled point may be moved along any convenient trajectory between waypoints\&. In either case, there are no restrictions on the values of XAxis and ZAxis between waypoints\&. The numberWaypoints gives the number of waypoints\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwaypoints\fP list of poses to move thru 
+.br
+\fIbStraight\fP if the value of straight is true, the controlled point must be moved in a straight line\&. If the value of straight is false, the controlled point may be moved along any convenient trajectory\&. 
+.RE
+.PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::MoveTo (\fBCrcl::PoseType\fPendpose, boolbStraight)\fC [virtual]\fP"
 
+.PP
+Move the controlled point to the given pose, and stop there\&. The robot must reach the pose within the tolerance established (1) by the tolerance given for the pose, if there is a tolerance in the pose, or if not (2) by the most recently executed instance of SetEndPoseTolerance\&. The speed and acceleration to use are set either in the pose or by previously executed CRCL commands\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbStraight\fP if the value of straight is true, the controlled point must be moved in a straight line\&. If the value of straight is false, the controlled point may be moved along any convenient trajectory\&. 
+.br
+\fIendpose\fP may include settings for speed, acceleration, and tolerance\&. Any such settings apply only while the command is being executed, after which the settings revert to what they were\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::OpenToolChanger ()\fC [virtual]\fP"
 
+.PP
+Open the tool changer on the robot\&. If an end effector is attached to the robot when this command is given, executing the command releases the end effector\&. This command is normally given only after an end effector attached to the robot has been moved into an end effector changer\&. 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::RunProgram (std::stringprogramText)\fC [virtual]\fP"
 
+.PP
+Run a program written in a non-CRCL language that the robot controller understands\&.  is the program represented as a string of text\&. 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetAbsoluteAcceleration (doubleacceleration)\fC [virtual]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetAbsoluteSpeed (doublespeed)\fC [virtual]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetAngleUnits (std::stringunitName)\fC [virtual]\fP"
 
+.PP
+Set angle units to the named unit\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIunitName\fP is the unit name must be either 'degree' or 'radian'\&. After this command is executed, all commands that use angle units (for orientation or orientation tolerance) are in terms of the named angle unit\&. Existing values for orientation are converted automatically to the equivalent value in new angle units\&. The default angle unit is 'radian'\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetAxialSpeeds (std::vector< double >speeds)\fC [virtual]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetEndEffector (doublepercent)\fC [virtual]\fP"
 
+.PP
+Set the effectivity of the end effector\&. The setting is a number between zero and one\&. If an end effector has multiple control modes, the control mode must be set using a SetEndEffectorParameters command, so that the meaning of SetEndEffector commands is unambiguous\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpercent\fP - for end effectors that have a continuously variable setting, the setting means a fraction of maximum openness, force, torque, power, etc\&.
+.RE
+.PP
+For end effectors that have only two choices (powered or unpowered, open or closed, on or off), a positive setting value means powered, open, or on, while a zero setting value means unpowered, closed, or off\&. 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetEndEffectorTolerance (\fBCrcl::PoseToleranceType\fPdTolerance)\fC [virtual]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetEndPoseTolerance (\fBCrcl::PoseToleranceType\fPtolerance)\fC [virtual]\fP"
 
+.PP
+et the tolerance for the position and orientation of the end of the arm (whenever there is no gripper there) or of the gripper (whenever a gripper is on the end of the arm) to the given value\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItolerance\fP is the tolerance argument specifies both position tolerance in length units and orientation tolerance in angle units\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetForceUnits (std::stringunitName)\fC [virtual]\fP"
+
+.PP
+Set force units to the named unit\&. After this command is executed, all commands that use force units are in terms of the named force unit\&. The default force unit is 'newton'\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIunitName\fP must be one of 'newton', 'pound', or 'ounce'\&. 
+.RE
+.PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetIntermediatePoseTolerance (\fBCrcl::PoseToleranceType\fPtolerance)\fC [virtual]\fP"
 
+.PP
+Set the tolerance for smooth motion near intermediate points\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItolerance\fP argument specifies both position tolerance in length units and orientation tolerance in angle units\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetLengthUnits (std::stringunitName)\fC [virtual]\fP"
+
+.PP
+Set length units to the named unit\&. After this command is executed, all commands that use length units (for location, tolerance, speed, and acceleration) are in terms of the named length unit\&. Existing values for speed, position, acceleration, etc\&. are converted automatically to the equivalent value in new length units\&. The default length unit is 'meter'\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIunitName\fP must be one of 'inch', 'mm' or 'meter'\&. 
+.RE
+.PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetMotionCoordination (boolbCoordinatedMotion)\fC [virtual]\fP"
 
+.PP
+Either require rotational motion and translational motion to be coordinated or allow them to be uncoordinated\&. Motion is coordinated when rotational motion and translational motion must finish simultaneously in motion commands (including each segment in a multiple segment motion command), except as possibly temporarily overridden in the the motion command\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbCoordinatedMotion\fP is the coordinated parameter is a boolean value\&. True means require coordinated motion\&. False means allow uncoordinated motion\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetParameter (char *paramName, void *paramVal)\fC [virtual]\fP"
+
+.PP
+Set one or more robot parameters as specified\&. The meaning of the parameter is not known to CRCL, but the robot controller knows what it means\&. This command is not to be used to set any parameter that can be set using a CRCL command\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparamName\fP Each specified parameter has a name that is a string 
+.br
+\fIa\fP value that is a string\&. 
+.RE
+.PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetRelativeAcceleration (doublepercent)\fC [virtual]\fP"
 
@@ -213,15 +401,71 @@ Crcl::CrclDelegateInterface \-
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetRotAccel (doubleaccel)\fC [virtual]\fP"
 
+.PP
+Set rotational acceleration to the given setting in current angle units per second per second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaccel\fP is either an absolute value or a fraction of the maximum rotational acceleration\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetRotSpeed (doublespeed)\fC [virtual]\fP"
+
+.PP
+Set rotational speed to the given setting in current angle units per second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIspeed\fP is may be either an absolute value or a fraction of the maximum rotational speed\&. 
+.RE
+.PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetTorqueUnits (std::stringunitName)\fC [virtual]\fP"
 
+.PP
+Set torque units to the named unit\&. This tells the robot that all further commands giving torque values will implicitly use the named unit\&. The default torque unit is 'newtonMeter'\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIunitName\fP must be one of 'newtonMeter', or 'footPound'\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetTransAccel (doubleaccel)\fC [virtual]\fP"
+
+.PP
+Set translational acceleration to the given setting in current length units per second per second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaccel\fP may be either an absolute value or a fraction of the maximum translational acceleration\&. 
+.RE
+.PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetTransSpeed (doublespeed)\fC [virtual]\fP"
 
+.PP
+Set translational speed to the given setting in current length units per second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIspeed\fP may be either an absolute value or a fraction of the maximum translational speed\&. 
+.RE
+.PP
+
 .SS "\fBCrclReturn\fP CrclDelegateInterface::StopMotion (intcondition)\fC [virtual]\fP"
+
+.PP
+Stop the robot motion according to the given condition, Immediate, Fast, or Normal\&. Immediate means the robot's drives are deactivated immediately and the brakes are applied\&. This may result in the controlled point being off the commanded path when the robot stops\&. Fast means the robot and any external axes are brought to a fast, controlled stop\&. The drives are deactivated after one second, and the brakes are applied\&. The controlled point must be kept on the on the commanded path as the robot stops\&.
+.PP
+Normal means the robot and any external drives are stopped using a normal braking ramp\&. The drives are not deactivated, and the brakes are not applied\&. The controlled point must be kept on the on the commanded path as the robot stops\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcondition\fP is either Immediate, Fast, or Normal 
+.RE
+.PP
 
 .SH "Member Data Documentation"
 .PP 

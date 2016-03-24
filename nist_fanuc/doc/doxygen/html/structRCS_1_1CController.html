@@ -60,7 +60,7 @@
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> provides an collection for all the relevant controller pieces. The <a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> is the main controller class to collect all the references/pointers to instances in the project. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e.g., kinematics, joint writer, joint reader, etc.)  
+<p>The <a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> provides a collection for all the relevant controller pieces. The <a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> is the main controller class to collect all the references/pointers to instances in the project. A global instance of this class, called "Controller", is created and is used throughout the code to reference various instances of control objects (e.g., kinematics, joint writer, joint reader, etc.)  
  <a href="structRCS_1_1CController.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Controller_8h_source.html">Controller.h</a>&gt;</code></p>
@@ -70,7 +70,7 @@ Inheritance diagram for RCS::CController:</div>
  <div class="center">
   <img src="structRCS_1_1CController.png" usemap="#RCS::CController_map" alt=""/>
   <map id="RCS::CController_map" name="RCS::CController_map">
-<area href="classRCS_1_1Thread.html" title="Thread is an RCS ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait fu..." alt="RCS::Thread" shape="rect" coords="0,0,108,24"/>
+<area href="classRCS_1_1Thread.html" title="Thread is an RCS ulapi equivalent for a timed thread. Given a cycle time, the thread provides a wait ..." alt="RCS::Thread" shape="rect" coords="0,0,108,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -103,7 +103,7 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acf0744408b45b6d9f60cb44c9d64f1a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#acf0744408b45b6d9f60cb44c9d64f1a8">CController</a> (double cycletime)</td></tr>
-<tr class="memdesc:acf0744408b45b6d9f60cb44c9d64f1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> constructor that requires a cycle time for <a class="el" href="namespaceRCS.html">RCS</a> thread timing.  <a href="#acf0744408b45b6d9f60cb44c9d64f1a8">More...</a><br/></td></tr>
+<tr class="memdesc:acf0744408b45b6d9f60cb44c9d64f1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> constructor that requires a cycle time for <a class="el" href="namespaceRCS.html">RCS</a> thread timing.  <a href="#acf0744408b45b6d9f60cb44c9d64f1a8">More...</a><br/></td></tr>
 <tr class="separator:acf0744408b45b6d9f60cb44c9d64f1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bfe656f4d6a26d3dc4556ed8dab118a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a2bfe656f4d6a26d3dc4556ed8dab118a">~CController</a> (void)</td></tr>
 <tr class="separator:a2bfe656f4d6a26d3dc4556ed8dab118a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +135,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2733d3cf36b11a6b257e04a969e03abf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a2733d3cf36b11a6b257e04a969e03abf">SetKinematics</a> (boost::shared_ptr&lt; <a class="el" href="classIKinematics.html">IKinematics</a> &gt; k)</td></tr>
 <tr class="memdesc:a2733d3cf36b11a6b257e04a969e03abf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Routine to set the kinematics reference pointer. Uses the interface class <a class="el" href="classIKinematics.html" title="The IKinematics provides is an abstract class with pure virtual functions that are overriden by actua...">IKinematics</a>, but can have any implementation instance.  <a href="#a2733d3cf36b11a6b257e04a969e03abf">More...</a><br/></td></tr>
 <tr class="separator:a2733d3cf36b11a6b257e04a969e03abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5113cb8a1cfaf75459e8a2b13802312e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a5113cb8a1cfaf75459e8a2b13802312e">NVAR</a> (NewCC, <a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>, _newcc)</td></tr>
+<tr class="separator:a5113cb8a1cfaf75459e8a2b13802312e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b85d1d02e33dbfe25173575f17d4498"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a1b85d1d02e33dbfe25173575f17d4498">NVAR</a> (LastCC, <a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>, _lastcc)</td></tr>
+<tr class="separator:a1b85d1d02e33dbfe25173575f17d4498"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af150048fb1660e68d9f5ec1043494ea9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#af150048fb1660e68d9f5ec1043494ea9">GetLastRobotCommand</a> ()</td></tr>
+<tr class="separator:af150048fb1660e68d9f5ec1043494ea9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7334e3abcc69cc6e3a9f82e59c682551"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a7334e3abcc69cc6e3a9f82e59c682551">GetLastJointState</a> ()</td></tr>
+<tr class="memdesc:a7334e3abcc69cc6e3a9f82e59c682551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the last joint state, if no motion, last actual joint reading, else last joints on robot motion queue.  <a href="#a7334e3abcc69cc6e3a9f82e59c682551">More...</a><br/></td></tr>
+<tr class="separator:a7334e3abcc69cc6e3a9f82e59c682551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7230e4ecd977fb1519b13b2ed696897"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#ae7230e4ecd977fb1519b13b2ed696897">GetLastCommandedPose</a> ()</td></tr>
+<tr class="memdesc:ae7230e4ecd977fb1519b13b2ed696897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the last commanded , if no motion, use last actual joint reading to compute FK, else use last joints on robot motion queue to compute FK.  <a href="#ae7230e4ecd977fb1519b13b2ed696897">More...</a><br/></td></tr>
+<tr class="separator:ae7230e4ecd977fb1519b13b2ed696897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classRCS_1_1Thread"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classRCS_1_1Thread')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classRCS_1_1Thread.html">RCS::Thread</a></td></tr>
 <tr class="memitem:a3f5e86f11c0b8fc3aa4728549b1b7249 inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a3f5e86f11c0b8fc3aa4728549b1b7249">Thread</a> (double cycletime)</td></tr>
 <tr class="memdesc:a3f5e86f11c0b8fc3aa4728549b1b7249 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of thread, that takes cycle time as input.  <a href="#a3f5e86f11c0b8fc3aa4728549b1b7249">More...</a><br/></td></tr>
@@ -183,10 +195,6 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a4c3c287cebfd9fa9fb413205fa0b49f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRCSInterpreter.html">RCSInterpreter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a4c3c287cebfd9fa9fb413205fa0b49f6">_interpreter</a></td></tr>
 <tr class="separator:a4c3c287cebfd9fa9fb413205fa0b49f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb6c26898d07eb95d78cb4a9c3b32f5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#adb6c26898d07eb95d78cb4a9c3b32f5e">_newcc</a></td></tr>
-<tr class="separator:adb6c26898d07eb95d78cb4a9c3b32f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a042ac2e4f8765bf58abed979afd2ba20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a042ac2e4f8765bf58abed979afd2ba20">_lastcc</a></td></tr>
-<tr class="separator:a042ac2e4f8765bf58abed979afd2ba20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bd2705747d1e16f5806ddf183bfade7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a8bd2705747d1e16f5806ddf183bfade7">lastlogstatus</a></td></tr>
 <tr class="separator:a8bd2705747d1e16f5806ddf183bfade7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4174fd5467045e780fe53bde42e70735"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRCS_1_1CController.html#a50ede7cd9f47204828f0f7c740dc09b1">MotionPlannerEnum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a4174fd5467045e780fe53bde42e70735">eCartesianMotionPlanner</a></td></tr>
@@ -254,7 +262,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a06b98cfbb4d084f3776ad0ab8731a60a inherit pro_attribs_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> provides an collection for all the relevant controller pieces. The <a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> is the main controller class to collect all the references/pointers to instances in the project. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e.g., kinematics, joint writer, joint reader, etc.) </p>
+<div class="textblock"><p>The <a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> provides a collection for all the relevant controller pieces. The <a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> is the main controller class to collect all the references/pointers to instances in the project. A global instance of this class, called "Controller", is created and is used throughout the code to reference various instances of control objects (e.g., kinematics, joint writer, joint reader, etc.) </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="aeaee07d36d39b56ecad1ce2443b5b4c0"></a>
 <div class="memitem">
@@ -350,7 +358,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> constructor that requires a cycle time for <a class="el" href="namespaceRCS.html">RCS</a> thread timing. </p>
+<p><a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> constructor that requires a cycle time for <a class="el" href="namespaceRCS.html">RCS</a> thread timing. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cycletime</td><td>in seconds. </td></tr>
@@ -440,6 +448,55 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae7230e4ecd977fb1519b13b2ed696897"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> RCS::CController::GetLastCommandedPose </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the last commanded , if no motion, use last actual joint reading to compute FK, else use last joints on robot motion queue to compute FK. </p>
+
+</div>
+</div>
+<a class="anchor" id="a7334e3abcc69cc6e3a9f82e59c682551"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> RCS::CController::GetLastJointState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the last joint state, if no motion, last actual joint reading, else last joints on robot motion queue. </p>
+
+</div>
+</div>
+<a class="anchor" id="af150048fb1660e68d9f5ec1043494ea9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a> RCS::CController::GetLastRobotCommand </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ad26d222b33f2b043f8a8d8b2b17bac01"></a>
 <div class="memitem">
 <div class="memproto">
@@ -487,6 +544,71 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">crclinterface&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5113cb8a1cfaf75459e8a2b13802312e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RCS::CController::NVAR </td>
+          <td>(</td>
+          <td class="paramtype">NewCC&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">_newcc&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>last canon command interpreted </p>
+
+</div>
+</div>
+<a class="anchor" id="a1b85d1d02e33dbfe25173575f17d4498"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RCS::CController::NVAR </td>
+          <td>(</td>
+          <td class="paramtype">LastCC&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">_lastcc&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -718,33 +840,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>interprets canon commands into robot commands </p>
-
-</div>
-</div>
-<a class="anchor" id="a042ac2e4f8765bf58abed979afd2ba20"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a> RCS::CController::_lastcc</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>last canon command interpreted </p>
-
-</div>
-</div>
-<a class="anchor" id="adb6c26898d07eb95d78cb4a9c3b32f5e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a> RCS::CController::_newcc</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>current new canon command to interpret </p>
+<p>interprets canon commands into robot commands current new canon command to interpret </p>
 
 </div>
 </div>
@@ -1003,7 +1099,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -17,7 +17,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>       /* isnan, sqrt */
 
-
+#if 0
 #ifdef STANDALONEURDF
 #include "urdf_model/RobotModel.h"
 #ifndef JointState
@@ -26,35 +26,30 @@
 #else
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/robot_model/robot_model.h>
-#include "/usr/include/urdf_model/model.h"ModelInterfaceSharedPtr
+#include "/usr/include/urdf_model/model.h"
 #include "/usr/include/urdf_model/joint.h"
 #include "/usr/include/urdf_model/link.h"
+#endif
+
+
+//#include "urdf_model/rosmath.h"
+
+#endif
+
+#include <moveit/robot_model_loader/robot_model_loader.h>
+#include <moveit/robot_model/robot_model.h>
+#include <tf/transform_datatypes.h>
+//#include "urdf_model/tfmath.h"
 #include "/opt/ros/indigo/include/sensor_msgs/JointState.h"
-
-typedef boost::shared_ptr<urdf::Joint> JointSharedPtr;
-typedef boost::shared_ptr<urdf::ModelInterface> ModelInterfaceSharedPtr;
-
-typedef sensor_msgs::JointState_<std::allocator<void> > JointState;
-typedef boost::shared_ptr<JointState> JointStateSharedPtr;
-
-#if 0
-#define URDF_TYPEDEF_CLASS_POINTER(Class)                           \
-  class Class;                                                      \
-  typedef boost::shared_ptr<Class> Class ##         SharedPtr;      
-//  typedef boost::shared_ptr<const Class> Class ##   ConstSharedPtr; \
-//  typedef boost::weak_ptr<Class> Class ## WeakPtr
-namespace urdf {
-    URDF_TYPEDEF_CLASS_POINTER(ModelInterface);
-    // URDF_TYPEDEF_CLASS_POINTER(JointState);
-    // URDF_TYPEDEF_CLASS_POINTER(Joint);
-};
-#endif
-#endif
-
-#include "urdf_model/rosmath.h"
 #include <stdarg.h>
 #include "Globals.h"
 
+//typedef boost::shared_ptr<urdf::Joint> JointSharedPtr;
+//typedef boost::shared_ptr<urdf::ModelInterface> ModelInterfaceSharedPtr;
+
+typedef sensor_msgs::JointState_<std::allocator<void> > JointState;
+
+typedef boost::shared_ptr<JointState> JointStateSharedPtr;
 
 // These are defined as macros somewhere
 #undef max
@@ -62,21 +57,43 @@ namespace urdf {
 
 #define LENGTHUNITS 1000
 #define EPSILON                    1E-04
-#define DEFAULT_CYCLE              0.010
 #define DEFAULT_LOOP_CYCLE         0.10
 
-#define DEFAULT_CART_MAX_ACCEL     20.0/LENGTHUNITS
-#define DEFAULT_CART_MAX_VEL       200.0/LENGTHUNITS
-#define DEFAULT_JOINT_MAX_ACCEL    20.0/LENGTHUNITS
-#define DEFAULT_JOINT_MAX_VEL      150.0/LENGTHUNITS
+#define DEFAULT_CART_MAX_ACCEL     200.0/LENGTHUNITS
+#define DEFAULT_CART_MAX_VEL       2000.0/LENGTHUNITS
+#define DEFAULT_JOINT_MAX_ACCEL    200.0/LENGTHUNITS
+#define DEFAULT_JOINT_MAX_VEL      2000.0/LENGTHUNITS
 
+#ifndef HAVE_SINCOS
+#define HAVE_SINCOS
+
+inline void sincos(double x, double *sx, double *cx) {
+    *sx = sin(x);
+    *cx = cos(x);
+}
+#endif
+
+#ifndef Deg2Rad
+#define Deg2Rad(Ang)    ( (double) ( Ang * M_PI / 180.0 ) )
+#define Rad2Deg(Ang)    ( (double) ( Ang * 180.0 / M_PI ) )
+#define MM2Meter(d)     ( (double) ( d / 1000.00 ) )
+#define Meter2MM(d)     ( (double) ( d * 1000.00 ) )
+#endif
 
 
 namespace RCS {
-    typedef urdf::Pose Pose;
-    typedef urdf::Vector3 Position;
-    typedef urdf::Rotation Rotation;
-    typedef urdf::Vector3 Vector3;
+    
+    //typedef tf::Transform Pose;
+    typedef tf::Pose Pose;
+    typedef tf::Vector3 Position;
+    typedef tf::Quaternion Rotation;
+    typedef tf::Vector3 Vector3;
+    typedef double Length;
+    typedef double LinearVelocity;
+    typedef double AngularVelocity;
+    typedef std::vector<double> robotAxes;
+    
+    void getRPY(const RCS::Pose pose, double &roll, double &pitch, double &yaw);
 
 	/*!
 	* \brief enumeration of  length units. Conversion into ROS compatible meters.
@@ -129,6 +146,7 @@ namespace RCS {
         CANON_FAILURE = -1,
         CANON_SUCCESS = 0,
         CANON_STATUSREPLY = 1,
+        CANON_MOTION = 2,
         CANON_RUNNING
     };
 
@@ -149,7 +167,10 @@ namespace RCS {
         CANON_SET_MAX_JOINT_ACC,
         CANON_SET_MAX_JOINT_SPEED,
         CANON_SET_GRIPPER,
+        CANON_SET_TOLERANCE,
         CANON_STOP_MOTION,
+        CANON_DO_MOTION,
+        CANON_OTHER,
         CANON_UNKNOWN
     };
 
@@ -198,10 +219,55 @@ namespace RCS {
         CANON_WAITING,
     };
 
-    typedef double Length;
-    typedef double LinearVelocity;
-    typedef double AngularVelocity;
-    typedef std::vector<double> robotAxes;
+    /**
+     * \brief IRate is an interface class for defining the allowed motion rates.
+     */
+    class IRate {
+    public:
+
+        IRate() {
+            _maximum_velocity = DEFAULT_CART_MAX_VEL;
+            _maximum_accel = DEFAULT_CART_MAX_ACCEL;
+            _cycleTime = DEFAULT_LOOP_CYCLE;
+            Clear();
+        }
+
+        IRate(double maximum_velocity, double maximum_accel, double cycleTime) :
+        _maximum_velocity(maximum_velocity), _cycleTime(cycleTime), _maximum_accel(maximum_accel) {
+            Clear();
+        }
+
+        void SetCurrentMotion(double final_velocity, double current_feedrate, double current_velocity) {
+            _final_velocity = final_velocity;
+            _current_feedrate = current_feedrate;
+            _current_velocity = current_velocity;
+        }
+        NVAR(FinalVelocity, double, _final_velocity);
+        NVAR(CurrentFeedrate, double, _current_feedrate);
+        NVAR(CurrentVelocity, double, _current_velocity);
+        NVAR(MaximumVelocity, double, _maximum_velocity);
+        NVAR(MaximumAccel, double, _maximum_accel);
+        
+        VAR(MaxJoinVelocity, double);
+        VAR(MaxJointAccel, double);
+        VAR(JointMaxLimit, std::vector<double>);
+        VAR(JointMinLimit, std::vector<double>);
+        VAR(JointVelLimit, std::vector<double>);
+        VAR(JointAccLimit, std::vector<double>);
+
+        NVAR(CycleTime, double, _cycleTime);
+        NVAR(CurrentAccel, double, _current_accel);
+        NVAR(MsFlag, RCS::CanonAccProfile, _msflag);
+    private:
+
+        void Clear() {
+            FinalVelocity() =  CurrentVelocity() = CurrentAccel() = 0.0;
+            MaximumVelocity()=CurrentFeedrate() = DEFAULT_CART_MAX_VEL;
+            MaximumAccel()= DEFAULT_CART_MAX_ACCEL;
+            MaxJoinVelocity() = DEFAULT_JOINT_MAX_VEL;
+            MsFlag() = RCS::MS_IS_UNSET;
+        }
+    };
 
 	/*!
 	* \brief CanonCmd is the controller command structure. 
@@ -217,11 +283,14 @@ namespace RCS {
         }
         void Init();
 
-		VAR(CommandID, unsigned long long);
-		VAR(ParentCommandID, unsigned long long);
-		VAR(StatusID, unsigned long long);
-		static unsigned long long _cmdid;
-
+        VAR(CommandID, unsigned long long);
+        VAR(ParentCommandID, unsigned long long);
+        VAR(StatusID, unsigned long long);
+        VAR(Rates, IRate);
+      
+        static unsigned long long _cmdid;
+        
+        bool IsMotionCmd();
         CanonCmdType cmd; /**<  command  type */
         CanonStatusType status; /**<  status type */
         TrajPointType type; /**<  trajectory points  type */
@@ -241,9 +310,10 @@ namespace RCS {
         std::vector<int> jointnum; /**<  vector of joint numbers used by command */
 
         JointState joints; /**<  commanded joint state */
-        urdf::Pose pose;  /**<  commanded pose state */
-        urdf::Pose tolerance;  /**<  commanded tolerance */
-        std::vector<urdf::Pose> waypoints; /**< commanded cartesian waypoints in trajectory */
+        JointState seed; /**<  near pose joint state */
+        RCS::Pose pose;  /**<  commanded pose state */
+        RCS::Pose tolerance;  /**<  commanded tolerance */
+        std::vector<RCS::Pose> waypoints; /**< commanded cartesian waypoints in trajectory */
     };
 
 	/*!
@@ -270,7 +340,7 @@ namespace RCS {
             return _cycleTime; // milliseconds
         }
 
-        ModelInterfaceSharedPtr robot_model; /**<  pointer to robot model */
+        //ModelInterfaceSharedPtr robot_model; /**<  pointer to robot model */
 
         // //////////////////////
         // double maxAccel[3];
@@ -284,36 +354,49 @@ namespace RCS {
         double _cycleTime;  /**<  cycle time */
         CanonCmd echocmd;  /**<  copy of current command */
         JointState currentjoints; /**<  current joint state */
-        urdf::Pose currentpose; /**<  current robot pose */
+        RCS::Pose currentpose; /**<  current robot pose */
     };
 
 	/*!
 	* \brief DumpPose takes a urdf pose  and generates a string describing pose. 
 	* Can be used as std::cout << DumpPose(pose); 
 	*/
-    inline std::string DumpPose(urdf::Pose & pose) {
+    inline std::string DumpPose(RCS::Pose & pose) {
         std::stringstream s;
 
-        s << "Translation = " << 1000.0 * pose.position.x << ":" << 1000.0 * pose.position.y << ":" << 1000.0 * pose.position.z << std::endl;
-
-        // os << "Rotation = "  << pose.rotation.x << ":"<<  pose.rotation.y  << ":"<< pose.rotation.z << ":"<< pose.rotation.w << std::endl;
+        s << "Translation = " << 1000.0 * pose.getOrigin().x() << ":" << 1000.0 * pose.getOrigin().y() << ":" << 1000.0 * pose.getOrigin().z() << std::endl;
         double roll, pitch, yaw;
-        _quatToRpy(pose.rotation,roll, pitch, yaw);
-        s << "Rotation = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+        getRPY(pose, roll, pitch, yaw);
+         s << "Rotation = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+         s << "Quaterion = " << pose.getRotation().x() << ":" << pose.getRotation().y() << ":" << pose.getRotation().z() << ":" << pose.getRotation().w() << std::endl;
         return s.str();
     }
-
-	/*!
-	* \brief DumpQuaterion takes a urdf quaterion  and generates a string describing x,y,z,w coordinates. 
-	* Can be used as std::cout << DumpQuaterion(urdf::rotation); 
+    
+    /*!
+	* \brief DumpPose takes a urdf pose  and generates a string describing pose. 
+	* Can be used as std::cout << DumpPose(pose); 
 	*/
-    inline std::string DumpQuaterion(std::ostream & os, const urdf::Rotation & rot) {
+    inline std::ostream & operator<<(std::ostream & os, RCS::Pose & pose) {
+        std::stringstream s;
+        s << "Translation = " << 1000.0 * pose.getOrigin().x() << ":" << 1000.0 * pose.getOrigin().y() << ":" << 1000.0 * pose.getOrigin().z() << std::endl;
+        double roll, pitch, yaw;
+        getRPY(pose, roll, pitch, yaw);
+         s << "Rotation = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+         s << "Quaterion = " << pose.getRotation().x() << ":" << pose.getRotation().y() << ":" << pose.getRotation().z() << ":" << pose.getRotation().w() << std::endl;
+        os << s.str();
+    }
+
+    /*!
+     * \brief DumpQuaterion takes a urdf quaterion  and generates a string describing x,y,z,w coordinates. 
+     * Can be used as std::cout << DumpQuaterion(urdf::rotation); 
+     */
+    inline std::string DumpQuaterion(std::ostream & os, const RCS::Rotation & rot) {
         std::stringstream s;
         s << "Quaterion = ";
-        s << boost::format("X=%8.4f") % rot.x << ":";
-        s << boost::format("Y=%8.4f") % rot.y << ":";
-        s << boost::format("Z=%8.4f") % rot.z << ":";
-        s << boost::format("W=%8.4f") % rot.w << ":";
+        s << boost::format("X=%8.4f") % rot.x() << ":";
+        s << boost::format("Y=%8.4f") % rot.y() << ":";
+        s << boost::format("Z=%8.4f") % rot.z() << ":";
+        s << boost::format("W=%8.4f") % rot.w() << ":";
         s << std::endl;
         return s.str();
     }

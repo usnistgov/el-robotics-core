@@ -3,119 +3,76 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../xmlSchemas/CRCLProgramInstance.xsd">
   <InitCanon>
-    <CommandID>1</CommandID>
-  </InitCanon>
-  <MiddleCommand xsi:type="SetLengthUnitsType">
-    <CommandID>2</CommandID>
-    <UnitName>meter</UnitName>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="SetAngleUnitsType">
-    <CommandID>3</CommandID>
-    <UnitName>degree</UnitName>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="SetTransSpeedType">
-    <CommandID>4</CommandID>
-    <TransSpeed xsi:type="TransSpeedAbsoluteType">
-      <Setting>1.0</Setting>
-    </TransSpeed>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="SetTransAccelType">
-    <CommandID>5</CommandID>
-    <TransAccel xsi:type="TransAccelRelativeType">
-      <Fraction>0.80</Fraction>
-    </TransAccel>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="SetEndPoseToleranceType">
-    <CommandID>6</CommandID>
-    <Tolerance>
-      <XPointTolerance>0.002</XPointTolerance>
-      <YPointTolerance>0.002</YPointTolerance>
-      <ZPointTolerance>0.002</ZPointTolerance>
-    </Tolerance>
-   </MiddleCommand>
-  <MiddleCommand xsi:type="SetIntermediatePoseToleranceType">
-    <CommandID>7</CommandID>
-    <Tolerance>
-      <XPointTolerance>0.01</XPointTolerance>
-      <YPointTolerance>0.01</YPointTolerance>
-      <ZPointTolerance>0.01</ZPointTolerance>
-    </Tolerance>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="SetEndEffectorType">
-    <CommandID>8</CommandID>
-    <Setting>0</Setting>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="ActuateJointsType">
-    <Name>ActuateJoints</Name>
-    <CommandID>2</CommandID>
-    <ActuateJoint>
+    <CommandID>10</CommandID>
+   </InitCanon>
+   <MiddleCommand xsi:type="ActuateJointsType">
+     <Name>ActuateJoints1</Name>
+     <CommandID>20</CommandID>
+   <ActuateJoint>
       <JointNumber>1</JointNumber>
       <JointPosition>30.0</JointPosition>
       <JointDetails xsi:type="JointSpeedAccelType">
-        <JointSpeed>3.7</JointSpeed>
+        <JointSpeed>3.0</JointSpeed>
         <JointAccel>11</JointAccel>
       </JointDetails>
     </ActuateJoint>
   </MiddleCommand>
   <MiddleCommand xsi:type="DwellType">
-    <CommandID>9</CommandID>
-    <DwellTime>5.0</DwellTime>
+    <Name>DwellType1</Name>
+    <CommandID>30</CommandID>
+     <DwellTime>5.0</DwellTime>
   </MiddleCommand>
-  <MiddleCommand xsi:type="MoveToType">
-    <CommandID>10</CommandID>
-    <MoveStraight>false</MoveStraight>
+   <MiddleCommand xsi:type="ActuateJointsType">
+     <Name>ActuateJoints2</Name>
+     <CommandID>40</CommandID>
+   <ActuateJoint>
+      <JointNumber>1</JointNumber>
+      <JointPosition>-30.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>6.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="DwellType">
+    <Name>DwellType2</Name>
+    <CommandID>50</CommandID>
+     <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+   <MiddleCommand xsi:type="ActuateJointsType">
+     <Name>ActuateJoints3</Name>
+     <CommandID>60</CommandID>
+   <ActuateJoint>
+      <JointNumber>1</JointNumber>
+      <JointPosition>30.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>12.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="DwellType">
+    <Name>DwellType3</Name>
+    <CommandID>70</CommandID>
+     <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="MoveToType">
+    <CommandID>80</CommandID>
+    <MoveStraight>true</MoveStraight>
     <EndPosition>
       <Point>
-        <X>0.39</X> <Y>0.253</Y> <Z>0.695</Z>
+        <X>0.465</X> <Y>0</Y> <Z>0.695</Z>
       </Point>
       <XAxis>
-        <I>0</I> <J>.545</J> <K>.839</K>
+        <I>0</I> <J>0</J> <K>1</K>
       </XAxis>
       <ZAxis>
         <I>1</I> <J>0</J> <K>0</K>
       </ZAxis>
     </EndPosition>
   </MiddleCommand>
-  <MiddleCommand xsi:type="DwellType">
-    <CommandID>11</CommandID>
-    <DwellTime>5.0</DwellTime>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="MoveToType">
-    <CommandID>10</CommandID>
-    <MoveStraight>false</MoveStraight>
-    <EndPosition>
-      <Point>
-        <X>-0.93</X> <Y>0.402</Y> <Z>0.07</Z>
-      </Point>
-      <XAxis>
-        <I>0</I> <J>0</J> <K>1</K>
-      </XAxis>
-      <ZAxis>
-        <I>.992</I> <J>.122</J> <K>0</K>
-      </ZAxis>
-    </EndPosition>
-  </MiddleCommand>
- <MiddleCommand xsi:type="DwellType">
-    <CommandID>11</CommandID>
-    <DwellTime>5.0</DwellTime>
-  </MiddleCommand>
-  <MiddleCommand xsi:type="MoveToType">
-    <CommandID>10</CommandID>
-    <MoveStraight>false</MoveStraight>
-    <EndPosition>
-      <Point>
-        <X>-0.141</X> <Y>0.605</Y> <Z>0.376</Z>
-      </Point>
-      <XAxis>
-        <I>-0.890</I> <J>0.123</J> <K>0.421</K>
-      </XAxis>
-      <ZAxis>
-        <I>.992</I> <J>.122</J> <K>0</K>
-      </ZAxis>
-    </EndPosition>
-  </MiddleCommand>
   <EndCanon>
-    <CommandID>12</CommandID>
+    <CommandID>15</CommandID>
   </EndCanon>
 
 </CRCLProgram>

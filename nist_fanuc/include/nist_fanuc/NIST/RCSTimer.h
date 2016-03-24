@@ -44,7 +44,7 @@ namespace RCS
 	/**
 	* \brief Timer is a general-purpose timer.
 	* The Timer is a general-purpose timer, which can be used for waiting until a
-	*synchronous time tick, slept on for any period at all, or to
+	*synchronous time tick, sleep for any period at all, or to
 	* obtain a time in system clock ticks from creation of the timer.
 	*/
 	class Timer

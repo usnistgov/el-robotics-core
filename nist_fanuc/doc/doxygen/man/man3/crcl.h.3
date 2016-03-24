@@ -1,4 +1,4 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -29,12 +29,15 @@
 .ti -1c
 .RI "struct \fBCrcl::GripperStatus\fP"
 .br
+.RI "\fI\fBGripperStatus\fP dummy class for future gripper information\&. \fP"
 .ti -1c
 .RI "struct \fBCrcl::JointReport\fP"
 .br
+.RI "\fI\fBJointReport\fP dummy class for future customization of \fBCrcl\fP status reports\&. \fP"
 .ti -1c
 .RI "struct \fBCrcl::CrclStatus\fP"
 .br
+.RI "\fI\fBCrclStatus\fP is a class that encapsulates all the CRCL information\&. All lot of the knowledge is converting ROS oriented \fBRCS\fP data into codesynthesis \fBCrcl\fP representation and vice versa\&. \fBCrclStatus\fP maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc\&. \fP"
 .in -1c
 .SS "Namespaces"
 
@@ -54,7 +57,7 @@
 
 .in +1c
 .ti -1c
-.RI "typedef urdf::Vector3 \fBCrcl::Vector3D\fP"
+.RI "typedef \fBRCS::Vector3\fP \fBCrcl::Vector3D\fP"
 .br
 .in -1c
 .SS "Enumerations"
@@ -64,7 +67,7 @@
 .RI "enum \fBCrcl::CRCLCmdStatus\fP { \fBCrcl::CRCL_DONE\fP = 0, \fBCrcl::CRCL_WORKING\fP, \fBCrcl::CRCL_ERROR\fP }"
 .br
 .ti -1c
-.RI "enum \fBCrcl::CrclReturn\fP { \fBCrcl::CANON_REJECT\fP = -2, \fBCrcl::CANON_FAILURE\fP = -1, \fBCrcl::CANON_SUCCESS\fP = 0, \fBCrcl::CANON_STATUSREPLY\fP = 1, \fBCrcl::CANON_RUNNING\fP }"
+.RI "enum \fBCrcl::CrclReturn\fP { \fBCrcl::CANON_REJECT\fP = -2, \fBCrcl::CANON_FAILURE\fP = -1, \fBCrcl::CANON_SUCCESS\fP = 0, \fBCrcl::CANON_STATUSREPLY\fP = 1, \fBCrcl::CANON_MOTION\fP = 2, \fBCrcl::CANON_RUNNING\fP, \fBCrcl::CANON_NOT_IMPLEMENTED\fP }"
 .br
 .in -1c
 .SS "Functions"
@@ -73,57 +76,46 @@
 .ti -1c
 .RI "std::vector< double > \fBCrcl::ConvertToPositionVector\fP (ActuatorJointSequence &, double dConversion)"
 .br
+.RI "\fIConvertToPositionVector converts codesynthesis actuator sequence into std vector of position as doubles\&. \fP"
 .ti -1c
 .RI "JointStatusSequence \fBCrcl::Convert\fP (ActuatorJointSequence jin)"
 .br
+.RI "\fIConvert converts codesynthesis commanded actuator joint sequence into status actuator joint sequence \&. \fP"
 .ti -1c
-.RI "urdf::Pose \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion)"
+.RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jointStatusSeq, double angleConversion=1\&.0)"
 .br
+.RI "\fIConvert converts codesynthesis status actuator joint sequence into ROS JointState\&.(Fills position)\&. \fP"
 .ti -1c
 .RI "\fBCrcl::JointStatusSequence\fP \fBCrcl::Convert\fP (\fBJointState\fP joints)"
 .br
+.RI "\fIConvert converts ROS JointState (primarily position for now) and creates codesynthesis status actuator joint sequence\&. \fP"
 .ti -1c
-.RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jout, double angleConversion)"
+.RI "\fBCrcl::PoseType\fP \fBCrcl::Convert\fP (\fBRCS::Pose\fP pose)"
 .br
+.RI "\fIConvert converts ROS/RCS pose into codesynthesis \fBCrcl\fP Pose\&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
 .ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::Init\fP (std::vector< double > terms)"
+.RI "\fBRCS::Pose\fP \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion=1\&.0)"
 .br
+.RI "\fIConvert converts codesynthesis \fBCrcl\fP Pose into ROS/RCS pose using length conversion \&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
 .ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::IdentityPose\fP ()"
+.RI "\fBRCS::Rotation\fP \fBCrcl::Convert\fP (\fBRCS::Vector3\fP Xrot, \fBRCS::Vector3\fP Zrot)"
 .br
-.ti -1c
-.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
-.br
-.ti -1c
-.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::PointType\fP &point)"
-.br
-.ti -1c
-.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::VectorType\fP &vector)"
-.br
+.RI "\fIConvert converts codesynthesis \fBCrcl\fP rotation (as x,z rotation vectors) into ROS/RCS rotation\&. \fP"
 .ti -1c
 .RI "bool \fBCrcl::GetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
 .br
+.RI "\fIGet roll,pitch,yaw orientation from codesynthesis \fBCrcl\fP pose\&. \fP"
 .ti -1c
-.RI "RosMatrix \fBCrcl::GetXZRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
 .br
+.RI "\fIDump contents of codesynthesis \fBCrcl\fP pose\&. \fP"
 .ti -1c
-.RI "bool \fBCrcl::GetRPY\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
-.br
-.ti -1c
-.RI "urdf::Rotation \fBCrcl::Convert\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
-.br
-.ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::NullPose\fP ()"
+.RI "std::string \fBCrcl::DumpCrclCommand\fP (::CRCLCommandType &crclCommand)"
 .br
 .ti -1c
 .RI "\fBCrcl::PoseType\fP \fBCrcl::PoseHome\fP ()"
 .br
-.ti -1c
-.RI "\fBCrcl::VectorType\fP \fBCrcl::VectorZero\fP ()"
-.br
-.ti -1c
-.RI "std::ostream & \fBCrcl::operator<<\fP (std::ostream &os, const \fBCrcl::PoseType\fP &pose)"
-.br
+.RI "\fICreate codesynthesis \fBCrcl\fP pose that is necessary for all codesynthesis \fBCrcl\fP pose constructors\&. \fP"
 .in -1c
 .SS "Variables"
 

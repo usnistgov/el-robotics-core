@@ -1,10 +1,10 @@
-.TH "CAsioCrclSession" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "CAsioCrclSession" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 CAsioCrclSession \- 
 .PP
-The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
+The \fBCAsioCrclSession\fP class provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
 .br
  Useful web sites:  
 
@@ -150,7 +150,7 @@ The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for ea
 .in -1c
 .SH "Detailed Description"
 .PP 
-The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
+The \fBCAsioCrclSession\fP class provides an boost asio session ( which listens for each connected client)\&. The \fBCAsioCrclSession\fP listens for XML messages and constructs\&. The \fBCAsioCrclSession\fP uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection\&. The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication events by the asio io service provider\&. After connection to the socket client, an \fBStartAyncRead()\fP that is paired with a timer is used to wait for communicatin from a socket\&. There is no trailing marker on CRCL XML so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue\&. During the socket communication, a timeout can occur, which at this point only causes a new to beStartAyncRead() initiated\&. Because CRCL Xml does not have a trailing marker (e\&.g\&., zero or line feed), the \fBCAsioCrclSession\fP must determine the trailing XML tag to search for, by inspecting the communication for a XML leading tag\&. It works, but is dubious\&. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly\&. 
 .br
  Useful web sites: 
 
@@ -192,7 +192,24 @@ http://www.codesynthesis.com/pipermail/xsde-users/2014-January/000631.html
 .br
 Raw: 
 .br
-http://www.bogotobogo.com/cplusplus/sockets_server_client.php 
+http://www.bogotobogo.com/cplusplus/sockets_server_client.php
+.PP
+\fBAuthor:\fP
+.RS 4
+john michaloski, nist 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+January 30, 2015 
+.RE
+.PP
+\fBCopyright:\fP
+.RS 4
+Public Domain with disclaimer 
+.RE
+.PP
+
 .SH "Member Enumeration Documentation"
 .PP 
 .SS "anonymous enum\fC [protected]\fP"

@@ -17,20 +17,23 @@
 #include "Controller.h"
 #include "CrclInterface.h"
 #include "Kinematics.h"
-#include "urdf_model/eigenmath.h"
 #include "Communication.h"
 #include "Setup.h"
 
 #include <ros/package.h>
 
-std::string DumpUrdfPose(const urdf::Pose & p);
+// /opt/ros/indigo/include/moveit/robot_state/robot_state.h
+// /opt/ros/indigo/include/moveit/move_group_interface/move_group.h
+
+std::string DumpUrdfPose(const RCS::Pose & p);
 
 //#include "TestMoveit.cpp"
 #include "moveit.h"
 
-inline std::string DumpUrdfPose(const urdf::Pose & p) {
+inline std::string DumpUrdfPose(const RCS::Pose & p) {
     std::stringstream s;
-    s << "Translation = " << boost::format("%11.4f") % (1000.0 * p.position.x) << ":" << boost::format("%11.4f") % (1000.0 * p.position.y) << ":" << boost::format("%11.4f") % (1000.0 * p.position.z) << std::endl;
+    s << "Translation = " << boost::format("%11.4f") % (1000.0 * p.getOrigin().x()) << ":" 
+            << boost::format("%11.4f") % (1000.0 * p.getOrigin().y()) << ":" << boost::format("%11.4f") % (1000.0 * p.getOrigin().z()) << std::endl;
     return s.str();
 }
 
@@ -57,14 +60,17 @@ int main(int argc, char** argv) {
         boost::shared_ptr<CJointWriter>jointWriter;
         boost::shared_ptr<IKinematics> kin;
         boost::shared_ptr<MoveitPlanning> moveitPlanner;
-        
+        boost::shared_ptr<RCS::RobotProgram> crclProgramInterpreter;
+
         // Controller shared objects NOT dependent on ROS 
         boost::shared_ptr<Crcl::CrclDelegateInterface> crcl;
+        
+        // SetupRosEnvironment - needs to go before ROS!
         
         // Initialize ROS
         ros::init(argc, argv, "nist_fanuc");
         ros::NodeHandle nh;
-        ros::Rate r(10);  // 10 times a second - 10Hz
+        ros::Rate r(50);  // 10 times a second - 10Hz
 
         //  Required for multithreaded ROS communication  NOT TRUE: if not ros::spinOnce
         ros::AsyncSpinner spinner(1);
@@ -198,21 +204,27 @@ int main(int argc, char** argv) {
         
 #define BOOSTASIO
 #ifdef BOOSTASIO
+        CAsioCrclServer::_bTrace=true;
         crclServer.Start();
         // start the asio ioserver in a separate thread - kill using stop())
-        boost::thread bt(boost::bind(&boost::asio::io_service::run, &myios));
+        //boost::thread bt(boost::bind(&boost::asio::io_service::run, &myios));
 #endif
         
         // Prime the pump with some CRCL XML
         std::string contents;
         std::string testprog = Globals._appproperties["nist_fanuc"] + "/doc/fanuclrmateprogram.xml";
+        crclProgramInterpreter = boost::shared_ptr<RCS::RobotProgram>(new RCS::RobotProgram(1));
+        //crclProgramInterpreter->ExecuteProgramFromFile(testprog);
+        //crclProgramInterpreter->Start(); 
         //Globals.ReadFile(testprog, contents);
         //RCS::Controller.CrclDelegate()->DelegateCRCLCmd(contents);
 
         spinner.stop();
         ros::spinOnce();
         do {
+            myios.run_one();
             ros::spinOnce();
+            myios.run_one();
             r.sleep();
         } while(ros::ok());
         

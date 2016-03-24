@@ -22,45 +22,8 @@
 #include "RCS.h"
 #include "Globals.h"
 
-/**
- * \brief IRate is an interface class for defining the allowed motion rates.
- */
-class IRate {
-public:
 
-    IRate() {
-        _maximum_velocity = DEFAULT_CART_MAX_VEL;
-        _maximum_accel = DEFAULT_CART_MAX_ACCEL;
-        _cycleTime = DEFAULT_CYCLE;
-        Clear();
-    }
-
-    IRate(double maximum_velocity, double maximum_accel, double cycleTime) :
-    _maximum_velocity(maximum_velocity), _cycleTime(cycleTime), _maximum_accel(maximum_accel) {
-        Clear();
-    }
-
-    void SetCurrentMotion(double final_velocity, double current_feedrate, double current_velocity) {
-        _final_velocity = final_velocity;
-        _current_feedrate = current_feedrate;
-        _current_velocity = current_velocity;
-    }
-    NVAR(FinalVelocity, double, _final_velocity);
-    NVAR(CurrentFeedrate, double, _current_feedrate);
-    NVAR(CurrentVelocity, double, _current_velocity);
-    NVAR(MaximumVelocity, double, _maximum_velocity);
-    NVAR(MaximumAccel, double, _maximum_accel);
-    NVAR(CycleTime, double, _cycleTime);
-    NVAR(CurrentAccel, double, _current_accel);
-    NVAR(MsFlag, RCS::CanonAccProfile, _msflag);
-private:
-
-    void Clear() {
-        _final_velocity = _current_feedrate = _current_velocity = _current_accel = 0.0;
-        _msflag = RCS::MS_IS_UNSET;
-    }
-};
-
+using namespace RCS;
 /**
  * \brief TrajectoryMaker generates simple trapezoidal velocities. Will accept non-zero final velocity.
  */
@@ -81,7 +44,7 @@ public:
      * \brief GetPosesPlan returns vector of generated pose trajectories.
      * \return  returns vector of poses
      */
-    std::vector<urdf::Pose> GetPosesPlan();
+    std::vector<RCS::Pose> GetPosesPlan();
 
     /**
      * \brief setRates defines the rate to use when generating trajectory.
@@ -103,14 +66,14 @@ public:
      * \param  goalpose goal pose definition.
      * \return true if successful cartesian trajectory was generated.
      */
-    bool Plan(urdf::Pose & curpose, urdf::Pose & goalpose);
+    bool Plan(RCS::Pose & curpose, RCS::Pose & goalpose);
 
     /**
      * \brief plan a cartesian trajectory given a vector of waypoint poses. Assumes rate already set.
      * \param  waypoints vector of intermediate pose definition.
      * \return true if successful cartesian trajectory was generated.
      */
-    bool Plan(std::vector<urdf::Pose>& waypoints);
+    bool Plan(std::vector<RCS::Pose>& waypoints);
 
     /**
      * \brief makePositionVector  generates a vector of from start to end point.
@@ -160,9 +123,9 @@ public:
      * \param  goalpose goal pose definition.
      * \return vector of generated  cartesian poses trajectory from start to goal.
      */
-    std::vector<urdf::Pose> makeCartesianTrajectory(IRate rates,
-            urdf::Pose _curPos,
-            urdf::Pose _goalPos);
+    std::vector<RCS::Pose> makeCartesianTrajectory(IRate rates,
+            RCS::Pose _curPos,
+            RCS::Pose _goalPos);
 
     /**
      * \brief Reference to rates data structure.
@@ -173,10 +136,10 @@ public:
 protected:
     // -------------------------------------------------------------------------------------------------
     void updateJointCommands(std::vector<double> & curjoints, std::vector<std::vector<double> > & displacements);
-    std::vector<urdf::Pose> makeTrajectory(RCS::CanonWorldModel *parameters, urdf::Pose goal, urdf::Pose current); // lame
+    std::vector<RCS::Pose> makeTrajectory(RCS::CanonWorldModel *parameters, RCS::Pose goal, RCS::Pose current); // lame
     std::vector<double> makeJointValues(double current, std::vector<double> displacements);
     std::vector<double> makeJointTrajectory(double current, double goal);
-    void setCurrent(urdf::Pose current); /*!< Set the current position. */
+    void setCurrent(RCS::Pose current); /*!< Set the current position. */
 
     std::vector<double> makePositionRamp(double maxVel, double maxAccel, double cycletime);
     double makeDeclRamp(double startingVelocity,
@@ -197,13 +160,13 @@ protected:
 
 
 #if 1
-    std::vector<urdf::Pose> makeCartesianTrajectory(double final_velocity,
+    std::vector<RCS::Pose> makeCartesianTrajectory(double final_velocity,
             double current_feedrate,
             double current_velocity,
             double maximum_accel,
             double cycleTime,
-            urdf::Pose _curPos,
-            urdf::Pose _goalPos);
+            RCS::Pose _curPos,
+            RCS::Pose _goalPos);
 #endif
     double runTrapezoidalCycle(IRate & trans, double distance_to_go);
 
@@ -213,12 +176,12 @@ protected:
             double cycleTime,
             std::vector<double> & acclramp);
 private:
-    urdf::Pose computeTranslation(urdf::Pose & current, urdf::Pose & goal, double dIncrement);
+    RCS::Pose computeTranslation(RCS::Pose & current, RCS::Pose & goal, double dIncrement);
     std::vector<double> ramp; /*!< Ramp up or down to maximum velocity */
     double rampLength; /*!< The distance traveled over the ramp */
-    urdf::Pose current;
+    RCS::Pose current;
     std::vector<JointState> plannedjts;
-    std::vector<urdf::Pose> plannedposes;
+    std::vector<RCS::Pose> plannedposes;
     IRate currates;
 };
 

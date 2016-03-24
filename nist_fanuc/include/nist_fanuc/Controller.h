@@ -29,9 +29,9 @@ namespace RCS {
     extern boost::mutex cncmutex;
 
     /**
-     * \brief The CController provides an collection for all the relevant controller pieces.
+     * \brief The CController provides a collection for all the relevant controller pieces.
      *  The CController is the main controller class to collect all the references/pointers to instances in the project.
-     * A global instance, call Controller, is created that is used through out the code to reference various instances of 
+     * A global instance of this class, called "Controller", is created and is used throughout the code to reference various instances of 
      * control objects (e.g., kinematics, joint writer, joint reader, etc.)
      *
      */
@@ -63,7 +63,7 @@ namespace RCS {
          *\brief Cyclic loop for the controller. Reads Crcl input mexsage queue, interprets into canon cmds if any, reads canon
          * cmds queue, interprets into robot command messages.
          */
-        virtual void Action();
+        virtual int Action();
 
         /*!
          *\brief Initialization routine for the controller..
@@ -96,8 +96,28 @@ namespace RCS {
 
         RCSInterpreter _interpreter; /**<  interprets canon commands into robot commands */
 
-        RCS::CanonCmd _newcc; /**<  current new canon command to interpret*/
-        RCS::CanonCmd _lastcc; /**<  last canon command interpreted */
+        /**<  current new canon command to interpret*/
+        NVAR(NewCC, RCS::CanonCmd, _newcc);
+
+        /**<  last canon command interpreted */
+        NVAR(LastCC, RCS::CanonCmd, _lastcc);
+
+        //RCS::CanonCmd _newcc; /**<  current new canon command to interpret*/
+        //RCS::CanonCmd _lastcc; /**<  last canon command interpreted */
+        RCS::CanonCmd GetLastRobotCommand();
+
+        /*!
+         *\brief Get the last joint state, if no motion, last actual joint reading, else last joints on robot motion queue. 
+         */
+        JointState GetLastJointState();
+
+        /*!
+         *\brief Get the last commanded , if no motion, use last actual joint reading to compute FK, 
+         * else use last joints on robot motion queue to compute FK. 
+         */
+        RCS::Pose GetLastCommandedPose();
+
+
         std::string lastlogstatus;
 
         enum DebugLevel {
@@ -123,10 +143,12 @@ namespace RCS {
     //* The RobotCommands is currently a dummy class. The CController thread 
 
     /**
-     * \brief  The RobotStatus is a thread to updates the status of the robot. 
-     * The RobotStatus is a separate thread that updates the robot status.
-     * Currently, it uses a JointReader to read joint values from the controller. 
-     * It uses a Kinematics pointer reference to compute the current pose using the FK routine.
+     * \brief  The RobotStatus is a thread that reads the status of the robot and updates the world model. 
+     * The RobotStatus is a separate thread that reads the robot status using ROS communication mechanisms
+     * and updates the controller world model based on these values.
+     * Currently, it uses an instance of the class JointReader to read joint values from the controller. 
+     * It uses a Kinematics pointer reference to compute the current robot pose 
+     * using the forward kinematics (FK) routine.
      * It also uses a CrclDelegate pointer reference to update the status reported by CRCL.
      */
     class RobotStatus : public RCS::Thread {
@@ -148,7 +170,7 @@ namespace RCS {
          * Then, updates the CRCL world model with the latest readings. 
          * \fixme Should it keep track of the command id also - in theory only one CRCl command at a time.
          */
-        virtual void Action();
+        virtual int Action();
 
         /*!
          * \brief method to determine if the instance is valid, i.e., has all reference pointers.
@@ -178,10 +200,18 @@ namespace RCS {
         RobotProgram(double cycletime = DEFAULT_LOOP_CYCLE);
 
         /*!
-         * \brief ExecuteProgram reads a file path for CRCL XML program. It will set up interpreting the program. It is thread safe.
+         * \brief ExecuteProgramFromFile reads a file path for CRCL XML program. 
+         * It will set up interpreting the program. It is thread safe.
          * \param programpath  path of file containing crcl xml program.
          */
-        virtual void ExecuteProgram(std::string programpath);
+        virtual void ExecuteProgramFromFile(std::string programpath);
+        
+        /*!
+         * \brief ExecuteProgram reads and interprets a CRCL XML program string. 
+         * It will set up interpreting the program. It is thread safe.
+         * \param programpath  str containing crcl xml program.
+         */        
+        virtual void ExecuteProgram(std::string programstr);
 
         /*!
          * \brief  Action is the main loop in the RobotProgram RCS thread.
@@ -189,13 +219,14 @@ namespace RCS {
          * Executes one program command at a time. \fixme needs to wait until current
          * command is done before moving on to next command.
          */
-        virtual void Action();
+        virtual int Action();
         //////////////////////////////////////
         static boost::mutex _progmutex; /**< mutex for thread safe access to RobotProgram commands  */
         std::string _programname; /**< saved RobotProgram program file path  */
         Crcl::CrclDelegateInterface _delegate; /**< crcl delegate used to interpret Crcl XML command  */
         std::istringstream istr; /**< input stream interface for codesynthesis parsing */
-        int cmdnum; /**< number of Crcl XML command to execute */
+        //int cmdnum; /**< index of Crcl XML command to execute */
+        //int lastcmdnum; /**< last index of Crcl XML command to execute */
         ::CRCLProgramType::MiddleCommand_sequence& cmds; /**< reference to crcl program XML commands (from codesynthesis parsing)  */
     };
 }

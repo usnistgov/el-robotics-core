@@ -1,0 +1,247 @@
+
+Moveit
+======
+Last updated: 3/23/2016 12:17:37 PM 
+
+
+Moveit failed to plan also
+-------------------------
+
+    [ INFO] [1456439525.551846365]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
+    [ WARN] [1456439525.554072295]: Orientation constraint for link 'tool0' is probably incorrect: 0.000000, 0.000000, 0.000000, 0.000000. Assuming identity instead.
+    [ WARN] [1456439525.554147337]: Orientation constraint for link 'tool0' is probably incorrect: 0.000000, 0.000000, 0.000000, 0.000000. Assuming identity instead.
+    [ INFO] [1456439525.554827784]: LBKPIECE1: Starting planning with 1 states already in datastructure
+    [ INFO] [1456439526.966671637]: Found a contact between 'link_4' (type 'Robot link') and 'base_link' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+    [ INFO] [1456439526.966721656]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+    [ INFO] [1456439526.967459590]: Found a contact between 'link_6' (type 'Robot link') and 'base_link' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+    [ INFO] [1456439526.967502013]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+    [ INFO] [1456439526.968228658]: Found a contact between 'link_4' (type 'Robot link') and 'base_link' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+    [ INFO] [1456439526.968269033]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+    [ INFO] [1456439526.969014693]: Found a contact between 'link_6' (type 'Robot link') and 'base_link' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+    [ INFO] [1456439526.969054959]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+    [ERROR] [1456439528.325962429]: LBKPIECE1: Unable to sample any valid states for goal tree
+    [ INFO] [1456439528.325996844]: LBKPIECE1: Created 1 (1 start + 0 goal) states in 1 cells (1 start (1 on boundary) + 0 goal (0 on boundary))
+    [ INFO] [1456439528.326030131]: No solution found after 2.771767 seconds
+    [ INFO] [1456439528.326055767]: Unable to solve the planning problem
+
+
+
+Moveit planner hangs
+---------------------
+
+        if (!group->plan(my_plan))
+            return false;
+
+You must have multithreaded enabled before any moveit planning.
+
+            // Required for multithreaded communication with moveit components
+            ros::AsyncSpinner spinner(1);
+            spinner.start();
+
+
+
+moveit planning with joints
+--------------------------
+
+
+        joints.position = moveit.SetRandomJoints();
+        std::cout << "Random assigned joints=" << VectorDump<double> (joints.position).c_str();
+        moveit.Plan(joints);
+        sleep(15.0);
+        js = moveit.GetJointValues();
+        std::cout << "Current joints=" << VectorDump<double> (js);
+
+You must wait for rviz to move. You get all kinds of plans.
+
+rviz not moving
+----------------
+
+    pub <topic-name> <topic-type> [data...]
+
+    rostopic pub -1 /joint_states sensor_msgs/JointState '{header: auto, name: ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6'], position: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ], velocity: [], effort: []}'
+
+    rostopic pub -1 /joint_states sensor_msgs/JointState '{header: auto, name: ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6'], position: [0.097, 0.007, -0.590, -0.172, 0.604, -0.142 ], velocity: [], effort: []}'
+
+    rostopic pub /joint_states sensor_msgs/JointState '{header: auto, name: ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6'], position: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ], velocity: [], effort: []}'
+
+Writing joint values to rviz and then moving robot and "waiting" until rviz reaches goal
+--------------------------------------------------------------------------------------------
+Fixed ToVector by making template parameter mandatory.
+
+Then added wait until "AtGoal" motion control. Rviz need processing and that
+only comes when waiting. 
+
+Again, make sure  ros::AsyncSpinner is running!
+
+            joint.position=ToVector<double>(6, 0.097, 0.007, -0.590, -0.172, 0.604, -0.142 );
+            jointWriter->JointTrajectoryPositionWrite(joint);
+            while( !MotionControl::AtGoal(joint, curjoints) && n++ < 100) {
+                curjoints = jointReader->GetCurrentReadings();
+                std::cout << "Goal joints=" << VectorDump<double> (joint.position).c_str();
+                std::cout << "Cur  joints=" << VectorDump<double> (curjoints.position).c_str();
+                Globals.Sleep(100); // 100 milliseconds
+            }
+
+    template<typename T>
+    static bool epsiloncompare (T &i, T& j) {
+      return (fabs(i-j) < MotionControl::epsilon);
+    }
+    template<typename T>
+    static bool VectorCompare(std::vector<T> vec1,std::vector<T> vec2 )
+    {
+       return std::equal (vec1.begin(), vec1.end(),  vec2.begin() , epsiloncompare) ;
+    }
+    bool MotionControl::AtGoal(JointState goal, JointState current,  double epsilon)
+    {
+        MoveitTrajectory::epsilon=epsilon;
+        return VectorCompare<double>(goal.position, current.position);
+    }
+
+Turn off Planned Path visualization in Rviz - confusing
+---------------------------------------------------------
+In Rviz GUI, navigate to Planned Path, and uncheck "Show Robot Visual"
+
+Not sure how this parameter is set in /move_group/display_planned_path
+
+
+Using waypoints in moveit
+-------------------------
+
+Calculated a waypoint every 1mm 
+
+    std::vector<JointState> MoveitTrajectory::Plan(std::vector<urdf::Pose>& pwaypoints) {
+        std::vector<geometry_msgs::Pose> waypoints;
+        for(size_t i=0; i< pwaypoints.size(); i++)
+        {    
+            waypoints.push_back(PoseMsg2UrdfPose(pwaypoints[i]));
+        }
+
+        moveit_msgs::RobotTrajectory trajectory;
+        double fraction = group->computeCartesianPath(waypoints,
+                0.001, // cartesian path to be interpolated at a resolution of 1 mm 
+                0.0, // NO jump_threshold
+                trajectory);  // trajectory.joint_trajectory.points  (position)
+        std::vector<JointState> points;
+        for(size_t j=0; j< trajectory.joint_trajectory.points.size(); j++)
+        {
+            JointState traj;
+            traj.position = trajectory.joint_trajectory.points[j].positions;
+            points.push_back(traj);
+        }
+        return points;
+    }
+
+Test code:
+
+           MoveitTrajectory moveit(nh);
+            MotionControl motioncontrol;
+            urdf::Pose goalpose;
+            goalpose.position =urdf::Vector3(.28,-0.7,1.0);
+            goalpose.rotation.setFromRPY(0.,0.,0.);
+            
+            int nIncr=motioncontrol.computeIncrements (RCS::Controller.status.currentpose, goalpose);
+            std::vector<urdf::Pose> poses = motioncontrol.computeWaypoints(RCS::Controller.status.currentpose, goalpose, nIncr, true );
+            std::vector<JointState> points = moveit.Plan(poses);
+            for(size_t k=0; k< points.size(); k++)
+            {
+                std::cout <<  VectorDump<double> (points[k].position);
+                jointWriter->JointTrajectoryPositionWrite(points[k]);
+            }
+
+
+
+Fanuc 200id kinematics plugin
+
+/home/michalos/catkin_ws/src/fanuc_experimental/fanuc_lrmate200id_moveit_config/config/kinematics.yaml
+
+    manipulator:
+      kinematics_solver: fanuc_lrmate200id_manipulator_kinematics/IKFastKinematicsPlugin
+      kinematics_solver_attempts: 3
+      kinematics_solver_search_resolution: 0.005
+      kinematics_solver_timeout: 0.005
+
+Maybe:
+    # kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+Worked!
+
+    void visualize(ros::NodeHandle nh, moveit_msgs::MotionPlanResponse response) {
+	    ROS_INFO("Visualizing the trajectory");
+	    ros::Publisher display_publisher = nh.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+	    moveit_msgs::DisplayTrajectory display_trajectory;
+	     
+	    display_trajectory.trajectory_start = response.trajectory_start;
+	    display_trajectory.trajectory.push_back(response.trajectory);
+	    display_publisher.publish(display_trajectory);
+    }
+
+Ros Cartesian Planning with assigned plugin
+
+    int main(int argc, char **argv) {
+	    ros::init (argc, argv, "planning_pipeline");
+	    ros::AsyncSpinner spinner(1);
+	    spinner.start();
+	    ros::NodeHandle node_handle("~");
+	
+	    //map<int, Controller*> controllersOrder;
+	    //vector<Controller>  controllers ;//= initControllers(node_handle);
+	
+	     
+	    robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+	    robot_model::RobotModelPtr robot_model = robot_model_loader.getModel();
+	     
+	    planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
+	    planning_pipeline::PlanningPipelinePtr planning_pipeline(new planning_pipeline::PlanningPipeline(robot_model, node_handle, "planning_plugin", "request_adapters"));
+	     
+	    //Sleep a little to allow time to startup rviz, etc.
+	    ros::WallDuration sleep_time(5.0);
+	    sleep_time.sleep();
+	     
+	    // A tolerance of 0.01 m is specified in position
+	    // and 0.01 radians in orientation
+	    vector<double> tolerance_pose(3, 0.01);
+	    vector<double> tolerance_angle(3, 0.01);
+	     
+	    // Pose Goal
+	    // ^^^^^^^^^
+	    // We will now create a motion plan request for the right arm of the PR2
+	    // specifying the desired pose of the end-effector as input.
+	    planning_interface::MotionPlanRequest req;
+	    planning_interface::MotionPlanResponse res;
+	    geometry_msgs::PoseStamped pose;
+	    pose.header.frame_id = "torso";
+	    pose.pose.position.x = -0.000006;
+	    pose.pose.position.y = 0.05;
+	    pose.pose.position.z = -0.24;
+	     
+	    req.group_name = "leg_left";
+	    req.planner_id = "RRTkConfigDefault";
+	    req.allowed_planning_time=5;
+	    req.num_planning_attempts = 5;
+	     
+	    moveit_msgs::Constraints pose_goal = kinematic_constraints::constructGoalConstraints("l_sole", pose, tolerance_pose, tolerance_angle);
+	    req.goal_constraints.push_back(pose_goal);
+	     
+	    planning_pipeline->generatePlan(planning_scene, req, res);
+	    if(res.error_code_.val != res.error_code_.SUCCESS) {
+		    ROS_ERROR("Could not compute plan successfully");
+		    return 0;
+	    }
+	     
+	    moveit_msgs::MotionPlanResponse response;
+	    res.getMessage(response);
+	
+	    // Visualize the result
+		    ROS_INFO("Visualizing the trajectory");
+	    ros::Publisher display_publisher = node_handle.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
+	    moveit_msgs::DisplayTrajectory display_trajectory;
+	     
+	    display_trajectory.trajectory_start = response.trajectory_start;
+	    display_trajectory.trajectory.push_back(response.trajectory);
+	    display_publisher.publish(display_trajectory);
+	
+	
+	    //visualize(node_handle, response);
+
+	    ros::waitForShutdown();
+	
+	    return 0;

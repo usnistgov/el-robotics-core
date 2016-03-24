@@ -110,6 +110,7 @@ src/Communication.cpp
 src/Setup.cpp
 src/moveit.cpp
 src/trajectoryMaker.cpp
+src/Conversions.cpp
 )
 
 link_directories(/usr/lib/x86_64-linux-gnu/)
@@ -120,6 +121,8 @@ libxerces-c.a
 ${catkin_LIBRARIES}
 ${Boost_LIBRARIES}
 )
+
+catkin_add_gtest(crclmathunittest test/crclmathtest.cpp)
 
 #############
 ## Install ##

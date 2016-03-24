@@ -59,7 +59,7 @@
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="classRCS_1_1CMessageQueue.html" title="The CMessageQueue offers a mutexed front to a stl deque. The queue is a LIFO data structure...">CMessageQueue</a> offers a mutexed front to a stl deque. The queue is a LIFO data structure. Useful for safely sharing data between multiple threads.  
+<p>The <a class="el" href="classRCS_1_1CMessageQueue.html" title="The CMessageQueue offers a mutexed front to a STL/std deque. The queue is a LIFO data structure...">CMessageQueue</a> offers a mutexed front to a STL/std deque. The queue is a LIFO data structure. Useful for safely sharing data between multiple threads.  
  <a href="classRCS_1_1CMessageQueue.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="RCSMsgQueue_8h_source.html">RCSMsgQueue.h</a>&gt;</code></p>
@@ -83,7 +83,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afbde6b0fa4044557ba5f990c69d52ff7"><td class="mdescLeft">&#160;</td><td class="mdescRight">PopFrontMsgQueue mutex pop of front item of message queue.  <a href="#afbde6b0fa4044557ba5f990c69d52ff7">More...</a><br/></td></tr>
 <tr class="separator:afbde6b0fa4044557ba5f990c69d52ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d669a3cecd23be9113567421f2b06a1"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1CMessageQueue.html#a5d669a3cecd23be9113567421f2b06a1">BackMsgQueue</a> ()</td></tr>
-<tr class="memdesc:a5d669a3cecd23be9113567421f2b06a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">BackMsgQueue mutex pop of back item of message queue.  <a href="#a5d669a3cecd23be9113567421f2b06a1">More...</a><br/></td></tr>
+<tr class="memdesc:a5d669a3cecd23be9113567421f2b06a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">BackMsgQueue mutex retrieves back item of message queue. Does not pop queue.  <a href="#a5d669a3cecd23be9113567421f2b06a1">More...</a><br/></td></tr>
 <tr class="separator:a5d669a3cecd23be9113567421f2b06a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f23fdbd7b3c7c3861abea8fb0899288"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1CMessageQueue.html#a1f23fdbd7b3c7c3861abea8fb0899288">AddMsgQueue</a> (T t)</td></tr>
 <tr class="memdesc:a1f23fdbd7b3c7c3861abea8fb0899288"><td class="mdescLeft">&#160;</td><td class="mdescRight">AddMsgQueue mutex push to back an item onto message queue.  <a href="#a1f23fdbd7b3c7c3861abea8fb0899288">More...</a><br/></td></tr>
@@ -103,7 +103,7 @@ Protected Attributes</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T&gt;<br/>
 class RCS::CMessageQueue&lt; T &gt;</h3>
 
-<p>The <a class="el" href="classRCS_1_1CMessageQueue.html" title="The CMessageQueue offers a mutexed front to a stl deque. The queue is a LIFO data structure...">CMessageQueue</a> offers a mutexed front to a stl deque. The queue is a LIFO data structure. Useful for safely sharing data between multiple threads. </p>
+<p>The <a class="el" href="classRCS_1_1CMessageQueue.html" title="The CMessageQueue offers a mutexed front to a STL/std deque. The queue is a LIFO data structure...">CMessageQueue</a> offers a mutexed front to a STL/std deque. The queue is a LIFO data structure. Useful for safely sharing data between multiple threads. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="a272ec6240c0ae616f66e71a033326e28"></a>
 <div class="memitem">
@@ -203,7 +203,7 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>BackMsgQueue mutex pop of back item of message queue. </p>
+<p>BackMsgQueue mutex retrieves back item of message queue. Does not pop queue. </p>
 <dl class="section return"><dt>Returns</dt><dd>T returns back item from message queue. </dd></dl>
 
 </div>
@@ -375,7 +375,7 @@ template&lt;typename T&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,0 +1,209 @@
+... logging to /home/michalos/.ros/log/74722d22-ed09-11e5-bef8-ecf4bb31ca6d/roslaunch-rufous-4640.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+
+started roslaunch server http://rufous:57398/
+
+SUMMARY
+========
+
+PARAMETERS
+ * /controller_joint_names: ['joint_1', 'join...
+ * /move_group/allow_trajectory_execution: True
+ * /move_group/allowed_execution_duration_scaling: 1.2
+ * /move_group/allowed_goal_duration_margin: 0.5
+ * /move_group/capabilities: move_group/MoveGr...
+ * /move_group/controller_list: [{'action_ns': 'j...
+ * /move_group/jiggle_fraction: 0.05
+ * /move_group/manipulator/longest_valid_segment_fraction: 0.05
+ * /move_group/manipulator/planner_configs: ['SBLkConfigDefau...
+ * /move_group/manipulator/projection_evaluator: joints(joint_1,jo...
+ * /move_group/max_range: 5.0
+ * /move_group/max_safe_path_cost: 1
+ * /move_group/moveit_controller_manager: moveit_simple_con...
+ * /move_group/moveit_manage_controllers: True
+ * /move_group/octomap_resolution: 0.025
+ * /move_group/planner_configs/BKPIECEkConfigDefault/border_fraction: 0.9
+ * /move_group/planner_configs/BKPIECEkConfigDefault/failed_expansion_score_factor: 0.5
+ * /move_group/planner_configs/BKPIECEkConfigDefault/min_valid_path_fraction: 0.5
+ * /move_group/planner_configs/BKPIECEkConfigDefault/range: 0.0
+ * /move_group/planner_configs/BKPIECEkConfigDefault/type: geometric::BKPIECE
+ * /move_group/planner_configs/ESTkConfigDefault/goal_bias: 0.05
+ * /move_group/planner_configs/ESTkConfigDefault/range: 0.0
+ * /move_group/planner_configs/ESTkConfigDefault/type: geometric::EST
+ * /move_group/planner_configs/KPIECEkConfigDefault/border_fraction: 0.9
+ * /move_group/planner_configs/KPIECEkConfigDefault/failed_expansion_score_factor: 0.5
+ * /move_group/planner_configs/KPIECEkConfigDefault/goal_bias: 0.05
+ * /move_group/planner_configs/KPIECEkConfigDefault/min_valid_path_fraction: 0.5
+ * /move_group/planner_configs/KPIECEkConfigDefault/range: 0.0
+ * /move_group/planner_configs/KPIECEkConfigDefault/type: geometric::KPIECE
+ * /move_group/planner_configs/LBKPIECEkConfigDefault/border_fraction: 0.9
+ * /move_group/planner_configs/LBKPIECEkConfigDefault/min_valid_path_fraction: 0.5
+ * /move_group/planner_configs/LBKPIECEkConfigDefault/range: 0.0
+ * /move_group/planner_configs/LBKPIECEkConfigDefault/type: geometric::LBKPIECE
+ * /move_group/planner_configs/PRMkConfigDefault/max_nearest_neighbors: 10
+ * /move_group/planner_configs/PRMkConfigDefault/type: geometric::PRM
+ * /move_group/planner_configs/PRMstarkConfigDefault/type: geometric::PRMstar
+ * /move_group/planner_configs/RRTConnectkConfigDefault/range: 0.0
+ * /move_group/planner_configs/RRTConnectkConfigDefault/type: geometric::RRTCon...
+ * /move_group/planner_configs/RRTkConfigDefault/goal_bias: 0.05
+ * /move_group/planner_configs/RRTkConfigDefault/range: 0.0
+ * /move_group/planner_configs/RRTkConfigDefault/type: geometric::RRT
+ * /move_group/planner_configs/RRTstarkConfigDefault/delay_collision_checking: 1
+ * /move_group/planner_configs/RRTstarkConfigDefault/goal_bias: 0.05
+ * /move_group/planner_configs/RRTstarkConfigDefault/range: 0.0
+ * /move_group/planner_configs/RRTstarkConfigDefault/type: geometric::RRTstar
+ * /move_group/planner_configs/SBLkConfigDefault/range: 0.0
+ * /move_group/planner_configs/SBLkConfigDefault/type: geometric::SBL
+ * /move_group/planner_configs/TRRTkConfigDefault/frountierNodeRatio: 0.1
+ * /move_group/planner_configs/TRRTkConfigDefault/frountier_threshold: 0.0
+ * /move_group/planner_configs/TRRTkConfigDefault/goal_bias: 0.05
+ * /move_group/planner_configs/TRRTkConfigDefault/init_temperature: 10e-6
+ * /move_group/planner_configs/TRRTkConfigDefault/k_constant: 0.0
+ * /move_group/planner_configs/TRRTkConfigDefault/max_states_failed: 10
+ * /move_group/planner_configs/TRRTkConfigDefault/min_temperature: 10e-10
+ * /move_group/planner_configs/TRRTkConfigDefault/range: 0.0
+ * /move_group/planner_configs/TRRTkConfigDefault/temp_change_factor: 2.0
+ * /move_group/planner_configs/TRRTkConfigDefault/type: geometric::TRRT
+ * /move_group/planning_plugin: ompl_interface/OM...
+ * /move_group/planning_scene_monitor/publish_geometry_updates: True
+ * /move_group/planning_scene_monitor/publish_planning_scene: True
+ * /move_group/planning_scene_monitor/publish_state_updates: True
+ * /move_group/planning_scene_monitor/publish_transforms_updates: True
+ * /move_group/request_adapters: default_planner_r...
+ * /move_group/start_state_max_bounds_error: 0.1
+ * /robot_description: <?xml version="1....
+ * /robot_description_kinematics/manipulator/kinematics_solver: kdl_kinematics_pl...
+ * /robot_description_kinematics/manipulator/kinematics_solver_attempts: 3
+ * /robot_description_kinematics/manipulator/kinematics_solver_search_resolution: 0.005
+ * /robot_description_kinematics/manipulator/kinematics_solver_timeout: 0.005
+ * /robot_description_planning/joint_limits/joint_1/has_acceleration_limits: True
+ * /robot_description_planning/joint_limits/joint_1/has_velocity_limits: True
+ * /robot_description_planning/joint_limits/joint_1/max_acceleration: 1.57
+ * /robot_description_planning/joint_limits/joint_1/max_velocity: 7.85
+ * /robot_description_planning/joint_limits/joint_2/has_acceleration_limits: True
+ * /robot_description_planning/joint_limits/joint_2/has_velocity_limits: True
+ * /robot_description_planning/joint_limits/joint_2/max_acceleration: 1.326
+ * /robot_description_planning/joint_limits/joint_2/max_velocity: 6.63
+ * /robot_description_planning/joint_limits/joint_3/has_acceleration_limits: True
+ * /robot_description_planning/joint_limits/joint_3/has_velocity_limits: True
+ * /robot_description_planning/joint_limits/joint_3/max_acceleration: 1.816
+ * /robot_description_planning/joint_limits/joint_3/max_velocity: 9.08
+ * /robot_description_planning/joint_limits/joint_4/has_acceleration_limits: True
+ * /robot_description_planning/joint_limits/joint_4/has_velocity_limits: True
+ * /robot_description_planning/joint_limits/joint_4/max_acceleration: 1.92
+ * /robot_description_planning/joint_limits/joint_4/max_velocity: 9.6
+ * /robot_description_planning/joint_limits/joint_5/has_acceleration_limits: True
+ * /robot_description_planning/joint_limits/joint_5/has_velocity_limits: True
+ * /robot_description_planning/joint_limits/joint_5/max_acceleration: 1.902
+ * /robot_description_planning/joint_limits/joint_5/max_velocity: 9.51
+ * /robot_description_planning/joint_limits/joint_6/has_acceleration_limits: True
+ * /robot_description_planning/joint_limits/joint_6/has_velocity_limits: True
+ * /robot_description_planning/joint_limits/joint_6/max_acceleration: 3.49
+ * /robot_description_planning/joint_limits/joint_6/max_velocity: 17.45
+ * /robot_description_semantic: <?xml version="1....
+ * /rosdistro: indigo
+ * /rosversion: 1.11.16
+ * /rviz_rufous_4640_2116871293539164048/manipulator/kinematics_solver: kdl_kinematics_pl...
+ * /rviz_rufous_4640_2116871293539164048/manipulator/kinematics_solver_attempts: 3
+ * /rviz_rufous_4640_2116871293539164048/manipulator/kinematics_solver_search_resolution: 0.005
+ * /rviz_rufous_4640_2116871293539164048/manipulator/kinematics_solver_timeout: 0.005
+
+NODES
+  /
+    industrial_robot_simulator (industrial_robot_simulator/industrial_robot_simulator)
+    joint_trajectory_action (industrial_robot_client/joint_trajectory_action)
+    move_group (moveit_ros_move_group/move_group)
+    robot_state_publisher (robot_state_publisher/robot_state_publisher)
+    rviz_rufous_4640_2116871293539164048 (rviz/rviz)
+
+auto-starting new master
+process[master]: started with pid [4653]
+ROS_MASTER_URI=http://localhost:11311
+
+setting /run_id to 74722d22-ed09-11e5-bef8-ecf4bb31ca6d
+process[rosout-1]: started with pid [4666]
+started core service [/rosout]
+process[industrial_robot_simulator-2]: started with pid [4669]
+process[joint_trajectory_action-3]: started with pid [4686]
+process[robot_state_publisher-4]: started with pid [4687]
+process[move_group-5]: started with pid [4688]
+process[rviz_rufous_4640_2116871293539164048-6]: started with pid [4689]
+[ INFO] [1458306061.359120429]: Loading robot model 'fanuc_lrmate200id'...
+[ INFO] [1458306062.324368082]: Loading robot model 'fanuc_lrmate200id'...
+[ INFO] [1458306062.663716628]: Publishing maintained planning scene on 'monitored_planning_scene'
+[ INFO] [1458306062.666165327]: MoveGroup debug mode is OFF
+Starting context monitors...
+[ INFO] [1458306062.666200776]: Starting scene monitor
+[ INFO] [1458306062.668572515]: Listening to '/planning_scene'
+[ INFO] [1458306062.668605191]: Starting world geometry monitor
+[ INFO] [1458306062.671385942]: Listening to '/collision_object' using message notifier with target frame '/base_link '
+[ INFO] [1458306062.674085444]: Listening to '/planning_scene_world' for planning scene world geometry
+[ INFO] [1458306062.684234704]: rviz version 1.11.10
+[ INFO] [1458306062.684287223]: compiled against OGRE version 1.8.1 (Byatis)
+[ INFO] [1458306062.828558175]: Listening to '/attached_collision_object' for attached collision objects
+Context monitors started.
+Got bus address:  "unix:abstract=/tmp/dbus-h3Na8onJiD,guid=3d6968e9b65dca0e895fb8d056ebf9eb" 
+Connected to accessibility bus at:  "unix:abstract=/tmp/dbus-h3Na8onJiD,guid=3d6968e9b65dca0e895fb8d056ebf9eb" 
+Registered DEC:  true 
+[ INFO] [1458306063.396331894]: Initializing OMPL interface using ROS parameters
+[ INFO] [1458306063.415643891]: Using planning interface 'OMPL'
+[ INFO] [1458306063.554242958]: Param 'default_workspace_bounds' was not set. Using default value: 10
+[ INFO] [1458306063.554790490]: Param 'start_state_max_bounds_error' was set to 0.1
+[ INFO] [1458306063.555264064]: Param 'start_state_max_dt' was not set. Using default value: 0.5
+[ INFO] [1458306063.555737820]: Param 'start_state_max_dt' was not set. Using default value: 0.5
+[ INFO] [1458306063.556174459]: Param 'jiggle_fraction' was set to 0.05
+[ INFO] [1458306063.556606686]: Param 'max_sampling_attempts' was not set. Using default value: 100
+[ INFO] [1458306063.556651775]: Using planning request adapter 'Add Time Parameterization'
+[ INFO] [1458306063.556673081]: Using planning request adapter 'Fix Workspace Bounds'
+[ INFO] [1458306063.556694079]: Using planning request adapter 'Fix Start State Bounds'
+[ INFO] [1458306063.556718055]: Using planning request adapter 'Fix Start State In Collision'
+[ INFO] [1458306063.556737143]: Using planning request adapter 'Fix Start State Path Constraints'
+[ INFO] [1458306064.057481097]: MoveitSimpleControllerManager: Added FollowJointTrajectory controller for 
+[ INFO] [1458306064.057596459]: Returned 1 controllers in list
+[ INFO] [1458306064.078046599]: Trajectory execution is managing controllers
+Loading 'move_group/MoveGroupCartesianPathService'...
+[ INFO] [1458306064.202567000]: Stereo is NOT SUPPORTED
+[ INFO] [1458306064.202642782]: OpenGl version: 3 (GLSL 1.3).
+Loading 'move_group/MoveGroupExecuteService'...
+Loading 'move_group/MoveGroupKinematicsService'...
+Loading 'move_group/MoveGroupMoveAction'...
+Loading 'move_group/MoveGroupPickPlaceAction'...
+Loading 'move_group/MoveGroupPlanService'...
+Loading 'move_group/MoveGroupQueryPlannersService'...
+Loading 'move_group/MoveGroupStateValidationService'...
+Loading 'move_group/MoveGroupGetPlanningSceneService'...
+Loading 'move_group/ClearOctomapService'...
+[ INFO] [1458306064.460362361]: 
+
+********************************************************
+* MoveGroup using: 
+*     - CartesianPathService
+*     - ExecutePathService
+*     - KinematicsService
+*     - MoveAction
+*     - PickPlaceAction
+*     - MotionPlanService
+*     - QueryPlannersService
+*     - StateValidationService
+*     - GetPlanningSceneService
+*     - ExecutePathService
+********************************************************
+
+[ INFO] [1458306064.460454844]: MoveGroup context using planning plugin ompl_interface/OMPLPlanner
+[ INFO] [1458306064.460476059]: MoveGroup context initialization complete
+
+All is well! Everyone is happy! You can start planning now!
+
+Registered event listener change listener:  true 
+[ INFO] [1458306070.268020357]: Loading robot model 'fanuc_lrmate200id'...
+[ INFO] [1458306070.579000159]: Loading robot model 'fanuc_lrmate200id'...
+[ INFO] [1458306070.876811862]: Starting scene monitor
+[ INFO] [1458306070.881410025]: Listening to '/move_group/monitored_planning_scene'
+[ INFO] [1458306071.580068459]: Constructing new MoveGroup connection for group 'manipulator' in namespace ''
+[ INFO] [1458306072.490403866]: Ready to take MoveGroup commands for group manipulator.
+[ INFO] [1458306072.490580002]: Looking around: no
+[ INFO] [1458306072.490664387]: Replanning: no
+
+

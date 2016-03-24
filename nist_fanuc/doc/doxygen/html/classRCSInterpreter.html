@@ -79,7 +79,7 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a7b71ecaad68a14cc341d98d463e6f5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2437a1768cfa972b39ff56c8f16ff3c1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#a2437a1768cfa972b39ff56c8f16ff3c1">times</a></td></tr>
 <tr class="separator:a2437a1768cfa972b39ff56c8f16ff3c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11b1a673682a9d0451877d3b5c3e0e3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classIRate.html">IRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#a11b1a673682a9d0451877d3b5c3e0e3e">rates</a></td></tr>
+<tr class="memitem:a11b1a673682a9d0451877d3b5c3e0e3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRCS_1_1IRate.html">IRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#a11b1a673682a9d0451877d3b5c3e0e3e">rates</a></td></tr>
 <tr class="separator:a11b1a673682a9d0451877d3b5c3e0e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae59648ec8d61ea6957bbd320f2a4665a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMotionControl.html">MotionControl</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#ae59648ec8d61ea6957bbd320f2a4665a">motioncontrol</a></td></tr>
 <tr class="separator:ae59648ec8d61ea6957bbd320f2a4665a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -89,9 +89,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:af33d7a81522ff6de4f7e56a20520c4de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#af33d7a81522ff6de4f7e56a20520c4de">AddJointCommands</a> (std::vector&lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt; gotojoints)</td></tr>
 <tr class="memdesc:af33d7a81522ff6de4f7e56a20520c4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">AddJointCommands accepts vector of joint trajectories and adds to robot motion queue.  <a href="#af33d7a81522ff6de4f7e56a20520c4de">More...</a><br/></td></tr>
 <tr class="separator:af33d7a81522ff6de4f7e56a20520c4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5393d870957f985f307a9aadd41231c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#ad5393d870957f985f307a9aadd41231c">PlanCartesianMotion</a> (std::vector&lt; urdf::Pose &gt; poses)</td></tr>
-<tr class="memdesc:ad5393d870957f985f307a9aadd41231c"><td class="mdescLeft">&#160;</td><td class="mdescRight">PlanCartesianMotion accepts vector of poses and generates a vector of joint trajectories. Can use a couple of planning algorithms to generate trajectory.  <a href="#ad5393d870957f985f307a9aadd41231c">More...</a><br/></td></tr>
-<tr class="separator:ad5393d870957f985f307a9aadd41231c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97141cf064f2db2959f0c7e9e911fd9c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCSInterpreter.html#a97141cf064f2db2959f0c7e9e911fd9c">PlanCartesianMotion</a> (std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; poses)</td></tr>
+<tr class="memdesc:a97141cf064f2db2959f0c7e9e911fd9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">PlanCartesianMotion accepts vector of poses and generates a vector of joint trajectories. Can use a couple of planning algorithms to generate trajectory.  <a href="#a97141cf064f2db2959f0c7e9e911fd9c">More...</a><br/></td></tr>
+<tr class="separator:a97141cf064f2db2959f0c7e9e911fd9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classRCSInterpreter.html" title="RCSInterpreter parses a RCS command and generates robot motion commands. ">RCSInterpreter</a> parses a <a class="el" href="namespaceRCS.html">RCS</a> command and generates robot motion commands. </p>
@@ -193,7 +193,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad5393d870957f985f307a9aadd41231c"></a>
+<a class="anchor" id="a97141cf064f2db2959f0c7e9e911fd9c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -203,7 +203,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt; RCSInterpreter::PlanCartesianMotion </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; urdf::Pose &gt;&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td>
           <td class="paramname"><em>poses</em></td><td>)</td>
           <td></td>
         </tr>
@@ -258,7 +258,7 @@ Protected Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classIRate.html">IRate</a> RCSInterpreter::rates</td>
+          <td class="memname"><a class="el" href="classRCS_1_1IRate.html">IRate</a> RCSInterpreter::rates</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -299,7 +299,7 @@ Protected Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:55 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

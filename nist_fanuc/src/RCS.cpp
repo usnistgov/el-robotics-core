@@ -16,7 +16,14 @@
 #include "Controller.h"
 
 namespace RCS {
-	unsigned long long CanonCmd::_cmdid=0;
+
+    void getRPY(const RCS::Pose pose, double &roll, double &pitch, double &yaw) {
+        tf::Matrix3x3 rot = pose.getBasis();
+        rot.getRPY(roll, pitch, yaw);
+    }
+
+    unsigned long long CanonCmd::_cmdid = 0;
+
     void CanonWorldModel::Init() {
         _cycleTime = DEFAULT_LOOP_CYCLE;
 
@@ -52,4 +59,15 @@ namespace RCS {
         absJointAcc = DEFAULT_JOINT_MAX_ACCEL;
         absJointSpeed = DEFAULT_JOINT_MAX_VEL;
     }
+	bool CanonCmd::IsMotionCmd() {
+		static CanonCmdType motions[] = {CANON_MOVE_JOINT,
+			CANON_MOVE_TO,
+			CANON_MOVE_THRU,
+			CANON_SET_GRIPPER,
+			CANON_STOP_MOTION};
+		CanonCmdType * it = std::find (motions, motions+5, cmd);
+		if(it!=motions+5)
+			return true;
+		return false;
+	}
 };

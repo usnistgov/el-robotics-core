@@ -1,10 +1,10 @@
-.TH "RCS::CMessageQueue< T >" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CMessageQueue< T >" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 RCS::CMessageQueue< T > \- 
 .PP
-The \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&.  
+The \fBCMessageQueue\fP offers a mutexed front to a STL/std deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&.  
 
 .SH SYNOPSIS
 .br
@@ -39,7 +39,7 @@ The \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a 
 .ti -1c
 .RI "T \fBBackMsgQueue\fP ()"
 .br
-.RI "\fIBackMsgQueue mutex pop of back item of message queue\&. \fP"
+.RI "\fIBackMsgQueue mutex retrieves back item of message queue\&. Does not pop queue\&. \fP"
 .ti -1c
 .RI "void \fBAddMsgQueue\fP (T t)"
 .br
@@ -63,7 +63,7 @@ The \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a 
 .PP 
 
 .SS "template<typename T>class RCS::CMessageQueue< T >"
-The \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&. 
+The \fBCMessageQueue\fP offers a mutexed front to a STL/std deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&. 
 .SH "Member Typedef Documentation"
 .PP 
 .SS "template<typename T> typedef std::deque<T> \fBRCS::CMessageQueue\fP< T >::\fBxml_message_queue\fP"
@@ -88,7 +88,7 @@ AddMsgQueue mutex push to back an item onto message queue\&.
 .SS "template<typename T> T \fBRCS::CMessageQueue\fP< T >::BackMsgQueue ()\fC [inline]\fP"
 
 .PP
-BackMsgQueue mutex pop of back item of message queue\&. 
+BackMsgQueue mutex retrieves back item of message queue\&. Does not pop queue\&. 
 .PP
 \fBReturns:\fP
 .RS 4

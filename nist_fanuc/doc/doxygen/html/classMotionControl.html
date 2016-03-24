@@ -65,12 +65,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7d4bdb16c10626850dac271d30428f71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#a7d4bdb16c10626850dac271d30428f71">executeTrajectory</a> (const trajectory_msgs::JointTrajectory &amp;trajectory, const std::string &amp;trajectory_ns)</td></tr>
 <tr class="memdesc:a7d4bdb16c10626850dac271d30428f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">executeTrajectory will send a traject to ros to execute  <a href="#a7d4bdb16c10626850dac271d30428f71">More...</a><br/></td></tr>
 <tr class="separator:a7d4bdb16c10626850dac271d30428f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a046ca7499b1bd4e6badf680584ae714d"><td class="memItemLeft" align="right" valign="top">urdf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#a046ca7499b1bd4e6badf680584ae714d">computeTranslation</a> (urdf::Pose &amp;_curPos, urdf::Pose &amp;_goalPos, double dIncrement)</td></tr>
-<tr class="memdesc:a046ca7499b1bd4e6badf680584ae714d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return linear interpolation (lerp) between current and goal translation.  <a href="#a046ca7499b1bd4e6badf680584ae714d">More...</a><br/></td></tr>
-<tr class="separator:a046ca7499b1bd4e6badf680584ae714d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06d93063a4a65f581cf0368faddeb246"><td class="memItemLeft" align="right" valign="top">std::vector&lt; urdf::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#a06d93063a4a65f581cf0368faddeb246">computeWaypoints</a> (urdf::Pose &amp;_curPos, urdf::Pose &amp;_goalPos, double dGap=0.001, bool bAddStart=false)</td></tr>
-<tr class="memdesc:a06d93063a4a65f581cf0368faddeb246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute waypoints between current and goal poses with assigned distance between poses.  <a href="#a06d93063a4a65f581cf0368faddeb246">More...</a><br/></td></tr>
-<tr class="separator:a06d93063a4a65f581cf0368faddeb246"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d242a51b301d7c87c16f579e0d9347e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#a9d242a51b301d7c87c16f579e0d9347e">computeTranslation</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;_curPos, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;_goalPos, double dIncrement)</td></tr>
+<tr class="memdesc:a9d242a51b301d7c87c16f579e0d9347e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return linear interpolation (lerp) between current and goal translation.  <a href="#a9d242a51b301d7c87c16f579e0d9347e">More...</a><br/></td></tr>
+<tr class="separator:a9d242a51b301d7c87c16f579e0d9347e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40113f305b3accd4d28fa976151aa954"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#a40113f305b3accd4d28fa976151aa954">computeWaypoints</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;_curPos, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;_goalPos, double dGap=0.001, bool bAddStart=false)</td></tr>
+<tr class="memdesc:a40113f305b3accd4d28fa976151aa954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute waypoints between current and goal poses with assigned distance between poses.  <a href="#a40113f305b3accd4d28fa976151aa954">More...</a><br/></td></tr>
+<tr class="separator:a40113f305b3accd4d28fa976151aa954"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebf1d77a70bbf6817f0899a98173b87d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#aebf1d77a70bbf6817f0899a98173b87d">computeCoorindatedWaypoints</a> (std::vector&lt; double &gt; &amp;_curJts, std::vector&lt; double &gt; &amp;_goalJts, double dGap=0.001, bool bAddStart=false)</td></tr>
 <tr class="memdesc:aebf1d77a70bbf6817f0899a98173b87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">computeCoorindatedWaypoints returns a vector of straightline waypoints between current and goal poses at a given distance. Joints arrive a destination at the same time within the trajectory.  <a href="#aebf1d77a70bbf6817f0899a98173b87d">More...</a><br/></td></tr>
 <tr class="separator:aebf1d77a70bbf6817f0899a98173b87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -79,8 +79,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5a7f01d81030676aab106b7bf4c60aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac065f800e86df7a771aae2aa4271aaa3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#ac065f800e86df7a771aae2aa4271aaa3">computeIncrements</a> (std::vector&lt; double &gt; &amp;_curJts, std::vector&lt; double &gt; &amp;_goalJts, double gap=0.001)</td></tr>
 <tr class="separator:ac065f800e86df7a771aae2aa4271aaa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad484a4d0524c9c4aa57c1762768aec05"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#ad484a4d0524c9c4aa57c1762768aec05">computeIncrements</a> (urdf::Pose &amp;_curPos, urdf::Pose &amp;_goalPos, double dGap=0.001)</td></tr>
-<tr class="separator:ad484a4d0524c9c4aa57c1762768aec05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dbb240abf15324af65904bfba39bd41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMotionControl.html#a1dbb240abf15324af65904bfba39bd41">computeIncrements</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;_curPos, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;_goalPos, double dGap=0.001)</td></tr>
+<tr class="separator:a1dbb240abf15324af65904bfba39bd41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -229,20 +229,20 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad484a4d0524c9c4aa57c1762768aec05"></a>
+<a class="anchor" id="a1dbb240abf15324af65904bfba39bd41"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int MotionControl::computeIncrements </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>_curPos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>_goalPos</em>, </td>
         </tr>
         <tr>
@@ -261,20 +261,20 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a046ca7499b1bd4e6badf680584ae714d"></a>
+<a class="anchor" id="a9d242a51b301d7c87c16f579e0d9347e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">urdf::Pose MotionControl::computeTranslation </td>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> MotionControl::computeTranslation </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>_curPos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>_goalPos</em>, </td>
         </tr>
         <tr>
@@ -354,20 +354,20 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a06d93063a4a65f581cf0368faddeb246"></a>
+<a class="anchor" id="a40113f305b3accd4d28fa976151aa954"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; urdf::Pose &gt; MotionControl::computeWaypoints </td>
+          <td class="memname">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; MotionControl::computeWaypoints </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>_curPos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>_goalPos</em>, </td>
         </tr>
         <tr>
@@ -469,7 +469,7 @@ Static Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:55 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

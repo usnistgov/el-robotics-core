@@ -69,7 +69,7 @@ Inheritance diagram for RCS::RobotProgram:</div>
  <div class="center">
   <img src="classRCS_1_1RobotProgram.png" usemap="#RCS::RobotProgram_map" alt=""/>
   <map id="RCS::RobotProgram_map" name="RCS::RobotProgram_map">
-<area href="classRCS_1_1Thread.html" title="Thread is an RCS ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait fu..." alt="RCS::Thread" shape="rect" coords="0,0,123,24"/>
+<area href="classRCS_1_1Thread.html" title="Thread is an RCS ulapi equivalent for a timed thread. Given a cycle time, the thread provides a wait ..." alt="RCS::Thread" shape="rect" coords="0,0,123,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -78,9 +78,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9704d21c4a2d24fc856fad7af6e99903"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#a9704d21c4a2d24fc856fad7af6e99903">RobotProgram</a> (double cycletime=<a class="el" href="RCS_8h.html#a226eb3a426e9df46b88c4ba34f217203">DEFAULT_LOOP_CYCLE</a>)</td></tr>
 <tr class="memdesc:a9704d21c4a2d24fc856fad7af6e99903"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1RobotProgram.html" title="The RobotProgram is a thread to handle crcl programs. Crcl programs are not in fact legitimate...">RobotProgram</a> constructor that requires a cycle time for <a class="el" href="namespaceRCS.html">RCS</a> thread timing.  <a href="#a9704d21c4a2d24fc856fad7af6e99903">More...</a><br/></td></tr>
 <tr class="separator:a9704d21c4a2d24fc856fad7af6e99903"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0998f374dd54b6a0843d33a664c9da15"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#a0998f374dd54b6a0843d33a664c9da15">ExecuteProgram</a> (std::string programpath)</td></tr>
-<tr class="memdesc:a0998f374dd54b6a0843d33a664c9da15"><td class="mdescLeft">&#160;</td><td class="mdescRight">ExecuteProgram reads a file path for CRCL XML program. It will set up interpreting the program. It is thread safe.  <a href="#a0998f374dd54b6a0843d33a664c9da15">More...</a><br/></td></tr>
-<tr class="separator:a0998f374dd54b6a0843d33a664c9da15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc1276c48a841ee5378bf58c1c8f04a2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#acc1276c48a841ee5378bf58c1c8f04a2">ExecuteProgramFromFile</a> (std::string programpath)</td></tr>
+<tr class="memdesc:acc1276c48a841ee5378bf58c1c8f04a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">ExecuteProgramFromFile reads a file path for CRCL XML program. It will set up interpreting the program. It is thread safe.  <a href="#acc1276c48a841ee5378bf58c1c8f04a2">More...</a><br/></td></tr>
+<tr class="separator:acc1276c48a841ee5378bf58c1c8f04a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade00f05303f43f97758cb91de8b4838b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#ade00f05303f43f97758cb91de8b4838b">ExecuteProgram</a> (std::string programstr)</td></tr>
+<tr class="memdesc:ade00f05303f43f97758cb91de8b4838b"><td class="mdescLeft">&#160;</td><td class="mdescRight">ExecuteProgram reads and interprets a CRCL XML program string. It will set up interpreting the program. It is thread safe.  <a href="#ade00f05303f43f97758cb91de8b4838b">More...</a><br/></td></tr>
+<tr class="separator:ade00f05303f43f97758cb91de8b4838b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a637f6305bb0beea4a9140b18b245790e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#a637f6305bb0beea4a9140b18b245790e">Action</a> ()</td></tr>
 <tr class="memdesc:a637f6305bb0beea4a9140b18b245790e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action is the main loop in the <a class="el" href="classRCS_1_1RobotProgram.html" title="The RobotProgram is a thread to handle crcl programs. Crcl programs are not in fact legitimate...">RobotProgram</a> <a class="el" href="namespaceRCS.html">RCS</a> thread.  <a href="#a637f6305bb0beea4a9140b18b245790e">More...</a><br/></td></tr>
 <tr class="separator:a637f6305bb0beea4a9140b18b245790e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,6 +144,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a0099964c452870619bd0ee7651ffb072"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad43243236b573d0e3fc39d4890a43373"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#ad43243236b573d0e3fc39d4890a43373">cmdnum</a></td></tr>
 <tr class="separator:ad43243236b573d0e3fc39d4890a43373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c6a9242582933fa673b9d486913514c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#a6c6a9242582933fa673b9d486913514c">lastcmdnum</a></td></tr>
+<tr class="separator:a6c6a9242582933fa673b9d486913514c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6ed8ea72249e836521b2f7d7feb3523"><td class="memItemLeft" align="right" valign="top">::CRCLProgramType::MiddleCommand_sequence &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html#ad6ed8ea72249e836521b2f7d7feb3523">cmds</a></td></tr>
 <tr class="separator:ad6ed8ea72249e836521b2f7d7feb3523"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -233,7 +238,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0998f374dd54b6a0843d33a664c9da15"></a>
+<a class="anchor" id="ade00f05303f43f97758cb91de8b4838b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -242,6 +247,38 @@ Additional Inherited Members</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">void RCS::RobotProgram::ExecuteProgram </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>programstr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ExecuteProgram reads and interprets a CRCL XML program string. It will set up interpreting the program. It is thread safe. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">programpath</td><td>str containing crcl xml program. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="acc1276c48a841ee5378bf58c1c8f04a2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RCS::RobotProgram::ExecuteProgramFromFile </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>programpath</em></td><td>)</td>
@@ -255,7 +292,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>ExecuteProgram reads a file path for CRCL XML program. It will set up interpreting the program. It is thread safe. </p>
+<p>ExecuteProgramFromFile reads a file path for CRCL XML program. It will set up interpreting the program. It is thread safe. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">programpath</td><td>path of file containing crcl xml program. </td></tr>
@@ -322,7 +359,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>number of <a class="el" href="namespaceCrcl.html">Crcl</a> XML command to execute </p>
+<p>index of <a class="el" href="namespaceCrcl.html">Crcl</a> XML command to execute </p>
 
 </div>
 </div>
@@ -352,6 +389,19 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6c6a9242582933fa673b9d486913514c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RCS::RobotProgram::lastcmdnum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>last index of <a class="el" href="namespaceCrcl.html">Crcl</a> XML command to execute </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="Controller_8h_source.html">Controller.h</a></li>
 <li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="Controller_8cpp.html">Controller.cpp</a></li>
@@ -359,7 +409,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

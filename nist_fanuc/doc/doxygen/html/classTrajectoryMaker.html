@@ -67,37 +67,37 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ec57242aa15a328e9aaaa200465901f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a5ec57242aa15a328e9aaaa200465901f">GetJtsPlan</a> ()</td></tr>
 <tr class="memdesc:a5ec57242aa15a328e9aaaa200465901f"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetJtsPlan returns vector of generated joint state trajectories.  <a href="#a5ec57242aa15a328e9aaaa200465901f">More...</a><br/></td></tr>
 <tr class="separator:a5ec57242aa15a328e9aaaa200465901f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09bfdcef8912f678e71acc697a27fc22"><td class="memItemLeft" align="right" valign="top">std::vector&lt; urdf::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a09bfdcef8912f678e71acc697a27fc22">GetPosesPlan</a> ()</td></tr>
-<tr class="memdesc:a09bfdcef8912f678e71acc697a27fc22"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetPosesPlan returns vector of generated pose trajectories.  <a href="#a09bfdcef8912f678e71acc697a27fc22">More...</a><br/></td></tr>
-<tr class="separator:a09bfdcef8912f678e71acc697a27fc22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad752eac0a5705cab6620f5c9dad49654"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#ad752eac0a5705cab6620f5c9dad49654">setRates</a> (<a class="el" href="classIRate.html">IRate</a> rates)</td></tr>
+<tr class="memitem:a073ea34d7bcbcd0a579dec4f8673701b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a073ea34d7bcbcd0a579dec4f8673701b">GetPosesPlan</a> ()</td></tr>
+<tr class="memdesc:a073ea34d7bcbcd0a579dec4f8673701b"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetPosesPlan returns vector of generated pose trajectories.  <a href="#a073ea34d7bcbcd0a579dec4f8673701b">More...</a><br/></td></tr>
+<tr class="separator:a073ea34d7bcbcd0a579dec4f8673701b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad752eac0a5705cab6620f5c9dad49654"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#ad752eac0a5705cab6620f5c9dad49654">setRates</a> (<a class="el" href="classRCS_1_1IRate.html">IRate</a> rates)</td></tr>
 <tr class="memdesc:ad752eac0a5705cab6620f5c9dad49654"><td class="mdescLeft">&#160;</td><td class="mdescRight">setRates defines the rate to use when generating trajectory.  <a href="#ad752eac0a5705cab6620f5c9dad49654">More...</a><br/></td></tr>
 <tr class="separator:ad752eac0a5705cab6620f5c9dad49654"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa107c5ae3573addb3bd93fa75814b4ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aa107c5ae3573addb3bd93fa75814b4ab">Plan</a> (<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> curjoints, <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> goaljoints)</td></tr>
 <tr class="memdesc:aa107c5ae3573addb3bd93fa75814b4ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">plan a joint trajectory based on current and goal joint states. Assumes rate already set.  <a href="#aa107c5ae3573addb3bd93fa75814b4ab">More...</a><br/></td></tr>
 <tr class="separator:aa107c5ae3573addb3bd93fa75814b4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13d043e95456481ff6640ce849f9dc3c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a13d043e95456481ff6640ce849f9dc3c">Plan</a> (urdf::Pose &amp;curpose, urdf::Pose &amp;goalpose)</td></tr>
-<tr class="memdesc:a13d043e95456481ff6640ce849f9dc3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">plan a cartesian trajectory based on current and goal pose states. Assumes rate already set.  <a href="#a13d043e95456481ff6640ce849f9dc3c">More...</a><br/></td></tr>
-<tr class="separator:a13d043e95456481ff6640ce849f9dc3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a864abb96bb5c6e72cd3bd94f955cfd9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a864abb96bb5c6e72cd3bd94f955cfd9e">Plan</a> (std::vector&lt; urdf::Pose &gt; &amp;waypoints)</td></tr>
-<tr class="memdesc:a864abb96bb5c6e72cd3bd94f955cfd9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">plan a cartesian trajectory given a vector of waypoint poses. Assumes rate already set.  <a href="#a864abb96bb5c6e72cd3bd94f955cfd9e">More...</a><br/></td></tr>
-<tr class="separator:a864abb96bb5c6e72cd3bd94f955cfd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee9a536ad21dbd5fb872a494bb65363c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aee9a536ad21dbd5fb872a494bb65363c">Plan</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;curpose, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;goalpose)</td></tr>
+<tr class="memdesc:aee9a536ad21dbd5fb872a494bb65363c"><td class="mdescLeft">&#160;</td><td class="mdescRight">plan a cartesian trajectory based on current and goal pose states. Assumes rate already set.  <a href="#aee9a536ad21dbd5fb872a494bb65363c">More...</a><br/></td></tr>
+<tr class="separator:aee9a536ad21dbd5fb872a494bb65363c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1b0030b7b7ae5ac1c17cbc9d70057c0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#ad1b0030b7b7ae5ac1c17cbc9d70057c0">Plan</a> (std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; &amp;waypoints)</td></tr>
+<tr class="memdesc:ad1b0030b7b7ae5ac1c17cbc9d70057c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">plan a cartesian trajectory given a vector of waypoint poses. Assumes rate already set.  <a href="#ad1b0030b7b7ae5ac1c17cbc9d70057c0">More...</a><br/></td></tr>
+<tr class="separator:ad1b0030b7b7ae5ac1c17cbc9d70057c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef3a8579c6f39bb357e41b9006229a2a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aef3a8579c6f39bb357e41b9006229a2a">makePositionVector</a> (std::vector&lt; double &gt; ramp, double start, double end)</td></tr>
 <tr class="memdesc:aef3a8579c6f39bb357e41b9006229a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">makePositionVector generates a vector of from start to end point.  <a href="#aef3a8579c6f39bb357e41b9006229a2a">More...</a><br/></td></tr>
 <tr class="separator:aef3a8579c6f39bb357e41b9006229a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6866c32dff71e077280ea82f6f8f9e16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a6866c32dff71e077280ea82f6f8f9e16">makeJointPositionTrajectory</a> (<a class="el" href="classIRate.html">IRate</a> rates, <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &amp;curjoints, <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &amp;goaljoints)</td></tr>
+<tr class="memitem:a6866c32dff71e077280ea82f6f8f9e16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a6866c32dff71e077280ea82f6f8f9e16">makeJointPositionTrajectory</a> (<a class="el" href="classRCS_1_1IRate.html">IRate</a> rates, <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &amp;curjoints, <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &amp;goaljoints)</td></tr>
 <tr class="memdesc:a6866c32dff71e077280ea82f6f8f9e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">makeJointPositionTrajectory constructs a joint trajectory based on current and goal joint states given a rate profile.  <a href="#a6866c32dff71e077280ea82f6f8f9e16">More...</a><br/></td></tr>
 <tr class="separator:a6866c32dff71e077280ea82f6f8f9e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0de61ca56c1cf276adc4efe1be1f3672"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a0de61ca56c1cf276adc4efe1be1f3672">makeJointPositionTrajectory</a> (<a class="el" href="classIRate.html">IRate</a> rates, std::vector&lt; double &gt; &amp;curjoints, std::vector&lt; double &gt; &amp;goaljoints)</td></tr>
+<tr class="memitem:a0de61ca56c1cf276adc4efe1be1f3672"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a0de61ca56c1cf276adc4efe1be1f3672">makeJointPositionTrajectory</a> (<a class="el" href="classRCS_1_1IRate.html">IRate</a> rates, std::vector&lt; double &gt; &amp;curjoints, std::vector&lt; double &gt; &amp;goaljoints)</td></tr>
 <tr class="memdesc:a0de61ca56c1cf276adc4efe1be1f3672"><td class="mdescLeft">&#160;</td><td class="mdescRight">makeJointPositionTrajectory constructs a joint trajectory based on current and goal joint states given a rate profile.  <a href="#a0de61ca56c1cf276adc4efe1be1f3672">More...</a><br/></td></tr>
 <tr class="separator:a0de61ca56c1cf276adc4efe1be1f3672"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fab7f6ee775ec1cdd8685a2b068cd27"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a4fab7f6ee775ec1cdd8685a2b068cd27">makeStopJointTrajectory</a> (double startingVelocity, double finalVelocity, double maxAcc, double cycleTime, double current)</td></tr>
 <tr class="memdesc:a4fab7f6ee775ec1cdd8685a2b068cd27"><td class="mdescLeft">&#160;</td><td class="mdescRight">makeStopJointTrajectory constructs a stopping trajectory based on current velocity.  <a href="#a4fab7f6ee775ec1cdd8685a2b068cd27">More...</a><br/></td></tr>
 <tr class="separator:a4fab7f6ee775ec1cdd8685a2b068cd27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70ee83146af8b44642b18111843071a9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; urdf::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a70ee83146af8b44642b18111843071a9">makeCartesianTrajectory</a> (<a class="el" href="classIRate.html">IRate</a> rates, urdf::Pose _curPos, urdf::Pose _goalPos)</td></tr>
-<tr class="memdesc:a70ee83146af8b44642b18111843071a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">makeCartesianTrajectory plans a cartesian trajectory based on current and goal pose states for the given rate profile.  <a href="#a70ee83146af8b44642b18111843071a9">More...</a><br/></td></tr>
-<tr class="separator:a70ee83146af8b44642b18111843071a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fc72a7ec77f674fcee7afea3441fa02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classIRate.html">IRate</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a6fc72a7ec77f674fcee7afea3441fa02">Rates</a> ()</td></tr>
+<tr class="memitem:a3f3d2d193d487311213d1fc9c09aade4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a3f3d2d193d487311213d1fc9c09aade4">makeCartesianTrajectory</a> (<a class="el" href="classRCS_1_1IRate.html">IRate</a> rates, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> _curPos, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> _goalPos)</td></tr>
+<tr class="memdesc:a3f3d2d193d487311213d1fc9c09aade4"><td class="mdescLeft">&#160;</td><td class="mdescRight">makeCartesianTrajectory plans a cartesian trajectory based on current and goal pose states for the given rate profile.  <a href="#a3f3d2d193d487311213d1fc9c09aade4">More...</a><br/></td></tr>
+<tr class="separator:a3f3d2d193d487311213d1fc9c09aade4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fc72a7ec77f674fcee7afea3441fa02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRCS_1_1IRate.html">IRate</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a6fc72a7ec77f674fcee7afea3441fa02">Rates</a> ()</td></tr>
 <tr class="memdesc:a6fc72a7ec77f674fcee7afea3441fa02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to rates data structure.  <a href="#a6fc72a7ec77f674fcee7afea3441fa02">More...</a><br/></td></tr>
 <tr class="separator:a6fc72a7ec77f674fcee7afea3441fa02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -105,14 +105,14 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a59aedc924ba9fe197779bdd7c53ae97d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a59aedc924ba9fe197779bdd7c53ae97d">updateJointCommands</a> (std::vector&lt; double &gt; &amp;curjoints, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;displacements)</td></tr>
 <tr class="separator:a59aedc924ba9fe197779bdd7c53ae97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84f493a10a49376b0447139bd6aa7a1c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; urdf::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a84f493a10a49376b0447139bd6aa7a1c">makeTrajectory</a> (<a class="el" href="structRCS_1_1CanonWorldModel.html">RCS::CanonWorldModel</a> *parameters, urdf::Pose goal, urdf::Pose current)</td></tr>
-<tr class="separator:a84f493a10a49376b0447139bd6aa7a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d847a506d83927b677f7c123bebdf08"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a1d847a506d83927b677f7c123bebdf08">makeTrajectory</a> (<a class="el" href="structRCS_1_1CanonWorldModel.html">RCS::CanonWorldModel</a> *parameters, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> goal, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> current)</td></tr>
+<tr class="separator:a1d847a506d83927b677f7c123bebdf08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a370d90dc48e1c3c864d669769ba38992"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a370d90dc48e1c3c864d669769ba38992">makeJointValues</a> (double current, std::vector&lt; double &gt; displacements)</td></tr>
 <tr class="separator:a370d90dc48e1c3c864d669769ba38992"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf2b93827e39641e71c62cf7eb07623a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aaf2b93827e39641e71c62cf7eb07623a">makeJointTrajectory</a> (double current, double goal)</td></tr>
 <tr class="separator:aaf2b93827e39641e71c62cf7eb07623a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a367e99ca3603eecbb2b601b699cf4c82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a367e99ca3603eecbb2b601b699cf4c82">setCurrent</a> (urdf::Pose current)</td></tr>
-<tr class="separator:a367e99ca3603eecbb2b601b699cf4c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab45409e8775089ebd2eeb8c8bbb8b53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aab45409e8775089ebd2eeb8c8bbb8b53">setCurrent</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> current)</td></tr>
+<tr class="separator:aab45409e8775089ebd2eeb8c8bbb8b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace8cc94b4579d784f19590c3bda77366"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#ace8cc94b4579d784f19590c3bda77366">makePositionRamp</a> (double maxVel, double maxAccel, double cycletime)</td></tr>
 <tr class="separator:ace8cc94b4579d784f19590c3bda77366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fb1afa338679f6251c5c557d985a41e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a6fb1afa338679f6251c5c557d985a41e">makeDeclRamp</a> (double startingVelocity, double finalVelocity, double maxAcc, double cycleTime, std::vector&lt; double &gt; &amp;declRamp)</td></tr>
@@ -122,16 +122,16 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ac62b743efeb6bf7e0cb63d13423ca352"><td class="memItemLeft" align="right" valign="top">std::vector&lt; boost::tuple<br class="typebreak"/>
 &lt; double, double, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#ac62b743efeb6bf7e0cb63d13423ca352">makeTupleRamp</a> (double maxVelocity, double maxAcc, double cycleTime)</td></tr>
 <tr class="separator:ac62b743efeb6bf7e0cb63d13423ca352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6f2007f0074a68be1244e8f8cd23a1d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; urdf::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aa6f2007f0074a68be1244e8f8cd23a1d">makeCartesianTrajectory</a> (double final_velocity, double current_feedrate, double current_velocity, double maximum_accel, double cycleTime, urdf::Pose _curPos, urdf::Pose _goalPos)</td></tr>
-<tr class="separator:aa6f2007f0074a68be1244e8f8cd23a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea9aa1a51fb96fde67df0605bc957e56"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aea9aa1a51fb96fde67df0605bc957e56">runTrapezoidalCycle</a> (<a class="el" href="classIRate.html">IRate</a> &amp;trans, double distance_to_go)</td></tr>
+<tr class="memitem:af2ea2006f19cbec06917b426bbc79f5e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#af2ea2006f19cbec06917b426bbc79f5e">makeCartesianTrajectory</a> (double final_velocity, double current_feedrate, double current_velocity, double maximum_accel, double cycleTime, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> _curPos, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> _goalPos)</td></tr>
+<tr class="separator:af2ea2006f19cbec06917b426bbc79f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea9aa1a51fb96fde67df0605bc957e56"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#aea9aa1a51fb96fde67df0605bc957e56">runTrapezoidalCycle</a> (<a class="el" href="classRCS_1_1IRate.html">IRate</a> &amp;trans, double distance_to_go)</td></tr>
 <tr class="separator:aea9aa1a51fb96fde67df0605bc957e56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61c38d95ba95a3cd0c53f712a7744323"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTrajectoryMaker.html#a61c38d95ba95a3cd0c53f712a7744323">makeNRamp</a> (int N, double maxVelocity, double maxAcc, double cycleTime, std::vector&lt; double &gt; &amp;acclramp)</td></tr>
 <tr class="separator:a61c38d95ba95a3cd0c53f712a7744323"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classTrajectoryMaker.html" title="TrajectoryMaker generates simple trapezoidal velocities. Will accept non-zero final velocity...">TrajectoryMaker</a> generates simple trapezoidal velocities. Will accept non-zero final velocity. </p>
-<dl class="section author"><dt>Author</dt><dd>Stephen Balakirsky, GTRI </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>based on work by Stephen Balakirsky, GTRI </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>July 30, 2014 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Georgia Tech Research Institute </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -172,12 +172,12 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a09bfdcef8912f678e71acc697a27fc22"></a>
+<a class="anchor" id="a073ea34d7bcbcd0a579dec4f8673701b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; urdf::Pose &gt; TrajectoryMaker::GetPosesPlan </td>
+          <td class="memname">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; TrajectoryMaker::GetPosesPlan </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -249,26 +249,26 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a70ee83146af8b44642b18111843071a9"></a>
+<a class="anchor" id="a3f3d2d193d487311213d1fc9c09aade4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; urdf::Pose &gt; TrajectoryMaker::makeCartesianTrajectory </td>
+          <td class="memname">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; TrajectoryMaker::makeCartesianTrajectory </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classIRate.html">IRate</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classRCS_1_1IRate.html">IRate</a>&#160;</td>
           <td class="paramname"><em>rates</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>_curPos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>_goalPos</em>&#160;</td>
         </tr>
         <tr>
@@ -292,7 +292,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa6f2007f0074a68be1244e8f8cd23a1d"></a>
+<a class="anchor" id="af2ea2006f19cbec06917b426bbc79f5e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -300,7 +300,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; urdf::Pose &gt; TrajectoryMaker::makeCartesianTrajectory </td>
+          <td class="memname">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; TrajectoryMaker::makeCartesianTrajectory </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>final_velocity</em>, </td>
@@ -332,13 +332,13 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>_curPos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>_goalPos</em>&#160;</td>
         </tr>
         <tr>
@@ -416,7 +416,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool TrajectoryMaker::makeJointPositionTrajectory </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classIRate.html">IRate</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classRCS_1_1IRate.html">IRate</a>&#160;</td>
           <td class="paramname"><em>rates</em>, </td>
         </tr>
         <tr>
@@ -459,7 +459,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool TrajectoryMaker::makeJointPositionTrajectory </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classIRate.html">IRate</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classRCS_1_1IRate.html">IRate</a>&#160;</td>
           <td class="paramname"><em>rates</em>, </td>
         </tr>
         <tr>
@@ -765,7 +765,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a84f493a10a49376b0447139bd6aa7a1c"></a>
+<a class="anchor" id="a1d847a506d83927b677f7c123bebdf08"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -773,7 +773,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;urdf::Pose&gt; TrajectoryMaker::makeTrajectory </td>
+          <td class="memname">std::vector&lt;<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&gt; TrajectoryMaker::makeTrajectory </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structRCS_1_1CanonWorldModel.html">RCS::CanonWorldModel</a> *&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
@@ -781,13 +781,13 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>goal</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>current</em>&#160;</td>
         </tr>
         <tr>
@@ -881,20 +881,20 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a13d043e95456481ff6640ce849f9dc3c"></a>
+<a class="anchor" id="aee9a536ad21dbd5fb872a494bb65363c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool TrajectoryMaker::Plan </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>curpose</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>goalpose</em>&#160;</td>
         </tr>
         <tr>
@@ -917,14 +917,14 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a864abb96bb5c6e72cd3bd94f955cfd9e"></a>
+<a class="anchor" id="ad1b0030b7b7ae5ac1c17cbc9d70057c0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool TrajectoryMaker::Plan </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; urdf::Pose &gt; &amp;&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>waypoints</em></td><td>)</td>
           <td></td>
         </tr>
@@ -950,7 +950,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classIRate.html">IRate</a>&amp; TrajectoryMaker::Rates </td>
+          <td class="memname"><a class="el" href="classRCS_1_1IRate.html">IRate</a>&amp; TrajectoryMaker::Rates </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -977,7 +977,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">double TrajectoryMaker::runTrapezoidalCycle </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classIRate.html">IRate</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classRCS_1_1IRate.html">IRate</a> &amp;&#160;</td>
           <td class="paramname"><em>trans</em>, </td>
         </tr>
         <tr>
@@ -1001,7 +1001,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a367e99ca3603eecbb2b601b699cf4c82"></a>
+<a class="anchor" id="aab45409e8775089ebd2eeb8c8bbb8b53"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1011,7 +1011,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void TrajectoryMaker::setCurrent </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
           <td class="paramname"><em>poseIn</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1034,7 +1034,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void TrajectoryMaker::setRates </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classIRate.html">IRate</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classRCS_1_1IRate.html">IRate</a>&#160;</td>
           <td class="paramname"><em>rates</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1044,7 +1044,7 @@ Protected Member Functions</h2></td></tr>
 <p>setRates defines the rate to use when generating trajectory. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rates</td><td>contains the <a class="el" href="classIRate.html" title="IRate is an interface class for defining the allowed motion rates. ">IRate</a> definition. </td></tr>
+    <tr><td class="paramname">rates</td><td>contains the IRate definition. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1092,7 +1092,7 @@ Protected Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

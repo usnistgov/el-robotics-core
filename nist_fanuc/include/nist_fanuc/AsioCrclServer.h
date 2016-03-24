@@ -41,7 +41,7 @@ typedef RCS::CMessageQueue<CrclMessage> CAsioMessages;
 // --------------------------------------------------------
 
 /**
- * \brief The CAsioCrclSession provides an boost asio session ( which listens for each connected client).
+ * \brief The CAsioCrclSession class provides an boost asio session ( which listens for each connected client).
  * The CAsioCrclSession listens for XML messages and constructs.
  * The CAsioCrclSession uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection.
  * The operation is started by creating a session which starts an aynchronous thread, that is supplied IO communication 
@@ -210,8 +210,8 @@ protected:
 typedef boost::shared_ptr<CAsioCrclSession> session_ptr;
 
 /**
- * * \brief The CAsioCrclServer provides an boost asio server which accepts new connections and starts a Crcl listener session.
- * The CAsioCrclServer  is based on the Boost Asio library which can process network communication  asynchronously. 
+ * * \brief The CAsioCrclServer class provides a boost asio server which accepts new connections and starts a Crcl listener session.
+ * The CAsioCrclServer class is based on the Boost Asio library which can process network communication  asynchronously. 
  * Because CRCL data can only be received after a connection has been established, and because a connection can only be established after the name has been resolved, 
  * the various asynchronous operations are started in separate callback handlers. 
  * Thus in boost asio a callback to async_connect() is then followed by a method call to the handler connect_handler() which starts a new Crcl session. 

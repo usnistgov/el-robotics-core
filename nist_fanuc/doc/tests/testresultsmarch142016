@@ -1,0 +1,28 @@
+[100%] Built target crclmathunittest
+-- run_tests.py: execute commands
+  /home/michalos/catkin_ws/devel/lib/nist_fanuc/crclmathunittest --gtest_output=xml:/home/michalos/catkin_ws/build/test_results/nist_fanuc/gtest-crclmathunittest.xml
+[==========] Running 1 test from 1 test case.
+[----------] Global test environment set-up.
+[----------] 1 test from TestSuite
+[ RUN      ] TestSuite.testCase1
+Highlands=
+ 0  0  1
+ 0 -1  0
+ 1  0  0
+0,0,1:1,0,0=>X=0.707107:Y=0:Z=0.707107:W=0:
+
+0,0,1:1,0,0=> -180., -90., 0. Roll pitch yaw = -0:90:-180
+Urdf Set/GetRPY Roll pitch yaw = (-180., -90., 0.)0:-90:-180
+Roll pitch yaw = (-180., -90., 0.)X=0.707107:Y=0:Z=-0.707107:W=0:
+
+[       OK ] TestSuite.testCase1 (1 ms)
+[----------] 1 test from TestSuite (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (1 ms total)
+[  PASSED  ] 1 test.
+-- run_tests.py: verify result "/home/michalos/catkin_ws/build/test_results/nist_fanuc/gtest-crclmathunittest.xml"
+[100%] Built target run_tests_nist_fanuc_gtest_crclmathunittest
+[100%] Built target run_tests_nist_fanuc_gtest
+[100%] Built target run_tests_nist_fanuc
+

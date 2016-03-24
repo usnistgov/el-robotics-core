@@ -1,4 +1,4 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/Controller.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/Controller.cpp" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -8,11 +8,7 @@
 .PP
 \fC#include 'Controller\&.h'\fP
 .br
-\fC#include 'urdf_model/rosmath\&.h'\fP
-.br
 \fC#include <boost/exception/all\&.hpp>\fP
-.br
-\fC#include <boost/asio\&.hpp>\fP
 .br
 \fC#include <boost/thread\&.hpp>\fP
 .br
@@ -20,7 +16,7 @@
 .br
 \fC#include <iostream>\fP
 .br
-\fC#include 'urdf_model/eigenmath\&.h'\fP
+\fC#include 'urdf_model/rosmath\&.h'\fP
 .br
 \fC#include 'CrclInterface\&.h'\fP
 .br
@@ -46,9 +42,6 @@
 
 .in +1c
 .ti -1c
-.RI "void \fBDebugBreak\fP ()"
-.br
-.ti -1c
 .RI "::CRCLProgramType::MiddleCommand_sequence & \fBRCS::DummyInit\fP ()"
 .br
 .in -1c
@@ -71,10 +64,6 @@
 
 .SS "#define S_OK   0"
 
-.SH "Function Documentation"
-.PP 
-.SS "void DebugBreak ()"
-global definition of windows DebugBreak equivalent\&. 
 .SH "Variable Documentation"
 .PP 
 .SS "\fBALogger\fP Logger"

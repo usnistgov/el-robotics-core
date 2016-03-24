@@ -54,6 +54,9 @@
 </div><!--header-->
 <div class="contents">
 
+<p>The <a class="el" href="classRosKinematics.html" title="The RosKinematics class instantiates the IKinematics abstract class and fills in the pure virtual fun...">RosKinematics</a> class instantiates the <a class="el" href="classIKinematics.html" title="The IKinematics provides is an abstract class with pure virtual functions that are overriden by actua...">IKinematics</a> abstract class and fills in the pure virtual functions with Descartes kinematic methods.  
+ <a href="classRosKinematics.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Kinematics_8h_source.html">Kinematics.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for RosKinematics:</div>
@@ -70,22 +73,29 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9dc704b4556f6db399ad18cea7d6259b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#a9dc704b4556f6db399ad18cea7d6259b">RosKinematics</a> ()</td></tr>
 <tr class="separator:a9dc704b4556f6db399ad18cea7d6259b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a307da5d4456621c4cc2dce412be30db3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#a307da5d4456621c4cc2dce412be30db3">Init</a> (std::string groupname, std::string eelinkname)</td></tr>
+<tr class="memdesc:a307da5d4456621c4cc2dce412be30db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init is necessary for ROS to initialize it kinematics using robot model .  <a href="#a307da5d4456621c4cc2dce412be30db3">More...</a><br/></td></tr>
 <tr class="separator:a307da5d4456621c4cc2dce412be30db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3e293c7f5d7220fa7ee91256321ec92"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ab3e293c7f5d7220fa7ee91256321ec92">GetJointValues</a> ()</td></tr>
+<tr class="memdesc:ab3e293c7f5d7220fa7ee91256321ec92"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetJointValues returns latest reading of end effector.  <a href="#ab3e293c7f5d7220fa7ee91256321ec92">More...</a><br/></td></tr>
 <tr class="separator:ab3e293c7f5d7220fa7ee91256321ec92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9af8957f54e5d2343b2ab00dcb55525"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#af9af8957f54e5d2343b2ab00dcb55525">SetJointValues</a> (std::vector&lt; double &gt; <a class="el" href="classRosKinematics.html#af95c3ba0edaccafeb68022895b9824ac">joint_values</a>)</td></tr>
+<tr class="memdesc:af9af8957f54e5d2343b2ab00dcb55525"><td class="mdescLeft">&#160;</td><td class="mdescRight">SetJointValues sets the latest joint values of the robot.  <a href="#af9af8957f54e5d2343b2ab00dcb55525">More...</a><br/></td></tr>
 <tr class="separator:af9af8957f54e5d2343b2ab00dcb55525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac892e14e3d6b14efbc4908404cd9e706"><td class="memItemLeft" align="right" valign="top">virtual urdf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ac892e14e3d6b14efbc4908404cd9e706">FK</a> (std::vector&lt; double &gt; jv)</td></tr>
-<tr class="separator:ac892e14e3d6b14efbc4908404cd9e706"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8f76a870595ca94d3876bbe51c7b142"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ae8f76a870595ca94d3876bbe51c7b142">IK</a> (<a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a> &amp;pose, std::vector&lt; double &gt; oldjoints)</td></tr>
+<tr class="memitem:a1b0ea6900e6da0aa888d4f4c2a23b445"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#a1b0ea6900e6da0aa888d4f4c2a23b445">FK</a> (std::vector&lt; double &gt; jv)</td></tr>
+<tr class="memdesc:a1b0ea6900e6da0aa888d4f4c2a23b445"><td class="mdescLeft">&#160;</td><td class="mdescRight">FK performs the forward kinematics using the joint values of the robot provided.  <a href="#a1b0ea6900e6da0aa888d4f4c2a23b445">More...</a><br/></td></tr>
+<tr class="separator:a1b0ea6900e6da0aa888d4f4c2a23b445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8f76a870595ca94d3876bbe51c7b142"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ae8f76a870595ca94d3876bbe51c7b142">IK</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose, std::vector&lt; double &gt; oldjoints)</td></tr>
+<tr class="memdesc:ae8f76a870595ca94d3876bbe51c7b142"><td class="mdescLeft">&#160;</td><td class="mdescRight">IK performs the inverse kinematics using the Cartesian pose provided.  <a href="#ae8f76a870595ca94d3876bbe51c7b142">More...</a><br/></td></tr>
 <tr class="separator:ae8f76a870595ca94d3876bbe51c7b142"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae51c062c810983b29d418399d38da42f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ae51c062c810983b29d418399d38da42f">SatisfiesBounds</a> ()</td></tr>
 <tr class="separator:ae51c062c810983b29d418399d38da42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19e0993e7e188491918785f4ca6ce115"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#a19e0993e7e188491918785f4ca6ce115">EnforceBounds</a> ()</td></tr>
 <tr class="separator:a19e0993e7e188491918785f4ca6ce115"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3d78b75e8cbd38a12d451e0e0e95548"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ae3d78b75e8cbd38a12d451e0e0e95548">AllPoseToJoints</a> (<a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a> &amp;pose, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;newjoints)</td></tr>
+<tr class="memitem:ae3d78b75e8cbd38a12d451e0e0e95548"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ae3d78b75e8cbd38a12d451e0e0e95548">AllPoseToJoints</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;newjoints)</td></tr>
+<tr class="memdesc:ae3d78b75e8cbd38a12d451e0e0e95548"><td class="mdescLeft">&#160;</td><td class="mdescRight">AllPoseToJoints solves the inverse kinematics to find all solutions using the Cartesian pose provided.  <a href="#ae3d78b75e8cbd38a12d451e0e0e95548">More...</a><br/></td></tr>
 <tr class="separator:ae3d78b75e8cbd38a12d451e0e0e95548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab50d3e7666cf3b2bdb1ae3d5e0a7db8e"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#ab50d3e7666cf3b2bdb1ae3d5e0a7db8e">NearestJoints</a> (std::vector&lt; double &gt; oldjoints, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;newjoints)</td></tr>
+<tr class="memdesc:ab50d3e7666cf3b2bdb1ae3d5e0a7db8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">NearestJoints finds the joint set that is closest to the old joints.  <a href="#ab50d3e7666cf3b2bdb1ae3d5e0a7db8e">More...</a><br/></td></tr>
 <tr class="separator:ab50d3e7666cf3b2bdb1ae3d5e0a7db8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -109,7 +119,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a79f88926f9403d9b90cad26d0fa43193"><td class="memItemLeft" align="right" valign="top">boost::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRosKinematics.html#a79f88926f9403d9b90cad26d0fa43193">kinmutex</a></td></tr>
 <tr class="separator:a79f88926f9403d9b90cad26d0fa43193"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classRosKinematics.html" title="The RosKinematics class instantiates the IKinematics abstract class and fills in the pure virtual fun...">RosKinematics</a> class instantiates the <a class="el" href="classIKinematics.html" title="The IKinematics provides is an abstract class with pure virtual functions that are overriden by actua...">IKinematics</a> abstract class and fills in the pure virtual functions with Descartes kinematic methods. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a9dc704b4556f6db399ad18cea7d6259b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -136,7 +148,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">virtual size_t RosKinematics::AllPoseToJoints </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>pose</em>, </td>
         </tr>
         <tr>
@@ -158,6 +170,16 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>AllPoseToJoints solves the inverse kinematics to find all solutions using the Cartesian pose provided. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Cartesian</td><td>robot pose of end effector. </td></tr>
+    <tr><td class="paramname">vector</td><td>of double vectos to hold all the IK joint solutions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>number of solutions found. </dd></dl>
+
 <p>Implements <a class="el" href="classIKinematics.html#aeb53bb4b2a1e70a79d5d724e5eb82c10">IKinematics</a>.</p>
 
 </div>
@@ -177,7 +199,7 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac892e14e3d6b14efbc4908404cd9e706"></a>
+<a class="anchor" id="a1b0ea6900e6da0aa888d4f4c2a23b445"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -185,7 +207,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">urdf::Pose RosKinematics::FK </td>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> RosKinematics::FK </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
           <td class="paramname"><em>jv</em></td><td>)</td>
@@ -199,7 +221,16 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="classIKinematics.html#a377f817ce25355513b518491436150fc">IKinematics</a>.</p>
+<p>FK performs the forward kinematics using the joint values of the robot provided. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vector</td><td>of all robot joint values in doubles. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>corresponding Cartesian robot pose of end effector. </dd></dl>
+
+<p>Implements <a class="el" href="classIKinematics.html#abf765053ac39fac5b94ef99e80b17f1b">IKinematics</a>.</p>
 
 </div>
 </div>
@@ -224,6 +255,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>GetJointValues returns latest reading of end effector. </p>
+<dl class="section return"><dt>Returns</dt><dd>vector of joint values in doubles. </dd></dl>
+
 <p>Implements <a class="el" href="classIKinematics.html#af41a85f8dc0cac9d94f982c7cf58b475">IKinematics</a>.</p>
 
 </div>
@@ -238,7 +272,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; double &gt; RosKinematics::IK </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>pose</em>, </td>
         </tr>
         <tr>
@@ -259,6 +293,16 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>IK performs the inverse kinematics using the Cartesian pose provided. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Cartesian</td><td>robot pose of end effector. </td></tr>
+    <tr><td class="paramname">optional</td><td>seed joint values to use as best guess for IK joint values. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of all robot joint values in doubles. </dd></dl>
 
 <p>Implements <a class="el" href="classIKinematics.html#ad0715c776a7eb325d2543bc34fa8114f">IKinematics</a>.</p>
 
@@ -296,6 +340,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Init is necessary for ROS to initialize it kinematics using robot model . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">groupname</td><td>name of chained joints in robot model. </td></tr>
+    <tr><td class="paramname">eelinkname</td><td>name of end effector joint in robot model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Reimplemented from <a class="el" href="classIKinematics.html#a1407620d6cf7f26e61a64af42d570b8f">IKinematics</a>.</p>
 
 </div>
@@ -331,6 +384,16 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>NearestJoints finds the joint set that is closest to the old joints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">old</td><td>seed joint values to use as best guess for IK joint values. </td></tr>
+    <tr><td class="paramname">vector</td><td>of double vectos that holds all the IK joint solutions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of doubles with closest set to seed joints. </dd></dl>
 
 <p>Implements <a class="el" href="classIKinematics.html#ab74b70ed6ecc53adfc36505b8dd1fef4">IKinematics</a>.</p>
 
@@ -372,6 +435,14 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>SetJointValues sets the latest joint values of the robot. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vector</td><td>of all robot joint values in doubles. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="classIKinematics.html#ad43b2185f06e20eb0bf9d5a94d4aec18">IKinematics</a>.</p>
 
@@ -493,7 +564,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

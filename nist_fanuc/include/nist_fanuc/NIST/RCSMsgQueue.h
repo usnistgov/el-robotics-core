@@ -22,7 +22,7 @@ namespace RCS {
     //* The CMessageQueue offers a thread safe message queue for buffering template types.
 
     /**
-     * \brief The CMessageQueue offers a mutexed front to a stl deque. The queue is a LIFO data structure.
+     * \brief The CMessageQueue offers a mutexed front to a STL/std deque. The queue is a LIFO data structure.
      *   Useful for safely sharing data between multiple threads.
      */
     template<typename T>
@@ -52,20 +52,22 @@ namespace RCS {
          */
         T PopFrontMsgQueue() {
             boost::mutex::scoped_lock lock(m);
-            T msg = xml_msgs.front(); // .back();
-
+			if(!xml_msgs.size())
+				throw std::runtime_error("Empty queue\n");
+            T msg = xml_msgs.front(); 
             xml_msgs.pop_front();
             return msg;
         }
 
         /*!
-         * \brief BackMsgQueue mutex pop of back item of message queue.
+         * \brief BackMsgQueue mutex retrieves back item of message queue. 
+		 * Does not pop queue.
          * \return  T       returns back item from message queue.
          */
         T BackMsgQueue() {
             boost::mutex::scoped_lock lock(m);
-
-            assert(xml_msgs.size() > 0);
+			if(!xml_msgs.size())
+				throw std::runtime_error("Empty queue\n");
             return xml_msgs.back();
         }
 
@@ -75,14 +77,14 @@ namespace RCS {
          */
         void AddMsgQueue(T t) {
             boost::mutex::scoped_lock lock(m);
-
             xml_msgs.push_back(t);
         }
 
-              /*!
-         * \brief InsertFrontMsgQueue mutex push to front an item onto message queue.
-         * \param  T       item to place in front of message queue.
-         */ void InsertFrontMsgQueue(T t) {
+		/*!
+		* \brief InsertFrontMsgQueue mutex push to front an item onto message queue.
+		* \param  T       item to place in front of message queue.
+		*/ 
+		void InsertFrontMsgQueue(T t) {
             boost::mutex::scoped_lock lock(m);
 
             xml_msgs.insert(xml_msgs.begin(), t);

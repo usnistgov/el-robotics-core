@@ -1,7 +1,7 @@
 
 
 #include "MotionControl.h"
-#include "urdf_model/rosmath.h"
+//#include "urdf_model/rosmath.h"
 #include <algorithm>
 #include "Conversions.h"
 
@@ -46,34 +46,34 @@ bool MotionControl::AtGoal(JointState goal, JointState current, double epsilon) 
     return VectorCompare<double>(goal.position, current.position);
 }
 
-urdf::Pose MotionControl::computeTranslation(urdf::Pose & _curPos, urdf::Pose & _goalPos, double dIncrement) {
-    urdf::Vector3 current(_curPos.position.x, _curPos.position.y, _curPos.position.z);
-    urdf::Vector3 goal(_goalPos.position.x, _goalPos.position.y, _goalPos.position.z);
-    urdf::Vector3 v = _sub3(goal, current);
-    urdf::Pose pose;
+RCS::Pose MotionControl::computeTranslation(RCS::Pose & _curPos, RCS::Pose & _goalPos, double dIncrement) {
+    RCS::Vector3 current(_curPos.getOrigin().x(), _curPos.getOrigin().y(), _curPos.getOrigin().z());
+    RCS::Vector3 goal(_goalPos.getOrigin().x(), _goalPos.getOrigin().y(), _goalPos.getOrigin().z());
+    RCS::Vector3 v = goal- current; //_sub3(goal, current);
+    RCS::Pose pose;
 
-    pose.position.x = goal.x;
-    pose.position.y = goal.y;
-    pose.position.z = goal.z;
+    pose.getOrigin().setX(goal.x());
+    pose.getOrigin().setY(goal.y());
+    pose.getOrigin().setZ(goal.z());
 
-    if (_magnitude3(v) < EPSILON) {
+    if (sqrt(v.dot(v)) < EPSILON) {
         return pose;
     }
     try {
-        v = _normalize3(v);
-        v = _add3(current, _mult3(v, dIncrement));
-        pose.position.x = v.x;
-        pose.position.y = v.y;
-        pose.position.z = v.z;
+        v = v.normalize();
+        v = current + (v * dIncrement); // _add3(current, _mult3(v, dIncrement));
+        pose.getOrigin().setX(v.x());
+        pose.getOrigin().setY(v.y());
+        pose.getOrigin().setZ(v.z());
     }    catch (...) {
         // Ignore zero vector normalization
     }
     return pose;
 }
-
-static urdf::Rotation slerp(urdf::Rotation & qa, urdf::Rotation & qb, double t) {
+#if 0
+static RCS::Rotation slerp(RCS::Rotation & qa, RCS::Rotation & qb, double t) {
     // quaternion to return
-    urdf::Rotation qm;
+    RCS::Rotation qm;
 
     // Calculate angle beteen them.
     double costheta = qa.w * qb.w + qa.x * qb.x + qa.y * qb.y + qa.z * qb.z;
@@ -109,30 +109,34 @@ static urdf::Rotation slerp(urdf::Rotation & qa, urdf::Rotation & qb, double t) 
     qm.z = (qa.z * ratioA + qb.z * ratioB);
     return qm;
 }
-
-std::vector<urdf::Pose>
-MotionControl::computeWaypoints(urdf::Pose & _curPos, urdf::Pose & _goalPos, double dGap, bool bAddStart) {
+#endif
+std::vector<RCS::Pose>
+MotionControl::computeWaypoints(RCS::Pose & _curPos, RCS::Pose & _goalPos, double dGap, bool bAddStart) {
     int nIncrements = computeIncrements(_curPos,_goalPos, dGap);
     double dIncrement = 1.0 / (double) nIncrements;
-    std::vector<urdf::Pose> poses;
+    std::vector<RCS::Pose> poses;
     int i = 1;
     i = (bAddStart) ? 0 : 1;
     for (; i <= nIncrements; i++) {
-        urdf::Pose npose;
-        npose.position = _lerp3(_curPos.position, _goalPos.position, i * dIncrement);
-        npose.rotation = slerp(_curPos.rotation, _goalPos.rotation, i * dIncrement);
+        RCS::Pose npose;
+        RCS::Vector3 trans = _curPos.getOrigin().lerp( _goalPos.getOrigin(), i * dIncrement);
+       //  npose.position = _lerp3(_curPos.position, _goalPos.position, i * dIncrement);
+        //npose.rotation = slerp(_curPos.rotation, _goalPos.rotation, i * dIncrement);
+        RCS::Rotation rot =  _curPos.getRotation().slerp(_goalPos.getRotation(), i * dIncrement);
+        npose.setOrigin(trans);
+        npose.setRotation(rot);
         poses.push_back(npose);
     }
     return poses;
 }
 
-int MotionControl::computeIncrements(urdf::Pose & _curPos, urdf::Pose & _goalPos , double dGap) {
-    urdf::Vector3 v = _sub3(_goalPos.position, _curPos.position);
-    v.x = fabs(v.x);
-    v.y = fabs(v.y);
-    v.z = fabs(v.z);
-    double dMax = std::max(v.x, v.y);
-    dMax = std::max(dMax, v.z);
+int MotionControl::computeIncrements(RCS::Pose & _curPos, RCS::Pose & _goalPos , double dGap) {
+    RCS::Vector3 v = _goalPos.getOrigin() -  _curPos.getOrigin();
+    v.setX(fabs(v.x()));
+    v.setY(fabs(v.y()));
+    v.setZ(fabs(v.z()));
+    double dMax = std::max(v.x(), v.y());
+    dMax = std::max(dMax, v.z());
     return dMax / dGap + 1;
 }
 

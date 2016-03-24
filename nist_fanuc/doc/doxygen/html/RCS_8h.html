@@ -53,8 +53,7 @@
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">RCS.h File Reference</div>  </div>
 </div><!--header-->
@@ -62,11 +61,8 @@
 <div class="textblock"><code>#include &lt;math.h&gt;</code><br/>
 <code>#include &lt;moveit/robot_model_loader/robot_model_loader.h&gt;</code><br/>
 <code>#include &lt;moveit/robot_model/robot_model.h&gt;</code><br/>
-<code>#include &quot;/usr/include/urdf_model/model.h&quot;</code><br/>
-<code>#include &quot;/usr/include/urdf_model/joint.h&quot;</code><br/>
-<code>#include &quot;/usr/include/urdf_model/link.h&quot;</code><br/>
+<code>#include &lt;tf/transform_datatypes.h&gt;</code><br/>
 <code>#include &quot;/opt/ros/indigo/include/sensor_msgs/JointState.h&quot;</code><br/>
-<code>#include &quot;urdf_model/rosmath.h&quot;</code><br/>
 <code>#include &lt;stdarg.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="Globals_8h_source.html">Globals.h</a>&quot;</code><br/>
 </div>
@@ -74,6 +70,9 @@
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1IRate.html">RCS::IRate</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1IRate.html" title="IRate is an interface class for defining the allowed motion rates. ">IRate</a> is an interface class for defining the allowed motion rates.  <a href="classRCS_1_1IRate.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRCS_1_1CanonCmd.html" title="CanonCmd is the controller command structure. ">CanonCmd</a> is the controller command structure.  <a href="structRCS_1_1CanonCmd.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,12 +105,19 @@ Macros</h2></td></tr>
 <tr class="separator:abdf31cb88c108973847cd4a7dc6e29d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03bcf5099a65e0df6266e7d7c6fdbddb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#a03bcf5099a65e0df6266e7d7c6fdbddb">DEFAULT_JOINT_MAX_VEL</a>&#160;&#160;&#160;150.0/<a class="el" href="RCS_8h.html#a35efd5e1ef8d97af31ef3ac62bc2903b">LENGTHUNITS</a></td></tr>
 <tr class="separator:a03bcf5099a65e0df6266e7d7c6fdbddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdb5a6cfe5d482d5392535414934ab19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#afdb5a6cfe5d482d5392535414934ab19">HAVE_SINCOS</a></td></tr>
+<tr class="separator:afdb5a6cfe5d482d5392535414934ab19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1746386da1f047ffdc313f06a6a01c7d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#a1746386da1f047ffdc313f06a6a01c7d">Deg2Rad</a>(Ang)&#160;&#160;&#160;( (double) ( Ang * M_PI / 180.0 ) )</td></tr>
+<tr class="separator:a1746386da1f047ffdc313f06a6a01c7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac537143ba31a17c03653c8a73637d2b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#ac537143ba31a17c03653c8a73637d2b5">Rad2Deg</a>(Ang)&#160;&#160;&#160;( (double) ( Ang * 180.0 / M_PI ) )</td></tr>
+<tr class="separator:ac537143ba31a17c03653c8a73637d2b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2840348cfb348f1452aa08417076b95"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#ae2840348cfb348f1452aa08417076b95">MM2Meter</a>(d)&#160;&#160;&#160;( (double) ( d / 1000.00 ) )</td></tr>
+<tr class="separator:ae2840348cfb348f1452aa08417076b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf2d8e758b52de05580d30a91802ce48"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#acf2d8e758b52de05580d30a91802ce48">Meter2MM</a>(d)&#160;&#160;&#160;( (double) ( d * 1000.00 ) )</td></tr>
+<tr class="separator:acf2d8e758b52de05580d30a91802ce48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a20fcacb5362f459b2122712e88613342"><td class="memItemLeft" align="right" valign="top">typedef boost::shared_ptr<br class="typebreak"/>
-&lt; urdf::ModelInterface &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#a20fcacb5362f459b2122712e88613342">ModelInterfaceSharedPtr</a></td></tr>
-<tr class="separator:a20fcacb5362f459b2122712e88613342"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4adb93a26caa4dacba9c9614e283245"><td class="memItemLeft" align="right" valign="top">typedef <br class="typebreak"/>
 sensor_msgs::JointState_<br class="typebreak"/>
 &lt; std::allocator&lt; void &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a></td></tr>
@@ -119,14 +125,14 @@ sensor_msgs::JointState_<br class="typebreak"/>
 <tr class="memitem:aa7d06b998b3d2c430de97ea9d1397730"><td class="memItemLeft" align="right" valign="top">typedef boost::shared_ptr<br class="typebreak"/>
 &lt; <a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#aa7d06b998b3d2c430de97ea9d1397730">JointStateSharedPtr</a></td></tr>
 <tr class="separator:aa7d06b998b3d2c430de97ea9d1397730"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac02c0fd845140ea93a2a9254b1db6f6"><td class="memItemLeft" align="right" valign="top">typedef urdf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a></td></tr>
-<tr class="separator:aac02c0fd845140ea93a2a9254b1db6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afde073114b0dbe5587b2ec83fad48085"><td class="memItemLeft" align="right" valign="top">typedef urdf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#afde073114b0dbe5587b2ec83fad48085">RCS::Position</a></td></tr>
-<tr class="separator:afde073114b0dbe5587b2ec83fad48085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae84bcdeffa185f35100e9eca768bd4db"><td class="memItemLeft" align="right" valign="top">typedef urdf::Rotation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ae84bcdeffa185f35100e9eca768bd4db">RCS::Rotation</a></td></tr>
-<tr class="separator:ae84bcdeffa185f35100e9eca768bd4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d2e4673086277ee114b9f01ba1664e7"><td class="memItemLeft" align="right" valign="top">typedef urdf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a3d2e4673086277ee114b9f01ba1664e7">RCS::Vector3</a></td></tr>
-<tr class="separator:a3d2e4673086277ee114b9f01ba1664e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa07e45d8a50e30064283d2b38087f999"><td class="memItemLeft" align="right" valign="top">typedef tf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a></td></tr>
+<tr class="separator:aa07e45d8a50e30064283d2b38087f999"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6080060b617affc23ab1d6309fe7c3cd"><td class="memItemLeft" align="right" valign="top">typedef tf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a6080060b617affc23ab1d6309fe7c3cd">RCS::Position</a></td></tr>
+<tr class="separator:a6080060b617affc23ab1d6309fe7c3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fd915276fdb632d217c560523c320e0"><td class="memItemLeft" align="right" valign="top">typedef tf::Quaternion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a></td></tr>
+<tr class="separator:a3fd915276fdb632d217c560523c320e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a688a9db9f1e17b76c410c539997d07a7"><td class="memItemLeft" align="right" valign="top">typedef tf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a></td></tr>
+<tr class="separator:a688a9db9f1e17b76c410c539997d07a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86ac9427c1a3f2ec2b94a74888b2cefd"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a86ac9427c1a3f2ec2b94a74888b2cefd">RCS::Length</a></td></tr>
 <tr class="separator:a86ac9427c1a3f2ec2b94a74888b2cefd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20e104cd075c4ca08a073a6261a70a84"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a20e104cd075c4ca08a073a6261a70a84">RCS::LinearVelocity</a></td></tr>
@@ -171,7 +177,8 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a45f0039600f4e6b521a58e021609ea22">RCS::CANON_SUCCESS</a> = 0, 
 <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79ae5d8cf70f462c3e4aee8050f308132fb">RCS::CANON_STATUSREPLY</a> = 1, 
 <br/>
-&#160;&#160;<a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643">RCS::CANON_RUNNING</a>
+&#160;&#160;<a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a5eb43a35f73ab11edc5d5a28b908257e">RCS::CANON_MOTION</a> = 2, 
+<a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643">RCS::CANON_RUNNING</a>
 <br/>
  }</td></tr>
 <tr class="memdesc:a604ddc76f1c860e79ec060339a68dc79"><td class="mdescLeft">&#160;</td><td class="mdescRight">enumeration of return type from <a class="el" href="namespaceCrcl.html">Crcl</a> intepretation. If statusreply, requires status sent to <a class="el" href="namespaceCrcl.html">Crcl</a> client.  <a href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79">More...</a><br/></td></tr>
@@ -192,8 +199,12 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75adda3bf1c656804e5d07912149ceb9760">RCS::CANON_SET_MAX_JOINT_SPEED</a>, 
 <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75af7ae40ad1b0525a4cb8888af76db4acc">RCS::CANON_SET_GRIPPER</a>, 
 <br/>
-&#160;&#160;<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d">RCS::CANON_STOP_MOTION</a>, 
-<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f">RCS::CANON_UNKNOWN</a>
+&#160;&#160;<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75ab3c4fe7af4d06fbd188e53f4825a9425">RCS::CANON_SET_TOLERANCE</a>, 
+<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d">RCS::CANON_STOP_MOTION</a>, 
+<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a0e32d7c80f9f5b064f660aab9b9392e6">RCS::CANON_DO_MOTION</a>, 
+<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a92eaf4448ef32e4819df8b0eea8469f9">RCS::CANON_OTHER</a>, 
+<br/>
+&#160;&#160;<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f">RCS::CANON_UNKNOWN</a>
 <br/>
  }</td></tr>
 <tr class="memdesc:a55bbd74afb87a330de1b95af65f4cb75"><td class="mdescLeft">&#160;</td><td class="mdescRight">enumeration of <a class="el" href="namespaceCrcl.html">Crcl</a> commands. Many <a class="el" href="namespaceCrcl.html">Crcl</a> commands are wm parameter setting and require no motion component.  <a href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75">More...</a><br/></td></tr>
@@ -239,21 +250,18 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac45b18edecf0b0f60b08ca409cbe477a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ac45b18edecf0b0f60b08ca409cbe477a">RCS::DumpPose</a> (urdf::Pose &amp;pose)</td></tr>
-<tr class="memdesc:ac45b18edecf0b0f60b08ca409cbe477a"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#ac45b18edecf0b0f60b08ca409cbe477a">More...</a><br/></td></tr>
-<tr class="separator:ac45b18edecf0b0f60b08ca409cbe477a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac04aacea4f1ce25e58ed402586b8ae14"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ac04aacea4f1ce25e58ed402586b8ae14">RCS::DumpQuaterion</a> (std::ostream &amp;os, const urdf::Rotation &amp;rot)</td></tr>
-<tr class="memdesc:ac04aacea4f1ce25e58ed402586b8ae14"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std::cout &lt;&lt; DumpQuaterion(urdf::rotation);.  <a href="#ac04aacea4f1ce25e58ed402586b8ae14">More...</a><br/></td></tr>
-<tr class="separator:ac04aacea4f1ce25e58ed402586b8ae14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37ebbdda6b81fc9b7d355e372c2a0f50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#a37ebbdda6b81fc9b7d355e372c2a0f50">sincos</a> (double x, double *sx, double *cx)</td></tr>
+<tr class="separator:a37ebbdda6b81fc9b7d355e372c2a0f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e911197b35a4857f179af61811d4b0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a6e911197b35a4857f179af61811d4b0a">RCS::getRPY</a> (const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> pose, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a1d3228afa3a1d6773954f40c1e519eb9">roll</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a34c057a0378030db67bd6a129f37d938">pitch</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a21cd490f6191f66678f55b4c242a10cf">yaw</a>)</td></tr>
+<tr class="separator:a6e911197b35a4857f179af61811d4b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a35eaff1f2c8ec5520f595d6f3b2d38b3">RCS::DumpPose</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="memdesc:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#a35eaff1f2c8ec5520f595d6f3b2d38b3">More...</a><br/></td></tr>
+<tr class="separator:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a994378d2744371f1afac4b59a808fef2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a994378d2744371f1afac4b59a808fef2">RCS::DumpQuaterion</a> (std::ostream &amp;os, const <a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a> &amp;rot)</td></tr>
+<tr class="memdesc:a994378d2744371f1afac4b59a808fef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std::cout &lt;&lt; DumpQuaterion(urdf::rotation);.  <a href="#a994378d2744371f1afac4b59a808fef2">More...</a><br/></td></tr>
+<tr class="separator:a994378d2744371f1afac4b59a808fef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e885cace21a754e8307a7579f304705"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#a8e885cace21a754e8307a7579f304705">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a> &amp;cc)</td></tr>
 <tr class="separator:a8e885cace21a754e8307a7579f304705"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a8fe921d97607b0020024f470e8bd4b7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#a20fcacb5362f459b2122712e88613342">ModelInterfaceSharedPtr</a> <br class="typebreak"/>
-typedef boost::shared_ptr<br class="typebreak"/>
-&lt; urdf::Joint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RCS_8h.html#a8fe921d97607b0020024f470e8bd4b7a">JointSharedPtr</a></td></tr>
-<tr class="separator:a8fe921d97607b0020024f470e8bd4b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="a525335710b53cb064ca56b936120431e"></a>
@@ -340,6 +348,22 @@ typedef boost::shared_ptr<br class="typebreak"/>
 
 </div>
 </div>
+<a class="anchor" id="a1746386da1f047ffdc313f06a6a01c7d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Deg2Rad</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Ang</td><td>)</td>
+          <td>&#160;&#160;&#160;( (double) ( Ang * M_PI / 180.0 ) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a002b2f4894492820fe708b1b7e7c5e70"></a>
 <div class="memitem">
 <div class="memproto">
@@ -352,12 +376,72 @@ typedef boost::shared_ptr<br class="typebreak"/>
 
 </div>
 </div>
+<a class="anchor" id="afdb5a6cfe5d482d5392535414934ab19"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HAVE_SINCOS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a35efd5e1ef8d97af31ef3ac62bc2903b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">#define LENGTHUNITS&#160;&#160;&#160;1000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="acf2d8e758b52de05580d30a91802ce48"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Meter2MM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">d</td><td>)</td>
+          <td>&#160;&#160;&#160;( (double) ( d * 1000.00 ) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ae2840348cfb348f1452aa08417076b95"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MM2Meter</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">d</td><td>)</td>
+          <td>&#160;&#160;&#160;( (double) ( d / 1000.00 ) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac537143ba31a17c03653c8a73637d2b5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Rad2Deg</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Ang</td><td>)</td>
+          <td>&#160;&#160;&#160;( (double) ( Ang * 180.0 / M_PI ) )</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -383,18 +467,6 @@ typedef boost::shared_ptr<br class="typebreak"/>
       <table class="memname">
         <tr>
           <td class="memname">typedef boost::shared_ptr&lt;<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&gt; <a class="el" href="RCS_8h.html#aa7d06b998b3d2c430de97ea9d1397730">JointStateSharedPtr</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a20fcacb5362f459b2122712e88613342"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef boost::shared_ptr&lt;urdf::ModelInterface&gt; <a class="el" href="RCS_8h.html#a20fcacb5362f459b2122712e88613342">ModelInterfaceSharedPtr</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -436,15 +508,42 @@ typedef boost::shared_ptr<br class="typebreak"/>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="a8fe921d97607b0020024f470e8bd4b7a"></a>
+<a class="anchor" id="a37ebbdda6b81fc9b7d355e372c2a0f50"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="RCS_8h.html#a20fcacb5362f459b2122712e88613342">ModelInterfaceSharedPtr</a> typedef boost::shared_ptr&lt;urdf::Joint&gt; JointSharedPtr</td>
+          <td class="memname">void sincos </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>sx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>cx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -452,7 +551,7 @@ typedef boost::shared_ptr<br class="typebreak"/>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

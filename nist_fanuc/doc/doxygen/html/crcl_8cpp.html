@@ -49,6 +49,7 @@
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">crcl.cpp File Reference</div>  </div>
@@ -57,69 +58,88 @@
 <div class="textblock"><code>#include &quot;<a class="el" href="crcl_8h_source.html">crcl.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="Globals_8h_source.html">Globals.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="CrclInterface_8h_source.html">CrclInterface.h</a>&quot;</code><br/>
-<code>#include &quot;boost/array.hpp&quot;</code><br/>
-<code>#include &quot;urdf_model/rosmath.h&quot;</code><br/>
-<code>#include &lt;Eigen/Dense&gt;</code><br/>
-<code>#include &quot;urdf_model/eigenmath.h&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceCrcl"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html">Crcl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ac60fea3ffdeac6b995d5137ceaa108a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crcl_8cpp.html#ac60fea3ffdeac6b995d5137ceaa108a9">ROWMAJOR</a></td></tr>
+<tr class="separator:ac60fea3ffdeac6b995d5137ceaa108a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7851c914ebfcd66dd694dbfb58f19d3f"><td class="memItemLeft" align="right" valign="top">RosMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a7851c914ebfcd66dd694dbfb58f19d3f">Crcl::GetXZRotMatrix</a> (urdf::Vector3 Xrot, urdf::Vector3 Zrot)</td></tr>
-<tr class="separator:a7851c914ebfcd66dd694dbfb58f19d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae23e722dceffa52b05402c3f557c9e65"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ae23e722dceffa52b05402c3f557c9e65">Crcl::GetEigenRotMatrix</a> (urdf::Vector3 Xrot, urdf::Vector3 Zrot)</td></tr>
-<tr class="separator:ae23e722dceffa52b05402c3f557c9e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae1ccbac42b6e192b3ed46578e3a7b71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#aae1ccbac42b6e192b3ed46578e3a7b71">Crcl::GetRPY</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a1d3228afa3a1d6773954f40c1e519eb9">roll</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a34c057a0378030db67bd6a129f37d938">pitch</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a21cd490f6191f66678f55b4c242a10cf">yaw</a>)</td></tr>
-<tr class="separator:aae1ccbac42b6e192b3ed46578e3a7b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11e5c6625b133a0ad8d38bef745d5bf6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a11e5c6625b133a0ad8d38bef745d5bf6">Crcl::GetRPY</a> (urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a1d3228afa3a1d6773954f40c1e519eb9">roll</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a34c057a0378030db67bd6a129f37d938">pitch</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a21cd490f6191f66678f55b4c242a10cf">yaw</a>)</td></tr>
-<tr class="separator:a11e5c6625b133a0ad8d38bef745d5bf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ba76fbe3bb36cef5f8a289c327e7a4b"><td class="memItemLeft" align="right" valign="top">urdf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a6ba76fbe3bb36cef5f8a289c327e7a4b">Crcl::Convert</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &amp;pose, double lengthConversion)</td></tr>
-<tr class="separator:a6ba76fbe3bb36cef5f8a289c327e7a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a018b04e2941c53d1359bf069a8fd6694"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a018b04e2941c53d1359bf069a8fd6694">Crcl::GetRPY</a> (<a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> Xrot, <a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> Zrot, double &amp;dRoll, double &amp;dPitch, double &amp;dYaw)</td></tr>
+<tr class="separator:a018b04e2941c53d1359bf069a8fd6694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af090b8881d747be0380a733dfa9e3138"><td class="memItemLeft" align="right" valign="top">PoseType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#af090b8881d747be0380a733dfa9e3138">Crcl::NullPose</a> ()</td></tr>
+<tr class="separator:af090b8881d747be0380a733dfa9e3138"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add9e9e39ef44f31dae46c86a85201726"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#ae868d4ece511d1485ed5d9118395aef8">Crcl::VectorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#add9e9e39ef44f31dae46c86a85201726">Crcl::VectorZero</a> ()</td></tr>
 <tr class="separator:add9e9e39ef44f31dae46c86a85201726"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4478a87fcc970adc728f4fbb275b8f3"><td class="memItemLeft" align="right" valign="top">urdf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#aa4478a87fcc970adc728f4fbb275b8f3">Crcl::GetVector3D</a> (<a class="el" href="namespaceCrcl.html#a04f09d617642257f5938e52cee2feeef">Crcl::PointType</a> &amp;point)</td></tr>
-<tr class="separator:aa4478a87fcc970adc728f4fbb275b8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d76629ad554e6d08322a36fbafcbc5a"><td class="memItemLeft" align="right" valign="top">urdf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1d76629ad554e6d08322a36fbafcbc5a">Crcl::GetVector3D</a> (<a class="el" href="namespaceCrcl.html#ae868d4ece511d1485ed5d9118395aef8">Crcl::VectorType</a> &amp;vector)</td></tr>
-<tr class="separator:a1d76629ad554e6d08322a36fbafcbc5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac77c1d8cdd8c33effcb7a3705671d06b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ac77c1d8cdd8c33effcb7a3705671d06b">Crcl::IdentityPose</a> ()</td></tr>
+<tr class="separator:ac77c1d8cdd8c33effcb7a3705671d06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a336d0ed78a103dab45851e93ac4016"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a2a336d0ed78a103dab45851e93ac4016">Crcl::GetVector3D</a> (<a class="el" href="namespaceCrcl.html#ae868d4ece511d1485ed5d9118395aef8">Crcl::VectorType</a> &amp;vector)</td></tr>
+<tr class="separator:a2a336d0ed78a103dab45851e93ac4016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f2f379b6246979d8c48aa29a8718ab7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a0f2f379b6246979d8c48aa29a8718ab7">Crcl::GetVector3D</a> (<a class="el" href="namespaceCrcl.html#a04f09d617642257f5938e52cee2feeef">Crcl::PointType</a> &amp;point)</td></tr>
+<tr class="separator:a0f2f379b6246979d8c48aa29a8718ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d7ed1f807e5dc9cb7f1ac36c9cb73ae"><td class="memItemLeft" align="right" valign="top">tf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a8d7ed1f807e5dc9cb7f1ac36c9cb73ae">Crcl::GetTfVector</a> (<a class="el" href="namespaceCrcl.html#a04f09d617642257f5938e52cee2feeef">Crcl::PointType</a> &amp;point)</td></tr>
+<tr class="separator:a8d7ed1f807e5dc9cb7f1ac36c9cb73ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f66cb1e242dc328f6dd4797b4213514"><td class="memItemLeft" align="right" valign="top">tf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1f66cb1e242dc328f6dd4797b4213514">Crcl::GetTfVector</a> (<a class="el" href="namespaceCrcl.html#ae868d4ece511d1485ed5d9118395aef8">Crcl::VectorType</a> &amp;vector)</td></tr>
+<tr class="separator:a1f66cb1e242dc328f6dd4797b4213514"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c7684178c38711d407412930b9b0205"><td class="memItemLeft" align="right" valign="top">inline::PointType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a2c7684178c38711d407412930b9b0205">Crcl::GetPoint</a> (<a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> &amp;point)</td></tr>
+<tr class="separator:a2c7684178c38711d407412930b9b0205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc0f9f00033ff317971e5e33ecea9ba3"><td class="memItemLeft" align="right" valign="top">inline::VectorType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#acc0f9f00033ff317971e5e33ecea9ba3">Crcl::GetVector</a> (<a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> &amp;point)</td></tr>
+<tr class="separator:acc0f9f00033ff317971e5e33ecea9ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa63409c6fcf29259c733bd3221e5a6b2"><td class="memItemLeft" align="right" valign="top">tf::Matrix3x3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#aa63409c6fcf29259c733bd3221e5a6b2">Crcl::GetTfRotMatrix</a> (<a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> Xrot, <a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> Zrot)</td></tr>
+<tr class="separator:aa63409c6fcf29259c733bd3221e5a6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd79cdab59edf05f88b02e6963862813"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#abd79cdab59edf05f88b02e6963862813">Crcl::Convert</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &amp;pose, double lengthConversion=1.0)</td></tr>
+<tr class="memdesc:abd79cdab59edf05f88b02e6963862813"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert converts codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> Pose into ROS/RCS pose using length conversion . Note, no angle conversion - rotation/orientation always in radians.  <a href="#abd79cdab59edf05f88b02e6963862813">More...</a><br/></td></tr>
+<tr class="separator:abd79cdab59edf05f88b02e6963862813"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a394a527b4609a6d5b444f30bb9384f1a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a394a527b4609a6d5b444f30bb9384f1a">Crcl::GetPoseToRPY</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &amp;pose, double &amp;dRoll, double &amp;dPitch, double &amp;dYaw)</td></tr>
+<tr class="memdesc:a394a527b4609a6d5b444f30bb9384f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roll,pitch,yaw orientation from codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a394a527b4609a6d5b444f30bb9384f1a">More...</a><br/></td></tr>
 <tr class="separator:a394a527b4609a6d5b444f30bb9384f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af82af80892b5c9a1f843bbfabd06de91"><td class="memItemLeft" align="right" valign="top">urdf::Rotation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#af82af80892b5c9a1f843bbfabd06de91">Crcl::Convert</a> (urdf::Vector3 Xrot, urdf::Vector3 Zrot)</td></tr>
-<tr class="separator:af82af80892b5c9a1f843bbfabd06de91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1dd6fda9cf860d4e66b55bdc9564795"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ae1dd6fda9cf860d4e66b55bdc9564795">Crcl::Init</a> (std::vector&lt; double &gt; terms)</td></tr>
-<tr class="separator:ae1dd6fda9cf860d4e66b55bdc9564795"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fe26b022a84b7c961e1b77c6c148d6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a3fe26b022a84b7c961e1b77c6c148d6d">Crcl::Convert</a> (urdf::Pose pose)</td></tr>
-<tr class="separator:a3fe26b022a84b7c961e1b77c6c148d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a650d91db3abf7d3734f8a0e4aceaeaea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">sensor_msgs::JointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a650d91db3abf7d3734f8a0e4aceaeaea">Crcl::Convert</a> (<a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a> jout, double angleConversion)</td></tr>
-<tr class="separator:a650d91db3abf7d3734f8a0e4aceaeaea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cc4f0a80c975f2afab38ab2de262d1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a3cc4f0a80c975f2afab38ab2de262d1f">Crcl::Convert</a> (<a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> Xrot, <a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a> Zrot)</td></tr>
+<tr class="memdesc:a3cc4f0a80c975f2afab38ab2de262d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert converts codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> rotation (as x,z rotation vectors) into ROS/RCS rotation.  <a href="#a3cc4f0a80c975f2afab38ab2de262d1f">More...</a><br/></td></tr>
+<tr class="separator:a3cc4f0a80c975f2afab38ab2de262d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac74920bcb32be055b5f94010fed04cb1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ac74920bcb32be055b5f94010fed04cb1">Crcl::Convert</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> pose)</td></tr>
+<tr class="memdesc:ac74920bcb32be055b5f94010fed04cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert converts ROS/RCS pose into codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> Pose. Note, no angle conversion - rotation/orientation always in radians.  <a href="#ac74920bcb32be055b5f94010fed04cb1">More...</a><br/></td></tr>
+<tr class="separator:ac74920bcb32be055b5f94010fed04cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84440a94ca5992cf4a01e4215d1cb363"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">sensor_msgs::JointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a84440a94ca5992cf4a01e4215d1cb363">Crcl::Convert</a> (<a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a> jointStatusSeq, double angleConversion=1.0)</td></tr>
+<tr class="memdesc:a84440a94ca5992cf4a01e4215d1cb363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert converts codesynthesis status actuator joint sequence into ROS JointState.(Fills position).  <a href="#a84440a94ca5992cf4a01e4215d1cb363">More...</a><br/></td></tr>
+<tr class="separator:a84440a94ca5992cf4a01e4215d1cb363"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a88d5186b3c539f968de637937294fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a2a88d5186b3c539f968de637937294fb">Crcl::Convert</a> (<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> joints, double _angleConversion)</td></tr>
 <tr class="separator:a2a88d5186b3c539f968de637937294fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0e865c06943bf013c06bdc6fa538760"><td class="memItemLeft" align="right" valign="top">JointStatusSequence&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#aa0e865c06943bf013c06bdc6fa538760">Crcl::Convert</a> (<a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a> joints, double _angleConversion)</td></tr>
 <tr class="separator:aa0e865c06943bf013c06bdc6fa538760"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c1e0abc6b119a3e7f51df0c9c288542"><td class="memItemLeft" align="right" valign="top">::PointType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a7c1e0abc6b119a3e7f51df0c9c288542">Crcl::GetPoint</a> (<a class="el" href="namespaceRCS.html#a3d2e4673086277ee114b9f01ba1664e7">RCS::Vector3</a> &amp;point)</td></tr>
-<tr class="separator:a7c1e0abc6b119a3e7f51df0c9c288542"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2544b3f8bf6f3a8948ebd8080d0ee315"><td class="memItemLeft" align="right" valign="top">::VectorType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a2544b3f8bf6f3a8948ebd8080d0ee315">Crcl::GetVector</a> (<a class="el" href="namespaceRCS.html#a3d2e4673086277ee114b9f01ba1664e7">RCS::Vector3</a> &amp;point)</td></tr>
-<tr class="separator:a2544b3f8bf6f3a8948ebd8080d0ee315"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4ed1cb04b5173a5bd4a115d4755a2db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#aa4ed1cb04b5173a5bd4a115d4755a2db">Crcl::NullPose</a> ()</td></tr>
-<tr class="separator:aa4ed1cb04b5173a5bd4a115d4755a2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac77c1d8cdd8c33effcb7a3705671d06b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ac77c1d8cdd8c33effcb7a3705671d06b">Crcl::IdentityPose</a> ()</td></tr>
-<tr class="separator:ac77c1d8cdd8c33effcb7a3705671d06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9036e140bcf2156b7995085f36d75f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a5e9036e140bcf2156b7995085f36d75f">Crcl::PoseHome</a> ()</td></tr>
+<tr class="memdesc:a5e9036e140bcf2156b7995085f36d75f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose that is necessary for all codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose constructors.  <a href="#a5e9036e140bcf2156b7995085f36d75f">More...</a><br/></td></tr>
 <tr class="separator:a5e9036e140bcf2156b7995085f36d75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a942871711b02866236621b132bf934c2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a942871711b02866236621b132bf934c2">Crcl::ConvertToAnglePositionVector</a> (<a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a> &amp;joints, double dAngleConversion)</td></tr>
 <tr class="separator:a942871711b02866236621b132bf934c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a29224fab4f85cc9e34b1f7a1a1064f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1a29224fab4f85cc9e34b1f7a1a1064f">Crcl::DumpCrclPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator)</td></tr>
-<tr class="separator:a1a29224fab4f85cc9e34b1f7a1a1064f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a666314177998417d741895bb491783bd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a666314177998417d741895bb491783bd">Crcl::DumpPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator)</td></tr>
-<tr class="separator:a666314177998417d741895bb491783bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1726015b66be8193fcd10bc157661a3d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1726015b66be8193fcd10bc157661a3d">Crcl::DumpCrclCommand</a> (::CRCLCommandType &amp;crclCommand)</td></tr>
+<tr class="separator:a1726015b66be8193fcd10bc157661a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30019a860966a9cdaa1564cc95787de4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a30019a860966a9cdaa1564cc95787de4">Crcl::DumpPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator=&quot;,&quot;)</td></tr>
+<tr class="memdesc:a30019a860966a9cdaa1564cc95787de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump contents of codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a30019a860966a9cdaa1564cc95787de4">More...</a><br/></td></tr>
+<tr class="separator:a30019a860966a9cdaa1564cc95787de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="ac60fea3ffdeac6b995d5137ceaa108a9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ROWMAJOR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

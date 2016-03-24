@@ -80,33 +80,38 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(std::string str) {
                     );
             ::CRCLProgramType::MiddleCommand_sequence& cmds = crclProgram->MiddleCommand();
             CrclRunProgram(cmds);
+
+        } catch (const xml_schema::exception& e) {
+            // Most likely here due to illegal XML in Crcl program. Note, is not validated against XSD.
+            std::cout << "Parse Exception RobotProgram::ExecuteProgram:" << e << std::endl;
         } catch (...) {
-            std::cout << "Unhandled exception\n"; 
+            std::cout << "Unhandled exception\n";
         }
         
     }
     else if (FindLeadingElement(str) == "</CRCLCommandInstance>") {
-        std::auto_ptr<CRCLCommandInstanceType> crclInstanceCommand(
-                CRCLCommandInstance(istr, xml_schema::flags::dont_initialize | xml_schema::flags::dont_validate | xml_schema::flags::keep_dom)
-                );
-        ::CRCLCommandType & crclCommand(crclInstanceCommand->CRCLCommand());
-        
-        //::MiddleCommandType  crclCommand( crclInstanceCommand->CRCLCommand());
-        
-        _nCommandNum = crclCommand.CommandID();
+        try {
+            std::auto_ptr<CRCLCommandInstanceType> crclInstanceCommand(
+                    CRCLCommandInstance(istr, xml_schema::flags::dont_initialize | xml_schema::flags::dont_validate | xml_schema::flags::keep_dom)
+                    );
+            ::CRCLCommandType & crclCommand(crclInstanceCommand->CRCLCommand());
 
-        if (GetStatusType * stat = dynamic_cast<GetStatusType *> (&(crclCommand))) {
-            Globals.ErrorMessage(Logger.StrFormat("GetStatus id=%d\n", stat->CommandID()));
-            return GetStatus();
+            //::MiddleCommandType  crclCommand( crclInstanceCommand->CRCLCommand());
+
+            _nCommandNum = crclCommand.CommandID();
+
+            if (GetStatusType * stat = dynamic_cast<GetStatusType *> (&(crclCommand))) {
+                Globals.ErrorMessage(Logger.StrFormat("GetStatus id=%d\n", stat->CommandID()));
+                return GetStatus();
+            }
+            return DelegateCRCLCmd(crclCommand);
+        } catch (const xml_schema::exception& e) {
+            // Most likely here due to illegal XML in Crcl program. Note, is not validated against XSD.
+            std::cout << "Parse Exception RobotProgram::ExecuteProgram:" << e << std::endl;
         } 
-        // Save non status query into file...
-        if(RCS::CController::bGenerateProgram)
-        {
-            
-        }
-        return DelegateCRCLCmd(crclCommand);
     }
     else if (FindLeadingElement(str) == "</CRCLStatus>") {
+        assert(0); // should never get status as server
         std::auto_ptr<CRCLStatusType> crclstat(
                 CRCLStatus(istr, xml_schema::flags::dont_initialize | xml_schema::flags::dont_validate | xml_schema::flags::keep_dom)
                 );
@@ -118,24 +123,24 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
     {
 
         crclwm.Update(_nCommandNum);
-        crclwm.Update(Crcl::CommandStateEnum("Working"));
+        crclwm.Update(Crcl::CommandStateEnum("CRCL_Working"));
         ActuateJointsType::ActuateJoint_sequence & joints(actuateJoints->ActuateJoint());
         Globals.ErrorMessage(Logger.StrFormat("ActuateJoints id=%d joint=%d pos = %6.5f\n", crclCommand.CommandID(), joints[0].JointNumber(), joints[0].JointPosition()));
-        ActuateJoints(joints);
+        return ActuateJoints(joints);
 
         // m_thread=boost::thread(&CrclDelegateInterface::CRCLActuateJoints, this, joints);
     }        // MoveToType
     else if (MoveToType * moveto = dynamic_cast<MoveToType *> (&(crclCommand))) {
         MoveToType::EndPosition_type & endpose(moveto->EndPosition());
         bool bStraight = moveto->MoveStraight();
-        MoveTo(endpose, bStraight);
+        return  MoveTo(endpose, bStraight);
     } else if (EndCanonType * endcanon = dynamic_cast<EndCanonType *> (&(crclCommand))) {
-        EndCanon();
+        return  EndCanon();
     } else if (InitCanonType * init = dynamic_cast<InitCanonType *> (&(crclCommand))) {
         Globals.ErrorMessage(Logger.StrFormat("InitCanonType id=%d\n", init->CommandID()));
-        InitCanon();
+        return  InitCanon();
     } else if (MessageType * msg = dynamic_cast<MessageType *> (&(crclCommand))) {
-        Message(msg->Message());
+        return Message(msg->Message());
     } else if (MoveThroughToType * movethrough = dynamic_cast<MoveThroughToType *> (&(crclCommand))) {
         size_t n = movethrough->NumPositions();
         bool bStraight = movethrough->MoveStraight();
@@ -144,7 +149,7 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
         std::vector<Crcl::PoseType> poses;
         for (size_t i = 0; i < waypoints.size(); i++)
             poses.push_back(waypoints[i]);
-        MoveThroughTo(poses, bStraight);
+        return MoveThroughTo(poses, bStraight);
     } else if (StopMotionType * stopmotion = dynamic_cast<StopMotionType *> (&(crclCommand))) {
         const char *sEnums[] = {"Immediate", "Fast", "Normal"};
         ::StopConditionEnumType & cond(stopmotion->StopCondition());
@@ -154,9 +159,9 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
         if ((nCond >= 0) && (nCond < 3)) {
             sUnit = sEnums[nCond];
         }
-        StopMotion(nCond);
+        return StopMotion(nCond);
     } else if (OpenToolChangerType * opentool = dynamic_cast<OpenToolChangerType *> (&(crclCommand))) {
-        OpenToolChanger();
+        return OpenToolChanger();
     } else if (SetAngleUnitsType * angleUnits = dynamic_cast<SetAngleUnitsType *> (&(crclCommand))) {
         const char *sEnums[] = {"degree", "radian"};
         ::AngleUnitEnumType & units(angleUnits->UnitName());
@@ -166,7 +171,7 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
         if ((nUnit >= 0) && (nUnit < 2)) {
             sUnit = sEnums[nUnit];
         }
-        SetAngleUnits(sUnit);
+        return SetAngleUnits(sUnit);
     }  else if (SetLengthUnitsType * lengthUnits = dynamic_cast<SetLengthUnitsType *> (&(crclCommand))) {
         const char *sEnums[] = {"meter", "millimeter", "inch"};
         ::LengthUnitEnumType & units(lengthUnits->UnitName());
@@ -176,9 +181,9 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
         if ((nUnit >= 0) && (nUnit < 3)) {
             sUnit = sEnums[nUnit];
         }
-        SetLengthUnits(sUnit);
+        return SetLengthUnits(sUnit);
     } else if (CloseToolChangerType * closetool = dynamic_cast<CloseToolChangerType *> (&(crclCommand))) {
-        CloseToolChanger();
+        return CloseToolChanger();
     } else if (ConfigureJointReportsType * configurereports = dynamic_cast<ConfigureJointReportsType *> (&(crclCommand))) {
         bool bResetAll = configurereports->ResetAll();
         ConfigureJointReportsType::ConfigureJointReport_sequence & report = configurereports->ConfigureJointReport();
@@ -192,18 +197,18 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
             jr._bReportVelocity = report[i].ReportVelocity();
             jointReports.push_back(jr);
         }
-        ConfigureJointReports(jointReports);
+        return ConfigureJointReports(jointReports);
     } else if (DwellType * dwelltype = dynamic_cast<DwellType *> (&(crclCommand))) {
         double time = dwelltype->DwellTime();
-        Dwell(time);    
+        return Dwell(time);    
     } else if (MoveScrewType * movescrew = dynamic_cast<MoveScrewType *> (&(crclCommand))) {
     } else if (SetEndEffectorParametersType * endeeparamtype = dynamic_cast<SetEndEffectorParametersType *> (&(crclCommand))) {
     } else if (SetEndEffectorType * endeetype = dynamic_cast<SetEndEffectorType *> (&(crclCommand))) {
         double setting = endeetype->Setting();
-        SetEndEffector(setting);
+        return SetEndEffector(setting);
     } else if (SetEndPoseToleranceType * setEndTolerance = dynamic_cast<SetEndPoseToleranceType *> (&(crclCommand))) {
         SetEndPoseToleranceType::Tolerance_type & tolerancepose(setEndTolerance->Tolerance());
-        SetEndPoseTolerance(tolerancepose);
+        return SetEndPoseTolerance(tolerancepose);
     } else if (SetForceUnitsType * forceunits = dynamic_cast<SetForceUnitsType *> (&(crclCommand))) {
         //    newton,    pound,    ounce
         const char *sEnums[] = {"newton", "pound", "ounce"};
@@ -214,26 +219,26 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
         if ((nUnit >= 0) && (nUnit < 3)) {
             sUnit = sEnums[nUnit];
         }
-        SetTorqueUnits(sUnit);
+        return SetTorqueUnits(sUnit);
     } else if (SetIntermediatePoseToleranceType * posetol = dynamic_cast<SetIntermediatePoseToleranceType *> (&(crclCommand))) {
-        SetIntermediatePoseTolerance(posetol->Tolerance());
+        return SetIntermediatePoseTolerance(posetol->Tolerance());
     } else if (SetMotionCoordinationType * coordtype = dynamic_cast<SetMotionCoordinationType *> (&(crclCommand))) {
         bool bCoordinatedMotion = coordtype->Coordinated();
-        SetMotionCoordination(bCoordinatedMotion);
+        return SetMotionCoordination(bCoordinatedMotion);
     } else if (RotAccelAbsoluteType * absrotaccel = dynamic_cast<RotAccelAbsoluteType *> (&(crclCommand))) {
         double accel = absrotaccel->Setting();
-        SetRotAccel(accel);
+        return SetRotAccel(accel);
     } else if (RotAccelRelativeType * relrotaccel = dynamic_cast<RotAccelRelativeType *> (&(crclCommand))) {
         double percent = relrotaccel->Fraction();
         double accel = RCS::Controller.wm.maxRotAccel * percent;
-        SetRotAccel(accel);
+        return SetRotAccel(accel);
     } else if (RotSpeedAbsoluteType * rotspeed = dynamic_cast<RotSpeedAbsoluteType *> (&(crclCommand))) {
         double speed = rotspeed->Setting();
-        SetRotSpeed(speed);
+        return SetRotSpeed(speed);
     } else if (RotSpeedRelativeType * rotspeed = dynamic_cast<RotSpeedRelativeType *> (&(crclCommand))) {
         long percent = rotspeed->Fraction();
         double speed = RCS::Controller.wm.maxRotVel * percent;
-        SetRotSpeed(speed);
+        return SetRotSpeed(speed);
     } else if (SetTorqueUnitsType * torqueUnits = dynamic_cast<SetTorqueUnitsType *> (&(crclCommand))) {
         //   newtonMeter,    footPound
         const char *sEnums[] = {"newtonMeter", "footPound"};
@@ -244,7 +249,7 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
         if ((nUnit >= 0) && (nUnit < 2)) {
             sUnit = sEnums[nUnit];
         }
-        SetTorqueUnits(sUnit);
+        return SetTorqueUnits(sUnit);
     } else if (SetTransAccelType * accltype = dynamic_cast<SetTransAccelType *> (&(crclCommand))) {
         double accel;
 
@@ -254,7 +259,7 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
             double percentage = relAccltype->Fraction();
             accel = RCS::Controller.wm.maxTransVel * percentage;
         }
-        SetTransAccel(accel);
+        return SetTransAccel(accel);
     } else if (SetTransSpeedType * speedtype = dynamic_cast<SetTransSpeedType *> (&(crclCommand))) {
         double speed;
 
@@ -264,17 +269,20 @@ CrclReturn CrclDelegateInterface::DelegateCRCLCmd(::CRCLCommandType &crclCommand
             double percentage = relSpeedtype->Fraction();
             speed = RCS::Controller.wm.maxTransVel * percentage;
         }
-        SetTransSpeed(speed);
+        return SetTransSpeed(speed);
     }
-    return CANON_SUCCESS;
+    return CANON_NOT_IMPLEMENTED;
 }
 
 // ------------------------------------------------------------
 
 std::string CrclClientCmdInterface::GetStatusReply(CrclStatus *wm) {
     // CommandStateEnumType state((int) wm->_state);
-    const char * sEnums[] = {"Done", "Error", "Working"};
-    CommandStatusType status(wm->CommandID(), wm->CommandID(), sEnums[wm->CommandStatus()]);
+    //const char * sEnums[] = {"CRCL_Done", "CRCL_Error", "CRCL_Working", "CRCL_Ready"};
+    std::cout << "GetStatusReply=" << wm->CommandID() << ":" << wm->CommandStatus() << std::endl; 
+    CommandStatusType status(wm->CommandID(), wm->CommandID(), 
+            //sEnums[wm->CommandStatus()]);
+            CommandStateEnumType::_xsd_CommandStateEnumType_literals_[wm->CommandStatus()]);
     CRCLStatusType cmd(status);
 
     cmd.CommandStatus(status);
@@ -284,7 +292,7 @@ std::string CrclClientCmdInterface::GetStatusReply(CrclStatus *wm) {
     jointStatuses.JointStatus(wm->_CurrentJoints);
     cmd.JointStatuses(jointStatuses);
 
-    cmd.Pose(wm->_CurrentPose);
+    cmd.PoseStatus(wm->_CurrentPose);
 
     xml_schema::namespace_infomap map;
     std::ostringstream strfs;
@@ -623,23 +631,40 @@ CrclReturn CrclDelegateInterface::ActuateJoints(Crcl::ActuatorJointSequence join
     IfDebug(Globals.DebugMessage("CrclDelegateInterface::ActuateJoints\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_JOINT;
-	cc.ParentCommandID() =  crclwm.CommandID();
+    cc.ParentCommandID() = crclwm.CommandID();
 
     for (int i = 0; i < joints.size(); i++) {
         int jn = joints[i].JointNumber() - 1;
-        // Easier and cleaner to hard code CRCL to RCS/Descartes
-        //assert(jn > 0 && jn < RCS::Controller.robot_model.GetJointNum());
-        //RCS::RdfJoint& j = RCS::Controller.robot_model.GetJoint(jn);
+        double speed, accel;
+        speed = crclwm.Rates().JointVelLimit().at(jn);
+        accel = crclwm.Rates().JointAccLimit().at(jn);
+        double setting, changerate;
+        std::string type;
+        if (JointSpeedAccelType * speedacc = dynamic_cast<JointSpeedAccelType *> (&(joints[i].JointDetails()))) {
+            type = "JointSpeedAccelType";
+            speed = *speedacc->JointSpeed() * crclwm._lengthConversion;
+            accel = *speedacc->JointAccel() * crclwm._lengthConversion;
+
+        } else if (JointForceTorqueType * forcetorque = dynamic_cast<JointForceTorqueType *> (&(joints[i].JointDetails()))) {
+            type = "JointForceTorqueType";
+            setting = *forcetorque->Setting();
+            changerate = *forcetorque->ChangeRate();
+        }
+
+
         //if ( ( j.type == RCS::RdfJoint::REVOLUTE ) || ( j.type == RCS::RdfJoint::CONTINUOUS ) )
         {
             cc.jointnum.push_back(joints[i].JointNumber() - 1); // adjust back to zero based math
             double pos = joints[i].JointPosition() * crclwm._angleConversion;
-            cc.joints.position.push_back(pos); //  add _lengthConversion
+            cc.joints.position.push_back(pos);
+            cc.joints.velocity.push_back(speed); //  need conversion of velocity?
+            cc.joints.effort.push_back(accel); //   need conversion of acc?
         }
     }
+
     RCS::Controller.cmds.AddMsgQueue(cc);
 
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::CloseToolChanger() {
@@ -649,7 +674,7 @@ CrclReturn CrclDelegateInterface::CloseToolChanger() {
 	cc.ParentCommandID() =  crclwm.CommandID();
     cc.gripperPos = 0.0;
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::ConfigureJointReports(std::vector<Crcl::JointReport> & jointReports) {
@@ -672,7 +697,7 @@ CrclReturn CrclDelegateInterface::Dwell(double seconds) {
     cc.ParentCommandID() = crclwm.CommandID();
     cc.dwell = seconds;
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::EndCanon() {
@@ -686,9 +711,8 @@ CrclReturn CrclDelegateInterface::GetStatus() {
     std::cout << "GetStatus\n";
     crclwm.Update(_nCommandNum);
 
-    // Crcl::CStatus status = _inmsgs.Delegate()->wm;
-    std::string sStatus = Crcl::CrclClientCmdInterface().GetStatusReply(&crclwm);
-
+    // this is redundant
+    //std::string sStatus = Crcl::CrclClientCmdInterface().GetStatusReply(&crclwm);
     // _pAsioSession->SyncWrite(sStatus);
 
     return CANON_STATUSREPLY;
@@ -697,7 +721,7 @@ CrclReturn CrclDelegateInterface::GetStatus() {
 CrclReturn CrclDelegateInterface::InitCanon() {
     IfDebug(Globals.DebugMessage("CrclDelegateInterface::InitCanon\n"));
     crclwm.Update(_nCommandNum);
-    crclwm.Update(Crcl::CommandStateEnum("Done"));
+    crclwm.Update(Crcl::CommandStateEnum("CRCL_Done"));
     Crcl::JointStatusSequence jstat(CrclStatus().JointsHome());
     crclwm.Update(jstat);
     Crcl::PoseType poseref(Crcl::PoseHome());
@@ -718,15 +742,16 @@ CrclReturn CrclDelegateInterface::MoveTo(Crcl::PoseType endpose, bool bStraight)
     IfDebug(Globals.DebugMessage("CrclDelegateInterface::MoveTo\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_TO;
-	cc.ParentCommandID() =  crclwm.CommandID();
+    cc.ParentCommandID() = crclwm.CommandID();
 
     // default length units are Meters
     cc.pose = Convert(endpose, crclwm._lengthConversion);
-    
+    cc.Rates().CurrentFeedrate() = crclwm.Rates().CurrentFeedrate();
+            
     std::cout << "GotoCRCL Pose " << Crcl::DumpPose(endpose, ",").c_str() << std::endl;
     std::cout << "Goto urdf Pose " << RCS::DumpPose(cc.pose).c_str();
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::MoveThroughTo(std::vector<Crcl::PoseType> & poses, bool bStraight) {
@@ -738,14 +763,14 @@ CrclReturn CrclDelegateInterface::MoveThroughTo(std::vector<Crcl::PoseType> & po
     // default length and angular units are Meters and Radians
     for (size_t i = 0; i < poses.size(); i++) {
         std::cout << "GotoCRCL Pose " << Crcl::DumpPose(poses[i], ",").c_str() << std::endl;
-        urdf::Pose waypoint = Convert(poses[i], crclwm._lengthConversion);
+        RCS::Pose waypoint = Convert(poses[i], crclwm._lengthConversion);
         cc.waypoints.push_back(waypoint);
         std::cout << "Goto urdf Pose " << RCS::DumpPose(waypoint).c_str();
     }
 
     // FIXME: add tolerance to each waypoint - blending distance?
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::OpenToolChanger() {
@@ -754,7 +779,7 @@ CrclReturn CrclDelegateInterface::OpenToolChanger() {
     cc.cmd = RCS::CANON_SET_GRIPPER;
     cc.gripperPos = 1.0;
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::RunProgram(std::string programText) {
@@ -797,11 +822,11 @@ CrclReturn CrclDelegateInterface::SetAxialSpeeds(std::vector<double> speeds) {
 
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_SET_MAX_JOINT_SPEED;
-	cc.speed.clear();
-	cc.ParentCommandID() =  crclwm.CommandID();
-	copy(speeds.begin(), speeds.end(), std::back_inserter(cc.speed));
+    cc.speed.clear();
+    cc.ParentCommandID() = crclwm.CommandID();
+    copy(speeds.begin(), speeds.end(), std::back_inserter(cc.speed));
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::SetEndPoseTolerance(Crcl::PoseToleranceType tolerance) {
@@ -814,18 +839,19 @@ CrclReturn CrclDelegateInterface::SetEndPoseTolerance(Crcl::PoseToleranceType to
     // robotPose pose=robotPose( *x,*y,*z);
     // SetEndEffectorTolerance (tolerancepose);
     RCS::CanonCmd cc;
-    cc.cmd = RCS::CANON_SET_MAX_JOINT_SPEED;
+    cc.cmd = RCS::CANON_SET_TOLERANCE;
+#if 0
     cc.tolerance.position.x = *tolerance.XPointTolerance();
     cc.tolerance.position.y = *tolerance.YPointTolerance();
     cc.tolerance.position.z = *tolerance.ZPointTolerance();
-#if 0
+
 
     // These need to be combined into quaterion, and then compared to final pose for error quaterion
     tolerance.XAxisTolerance();
     tolerance.ZAxisTolerance();
 #endif
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::SetForceUnits(std::string unitName) {
@@ -895,18 +921,12 @@ CrclReturn CrclDelegateInterface::SetEndEffector(double percent) {
 	cc.ParentCommandID() =  crclwm.CommandID();
     cc.gripperPos = percent / 100.0;
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::SetEndEffectorTolerance(Crcl::PoseToleranceType dTolerance) {
     IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetEndEffectorTolerance\n"));
     crclwm._gripperPoseTolerance = dTolerance;
-    return CANON_SUCCESS;
-}
-
-CrclReturn CrclDelegateInterface::SetRelativeSpeed(double percent) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetRelativeSpeed=%5.2f\n", percent));
-
     return CANON_SUCCESS;
 }
 
@@ -916,7 +936,7 @@ CrclReturn CrclDelegateInterface::StopMotion(int condition) {
     cc.cmd = RCS::CANON_STOP_MOTION;
     cc.stoptype = (RCS::CanonStopMotionType) condition;
     RCS::Controller.cmds.AddMsgQueue(cc);
-    return CANON_SUCCESS;
+    return CANON_MOTION;
 }
 
 CrclReturn CrclDelegateInterface::SetRotAccel(double accel) {
@@ -953,6 +973,7 @@ CrclReturn CrclDelegateInterface::SetTransAccel(double accel) {
 
 CrclReturn CrclDelegateInterface::SetTransSpeed(double speed) {
     IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetTransSpeed=%5.2f\n",speed));
+    crclwm.Rates().CurrentFeedrate()=speed;
     return CANON_SUCCESS;
 }
 // -------------------------------------------------------------
@@ -975,7 +996,7 @@ void CrclStatusMsgInterface::ParseCRCLStatusString(std::string str) {
         CLEANSTORE(_status.CommandID(), crclstat->CommandStatus().CommandID(), 0);
         CLEANSTORE(_status.StatusID(), crclstat->CommandStatus().StatusID(), 0);
         CLEANSTORE(_status.CommandStatus(), crclstat->CommandStatus().CommandState(), "");
-        VALIDSTORE(_status._CurrentPose, *(crclstat->Pose())); // no change if not valid
+        VALIDSTORE(_status._CurrentPose, (*crclstat->PoseStatus()).Pose()); // no change if not valid
         // _status.Dump();
     }    catch (const xml_schema::exception & e) {
         Globals.ErrorMessage(e.what());

@@ -19,7 +19,7 @@ std\-::string \hyperlink{Setup_8cpp_a14bb84bd168a01c0587d756a827f8836}{Execute\-
 \begin{DoxyCompactList}\small\item\em Execute\-Shell\-Command runs a shell script and returns results. \end{DoxyCompactList}\item 
 bool \hyperlink{Setup_8cpp_a0ff50a5a4093f44d505f5b07842f48ff}{Setup\-App\-Environment} ()
 \begin{DoxyCompactList}\small\item\em Setup\-App\-Environment will attempt save some of the application settings, e.\-g., user, nostname. \end{DoxyCompactList}\item 
-bool \hyperlink{Setup_8cpp_a1165d713d127d1839b2551b3a0080854}{Setup\-Ros\-Environment} ()
+bool \hyperlink{Setup_8cpp_a62f6ef827b3218e75143be016805ff87}{Setup\-Ros\-Environment} (std\-::string pkgpath)
 \begin{DoxyCompactList}\small\item\em Setup\-Ros\-Environment will attempt to provide an environment equivalent to R\-O\-S \char`\"{}source devel/setup.\-bash\char`\"{}.  some of the code is hard coded, but unnecessary if executable run in shell. \end{DoxyCompactList}\item 
 std\-::string \hyperlink{Setup_8cpp_a47b662eb5f99d40f07946ebac19fe69e}{Read\-Ros\-Param} (ros\-::\-Node\-Handle \&nh, std\-::string paramkey)
 \item 
@@ -99,13 +99,13 @@ Setup\-App\-Environment will attempt save some of the application settings, e.\-
 \begin{DoxyReturn}{Returns}
 bool true if success. 
 \end{DoxyReturn}
-\hypertarget{Setup_8cpp_a1165d713d127d1839b2551b3a0080854}{\index{Setup.\-cpp@{Setup.\-cpp}!Setup\-Ros\-Environment@{Setup\-Ros\-Environment}}
+\hypertarget{Setup_8cpp_a62f6ef827b3218e75143be016805ff87}{\index{Setup.\-cpp@{Setup.\-cpp}!Setup\-Ros\-Environment@{Setup\-Ros\-Environment}}
 \index{Setup\-Ros\-Environment@{Setup\-Ros\-Environment}!Setup.cpp@{Setup.\-cpp}}
 \subsubsection[{Setup\-Ros\-Environment}]{\setlength{\rightskip}{0pt plus 5cm}bool Setup\-Ros\-Environment (
 \begin{DoxyParamCaption}
-{}
+\item[{std\-::string}]{pkgpath}
 \end{DoxyParamCaption}
-)}}\label{Setup_8cpp_a1165d713d127d1839b2551b3a0080854}
+)}}\label{Setup_8cpp_a62f6ef827b3218e75143be016805ff87}
 
 
 Setup\-Ros\-Environment will attempt to provide an environment equivalent to R\-O\-S \char`\"{}source devel/setup.\-bash\char`\"{}.  some of the code is hard coded, but unnecessary if executable run in shell. 

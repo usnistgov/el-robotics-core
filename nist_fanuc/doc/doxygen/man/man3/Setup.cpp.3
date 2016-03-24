@@ -1,4 +1,4 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/Setup.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/Setup.cpp" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -41,7 +41,7 @@
 .br
 .RI "\fISetupAppEnvironment will attempt save some of the application settings, e\&.g\&., user, nostname\&. \fP"
 .ti -1c
-.RI "bool \fBSetupRosEnvironment\fP ()"
+.RI "bool \fBSetupRosEnvironment\fP (std::string pkgpath)"
 .br
 .RI "\fISetupRosEnvironment will attempt to provide an environment equivalent to ROS 'source devel/setup\&.bash'\&.  some of the code is hard coded, but unnecessary if executable run in shell\&. \fP"
 .ti -1c
@@ -104,7 +104,7 @@ bool true if success\&.
 .RE
 .PP
 
-.SS "bool SetupRosEnvironment ()"
+.SS "bool SetupRosEnvironment (std::stringpkgpath)"
 
 .PP
 SetupRosEnvironment will attempt to provide an environment equivalent to ROS 'source devel/setup\&.bash'\&.  some of the code is hard coded, but unnecessary if executable run in shell\&. 

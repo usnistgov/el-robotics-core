@@ -35,6 +35,8 @@
 #define strncasecmp(x, y, z)    _strnicmp(x, y, z)
 #else
 #define _strnicmp strncasecmp
+#define S_OK 0
+#define E_FAIL -1
 #endif
 
 #ifndef CLEANSTORE

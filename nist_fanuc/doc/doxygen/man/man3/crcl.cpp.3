@@ -1,4 +1,4 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,14 +12,6 @@
 .br
 \fC#include 'CrclInterface\&.h'\fP
 .br
-\fC#include 'boost/array\&.hpp'\fP
-.br
-\fC#include 'urdf_model/rosmath\&.h'\fP
-.br
-\fC#include <Eigen/Dense>\fP
-.br
-\fC#include 'urdf_model/eigenmath\&.h'\fP
-.br
 
 .SS "Namespaces"
 
@@ -28,48 +20,69 @@
 .RI "\fBCrcl\fP"
 .br
 .in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBROWMAJOR\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "RosMatrix \fBCrcl::GetXZRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.RI "bool \fBCrcl::GetRPY\fP (\fBRCS::Vector3\fP Xrot, \fBRCS::Vector3\fP Zrot, double &dRoll, double &dPitch, double &dYaw)"
 .br
 .ti -1c
-.RI "Eigen::Matrix3d \fBCrcl::GetEigenRotMatrix\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
-.br
-.ti -1c
-.RI "bool \fBCrcl::GetRPY\fP (\fBCrcl::PoseType\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
-.br
-.ti -1c
-.RI "bool \fBCrcl::GetRPY\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
-.br
-.ti -1c
-.RI "urdf::Pose \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion)"
+.RI "PoseType \fBCrcl::NullPose\fP ()"
 .br
 .ti -1c
 .RI "\fBCrcl::VectorType\fP \fBCrcl::VectorZero\fP ()"
 .br
 .ti -1c
-.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::PointType\fP &point)"
+.RI "\fBCrcl::PoseType\fP \fBCrcl::IdentityPose\fP ()"
 .br
 .ti -1c
-.RI "urdf::Vector3 \fBCrcl::GetVector3D\fP (\fBCrcl::VectorType\fP &vector)"
+.RI "\fBRCS::Vector3\fP \fBCrcl::GetVector3D\fP (\fBCrcl::VectorType\fP &vector)"
 .br
+.ti -1c
+.RI "\fBRCS::Vector3\fP \fBCrcl::GetVector3D\fP (\fBCrcl::PointType\fP &point)"
+.br
+.ti -1c
+.RI "tf::Vector3 \fBCrcl::GetTfVector\fP (\fBCrcl::PointType\fP &point)"
+.br
+.ti -1c
+.RI "tf::Vector3 \fBCrcl::GetTfVector\fP (\fBCrcl::VectorType\fP &vector)"
+.br
+.ti -1c
+.RI "inline::PointType \fBCrcl::GetPoint\fP (\fBRCS::Vector3\fP &point)"
+.br
+.ti -1c
+.RI "inline::VectorType \fBCrcl::GetVector\fP (\fBRCS::Vector3\fP &point)"
+.br
+.ti -1c
+.RI "tf::Matrix3x3 \fBCrcl::GetTfRotMatrix\fP (\fBRCS::Vector3\fP Xrot, \fBRCS::Vector3\fP Zrot)"
+.br
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion=1\&.0)"
+.br
+.RI "\fIConvert converts codesynthesis \fBCrcl\fP Pose into ROS/RCS pose using length conversion \&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
 .ti -1c
 .RI "bool \fBCrcl::GetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
 .br
+.RI "\fIGet roll,pitch,yaw orientation from codesynthesis \fBCrcl\fP pose\&. \fP"
 .ti -1c
-.RI "urdf::Rotation \fBCrcl::Convert\fP (urdf::Vector3 Xrot, urdf::Vector3 Zrot)"
+.RI "\fBRCS::Rotation\fP \fBCrcl::Convert\fP (\fBRCS::Vector3\fP Xrot, \fBRCS::Vector3\fP Zrot)"
 .br
+.RI "\fIConvert converts codesynthesis \fBCrcl\fP rotation (as x,z rotation vectors) into ROS/RCS rotation\&. \fP"
 .ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::Init\fP (std::vector< double > terms)"
+.RI "\fBCrcl::PoseType\fP \fBCrcl::Convert\fP (\fBRCS::Pose\fP pose)"
 .br
+.RI "\fIConvert converts ROS/RCS pose into codesynthesis \fBCrcl\fP Pose\&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
 .ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::Convert\fP (urdf::Pose pose)"
+.RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jointStatusSeq, double angleConversion=1\&.0)"
 .br
-.ti -1c
-.RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jout, double angleConversion)"
-.br
+.RI "\fIConvert converts codesynthesis status actuator joint sequence into ROS JointState\&.(Fills position)\&. \fP"
 .ti -1c
 .RI "\fBCrcl::JointStatusSequence\fP \fBCrcl::Convert\fP (\fBJointState\fP joints, double _angleConversion)"
 .br
@@ -77,30 +90,24 @@
 .RI "JointStatusSequence \fBCrcl::Convert\fP (\fBCrcl::ActuatorJointSequence\fP joints, double _angleConversion)"
 .br
 .ti -1c
-.RI "::PointType \fBCrcl::GetPoint\fP (\fBRCS::Vector3\fP &point)"
-.br
-.ti -1c
-.RI "::VectorType \fBCrcl::GetVector\fP (\fBRCS::Vector3\fP &point)"
-.br
-.ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::NullPose\fP ()"
-.br
-.ti -1c
-.RI "\fBCrcl::PoseType\fP \fBCrcl::IdentityPose\fP ()"
-.br
-.ti -1c
 .RI "\fBCrcl::PoseType\fP \fBCrcl::PoseHome\fP ()"
 .br
+.RI "\fICreate codesynthesis \fBCrcl\fP pose that is necessary for all codesynthesis \fBCrcl\fP pose constructors\&. \fP"
 .ti -1c
 .RI "std::vector< double > \fBCrcl::ConvertToAnglePositionVector\fP (\fBCrcl::ActuatorJointSequence\fP &joints, double dAngleConversion)"
 .br
 .ti -1c
-.RI "std::string \fBCrcl::DumpCrclPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.RI "std::string \fBCrcl::DumpCrclCommand\fP (::CRCLCommandType &crclCommand)"
 .br
 .ti -1c
-.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
 .br
+.RI "\fIDump contents of codesynthesis \fBCrcl\fP pose\&. \fP"
 .in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ROWMAJOR"
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CRCL FANUC from the source code\&.

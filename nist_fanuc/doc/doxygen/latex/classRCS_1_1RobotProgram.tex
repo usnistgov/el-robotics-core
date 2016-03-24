@@ -21,8 +21,10 @@ Inheritance diagram for R\-C\-S\-:\-:Robot\-Program\-:\begin{figure}[H]
 \item 
 \hyperlink{classRCS_1_1RobotProgram_a9704d21c4a2d24fc856fad7af6e99903}{Robot\-Program} (double cycletime=\hyperlink{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E})
 \begin{DoxyCompactList}\small\item\em \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} constructor that requires a cycle time for \hyperlink{namespaceRCS}{R\-C\-S} thread timing. \end{DoxyCompactList}\item 
-virtual void \hyperlink{classRCS_1_1RobotProgram_a0998f374dd54b6a0843d33a664c9da15}{Execute\-Program} (std\-::string programpath)
-\begin{DoxyCompactList}\small\item\em Execute\-Program reads a file path for C\-R\-C\-L X\-M\-L program. It will set up interpreting the program. It is thread safe. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1RobotProgram_acc1276c48a841ee5378bf58c1c8f04a2}{Execute\-Program\-From\-File} (std\-::string programpath)
+\begin{DoxyCompactList}\small\item\em Execute\-Program\-From\-File reads a file path for C\-R\-C\-L X\-M\-L program. It will set up interpreting the program. It is thread safe. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classRCS_1_1RobotProgram_ade00f05303f43f97758cb91de8b4838b}{Execute\-Program} (std\-::string programstr)
+\begin{DoxyCompactList}\small\item\em Execute\-Program reads and interprets a C\-R\-C\-L X\-M\-L program string. It will set up interpreting the program. It is thread safe. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b245790e}{Action} ()
 \begin{DoxyCompactList}\small\item\em Action is the main loop in the \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} \hyperlink{namespaceRCS}{R\-C\-S} thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
@@ -35,6 +37,8 @@ std\-::string \hyperlink{classRCS_1_1RobotProgram_aca7d780729e20c6d4e3988883b875
 std\-::istringstream \hyperlink{classRCS_1_1RobotProgram_a0099964c452870619bd0ee7651ffb072}{istr}
 \item 
 int \hyperlink{classRCS_1_1RobotProgram_ad43243236b573d0e3fc39d4890a43373}{cmdnum}
+\item 
+int \hyperlink{classRCS_1_1RobotProgram_a6c6a9242582933fa673b9d486913514c}{lastcmdnum}
 \item 
 \-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence \& \hyperlink{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}{cmds}
 \end{DoxyCompactItemize}
@@ -84,16 +88,32 @@ Executes one program command at a time.  needs to wait until current command is 
 
 Reimplemented from \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{R\-C\-S\-::\-Thread}.
 
-\hypertarget{classRCS_1_1RobotProgram_a0998f374dd54b6a0843d33a664c9da15}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!Execute\-Program@{Execute\-Program}}
+\hypertarget{classRCS_1_1RobotProgram_ade00f05303f43f97758cb91de8b4838b}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!Execute\-Program@{Execute\-Program}}
 \index{Execute\-Program@{Execute\-Program}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
 \subsubsection[{Execute\-Program}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Robot\-Program\-::\-Execute\-Program (
 \begin{DoxyParamCaption}
+\item[{std\-::string}]{programstr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotProgram_ade00f05303f43f97758cb91de8b4838b}
+
+
+Execute\-Program reads and interprets a C\-R\-C\-L X\-M\-L program string. It will set up interpreting the program. It is thread safe. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em programpath} & str containing crcl xml program. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classRCS_1_1RobotProgram_acc1276c48a841ee5378bf58c1c8f04a2}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!Execute\-Program\-From\-File@{Execute\-Program\-From\-File}}
+\index{Execute\-Program\-From\-File@{Execute\-Program\-From\-File}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{Execute\-Program\-From\-File}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Robot\-Program\-::\-Execute\-Program\-From\-File (
+\begin{DoxyParamCaption}
 \item[{std\-::string}]{programpath}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotProgram_a0998f374dd54b6a0843d33a664c9da15}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotProgram_acc1276c48a841ee5378bf58c1c8f04a2}
 
 
-Execute\-Program reads a file path for C\-R\-C\-L X\-M\-L program. It will set up interpreting the program. It is thread safe. 
+Execute\-Program\-From\-File reads a file path for C\-R\-C\-L X\-M\-L program. It will set up interpreting the program. It is thread safe. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -115,13 +135,16 @@ mutex for thread safe access to \hyperlink{classRCS_1_1RobotProgram}{Robot\-Prog
 saved \hyperlink{classRCS_1_1RobotProgram}{Robot\-Program} program file path \hypertarget{classRCS_1_1RobotProgram_ad43243236b573d0e3fc39d4890a43373}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!cmdnum@{cmdnum}}
 \index{cmdnum@{cmdnum}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
 \subsubsection[{cmdnum}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-::\-Robot\-Program\-::cmdnum}}\label{classRCS_1_1RobotProgram_ad43243236b573d0e3fc39d4890a43373}
-number of \hyperlink{namespaceCrcl}{Crcl} X\-M\-L command to execute \hypertarget{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!cmds@{cmds}}
+index of \hyperlink{namespaceCrcl}{Crcl} X\-M\-L command to execute \hypertarget{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!cmds@{cmds}}
 \index{cmds@{cmds}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
 \subsubsection[{cmds}]{\setlength{\rightskip}{0pt plus 5cm}\-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence\& R\-C\-S\-::\-Robot\-Program\-::cmds}}\label{classRCS_1_1RobotProgram_ad6ed8ea72249e836521b2f7d7feb3523}
 reference to crcl program X\-M\-L commands (from codesynthesis parsing) \hypertarget{classRCS_1_1RobotProgram_a0099964c452870619bd0ee7651ffb072}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!istr@{istr}}
 \index{istr@{istr}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
 \subsubsection[{istr}]{\setlength{\rightskip}{0pt plus 5cm}std\-::istringstream R\-C\-S\-::\-Robot\-Program\-::istr}}\label{classRCS_1_1RobotProgram_a0099964c452870619bd0ee7651ffb072}
-input stream interface for codesynthesis parsing 
+input stream interface for codesynthesis parsing \hypertarget{classRCS_1_1RobotProgram_a6c6a9242582933fa673b9d486913514c}{\index{R\-C\-S\-::\-Robot\-Program@{R\-C\-S\-::\-Robot\-Program}!lastcmdnum@{lastcmdnum}}
+\index{lastcmdnum@{lastcmdnum}!RCS::RobotProgram@{R\-C\-S\-::\-Robot\-Program}}
+\subsubsection[{lastcmdnum}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-::\-Robot\-Program\-::lastcmdnum}}\label{classRCS_1_1RobotProgram_a6c6a9242582933fa673b9d486913514c}
+last index of \hyperlink{namespaceCrcl}{Crcl} X\-M\-L command to execute 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 

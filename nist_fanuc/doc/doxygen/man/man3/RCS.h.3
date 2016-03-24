@@ -1,4 +1,4 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/RCS.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/RCS.h" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,15 +12,9 @@
 .br
 \fC#include <moveit/robot_model/robot_model\&.h>\fP
 .br
-\fC#include '/usr/include/urdf_model/model\&.h'\fP
-.br
-\fC#include '/usr/include/urdf_model/joint\&.h'\fP
-.br
-\fC#include '/usr/include/urdf_model/link\&.h'\fP
+\fC#include <tf/transform_datatypes\&.h>\fP
 .br
 \fC#include '/opt/ros/indigo/include/sensor_msgs/JointState\&.h'\fP
-.br
-\fC#include 'urdf_model/rosmath\&.h'\fP
 .br
 \fC#include <stdarg\&.h>\fP
 .br
@@ -30,6 +24,10 @@
 .SS "Classes"
 
 .in +1c
+.ti -1c
+.RI "class \fBRCS::IRate\fP"
+.br
+.RI "\fI\fBIRate\fP is an interface class for defining the allowed motion rates\&. \fP"
 .ti -1c
 .RI "struct \fBRCS::CanonCmd\fP"
 .br
@@ -76,15 +74,25 @@
 .ti -1c
 .RI "#define \fBDEFAULT_JOINT_MAX_VEL\fP   150\&.0/\fBLENGTHUNITS\fP"
 .br
+.ti -1c
+.RI "#define \fBHAVE_SINCOS\fP"
+.br
+.ti -1c
+.RI "#define \fBDeg2Rad\fP(Ang)   ( (double) ( Ang * M_PI / 180\&.0 ) )"
+.br
+.ti -1c
+.RI "#define \fBRad2Deg\fP(Ang)   ( (double) ( Ang * 180\&.0 / M_PI ) )"
+.br
+.ti -1c
+.RI "#define \fBMM2Meter\fP(d)   ( (double) ( d / 1000\&.00 ) )"
+.br
+.ti -1c
+.RI "#define \fBMeter2MM\fP(d)   ( (double) ( d * 1000\&.00 ) )"
+.br
 .in -1c
 .SS "Typedefs"
 
 .in +1c
-.ti -1c
-.RI "typedef boost::shared_ptr
-.br
-< urdf::ModelInterface > \fBModelInterfaceSharedPtr\fP"
-.br
 .ti -1c
 .RI "typedef 
 .br
@@ -98,16 +106,16 @@ sensor_msgs::JointState_
 < \fBJointState\fP > \fBJointStateSharedPtr\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Pose \fBRCS::Pose\fP"
+.RI "typedef tf::Pose \fBRCS::Pose\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Vector3 \fBRCS::Position\fP"
+.RI "typedef tf::Vector3 \fBRCS::Position\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Rotation \fBRCS::Rotation\fP"
+.RI "typedef tf::Quaternion \fBRCS::Rotation\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Vector3 \fBRCS::Vector3\fP"
+.RI "typedef tf::Vector3 \fBRCS::Vector3\fP"
 .br
 .ti -1c
 .RI "typedef double \fBRCS::Length\fP"
@@ -146,11 +154,11 @@ sensor_msgs::JointState_
 .br
 .RI "\fIenumeration of torque units\&. \fP"
 .ti -1c
-.RI "enum \fBRCS::CanonReturn\fP { \fBRCS::CANON_REJECT\fP = -2, \fBRCS::CANON_FAILURE\fP = -1, \fBRCS::CANON_SUCCESS\fP = 0, \fBRCS::CANON_STATUSREPLY\fP = 1, \fBRCS::CANON_RUNNING\fP }"
+.RI "enum \fBRCS::CanonReturn\fP { \fBRCS::CANON_REJECT\fP = -2, \fBRCS::CANON_FAILURE\fP = -1, \fBRCS::CANON_SUCCESS\fP = 0, \fBRCS::CANON_STATUSREPLY\fP = 1, \fBRCS::CANON_MOTION\fP = 2, \fBRCS::CANON_RUNNING\fP }"
 .br
 .RI "\fIenumeration of return type from \fBCrcl\fP intepretation\&. If statusreply, requires status sent to \fBCrcl\fP client\&. \fP"
 .ti -1c
-.RI "enum \fBRCS::CanonCmdType\fP { \fBRCS::CANON_NOOP\fP = 0, \fBRCS::CANON_DWELL\fP, \fBRCS::CANON_END_CANON\fP, \fBRCS::CANON_INIT_CANON\fP, \fBRCS::CANON_MOVE_JOINT\fP, \fBRCS::CANON_MOVE_TO\fP, \fBRCS::CANON_MOVE_THRU\fP, \fBRCS::CANON_SET_MAX_CART_ACC\fP, \fBRCS::CANON_SET_MAX_CART_SPEED\fP, \fBRCS::CANON_SET_MAX_JOINT_ACC\fP, \fBRCS::CANON_SET_MAX_JOINT_SPEED\fP, \fBRCS::CANON_SET_GRIPPER\fP, \fBRCS::CANON_STOP_MOTION\fP, \fBRCS::CANON_UNKNOWN\fP }"
+.RI "enum \fBRCS::CanonCmdType\fP { \fBRCS::CANON_NOOP\fP = 0, \fBRCS::CANON_DWELL\fP, \fBRCS::CANON_END_CANON\fP, \fBRCS::CANON_INIT_CANON\fP, \fBRCS::CANON_MOVE_JOINT\fP, \fBRCS::CANON_MOVE_TO\fP, \fBRCS::CANON_MOVE_THRU\fP, \fBRCS::CANON_SET_MAX_CART_ACC\fP, \fBRCS::CANON_SET_MAX_CART_SPEED\fP, \fBRCS::CANON_SET_MAX_JOINT_ACC\fP, \fBRCS::CANON_SET_MAX_JOINT_SPEED\fP, \fBRCS::CANON_SET_GRIPPER\fP, \fBRCS::CANON_SET_TOLERANCE\fP, \fBRCS::CANON_STOP_MOTION\fP, \fBRCS::CANON_DO_MOTION\fP, \fBRCS::CANON_OTHER\fP, \fBRCS::CANON_UNKNOWN\fP }"
 .br
 .RI "\fIenumeration of \fBCrcl\fP commands\&. Many \fBCrcl\fP commands are wm parameter setting and require no motion component\&. \fP"
 .ti -1c
@@ -174,26 +182,21 @@ sensor_msgs::JointState_
 
 .in +1c
 .ti -1c
-.RI "std::string \fBRCS::DumpPose\fP (urdf::Pose &pose)"
+.RI "void \fBsincos\fP (double x, double *sx, double *cx)"
+.br
+.ti -1c
+.RI "void \fBRCS::getRPY\fP (const \fBRCS::Pose\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
+.RI "std::string \fBRCS::DumpPose\fP (\fBRCS::Pose\fP &pose)"
 .br
 .RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
 .ti -1c
-.RI "std::string \fBRCS::DumpQuaterion\fP (std::ostream &os, const urdf::Rotation &rot)"
+.RI "std::string \fBRCS::DumpQuaterion\fP (std::ostream &os, const \fBRCS::Rotation\fP &rot)"
 .br
 .RI "\fIDumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. \fP"
 .ti -1c
 .RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBRCS::CanonCmd\fP &cc)"
-.br
-.in -1c
-.SS "Variables"
-
-.in +1c
-.ti -1c
-.RI "\fBModelInterfaceSharedPtr\fP 
-.br
-typedef boost::shared_ptr
-.br
-< urdf::Joint > \fBJointSharedPtr\fP"
 .br
 .in -1c
 .SH "Macro Definition Documentation"
@@ -212,9 +215,19 @@ typedef boost::shared_ptr
 
 .SS "#define DEFAULT_LOOP_CYCLE   0\&.10"
 
+.SS "#define Deg2Rad(Ang)   ( (double) ( Ang * M_PI / 180\&.0 ) )"
+
 .SS "#define EPSILON   1E-04"
 
+.SS "#define HAVE_SINCOS"
+
 .SS "#define LENGTHUNITS   1000"
+
+.SS "#define Meter2MM(d)   ( (double) ( d * 1000\&.00 ) )"
+
+.SS "#define MM2Meter(d)   ( (double) ( d / 1000\&.00 ) )"
+
+.SS "#define Rad2Deg(Ang)   ( (double) ( Ang * 180\&.0 / M_PI ) )"
 
 .SH "Typedef Documentation"
 .PP 
@@ -222,15 +235,11 @@ typedef boost::shared_ptr
 
 .SS "typedef boost::shared_ptr<\fBJointState\fP> \fBJointStateSharedPtr\fP"
 
-.SS "typedef boost::shared_ptr<urdf::ModelInterface> \fBModelInterfaceSharedPtr\fP"
-
 .SH "Function Documentation"
 .PP 
 .SS "std::ostream& operator<< (std::ostream &os, const \fBRCS::CanonCmd\fP &cc)\fC [inline]\fP"
 
-.SH "Variable Documentation"
-.PP 
-.SS "\fBModelInterfaceSharedPtr\fP typedef boost::shared_ptr<urdf::Joint> JointSharedPtr"
+.SS "void sincos (doublex, double *sx, double *cx)\fC [inline]\fP"
 
 .SH "Author"
 .PP 

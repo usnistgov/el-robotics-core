@@ -13,11 +13,11 @@
 \begin{DoxyCompactItemize}
 \item 
 struct \hyperlink{structCrcl_1_1GripperStatus}{Crcl\-::\-Gripper\-Status}
-\item 
+\begin{DoxyCompactList}\small\item\em \hyperlink{structCrcl_1_1GripperStatus}{Gripper\-Status} dummy class for future gripper information. \end{DoxyCompactList}\item 
 struct \hyperlink{structCrcl_1_1JointReport}{Crcl\-::\-Joint\-Report}
-\item 
+\begin{DoxyCompactList}\small\item\em \hyperlink{structCrcl_1_1JointReport}{Joint\-Report} dummy class for future customization of \hyperlink{namespaceCrcl}{Crcl} status reports. \end{DoxyCompactList}\item 
 struct \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-::\-Crcl\-Status}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} is a class that encapsulates all the C\-R\-C\-L information. All lot of the knowledge is converting R\-O\-S oriented \hyperlink{namespaceRCS}{R\-C\-S} data into codesynthesis \hyperlink{namespaceCrcl}{Crcl} representation and vice versa. \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,7 +31,7 @@ struct \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-::\-Crcl\-Status}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-typedef urdf\-::\-Vector3 \hyperlink{namespaceCrcl_a1b424aa4904c32a427cc66b566babf49}{Crcl\-::\-Vector3\-D}
+typedef \hyperlink{namespaceRCS_a688a9db9f1e17b76c410c539997d07a7}{R\-C\-S\-::\-Vector3} \hyperlink{namespaceCrcl_a8d272fb6207c4f4195f4309c71d00a9c}{Crcl\-::\-Vector3\-D}
 \end{DoxyCompactItemize}
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -47,48 +47,36 @@ enum \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-::\-Crcl\
 \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0af9001172ed075345641fbb95a818e0da}{Crcl\-::\-C\-A\-N\-O\-N\-\_\-\-S\-U\-C\-C\-E\-S\-S} = 0, 
 \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0af8040d4fa18254e17c0e5b1893ba8859}{Crcl\-::\-C\-A\-N\-O\-N\-\_\-\-S\-T\-A\-T\-U\-S\-R\-E\-P\-L\-Y} = 1, 
 \\*
-\hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0afdcee8c4e0e747aa30452b835fd1380a}{Crcl\-::\-C\-A\-N\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}
+\hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0a8044ac4052e4558e22c5be516d106204}{Crcl\-::\-C\-A\-N\-O\-N\-\_\-\-M\-O\-T\-I\-O\-N} = 2, 
+\hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0afdcee8c4e0e747aa30452b835fd1380a}{Crcl\-::\-C\-A\-N\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}, 
+\hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0a7e627586bca4ce3863e89ebcd7a55c74}{Crcl\-::\-C\-A\-N\-O\-N\-\_\-\-N\-O\-T\-\_\-\-I\-M\-P\-L\-E\-M\-E\-N\-T\-E\-D}
  \}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 std\-::vector$<$ double $>$ \hyperlink{namespaceCrcl_af6bec848a13c03669ca8920795c5d3ad}{Crcl\-::\-Convert\-To\-Position\-Vector} (Actuator\-Joint\-Sequence \&, double d\-Conversion)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert\-To\-Position\-Vector converts codesynthesis actuator sequence into std vector of position as doubles. \end{DoxyCompactList}\item 
 Joint\-Status\-Sequence \hyperlink{namespaceCrcl_a329b70844c080b1a81c89989b58ffbd5}{Crcl\-::\-Convert} (Actuator\-Joint\-Sequence jin)
-\item 
-urdf\-::\-Pose \hyperlink{namespaceCrcl_a6ba76fbe3bb36cef5f8a289c327e7a4b}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, double length\-Conversion)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert converts codesynthesis commanded actuator joint sequence into status actuator joint sequence . \end{DoxyCompactList}\item 
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{namespaceCrcl_a84440a94ca5992cf4a01e4215d1cb363}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} joint\-Status\-Seq, double angle\-Conversion=1.\-0)
+\begin{DoxyCompactList}\small\item\em Convert converts codesynthesis status actuator joint sequence into R\-O\-S Joint\-State.(Fills position). \end{DoxyCompactList}\item 
 \hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{namespaceCrcl_a1f43fba61abba477ee664c4b5c6dd65b}{Crcl\-::\-Convert} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} joints)
-\item 
-\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{namespaceCrcl_a650d91db3abf7d3734f8a0e4aceaeaea}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} jout, double angle\-Conversion)
-\item 
-\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_ae1dd6fda9cf860d4e66b55bdc9564795}{Crcl\-::\-Init} (std\-::vector$<$ double $>$ terms)
-\item 
-\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_ac77c1d8cdd8c33effcb7a3705671d06b}{Crcl\-::\-Identity\-Pose} ()
-\item 
-std\-::string \hyperlink{namespaceCrcl_a666314177998417d741895bb491783bd}{Crcl\-::\-Dump\-Pose} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator)
-\item 
-urdf\-::\-Vector3 \hyperlink{namespaceCrcl_aa4478a87fcc970adc728f4fbb275b8f3}{Crcl\-::\-Get\-Vector3\-D} (\hyperlink{namespaceCrcl_a04f09d617642257f5938e52cee2feeef}{Crcl\-::\-Point\-Type} \&point)
-\item 
-urdf\-::\-Vector3 \hyperlink{namespaceCrcl_a1d76629ad554e6d08322a36fbafcbc5a}{Crcl\-::\-Get\-Vector3\-D} (\hyperlink{namespaceCrcl_ae868d4ece511d1485ed5d9118395aef8}{Crcl\-::\-Vector\-Type} \&vector)
-\item 
+\begin{DoxyCompactList}\small\item\em Convert converts R\-O\-S Joint\-State (primarily position for now) and creates codesynthesis status actuator joint sequence. \end{DoxyCompactList}\item 
+\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_ac74920bcb32be055b5f94010fed04cb1}{Crcl\-::\-Convert} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} pose)
+\begin{DoxyCompactList}\small\item\em Convert converts R\-O\-S/\-R\-C\-S pose into codesynthesis \hyperlink{namespaceCrcl}{Crcl} Pose. Note, no angle conversion -\/ rotation/orientation always in radians. \end{DoxyCompactList}\item 
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{namespaceCrcl_abd79cdab59edf05f88b02e6963862813}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, double length\-Conversion=1.\-0)
+\begin{DoxyCompactList}\small\item\em Convert converts codesynthesis \hyperlink{namespaceCrcl}{Crcl} Pose into R\-O\-S/\-R\-C\-S pose using length conversion . Note, no angle conversion -\/ rotation/orientation always in radians. \end{DoxyCompactList}\item 
+\hyperlink{namespaceRCS_a3fd915276fdb632d217c560523c320e0}{R\-C\-S\-::\-Rotation} \hyperlink{namespaceCrcl_a3cc4f0a80c975f2afab38ab2de262d1f}{Crcl\-::\-Convert} (\hyperlink{namespaceRCS_a688a9db9f1e17b76c410c539997d07a7}{R\-C\-S\-::\-Vector3} Xrot, \hyperlink{namespaceRCS_a688a9db9f1e17b76c410c539997d07a7}{R\-C\-S\-::\-Vector3} Zrot)
+\begin{DoxyCompactList}\small\item\em Convert converts codesynthesis \hyperlink{namespaceCrcl}{Crcl} rotation (as x,z rotation vectors) into R\-O\-S/\-R\-C\-S rotation. \end{DoxyCompactList}\item 
 bool \hyperlink{namespaceCrcl_a394a527b4609a6d5b444f30bb9384f1a}{Crcl\-::\-Get\-Pose\-To\-R\-P\-Y} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, double \&d\-Roll, double \&d\-Pitch, double \&d\-Yaw)
-\item 
-Ros\-Matrix \hyperlink{namespaceCrcl_a7851c914ebfcd66dd694dbfb58f19d3f}{Crcl\-::\-Get\-X\-Z\-Rot\-Matrix} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot)
-\item 
-bool \hyperlink{namespaceCrcl_a11e5c6625b133a0ad8d38bef745d5bf6}{Crcl\-::\-Get\-R\-P\-Y} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot, double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
-\item 
-urdf\-::\-Rotation \hyperlink{namespaceCrcl_af82af80892b5c9a1f843bbfabd06de91}{Crcl\-::\-Convert} (urdf\-::\-Vector3 Xrot, urdf\-::\-Vector3 Zrot)
-\item 
-\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_aa4ed1cb04b5173a5bd4a115d4755a2db}{Crcl\-::\-Null\-Pose} ()
+\begin{DoxyCompactList}\small\item\em Get roll,pitch,yaw orientation from codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceCrcl_a30019a860966a9cdaa1564cc95787de4}{Crcl\-::\-Dump\-Pose} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator=\char`\"{},\char`\"{})
+\begin{DoxyCompactList}\small\item\em Dump contents of codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceCrcl_a1726015b66be8193fcd10bc157661a3d}{Crcl\-::\-Dump\-Crcl\-Command} (\-::C\-R\-C\-L\-Command\-Type \&crcl\-Command)
 \item 
 \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_a5e9036e140bcf2156b7995085f36d75f}{Crcl\-::\-Pose\-Home} ()
-\item 
-\hyperlink{namespaceCrcl_ae868d4ece511d1485ed5d9118395aef8}{Crcl\-::\-Vector\-Type} \hyperlink{namespaceCrcl_add9e9e39ef44f31dae46c86a85201726}{Crcl\-::\-Vector\-Zero} ()
-\item 
-std\-::ostream \& \hyperlink{namespaceCrcl_a043eb5308a43b100a739ac45bde3501d}{Crcl\-::operator$<$$<$} (std\-::ostream \&os, const \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Create codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose that is necessary for all codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose constructors. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 

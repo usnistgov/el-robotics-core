@@ -1,4 +1,4 @@
-.TH "md_Installation" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "md_Installation" 3 "Thu Mar 17 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -83,6 +83,32 @@ Need include file path in CMakeLists\&.txt:
 .PP
 .nf
 include_directories(/usr/include/xsd/cxx/xml)
+
+.fi
+.PP
+.PP
+If you cannot run Ubuntu software centerto install CodeSynthesis, you can download the source and install it\&. You need to go to the web page: http://www.codesynthesis.com/products/xsd/download.xhtml and select: 
+.PP
+.nf
+xsd-4.0.0-x86_64-linux-gnu.tar.bz2
+
+.fi
+.PP
+.PP
+It will be saved into /usr/local/downloads, but you can save it anywhere\&. Then cd to where you saved it, and do this: 
+.PP
+.nf
+tar --bzip2 -xvf xsd-4.0.0-x86_64-linux-gnu.tar.bz2 (dash-dash bzip2, dash-xvf)
+
+.fi
+.PP
+.PP
+It will create a directory xsd-4\&.0\&.0-x86_64-linux-gnu\&.
+.PP
+Make a symbolic link: 
+.PP
+.nf
+ln -s <path/to/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd
 .fi
 .PP
  

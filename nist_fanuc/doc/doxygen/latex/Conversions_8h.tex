@@ -3,43 +3,72 @@
 }
 {\ttfamily \#include $<$Eigen/\-Core$>$}\\*
 {\ttfamily \#include $<$Eigen/\-Geometry$>$}\\*
+{\ttfamily \#include \char`\"{}urdf\-\_\-model/tfmath.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}geometry\-\_\-msgs/\-Pose\-Stamped.\-h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}urdf\-\_\-model/eigenmath.\-h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}urdf\-\_\-model/rosmath.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}R\-C\-S.\-h\char`\"{}}\\*
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-urdf\-::\-Pose \hyperlink{Conversions_8h_a5334bb7fb1e0ef3aa3bd6d2a03d2b07a}{Pose\-Msg2\-Urdf\-Pose} (const geometry\-\_\-msgs\-::\-Pose \&m)
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{Conversions_8h_a3fdff298343663baf8be596ca2a713e1}{Geom\-Msg\-Pose2\-Urdf\-Pose} (const geometry\-\_\-msgs\-::\-Pose \&m)
 \item 
-geometry\-\_\-msgs\-::\-Pose \hyperlink{Conversions_8h_ae633ac1c40eee4fc9f17cd29425cc559}{Urdf\-Pose2\-Pose\-Msg} (const urdf\-::\-Pose \&m)
+geometry\-\_\-msgs\-::\-Pose \hyperlink{Conversions_8h_a79950e8b22d27e748a58b2d16e6c2e3a}{Urdf\-Pose2\-Geom\-Msg\-Pose} (const \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&m)
 \item 
-Eigen\-::\-Affine3d \hyperlink{Conversions_8h_aeb9bcb5d16446aedaa69e3f336c3a37f}{Pose\-Msg\-To\-Eigen\-Affine} (const geometry\-\_\-msgs\-::\-Pose \&m)
+Eigen\-::\-Affine3d \hyperlink{Conversions_8h_a062667366f2e4eb0df70976fbde8c479}{Geom\-Msg\-Pose2\-Affine3d} (const geometry\-\_\-msgs\-::\-Pose \&m)
 \item 
-geometry\-\_\-msgs\-::\-Pose \hyperlink{Conversions_8h_a930fa2ea992a7b863a1312b883bbf092}{pose\-Eigen\-To\-Geom\-Msg} (const Eigen\-::\-Affine3d \&e)
+geometry\-\_\-msgs\-::\-Pose \hyperlink{Conversions_8h_a77c46ed25f92da029d803d1f17bfe9ef}{Pose\-Affine\-To\-Geom\-Msg} (const Eigen\-::\-Affine3d \&e)
 \item 
-std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \hyperlink{Conversions_8h_afe66d55a7d5382503fd3338795185eca}{Urdf\-Poses2\-Pose\-Msgs} (const std\-::vector$<$ urdf\-::\-Pose $>$ \&src)
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{Conversions_8h_a036d011ed7076eb62e0ae15527526dc1}{Affine3d2\-Urdf\-Pose} (const Eigen\-::\-Affine3d \&pose)
+\begin{DoxyCompactList}\small\item\em affine3d2\-Urdf\-Pose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose \end{DoxyCompactList}\item 
+Eigen\-::\-Affine3d \hyperlink{Conversions_8h_a2fd6da9c337939cbd7c072ef58359673}{Urdf\-Pose2\-Affine3d} (const \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
+\begin{DoxyCompactList}\small\item\em urdf\-Pose2\-Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose \end{DoxyCompactList}\item 
+std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \hyperlink{Conversions_8h_ade536d091dbd9847e5600d42169c3268}{Urdf\-Poses2\-Pose\-Msgs} (const std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \&src)
 \item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{Conversions_8h_a5160124557f7d96f0a4d8c36dfa53796}{Pose\-Msgs2\-Urdf\-Poses} (const std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \&src)
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{Conversions_8h_a3952d22087a8dd05ba9debfaa168b955}{Pose\-Msgs2\-Urdf\-Poses} (const std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \&src)
 \item 
-std\-::vector$<$ Eigen\-::\-Affine3d $>$ \hyperlink{Conversions_8h_a6078cc3327f714de561ef118a88fc899}{Pose\-Msgs2\-Aff\-Eigen\-Poses} (const std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \&src)
+std\-::vector$<$ Eigen\-::\-Affine3d $>$ \hyperlink{Conversions_8h_acddecc9068058a9ff1204d62cee2baab}{Pose\-Msgs2\-Aff\-Eigen\-Poses} (const std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \&src)
 \item 
-std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \hyperlink{Conversions_8h_a9489007d9aea0992eb151904faa8ede1}{Aff\-Eigen\-Poses2\-Pose\-Msgs} (const std\-::vector$<$ Eigen\-::\-Affine3d $>$ \&src)
-\item 
-\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \hyperlink{Conversions_8h_abb77e7f56484d602532da96585fc7deb}{Vector2\-Joint\-State} (const std\-::vector$<$ double $>$ \&src)
+std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \hyperlink{Conversions_8h_afd62adb8c50c8f529cd148f24a77d236}{Aff\-Eigen\-Poses2\-Pose\-Msgs} (const std\-::vector$<$ Eigen\-::\-Affine3d $>$ \&src)
 \item 
 \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \hyperlink{Conversions_8h_a247ae7d07310067188e4b9071eecfea8}{Jnt\-Pos\-Vector2\-Joint\-State} (const std\-::vector$<$ double $>$ \&src)
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\hypertarget{Conversions_8h_a9489007d9aea0992eb151904faa8ede1}{\index{Conversions.\-h@{Conversions.\-h}!Aff\-Eigen\-Poses2\-Pose\-Msgs@{Aff\-Eigen\-Poses2\-Pose\-Msgs}}
+\hypertarget{Conversions_8h_afd62adb8c50c8f529cd148f24a77d236}{\index{Conversions.\-h@{Conversions.\-h}!Aff\-Eigen\-Poses2\-Pose\-Msgs@{Aff\-Eigen\-Poses2\-Pose\-Msgs}}
 \index{Aff\-Eigen\-Poses2\-Pose\-Msgs@{Aff\-Eigen\-Poses2\-Pose\-Msgs}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Aff\-Eigen\-Poses2\-Pose\-Msgs}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ Aff\-Eigen\-Poses2\-Pose\-Msgs (
+\subsubsection[{Aff\-Eigen\-Poses2\-Pose\-Msgs}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$geometry\-\_\-msgs\-::\-Pose$>$ Aff\-Eigen\-Poses2\-Pose\-Msgs (
 \begin{DoxyParamCaption}
 \item[{const std\-::vector$<$ Eigen\-::\-Affine3d $>$ \&}]{src}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_a9489007d9aea0992eb151904faa8ede1}
+)}}\label{Conversions_8h_afd62adb8c50c8f529cd148f24a77d236}
+\hypertarget{Conversions_8h_a036d011ed7076eb62e0ae15527526dc1}{\index{Conversions.\-h@{Conversions.\-h}!Affine3d2\-Urdf\-Pose@{Affine3d2\-Urdf\-Pose}}
+\index{Affine3d2\-Urdf\-Pose@{Affine3d2\-Urdf\-Pose}!Conversions.h@{Conversions.\-h}}
+\subsubsection[{Affine3d2\-Urdf\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Affine3d2\-Urdf\-Pose (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Affine3d \&}]{pose}
+\end{DoxyParamCaption}
+)}}\label{Conversions_8h_a036d011ed7076eb62e0ae15527526dc1}
+
+
+affine3d2\-Urdf\-Pose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose 
+
+\begin{DoxyReturn}{Returns}
+urdf pose with position and rotation. 
+\end{DoxyReturn}
+\hypertarget{Conversions_8h_a062667366f2e4eb0df70976fbde8c479}{\index{Conversions.\-h@{Conversions.\-h}!Geom\-Msg\-Pose2\-Affine3d@{Geom\-Msg\-Pose2\-Affine3d}}
+\index{Geom\-Msg\-Pose2\-Affine3d@{Geom\-Msg\-Pose2\-Affine3d}!Conversions.h@{Conversions.\-h}}
+\subsubsection[{Geom\-Msg\-Pose2\-Affine3d}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Affine3d Geom\-Msg\-Pose2\-Affine3d (
+\begin{DoxyParamCaption}
+\item[{const geometry\-\_\-msgs\-::\-Pose \&}]{m}
+\end{DoxyParamCaption}
+)}}\label{Conversions_8h_a062667366f2e4eb0df70976fbde8c479}
+\hypertarget{Conversions_8h_a3fdff298343663baf8be596ca2a713e1}{\index{Conversions.\-h@{Conversions.\-h}!Geom\-Msg\-Pose2\-Urdf\-Pose@{Geom\-Msg\-Pose2\-Urdf\-Pose}}
+\index{Geom\-Msg\-Pose2\-Urdf\-Pose@{Geom\-Msg\-Pose2\-Urdf\-Pose}!Conversions.h@{Conversions.\-h}}
+\subsubsection[{Geom\-Msg\-Pose2\-Urdf\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Geom\-Msg\-Pose2\-Urdf\-Pose (
+\begin{DoxyParamCaption}
+\item[{const geometry\-\_\-msgs\-::\-Pose \&}]{m}
+\end{DoxyParamCaption}
+)}}\label{Conversions_8h_a3fdff298343663baf8be596ca2a713e1}
 \hypertarget{Conversions_8h_a247ae7d07310067188e4b9071eecfea8}{\index{Conversions.\-h@{Conversions.\-h}!Jnt\-Pos\-Vector2\-Joint\-State@{Jnt\-Pos\-Vector2\-Joint\-State}}
 \index{Jnt\-Pos\-Vector2\-Joint\-State@{Jnt\-Pos\-Vector2\-Joint\-State}!Conversions.h@{Conversions.\-h}}
 \subsubsection[{Jnt\-Pos\-Vector2\-Joint\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-State} Jnt\-Pos\-Vector2\-Joint\-State (
@@ -47,59 +76,57 @@ std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \hyperlink{Conversions_8h_a948
 \item[{const std\-::vector$<$ double $>$ \&}]{src}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_a247ae7d07310067188e4b9071eecfea8}
-\hypertarget{Conversions_8h_a930fa2ea992a7b863a1312b883bbf092}{\index{Conversions.\-h@{Conversions.\-h}!pose\-Eigen\-To\-Geom\-Msg@{pose\-Eigen\-To\-Geom\-Msg}}
-\index{pose\-Eigen\-To\-Geom\-Msg@{pose\-Eigen\-To\-Geom\-Msg}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{pose\-Eigen\-To\-Geom\-Msg}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Pose pose\-Eigen\-To\-Geom\-Msg (
+\hypertarget{Conversions_8h_a77c46ed25f92da029d803d1f17bfe9ef}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Affine\-To\-Geom\-Msg@{Pose\-Affine\-To\-Geom\-Msg}}
+\index{Pose\-Affine\-To\-Geom\-Msg@{Pose\-Affine\-To\-Geom\-Msg}!Conversions.h@{Conversions.\-h}}
+\subsubsection[{Pose\-Affine\-To\-Geom\-Msg}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Pose Pose\-Affine\-To\-Geom\-Msg (
 \begin{DoxyParamCaption}
 \item[{const Eigen\-::\-Affine3d \&}]{e}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_a930fa2ea992a7b863a1312b883bbf092}
-\hypertarget{Conversions_8h_a5334bb7fb1e0ef3aa3bd6d2a03d2b07a}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Msg2\-Urdf\-Pose@{Pose\-Msg2\-Urdf\-Pose}}
-\index{Pose\-Msg2\-Urdf\-Pose@{Pose\-Msg2\-Urdf\-Pose}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Pose\-Msg2\-Urdf\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Pose\-Msg2\-Urdf\-Pose (
-\begin{DoxyParamCaption}
-\item[{const geometry\-\_\-msgs\-::\-Pose \&}]{m}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_a5334bb7fb1e0ef3aa3bd6d2a03d2b07a}
-\hypertarget{Conversions_8h_a6078cc3327f714de561ef118a88fc899}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Msgs2\-Aff\-Eigen\-Poses@{Pose\-Msgs2\-Aff\-Eigen\-Poses}}
+)}}\label{Conversions_8h_a77c46ed25f92da029d803d1f17bfe9ef}
+\hypertarget{Conversions_8h_acddecc9068058a9ff1204d62cee2baab}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Msgs2\-Aff\-Eigen\-Poses@{Pose\-Msgs2\-Aff\-Eigen\-Poses}}
 \index{Pose\-Msgs2\-Aff\-Eigen\-Poses@{Pose\-Msgs2\-Aff\-Eigen\-Poses}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Pose\-Msgs2\-Aff\-Eigen\-Poses}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ Eigen\-::\-Affine3d $>$ Pose\-Msgs2\-Aff\-Eigen\-Poses (
+\subsubsection[{Pose\-Msgs2\-Aff\-Eigen\-Poses}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$Eigen\-::\-Affine3d$>$ Pose\-Msgs2\-Aff\-Eigen\-Poses (
 \begin{DoxyParamCaption}
 \item[{const std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \&}]{src}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_a6078cc3327f714de561ef118a88fc899}
-\hypertarget{Conversions_8h_a5160124557f7d96f0a4d8c36dfa53796}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Msgs2\-Urdf\-Poses@{Pose\-Msgs2\-Urdf\-Poses}}
+)}}\label{Conversions_8h_acddecc9068058a9ff1204d62cee2baab}
+\hypertarget{Conversions_8h_a3952d22087a8dd05ba9debfaa168b955}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Msgs2\-Urdf\-Poses@{Pose\-Msgs2\-Urdf\-Poses}}
 \index{Pose\-Msgs2\-Urdf\-Poses@{Pose\-Msgs2\-Urdf\-Poses}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Pose\-Msgs2\-Urdf\-Poses}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ urdf\-::\-Pose $>$ Pose\-Msgs2\-Urdf\-Poses (
+\subsubsection[{Pose\-Msgs2\-Urdf\-Poses}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf R\-C\-S\-::\-Pose}$>$ Pose\-Msgs2\-Urdf\-Poses (
 \begin{DoxyParamCaption}
 \item[{const std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ \&}]{src}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_a5160124557f7d96f0a4d8c36dfa53796}
-\hypertarget{Conversions_8h_aeb9bcb5d16446aedaa69e3f336c3a37f}{\index{Conversions.\-h@{Conversions.\-h}!Pose\-Msg\-To\-Eigen\-Affine@{Pose\-Msg\-To\-Eigen\-Affine}}
-\index{Pose\-Msg\-To\-Eigen\-Affine@{Pose\-Msg\-To\-Eigen\-Affine}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Pose\-Msg\-To\-Eigen\-Affine}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Affine3d Pose\-Msg\-To\-Eigen\-Affine (
+)}}\label{Conversions_8h_a3952d22087a8dd05ba9debfaa168b955}
+\hypertarget{Conversions_8h_a2fd6da9c337939cbd7c072ef58359673}{\index{Conversions.\-h@{Conversions.\-h}!Urdf\-Pose2\-Affine3d@{Urdf\-Pose2\-Affine3d}}
+\index{Urdf\-Pose2\-Affine3d@{Urdf\-Pose2\-Affine3d}!Conversions.h@{Conversions.\-h}}
+\subsubsection[{Urdf\-Pose2\-Affine3d}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Affine3d Urdf\-Pose2\-Affine3d (
 \begin{DoxyParamCaption}
-\item[{const geometry\-\_\-msgs\-::\-Pose \&}]{m}
+\item[{const {\bf R\-C\-S\-::\-Pose} \&}]{pose}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_aeb9bcb5d16446aedaa69e3f336c3a37f}
-\hypertarget{Conversions_8h_ae633ac1c40eee4fc9f17cd29425cc559}{\index{Conversions.\-h@{Conversions.\-h}!Urdf\-Pose2\-Pose\-Msg@{Urdf\-Pose2\-Pose\-Msg}}
-\index{Urdf\-Pose2\-Pose\-Msg@{Urdf\-Pose2\-Pose\-Msg}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Urdf\-Pose2\-Pose\-Msg}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Pose Urdf\-Pose2\-Pose\-Msg (
+)}}\label{Conversions_8h_a2fd6da9c337939cbd7c072ef58359673}
+
+
+urdf\-Pose2\-Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pose} & is the urdf pose with position and rotation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen Affine3d pose 
+\end{DoxyReturn}
+\hypertarget{Conversions_8h_a79950e8b22d27e748a58b2d16e6c2e3a}{\index{Conversions.\-h@{Conversions.\-h}!Urdf\-Pose2\-Geom\-Msg\-Pose@{Urdf\-Pose2\-Geom\-Msg\-Pose}}
+\index{Urdf\-Pose2\-Geom\-Msg\-Pose@{Urdf\-Pose2\-Geom\-Msg\-Pose}!Conversions.h@{Conversions.\-h}}
+\subsubsection[{Urdf\-Pose2\-Geom\-Msg\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}geometry\-\_\-msgs\-::\-Pose Urdf\-Pose2\-Geom\-Msg\-Pose (
 \begin{DoxyParamCaption}
-\item[{const urdf\-::\-Pose \&}]{m}
+\item[{const {\bf R\-C\-S\-::\-Pose} \&}]{m}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_ae633ac1c40eee4fc9f17cd29425cc559}
-\hypertarget{Conversions_8h_afe66d55a7d5382503fd3338795185eca}{\index{Conversions.\-h@{Conversions.\-h}!Urdf\-Poses2\-Pose\-Msgs@{Urdf\-Poses2\-Pose\-Msgs}}
+)}}\label{Conversions_8h_a79950e8b22d27e748a58b2d16e6c2e3a}
+\hypertarget{Conversions_8h_ade536d091dbd9847e5600d42169c3268}{\index{Conversions.\-h@{Conversions.\-h}!Urdf\-Poses2\-Pose\-Msgs@{Urdf\-Poses2\-Pose\-Msgs}}
 \index{Urdf\-Poses2\-Pose\-Msgs@{Urdf\-Poses2\-Pose\-Msgs}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Urdf\-Poses2\-Pose\-Msgs}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose $>$ Urdf\-Poses2\-Pose\-Msgs (
+\subsubsection[{Urdf\-Poses2\-Pose\-Msgs}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$geometry\-\_\-msgs\-::\-Pose$>$ Urdf\-Poses2\-Pose\-Msgs (
 \begin{DoxyParamCaption}
-\item[{const std\-::vector$<$ urdf\-::\-Pose $>$ \&}]{src}
+\item[{const std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ \&}]{src}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Conversions_8h_afe66d55a7d5382503fd3338795185eca}
-\hypertarget{Conversions_8h_abb77e7f56484d602532da96585fc7deb}{\index{Conversions.\-h@{Conversions.\-h}!Vector2\-Joint\-State@{Vector2\-Joint\-State}}
-\index{Vector2\-Joint\-State@{Vector2\-Joint\-State}!Conversions.h@{Conversions.\-h}}
-\subsubsection[{Vector2\-Joint\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-State} Vector2\-Joint\-State (
-\begin{DoxyParamCaption}
-\item[{const std\-::vector$<$ double $>$ \&}]{src}
-\end{DoxyParamCaption}
-)}}\label{Conversions_8h_abb77e7f56484d602532da96585fc7deb}
+)}}\label{Conversions_8h_ade536d091dbd9847e5600d42169c3268}

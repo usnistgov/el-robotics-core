@@ -1,8 +1,11 @@
-.TH "RosKinematics" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RosKinematics" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 RosKinematics \- 
+.PP
+The \fBRosKinematics\fP class instantiates the \fBIKinematics\fP abstract class and fills in the pure virtual functions with Descartes kinematic methods\&.  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -19,18 +22,23 @@ Inherits \fBIKinematics\fP\&.
 .ti -1c
 .RI "virtual void \fBInit\fP (std::string groupname, std::string eelinkname)"
 .br
+.RI "\fIInit is necessary for ROS to initialize it kinematics using robot model \&. \fP"
 .ti -1c
 .RI "virtual std::vector< double > \fBGetJointValues\fP ()"
 .br
+.RI "\fIGetJointValues returns latest reading of end effector\&. \fP"
 .ti -1c
 .RI "void \fBSetJointValues\fP (std::vector< double > \fBjoint_values\fP)"
 .br
+.RI "\fISetJointValues sets the latest joint values of the robot\&. \fP"
 .ti -1c
-.RI "virtual urdf::Pose \fBFK\fP (std::vector< double > jv)"
+.RI "virtual \fBRCS::Pose\fP \fBFK\fP (std::vector< double > jv)"
 .br
+.RI "\fIFK performs the forward kinematics using the joint values of the robot provided\&. \fP"
 .ti -1c
 .RI "virtual std::vector< double > \fBIK\fP (\fBRCS::Pose\fP &pose, std::vector< double > oldjoints)"
 .br
+.RI "\fIIK performs the inverse kinematics using the Cartesian pose provided\&. \fP"
 .ti -1c
 .RI "bool \fBSatisfiesBounds\fP ()"
 .br
@@ -40,9 +48,11 @@ Inherits \fBIKinematics\fP\&.
 .ti -1c
 .RI "virtual size_t \fBAllPoseToJoints\fP (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)"
 .br
+.RI "\fIAllPoseToJoints solves the inverse kinematics to find all solutions using the Cartesian pose provided\&. \fP"
 .ti -1c
 .RI "virtual std::vector< double > \fBNearestJoints\fP (std::vector< double > oldjoints, std::vector< std::vector< double > > &newjoints)"
 .br
+.RI "\fINearestJoints finds the joint set that is closest to the old joints\&. \fP"
 .in -1c
 .SS "Public Attributes"
 
@@ -75,6 +85,9 @@ Inherits \fBIKinematics\fP\&.
 .RI "boost::mutex \fBkinmutex\fP"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+The \fBRosKinematics\fP class instantiates the \fBIKinematics\fP abstract class and fills in the pure virtual functions with Descartes kinematic methods\&. 
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "RosKinematics::RosKinematics ()"
@@ -84,32 +97,123 @@ Inherits \fBIKinematics\fP\&.
 .SS "virtual size_t RosKinematics::AllPoseToJoints (\fBRCS::Pose\fP &pose, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
 
 .PP
+AllPoseToJoints solves the inverse kinematics to find all solutions using the Cartesian pose provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fICartesian\fP robot pose of end effector\&. 
+.br
+\fIvector\fP of double vectos to hold all the IK joint solutions\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of solutions found\&. 
+.RE
+.PP
+
+.PP
 Implements \fBIKinematics\fP\&.
 .SS "void RosKinematics::EnforceBounds ()"
 
-.SS "urdf::Pose RosKinematics::FK (std::vector< double >jv)\fC [virtual]\fP"
+.SS "\fBRCS::Pose\fP RosKinematics::FK (std::vector< double >jv)\fC [virtual]\fP"
+
+.PP
+FK performs the forward kinematics using the joint values of the robot provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of all robot joint values in doubles\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+corresponding Cartesian robot pose of end effector\&. 
+.RE
+.PP
 
 .PP
 Implements \fBIKinematics\fP\&.
 .SS "std::vector< double > RosKinematics::GetJointValues ()\fC [virtual]\fP"
 
 .PP
+GetJointValues returns latest reading of end effector\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+vector of joint values in doubles\&. 
+.RE
+.PP
+
+.PP
 Implements \fBIKinematics\fP\&.
 .SS "std::vector< double > RosKinematics::IK (\fBRCS::Pose\fP &pose, std::vector< double >oldjoints)\fC [virtual]\fP"
+
+.PP
+IK performs the inverse kinematics using the Cartesian pose provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fICartesian\fP robot pose of end effector\&. 
+.br
+\fIoptional\fP seed joint values to use as best guess for IK joint values\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+vector of all robot joint values in doubles\&. 
+.RE
+.PP
 
 .PP
 Implements \fBIKinematics\fP\&.
 .SS "void RosKinematics::Init (std::stringgroupname, std::stringeelinkname)\fC [virtual]\fP"
 
 .PP
+Init is necessary for ROS to initialize it kinematics using robot model \&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgroupname\fP name of chained joints in robot model\&. 
+.br
+\fIeelinkname\fP name of end effector joint in robot model\&. 
+.RE
+.PP
+
+.PP
 Reimplemented from \fBIKinematics\fP\&.
 .SS "virtual std::vector<double> RosKinematics::NearestJoints (std::vector< double >oldjoints, std::vector< std::vector< double > > &newjoints)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+NearestJoints finds the joint set that is closest to the old joints\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIold\fP seed joint values to use as best guess for IK joint values\&. 
+.br
+\fIvector\fP of double vectos that holds all the IK joint solutions\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+vector of doubles with closest set to seed joints\&. 
+.RE
+.PP
 
 .PP
 Implements \fBIKinematics\fP\&.
 .SS "bool RosKinematics::SatisfiesBounds ()"
 
 .SS "void RosKinematics::SetJointValues (std::vector< double >joint_values)\fC [virtual]\fP"
+
+.PP
+SetJointValues sets the latest joint values of the robot\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of all robot joint values in doubles\&. 
+.RE
+.PP
 
 .PP
 Implements \fBIKinematics\fP\&.

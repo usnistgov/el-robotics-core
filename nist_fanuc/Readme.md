@@ -1710,3 +1710,109 @@ If you want to write your own sigint handler instead of using ROS:
     signal(SIGINT, mySigintHandler);
 
 
+
+
+
+test crcl math code
+----------------------
+1) Add /src folder,
+2) Create testcrclmath.cpp file:
+
+    #include <gtest/gtest.h>
+
+    TEST(TestSuite, testCase1) {
+        ASSERT_EQ(1, 1) << "Vectors 1 and 1 not equal";
+    }
+
+    int main(int argc, char ** argv) {
+
+        testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+    }
+3) Modify  CMakeLists.txt (catkin will handle rest of stuff)
+catkin_add_gtest(crclmathunittest test/crclmathtest.cpp)
+
+4) Run individual gtest in package
+catkin_make run_tests_nist_fanuc
+
+
+Turn off auto paren completion in Netbeans - really annoying
+---------------------------------------
+Tools->Options
+
+Editor->Code Completion
+
+
+tf include locatino
+--------------------
+/opt/ros/indigo/include/tf/LinearMath
+
+Backup all of home directory
+-----------------------------
+cp -r /home/michalos/*  "/media/michalos/FreeAgent GoFlex Drive/WorkBackup"
+
+
+Install python pip - risky
+--------------------------------
+sudo apt-get install python-pip
+
+michalos@rufous:~/catkin_ws/src/nist_fanuc/nodes$ pip install mathutils
+Downloading/unpacking mathutils
+  Downloading mathutils-2.76.tar.gz (190kB): 190kB downloaded
+  Running setup.py (path:/tmp/pip_build_michalos/mathutils/setup.py) egg_info for package mathutils
+    Sorry, Python 2 are not supported
+Cleaning up...
+No files/directories in /tmp/pip_build_michalos/mathutils/pip-egg-info (from PKG-INFO)
+Storing debug log for failure in /home/michalos/.pip/pip.log
+michalos@rufous:~/catkin_ws/src/nist_fanuc/nodes$ 
+
+
+python socket 
+---------------
+tcp      591      0 localhost:64444         localhost:46638         CLOSE_WAIT 
+tcp        1      0 localhost:64444         localhost:46670         CLOSE_WAIT 
+tcp        0      0 localhost:64444         localhost:46842         ESTABLISHED
+tcp        0      0 localhost:46842         localhost:64444         ESTABLISHED
+tcp        1      0 localhost:64444         localhost:46637         CLOSE_WAIT 
+tcp      627      0 localhost:64444         localhost:46671         CLOSE_WAIT 
+tcp     3481      0 localhost:64444         localhost:46633         CLOSE_WAIT 
+tcp      628      0 localhost:64444         localhost:46664         CLOSE_WAIT
+
+After ^C python socket program
+michalos@rufous:~/catkin_ws/src/nist_fanuc/nodes$ netstat| grep 64444
+tcp      591      0 localhost:64444         localhost:46638         CLOSE_WAIT 
+tcp        1      0 localhost:64444         localhost:46670         CLOSE_WAIT 
+tcp        1      0 localhost:64444         localhost:46842         CLOSE_WAIT 
+tcp        0      0 localhost:46842         localhost:64444         FIN_WAIT2  
+tcp        1      0 localhost:64444         localhost:46637         CLOSE_WAIT 
+tcp      627      0 localhost:64444         localhost:46671         CLOSE_WAIT 
+tcp     3481      0 localhost:64444         localhost:46633         CLOSE_WAIT 
+tcp      628      0 localhost:64444         localhost:46664         CLOSE_WAIT 
+
+
+
+
+Netbeans DebuggingExceptionBreakpoint
+-----------------------------------------
+Exception Breakpoints
+
+It's often useful to stop execution of an application when an exception occurs, and inspect the state of the app in debugger. It is very simple to do: setup an exception breakpoint and just run the application via debugger (or attach to an running application).
+
+To setup an exception breakpoint:
+Go to menu Debug | New Breakpoint (Ctrl+Shift+F8).
+In the New Breakpoint dialog select the Exception breakpoint type from the combobox.
+Enter the exception to track (fully qualified class name).
+You can modify the other properties too.
+Typically you want to watch for some general exception superclass, e.g. java.lang.Exception, or exceptions that do not have to be handled, e.g. java.lang.AssertionError, or java.lang.RuntimeException.
+In a bigger application you may want to narrow the scope of classes to watch for exceptions only from your classes, not to stop on exceptions from JDK internals or other code. You can set a match or exclude class filter in the Filter on Classes Throwing the Exception option of the breakpoint dialog.
+
+To turn off breakpoint:
+Select menu Window / Debugging / Breakpoints (or press Alt + Shift + 5), then right-click in the Breakpoints window and select Delete All.
+
+
+
+Movegroup died ...
+---------------
+[move_group-5] process has died [pid 4186, exit code -11, cmd /opt/ros/indigo/lib/moveit_ros_move_group/move_group __name:=move_group __log:=/home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5.log].
+log file: /home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5*.log
+

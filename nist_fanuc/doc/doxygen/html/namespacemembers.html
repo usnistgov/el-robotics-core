@@ -91,6 +91,9 @@
 <li>CANON_ABORT
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777da094244917abcd576f2118e80803279ee">RCS</a>
 </li>
+<li>CANON_DO_MOTION
+: <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a0e32d7c80f9f5b064f660aab9b9392e6">RCS</a>
+</li>
 <li>CANON_DONE
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777daabf0ebc3e57ea212970f33430d917eae">RCS</a>
 </li>
@@ -110,6 +113,10 @@
 <li>CANON_INIT_CANON
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75acce93027306fc36aeccc8d40dc4e7d62">RCS</a>
 </li>
+<li>CANON_MOTION
+: <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0a8044ac4052e4558e22c5be516d106204">Crcl</a>
+, <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a5eb43a35f73ab11edc5d5a28b908257e">RCS</a>
+</li>
 <li>CANON_MOVE_JOINT
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a24901ab5e41ab6e4cc5a2ab97de92f06">RCS</a>
 </li>
@@ -121,6 +128,12 @@
 </li>
 <li>CANON_NOOP
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75aec778933c8e1af18ea16550268eebaaa">RCS</a>
+</li>
+<li>CANON_NOT_IMPLEMENTED
+: <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0a7e627586bca4ce3863e89ebcd7a55c74">Crcl</a>
+</li>
+<li>CANON_OTHER
+: <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a92eaf4448ef32e4819df8b0eea8469f9">RCS</a>
 </li>
 <li>CANON_PAUSED
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777da86acce9ac34e5ca0b0056b11810af584">RCS</a>
@@ -147,6 +160,9 @@
 </li>
 <li>CANON_SET_MAX_JOINT_SPEED
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75adda3bf1c656804e5d07912149ceb9760">RCS</a>
+</li>
+<li>CANON_SET_TOLERANCE
+: <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75ab3c4fe7af4d06fbd188e53f4825a9425">RCS</a>
 </li>
 <li>CANON_STATUSREPLY
 : <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0af8040d4fa18254e17c0e5b1893ba8859">Crcl</a>
@@ -205,7 +221,7 @@
 : <a class="el" href="namespaceRCS.html#a9d517dc59f249be605546c3a36086b19">RCS</a>
 </li>
 <li>Convert()
-: <a class="el" href="namespaceCrcl.html#a6ba76fbe3bb36cef5f8a289c327e7a4b">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#a84440a94ca5992cf4a01e4215d1cb363">Crcl</a>
 </li>
 <li>ConvertToAnglePositionVector()
 : <a class="el" href="namespaceCrcl.html#a942871711b02866236621b132bf934c2">Crcl</a>
@@ -238,15 +254,15 @@
 <li>DummyInit()
 : <a class="el" href="namespaceRCS.html#a0d81b5ae27814995884c1d25619db28a">RCS</a>
 </li>
-<li>DumpCrclPose()
-: <a class="el" href="namespaceCrcl.html#a1a29224fab4f85cc9e34b1f7a1a1064f">Crcl</a>
+<li>DumpCrclCommand()
+: <a class="el" href="namespaceCrcl.html#a1726015b66be8193fcd10bc157661a3d">Crcl</a>
 </li>
 <li>DumpPose()
-: <a class="el" href="namespaceCrcl.html#a666314177998417d741895bb491783bd">Crcl</a>
-, <a class="el" href="namespaceRCS.html#ac45b18edecf0b0f60b08ca409cbe477a">RCS</a>
+: <a class="el" href="namespaceCrcl.html#a30019a860966a9cdaa1564cc95787de4">Crcl</a>
+, <a class="el" href="namespaceRCS.html#a35eaff1f2c8ec5520f595d6f3b2d38b3">RCS</a>
 </li>
 <li>DumpQuaterion()
-: <a class="el" href="namespaceRCS.html#ac04aacea4f1ce25e58ed402586b8ae14">RCS</a>
+: <a class="el" href="namespaceRCS.html#a994378d2744371f1afac4b59a808fef2">RCS</a>
 </li>
 </ul>
 
@@ -262,29 +278,30 @@
 
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
-<li>GetEigenRotMatrix()
-: <a class="el" href="namespaceCrcl.html#ae23e722dceffa52b05402c3f557c9e65">Crcl</a>
-</li>
 <li>GetPoint()
-: <a class="el" href="namespaceCrcl.html#a7c1e0abc6b119a3e7f51df0c9c288542">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#a2c7684178c38711d407412930b9b0205">Crcl</a>
 </li>
 <li>GetPoseToRPY()
 : <a class="el" href="namespaceCrcl.html#a394a527b4609a6d5b444f30bb9384f1a">Crcl</a>
 </li>
 <li>GetRPY()
-: <a class="el" href="namespaceCrcl.html#aae1ccbac42b6e192b3ed46578e3a7b71">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#a018b04e2941c53d1359bf069a8fd6694">Crcl</a>
 </li>
 <li>getRPY()
 : <a class="el" href="namespaceNIST.html#ac2ce8a337bb050605400f213540be50b">NIST</a>
+, <a class="el" href="namespaceRCS.html#a6e911197b35a4857f179af61811d4b0a">RCS</a>
+</li>
+<li>GetTfRotMatrix()
+: <a class="el" href="namespaceCrcl.html#aa63409c6fcf29259c733bd3221e5a6b2">Crcl</a>
+</li>
+<li>GetTfVector()
+: <a class="el" href="namespaceCrcl.html#a8d7ed1f807e5dc9cb7f1ac36c9cb73ae">Crcl</a>
 </li>
 <li>GetVector()
-: <a class="el" href="namespaceCrcl.html#a2544b3f8bf6f3a8948ebd8080d0ee315">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#acc0f9f00033ff317971e5e33ecea9ba3">Crcl</a>
 </li>
 <li>GetVector3D()
-: <a class="el" href="namespaceCrcl.html#aa4478a87fcc970adc728f4fbb275b8f3">Crcl</a>
-</li>
-<li>GetXZRotMatrix()
-: <a class="el" href="namespaceCrcl.html#a7851c914ebfcd66dd694dbfb58f19d3f">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#a2a336d0ed78a103dab45851e93ac4016">Crcl</a>
 </li>
 <li>GOAL
 : <a class="el" href="namespaceRCS.html#ae705dbb4b887b18fef40316b6d5ca2c9ab5c3606954a689ebe5425f6c2c09b970">RCS</a>
@@ -301,9 +318,6 @@
 </li>
 <li>INCH
 : <a class="el" href="namespaceRCS.html#a768c9d3a7f0e5850bc61ebede4b85b23a0b9c2e89e6353c26a8bab5661da20f6d">RCS</a>
-</li>
-<li>Init()
-: <a class="el" href="namespaceCrcl.html#ae1dd6fda9cf860d4e66b55bdc9564795">Crcl</a>
 </li>
 </ul>
 
@@ -385,15 +399,12 @@
 : <a class="el" href="namespaceRCS.html#a39ae96212f304024b5f91fe8d63a40c0ab9652e079b6284ddf30eb812539260cd">RCS</a>
 </li>
 <li>NullPose()
-: <a class="el" href="namespaceCrcl.html#aa4ed1cb04b5173a5bd4a115d4755a2db">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#af090b8881d747be0380a733dfa9e3138">Crcl</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
-<li>operator&lt;&lt;()
-: <a class="el" href="namespaceCrcl.html#a043eb5308a43b100a739ac45bde3501d">Crcl</a>
-</li>
 <li>OUNCE
 : <a class="el" href="namespaceRCS.html#a7ab3ac05af337215785442dc8570c00fa525cee8c6112d4cb86dec3aa0e6caba0">RCS</a>
 </li>
@@ -411,7 +422,7 @@
 : <a class="el" href="namespaceCrcl.html#a04f09d617642257f5938e52cee2feeef">Crcl</a>
 </li>
 <li>Pose
-: <a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS</a>
+: <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS</a>
 </li>
 <li>poseEigenToMsg()
 : <a class="el" href="namespacetf.html#aad8e6131b3c1439b674e7dd51e7da3b3">tf</a>
@@ -429,7 +440,7 @@
 : <a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl</a>
 </li>
 <li>Position
-: <a class="el" href="namespaceRCS.html#afde073114b0dbe5587b2ec83fad48085">RCS</a>
+: <a class="el" href="namespaceRCS.html#a6080060b617affc23ab1d6309fe7c3cd">RCS</a>
 </li>
 <li>POUND
 : <a class="el" href="namespaceRCS.html#a7ab3ac05af337215785442dc8570c00fa50e031587d5ce89d8b76aa114d5516c0">RCS</a>
@@ -458,7 +469,7 @@
 : <a class="el" href="namespaceRCS.html#a3185cefb4d61f5c6f364aaf5624a3ee4">RCS</a>
 </li>
 <li>Rotation
-: <a class="el" href="namespaceRCS.html#ae84bcdeffa185f35100e9eca768bd4db">RCS</a>
+: <a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS</a>
 </li>
 </ul>
 
@@ -497,10 +508,10 @@
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
 <li>Vector3
-: <a class="el" href="namespaceRCS.html#a3d2e4673086277ee114b9f01ba1664e7">RCS</a>
+: <a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS</a>
 </li>
 <li>Vector3D
-: <a class="el" href="namespaceCrcl.html#a1b424aa4904c32a427cc66b566babf49">Crcl</a>
+: <a class="el" href="namespaceCrcl.html#a8d272fb6207c4f4195f4309c71d00a9c">Crcl</a>
 </li>
 <li>vectorEigenToMsg()
 : <a class="el" href="namespacetf.html#aae84e65007df198d68f823a6d71864b9">tf</a>
@@ -531,7 +542,7 @@
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -148,6 +148,36 @@ CommandState (::std::auto_ptr< CommandState_type > x)
   this->CommandState_.set (x);
 }
 
+const CommandStatusType::StateDescription_optional& CommandStatusType::
+StateDescription () const
+{
+  return this->StateDescription_;
+}
+
+CommandStatusType::StateDescription_optional& CommandStatusType::
+StateDescription ()
+{
+  return this->StateDescription_;
+}
+
+void CommandStatusType::
+StateDescription (const StateDescription_type& x)
+{
+  this->StateDescription_.set (x);
+}
+
+void CommandStatusType::
+StateDescription (const StateDescription_optional& x)
+{
+  this->StateDescription_ = x;
+}
+
+void CommandStatusType::
+StateDescription (::std::auto_ptr< StateDescription_type > x)
+{
+  this->StateDescription_.set (x);
+}
+
 
 // CRCLStatusType
 // 
@@ -206,34 +236,34 @@ JointStatuses (::std::auto_ptr< JointStatuses_type > x)
   this->JointStatuses_.set (x);
 }
 
-const CRCLStatusType::Pose_optional& CRCLStatusType::
-Pose () const
+const CRCLStatusType::PoseStatus_optional& CRCLStatusType::
+PoseStatus () const
 {
-  return this->Pose_;
+  return this->PoseStatus_;
 }
 
-CRCLStatusType::Pose_optional& CRCLStatusType::
-Pose ()
+CRCLStatusType::PoseStatus_optional& CRCLStatusType::
+PoseStatus ()
 {
-  return this->Pose_;
-}
-
-void CRCLStatusType::
-Pose (const Pose_type& x)
-{
-  this->Pose_.set (x);
+  return this->PoseStatus_;
 }
 
 void CRCLStatusType::
-Pose (const Pose_optional& x)
+PoseStatus (const PoseStatus_type& x)
 {
-  this->Pose_ = x;
+  this->PoseStatus_.set (x);
 }
 
 void CRCLStatusType::
-Pose (::std::auto_ptr< Pose_type > x)
+PoseStatus (const PoseStatus_optional& x)
 {
-  this->Pose_.set (x);
+  this->PoseStatus_ = x;
+}
+
+void CRCLStatusType::
+PoseStatus (::std::auto_ptr< PoseStatus_type > x)
+{
+  this->PoseStatus_.set (x);
 }
 
 const CRCLStatusType::GripperStatus_optional& CRCLStatusType::
@@ -430,6 +460,94 @@ void ParallelGripperStatusType::
 Separation (const Separation_type& x)
 {
   this->Separation_.set (x);
+}
+
+
+// PoseStatusType
+// 
+
+const PoseStatusType::Pose_type& PoseStatusType::
+Pose () const
+{
+  return this->Pose_.get ();
+}
+
+PoseStatusType::Pose_type& PoseStatusType::
+Pose ()
+{
+  return this->Pose_.get ();
+}
+
+void PoseStatusType::
+Pose (const Pose_type& x)
+{
+  this->Pose_.set (x);
+}
+
+void PoseStatusType::
+Pose (::std::auto_ptr< Pose_type > x)
+{
+  this->Pose_.set (x);
+}
+
+const PoseStatusType::Twist_optional& PoseStatusType::
+Twist () const
+{
+  return this->Twist_;
+}
+
+PoseStatusType::Twist_optional& PoseStatusType::
+Twist ()
+{
+  return this->Twist_;
+}
+
+void PoseStatusType::
+Twist (const Twist_type& x)
+{
+  this->Twist_.set (x);
+}
+
+void PoseStatusType::
+Twist (const Twist_optional& x)
+{
+  this->Twist_ = x;
+}
+
+void PoseStatusType::
+Twist (::std::auto_ptr< Twist_type > x)
+{
+  this->Twist_.set (x);
+}
+
+const PoseStatusType::Wrench_optional& PoseStatusType::
+Wrench () const
+{
+  return this->Wrench_;
+}
+
+PoseStatusType::Wrench_optional& PoseStatusType::
+Wrench ()
+{
+  return this->Wrench_;
+}
+
+void PoseStatusType::
+Wrench (const Wrench_type& x)
+{
+  this->Wrench_.set (x);
+}
+
+void PoseStatusType::
+Wrench (const Wrench_optional& x)
+{
+  this->Wrench_ = x;
+}
+
+void PoseStatusType::
+Wrench (::std::auto_ptr< Wrench_type > x)
+{
+  this->Wrench_.set (x);
 }
 
 
@@ -676,11 +794,11 @@ _xsd_CommandStateEnumType_convert () const
   ::xsd::cxx::tree::enum_comparator< char > c (_xsd_CommandStateEnumType_literals_);
   const value* i (::std::lower_bound (
                     _xsd_CommandStateEnumType_indexes_,
-                    _xsd_CommandStateEnumType_indexes_ + 3,
+                    _xsd_CommandStateEnumType_indexes_ + 4,
                     *this,
                     c));
 
-  if (i == _xsd_CommandStateEnumType_indexes_ + 3 || _xsd_CommandStateEnumType_literals_[*i] != *this)
+  if (i == _xsd_CommandStateEnumType_indexes_ + 4 || _xsd_CommandStateEnumType_literals_[*i] != *this)
   {
     throw ::xsd::cxx::tree::unexpected_enumerator < char > (*this);
   }
@@ -689,19 +807,21 @@ _xsd_CommandStateEnumType_convert () const
 }
 
 const char* const CommandStateEnumType::
-_xsd_CommandStateEnumType_literals_[3] =
+_xsd_CommandStateEnumType_literals_[4] =
 {
-  "Done",
-  "Error",
-  "Working"
+  "CRCL_Done",
+  "CRCL_Error",
+  "CRCL_Working",
+  "CRCL_Ready"
 };
 
 const CommandStateEnumType::value CommandStateEnumType::
-_xsd_CommandStateEnumType_indexes_[3] =
+_xsd_CommandStateEnumType_indexes_[4] =
 {
-  ::CommandStateEnumType::Done,
-  ::CommandStateEnumType::Error,
-  ::CommandStateEnumType::Working
+  ::CommandStateEnumType::CRCL_Done,
+  ::CommandStateEnumType::CRCL_Error,
+  ::CommandStateEnumType::CRCL_Ready,
+  ::CommandStateEnumType::CRCL_Working
 };
 
 static
@@ -720,7 +840,8 @@ CommandStatusType (const CommandID_type& CommandID,
 : ::DataThingType (),
   CommandID_ (CommandID, this),
   StatusID_ (StatusID, this),
-  CommandState_ (CommandState, this)
+  CommandState_ (CommandState, this),
+  StateDescription_ (this)
 {
 }
 
@@ -731,7 +852,8 @@ CommandStatusType (const CommandID_type& CommandID,
 : ::DataThingType (),
   CommandID_ (CommandID, this),
   StatusID_ (StatusID, this),
-  CommandState_ (CommandState, this)
+  CommandState_ (CommandState, this),
+  StateDescription_ (this)
 {
 }
 
@@ -742,7 +864,8 @@ CommandStatusType (const CommandStatusType& x,
 : ::DataThingType (x, f, c),
   CommandID_ (x.CommandID_, f, this),
   StatusID_ (x.StatusID_, f, this),
-  CommandState_ (x.CommandState_, f, this)
+  CommandState_ (x.CommandState_, f, this),
+  StateDescription_ (x.StateDescription_, f, this)
 {
 }
 
@@ -753,7 +876,8 @@ CommandStatusType (const ::xercesc::DOMElement& e,
 : ::DataThingType (e, f | ::xml_schema::flags::base, c),
   CommandID_ (this),
   StatusID_ (this),
-  CommandState_ (this)
+  CommandState_ (this),
+  StateDescription_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -824,6 +948,34 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // StateDescription
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "StateDescription",
+          "",
+          &::xsd::cxx::tree::factory_impl< StateDescription_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!this->StateDescription_)
+        {
+          ::std::auto_ptr< StateDescription_type > r (
+            dynamic_cast< StateDescription_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->StateDescription_.set (r);
+          continue;
+        }
+      }
+    }
+
     break;
   }
 
@@ -865,6 +1017,7 @@ operator= (const CommandStatusType& x)
     this->CommandID_ = x.CommandID_;
     this->StatusID_ = x.StatusID_;
     this->CommandState_ = x.CommandState_;
+    this->StateDescription_ = x.StateDescription_;
   }
 
   return *this;
@@ -889,7 +1042,7 @@ CRCLStatusType (const CommandStatus_type& CommandStatus)
 : ::DataThingType (),
   CommandStatus_ (CommandStatus, this),
   JointStatuses_ (this),
-  Pose_ (this),
+  PoseStatus_ (this),
   GripperStatus_ (this)
 {
 }
@@ -899,7 +1052,7 @@ CRCLStatusType (::std::auto_ptr< CommandStatus_type > CommandStatus)
 : ::DataThingType (),
   CommandStatus_ (CommandStatus, this),
   JointStatuses_ (this),
-  Pose_ (this),
+  PoseStatus_ (this),
   GripperStatus_ (this)
 {
 }
@@ -911,7 +1064,7 @@ CRCLStatusType (const CRCLStatusType& x,
 : ::DataThingType (x, f, c),
   CommandStatus_ (x.CommandStatus_, f, this),
   JointStatuses_ (x.JointStatuses_, f, this),
-  Pose_ (x.Pose_, f, this),
+  PoseStatus_ (x.PoseStatus_, f, this),
   GripperStatus_ (x.GripperStatus_, f, this)
 {
 }
@@ -923,7 +1076,7 @@ CRCLStatusType (const ::xercesc::DOMElement& e,
 : ::DataThingType (e, f | ::xml_schema::flags::base, c),
   CommandStatus_ (this),
   JointStatuses_ (this),
-  Pose_ (this),
+  PoseStatus_ (this),
   GripperStatus_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
@@ -1001,29 +1154,29 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
-    // Pose
+    // PoseStatus
     //
     {
       ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
         ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
-          "Pose",
+          "PoseStatus",
           "",
-          &::xsd::cxx::tree::factory_impl< Pose_type >,
+          &::xsd::cxx::tree::factory_impl< PoseStatus_type >,
           false, true, i, n, f, this));
 
       if (tmp.get () != 0)
       {
-        if (!this->Pose_)
+        if (!this->PoseStatus_)
         {
-          ::std::auto_ptr< Pose_type > r (
-            dynamic_cast< Pose_type* > (tmp.get ()));
+          ::std::auto_ptr< PoseStatus_type > r (
+            dynamic_cast< PoseStatus_type* > (tmp.get ()));
 
           if (r.get ())
             tmp.release ();
           else
             throw ::xsd::cxx::tree::not_derived< char > ();
 
-          this->Pose_.set (r);
+          this->PoseStatus_.set (r);
           continue;
         }
       }
@@ -1083,7 +1236,7 @@ operator= (const CRCLStatusType& x)
     static_cast< ::DataThingType& > (*this) = x;
     this->CommandStatus_ = x.CommandStatus_;
     this->JointStatuses_ = x.JointStatuses_;
-    this->Pose_ = x.Pose_;
+    this->PoseStatus_ = x.PoseStatus_;
     this->GripperStatus_ = x.GripperStatus_;
   }
 
@@ -1580,6 +1733,193 @@ static
 const ::xsd::cxx::tree::type_factory_initializer< 0, char, ParallelGripperStatusType >
 _xsd_ParallelGripperStatusType_type_factory_init (
   "ParallelGripperStatusType",
+  "");
+
+// PoseStatusType
+//
+
+PoseStatusType::
+PoseStatusType (const Pose_type& Pose)
+: ::DataThingType (),
+  Pose_ (Pose, this),
+  Twist_ (this),
+  Wrench_ (this)
+{
+}
+
+PoseStatusType::
+PoseStatusType (::std::auto_ptr< Pose_type > Pose)
+: ::DataThingType (),
+  Pose_ (Pose, this),
+  Twist_ (this),
+  Wrench_ (this)
+{
+}
+
+PoseStatusType::
+PoseStatusType (const PoseStatusType& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::DataThingType (x, f, c),
+  Pose_ (x.Pose_, f, this),
+  Twist_ (x.Twist_, f, this),
+  Wrench_ (x.Wrench_, f, this)
+{
+}
+
+PoseStatusType::
+PoseStatusType (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::DataThingType (e, f | ::xml_schema::flags::base, c),
+  Pose_ (this),
+  Twist_ (this),
+  Wrench_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false, false);
+    this->parse (p, f);
+  }
+}
+
+void PoseStatusType::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  this->::DataThingType::parse (p, f);
+
+  for (; p.more_content (); p.next_content (false))
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // Pose
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "Pose",
+          "",
+          &::xsd::cxx::tree::factory_impl< Pose_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!Pose_.present ())
+        {
+          ::std::auto_ptr< Pose_type > r (
+            dynamic_cast< Pose_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->Pose_.set (r);
+          continue;
+        }
+      }
+    }
+
+    // Twist
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "Twist",
+          "",
+          &::xsd::cxx::tree::factory_impl< Twist_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!this->Twist_)
+        {
+          ::std::auto_ptr< Twist_type > r (
+            dynamic_cast< Twist_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->Twist_.set (r);
+          continue;
+        }
+      }
+    }
+
+    // Wrench
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "Wrench",
+          "",
+          &::xsd::cxx::tree::factory_impl< Wrench_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!this->Wrench_)
+        {
+          ::std::auto_ptr< Wrench_type > r (
+            dynamic_cast< Wrench_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->Wrench_.set (r);
+          continue;
+        }
+      }
+    }
+
+    break;
+  }
+
+  if (!Pose_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "Pose",
+      "");
+  }
+}
+
+PoseStatusType* PoseStatusType::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class PoseStatusType (*this, f, c);
+}
+
+PoseStatusType& PoseStatusType::
+operator= (const PoseStatusType& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::DataThingType& > (*this) = x;
+    this->Pose_ = x.Pose_;
+    this->Twist_ = x.Twist_;
+    this->Wrench_ = x.Wrench_;
+  }
+
+  return *this;
+}
+
+PoseStatusType::
+~PoseStatusType ()
+{
+}
+
+static
+const ::xsd::cxx::tree::type_factory_initializer< 0, char, PoseStatusType >
+_xsd_PoseStatusType_type_factory_init (
+  "PoseStatusType",
   "");
 
 // ThreeFingerGripperStatusType
@@ -2486,6 +2826,32 @@ operator<< (::xercesc::DOMElement& e, const CommandStatusType& i)
         "",
         false, true, e, x);
   }
+
+  // StateDescription
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    if (i.StateDescription ())
+    {
+      const CommandStatusType::StateDescription_type& x (*i.StateDescription ());
+      if (typeid (CommandStatusType::StateDescription_type) == typeid (x))
+      {
+        ::xercesc::DOMElement& s (
+          ::xsd::cxx::xml::dom::create_element (
+            "StateDescription",
+            e));
+
+        s << x;
+      }
+      else
+        tsm.serialize (
+          "StateDescription",
+          "",
+          false, true, e, x);
+    }
+  }
 }
 
 static
@@ -2549,27 +2915,27 @@ operator<< (::xercesc::DOMElement& e, const CRCLStatusType& i)
     }
   }
 
-  // Pose
+  // PoseStatus
   //
   {
     ::xsd::cxx::tree::type_serializer_map< char >& tsm (
       ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
 
-    if (i.Pose ())
+    if (i.PoseStatus ())
     {
-      const CRCLStatusType::Pose_type& x (*i.Pose ());
-      if (typeid (CRCLStatusType::Pose_type) == typeid (x))
+      const CRCLStatusType::PoseStatus_type& x (*i.PoseStatus ());
+      if (typeid (CRCLStatusType::PoseStatus_type) == typeid (x))
       {
         ::xercesc::DOMElement& s (
           ::xsd::cxx::xml::dom::create_element (
-            "Pose",
+            "PoseStatus",
             e));
 
         s << x;
       }
       else
         tsm.serialize (
-          "Pose",
+          "PoseStatus",
           "",
           false, true, e, x);
     }
@@ -2766,6 +3132,94 @@ static
 const ::xsd::cxx::tree::type_serializer_initializer< 0, char, ParallelGripperStatusType >
 _xsd_ParallelGripperStatusType_type_serializer_init (
   "ParallelGripperStatusType",
+  "");
+
+
+void
+operator<< (::xercesc::DOMElement& e, const PoseStatusType& i)
+{
+  e << static_cast< const ::DataThingType& > (i);
+
+  // Pose
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    const PoseStatusType::Pose_type& x (i.Pose ());
+    if (typeid (PoseStatusType::Pose_type) == typeid (x))
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "Pose",
+          e));
+
+      s << x;
+    }
+    else
+      tsm.serialize (
+        "Pose",
+        "",
+        false, true, e, x);
+  }
+
+  // Twist
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    if (i.Twist ())
+    {
+      const PoseStatusType::Twist_type& x (*i.Twist ());
+      if (typeid (PoseStatusType::Twist_type) == typeid (x))
+      {
+        ::xercesc::DOMElement& s (
+          ::xsd::cxx::xml::dom::create_element (
+            "Twist",
+            e));
+
+        s << x;
+      }
+      else
+        tsm.serialize (
+          "Twist",
+          "",
+          false, true, e, x);
+    }
+  }
+
+  // Wrench
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    if (i.Wrench ())
+    {
+      const PoseStatusType::Wrench_type& x (*i.Wrench ());
+      if (typeid (PoseStatusType::Wrench_type) == typeid (x))
+      {
+        ::xercesc::DOMElement& s (
+          ::xsd::cxx::xml::dom::create_element (
+            "Wrench",
+            e));
+
+        s << x;
+      }
+      else
+        tsm.serialize (
+          "Wrench",
+          "",
+          false, true, e, x);
+    }
+  }
+}
+
+static
+const ::xsd::cxx::tree::type_serializer_initializer< 0, char, PoseStatusType >
+_xsd_PoseStatusType_type_serializer_init (
+  "PoseStatusType",
   "");
 
 

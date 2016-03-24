@@ -372,7 +372,7 @@ void GetJointLimits(std::vector<std::string> names, std::vector<double> lower, s
     // Populate (soft) joint limits from URDF
     // Limits specified in URDF overwrite existing values in 'limits' and 'soft_limits'
     // Limits not specified in URDF preserve their existing values
-    boost::shared_ptr<const urdf::Joint> urdf_joint = urdf->getJoint("joint_1");
+    boost::shared_ptr<const RCS::Joint> urdf_joint = urdf->getJoint("joint_1");
     //const bool urdf_limits_ok = getJointLimits(urdf_joint, limits);
    // const bool urdf_soft_limits_ok = getSoftJointLimits(urdf_joint, soft_limits);
 #endif

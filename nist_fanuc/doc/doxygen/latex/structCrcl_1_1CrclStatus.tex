@@ -3,6 +3,11 @@
 }
 
 
+\hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} is a class that encapsulates all the C\-R\-C\-L information. All lot of the knowledge is converting R\-O\-S oriented \hyperlink{namespaceRCS}{R\-C\-S} data into codesynthesis \hyperlink{namespaceCrcl}{Crcl} representation and vice versa. \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc.  
+
+
+
+
 {\ttfamily \#include $<$crcl.\-h$>$}
 
 \subsection*{Public Member Functions}
@@ -11,8 +16,6 @@
 \hyperlink{structCrcl_1_1CrclStatus_a1cd41778adfbcbf93acf69b4696ca690}{Crcl\-Status} ()
 \item 
 \hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{structCrcl_1_1CrclStatus_ad7e716027dc6c885675ff2016f36786b}{Joints\-Home} ()
-\item 
-\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} \hyperlink{structCrcl_1_1CrclStatus_ae9eaeee83f8d6742d8e1d0f69f4d6e45}{Merge} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence}, bool b\-Incremental=false)
 \item 
 void \hyperlink{structCrcl_1_1CrclStatus_a50e2821837a7a50b50df2260435f9917}{Update} (unsigned long long Command\-I\-D)
 \item 
@@ -24,13 +27,15 @@ void \hyperlink{structCrcl_1_1CrclStatus_ad538ccbf9fe6448b9c97c5ae79d6f818}{Upda
 \item 
 void \hyperlink{structCrcl_1_1CrclStatus_a626f981943a5d9a358b3394997dd8530}{Update} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \&joints)
 \item 
-void \hyperlink{structCrcl_1_1CrclStatus_abed6fce26b69adcec0beea0bd1d19169}{Update} (urdf\-::\-Pose \&pose)
+void \hyperlink{structCrcl_1_1CrclStatus_abb90bfc3db1819f29fd23e7920610a42}{Update} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
 \item 
 \hyperlink{structCrcl_1_1CrclStatus_a4051bdc6200a904e5c892968e42a43d6}{V\-A\-R} (Command\-I\-D, unsigned long long)
 \item 
 \hyperlink{structCrcl_1_1CrclStatus_a04deac202f412e0087fd07f09ccec5b7}{V\-A\-R} (Status\-I\-D, unsigned long long)
 \item 
 \hyperlink{structCrcl_1_1CrclStatus_a29a7ab97f492696b8a83be8762b0afda}{V\-A\-R} (Command\-Status, \hyperlink{namespaceCrcl_a5b3aa14f2f4ed63cc67ecba8eaab5c93}{Crcl\-::\-Command\-State\-Enum})
+\item 
+\hyperlink{structCrcl_1_1CrclStatus_a2162dbecfd7f9a01f5f92e0746e8dbfe}{V\-A\-R} (Rates, \hyperlink{classRCS_1_1IRate}{R\-C\-S\-::\-I\-Rate})
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -87,6 +92,9 @@ std\-::string \hyperlink{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809d
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+\hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} is a class that encapsulates all the C\-R\-C\-L information. All lot of the knowledge is converting R\-O\-S oriented \hyperlink{namespaceRCS}{R\-C\-S} data into codesynthesis \hyperlink{namespaceCrcl}{Crcl} representation and vice versa. \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc. 
+
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{structCrcl_1_1CrclStatus_a1cd41778adfbcbf93acf69b4696ca690}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Crcl\-Status@{Crcl\-Status}}
 \index{Crcl\-Status@{Crcl\-Status}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
@@ -105,14 +113,6 @@ std\-::string \hyperlink{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809d
 {}
 \end{DoxyParamCaption}
 )}}\label{structCrcl_1_1CrclStatus_ad7e716027dc6c885675ff2016f36786b}
-\hypertarget{structCrcl_1_1CrclStatus_ae9eaeee83f8d6742d8e1d0f69f4d6e45}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Merge@{Merge}}
-\index{Merge@{Merge}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
-\subsubsection[{Merge}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Actuator\-Joint\-Sequence} Crcl\-::\-Crcl\-Status\-::\-Merge (
-\begin{DoxyParamCaption}
-\item[{{\bf Crcl\-::\-Actuator\-Joint\-Sequence}}]{joints, }
-\item[{bool}]{b\-Incremental = {\ttfamily false}}
-\end{DoxyParamCaption}
-)}}\label{structCrcl_1_1CrclStatus_ae9eaeee83f8d6742d8e1d0f69f4d6e45}
 \hypertarget{structCrcl_1_1CrclStatus_a50e2821837a7a50b50df2260435f9917}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
 \index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
 \subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
@@ -150,13 +150,13 @@ std\-::string \hyperlink{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809d
 \item[{{\bf Joint\-State} \&}]{joints}
 \end{DoxyParamCaption}
 )}}\label{structCrcl_1_1CrclStatus_a626f981943a5d9a358b3394997dd8530}
-\hypertarget{structCrcl_1_1CrclStatus_abed6fce26b69adcec0beea0bd1d19169}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
+\hypertarget{structCrcl_1_1CrclStatus_abb90bfc3db1819f29fd23e7920610a42}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!Update@{Update}}
 \index{Update@{Update}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
 \subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void Crcl\-::\-Crcl\-Status\-::\-Update (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{pose}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose}
 \end{DoxyParamCaption}
-)}}\label{structCrcl_1_1CrclStatus_abed6fce26b69adcec0beea0bd1d19169}
+)}}\label{structCrcl_1_1CrclStatus_abb90bfc3db1819f29fd23e7920610a42}
 \hypertarget{structCrcl_1_1CrclStatus_a4051bdc6200a904e5c892968e42a43d6}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!V\-A\-R@{V\-A\-R}}
 \index{V\-A\-R@{V\-A\-R}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
 \subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Status\-::\-V\-A\-R (
@@ -181,6 +181,14 @@ std\-::string \hyperlink{structCrcl_1_1CrclStatus_a0cd3ee396ed753479bd03ec30809d
 \item[{{\bf Crcl\-::\-Command\-State\-Enum}}]{}
 \end{DoxyParamCaption}
 )}}\label{structCrcl_1_1CrclStatus_a29a7ab97f492696b8a83be8762b0afda}
+\hypertarget{structCrcl_1_1CrclStatus_a2162dbecfd7f9a01f5f92e0746e8dbfe}{\index{Crcl\-::\-Crcl\-Status@{Crcl\-::\-Crcl\-Status}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!Crcl::CrclStatus@{Crcl\-::\-Crcl\-Status}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Crcl\-::\-Crcl\-Status\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Rates}]{, }
+\item[{{\bf R\-C\-S\-::\-I\-Rate}}]{}
+\end{DoxyParamCaption}
+)}}\label{structCrcl_1_1CrclStatus_a2162dbecfd7f9a01f5f92e0746e8dbfe}
 
 
 \subsection{Member Data Documentation}

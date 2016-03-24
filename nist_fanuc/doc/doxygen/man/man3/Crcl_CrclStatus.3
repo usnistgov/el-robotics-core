@@ -1,8 +1,11 @@
-.TH "Crcl::CrclStatus" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "Crcl::CrclStatus" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 Crcl::CrclStatus \- 
+.PP
+\fBCrclStatus\fP is a class that encapsulates all the CRCL information\&. All lot of the knowledge is converting ROS oriented \fBRCS\fP data into codesynthesis \fBCrcl\fP representation and vice versa\&. \fBCrclStatus\fP maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc\&.  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -16,9 +19,6 @@ Crcl::CrclStatus \-
 .br
 .ti -1c
 .RI "\fBCrcl::JointStatusSequence\fP \fBJointsHome\fP ()"
-.br
-.ti -1c
-.RI "\fBCrcl::ActuatorJointSequence\fP \fBMerge\fP (\fBCrcl::ActuatorJointSequence\fP, bool bIncremental=false)"
 .br
 .ti -1c
 .RI "void \fBUpdate\fP (unsigned long long CommandID)"
@@ -36,7 +36,7 @@ Crcl::CrclStatus \-
 .RI "void \fBUpdate\fP (\fBJointState\fP &joints)"
 .br
 .ti -1c
-.RI "void \fBUpdate\fP (urdf::Pose &pose)"
+.RI "void \fBUpdate\fP (\fBRCS::Pose\fP &pose)"
 .br
 .ti -1c
 .RI "\fBVAR\fP (CommandID, unsigned long long)"
@@ -46,6 +46,9 @@ Crcl::CrclStatus \-
 .br
 .ti -1c
 .RI "\fBVAR\fP (CommandStatus, \fBCrcl::CommandStateEnum\fP)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (Rates, \fBRCS::IRate\fP)"
 .br
 .in -1c
 .SS "Public Attributes"
@@ -127,6 +130,9 @@ Crcl::CrclStatus \-
 .RI "std::string \fBAlarm\fP"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+\fBCrclStatus\fP is a class that encapsulates all the CRCL information\&. All lot of the knowledge is converting ROS oriented \fBRCS\fP data into codesynthesis \fBCrcl\fP representation and vice versa\&. \fBCrclStatus\fP maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc\&. 
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "Crcl::CrclStatus::CrclStatus ()"
@@ -134,8 +140,6 @@ Crcl::CrclStatus \-
 .SH "Member Function Documentation"
 .PP 
 .SS "\fBCrcl::JointStatusSequence\fP Crcl::CrclStatus::JointsHome ()"
-
-.SS "\fBCrcl::ActuatorJointSequence\fP Crcl::CrclStatus::Merge (\fBCrcl::ActuatorJointSequence\fPjoints, boolbIncremental = \fCfalse\fP)"
 
 .SS "void Crcl::CrclStatus::Update (unsigned long longCommandID)"
 
@@ -147,13 +151,15 @@ Crcl::CrclStatus \-
 
 .SS "void Crcl::CrclStatus::Update (\fBJointState\fP &joints)"
 
-.SS "void Crcl::CrclStatus::Update (urdf::Pose &pose)"
+.SS "void Crcl::CrclStatus::Update (\fBRCS::Pose\fP &pose)"
 
 .SS "Crcl::CrclStatus::VAR (CommandID, unsigned longlong)"
 
 .SS "Crcl::CrclStatus::VAR (StatusID, unsigned longlong)"
 
 .SS "Crcl::CrclStatus::VAR (CommandStatus, \fBCrcl::CommandStateEnum\fP)"
+
+.SS "Crcl::CrclStatus::VAR (Rates, \fBRCS::IRate\fP)"
 
 .SH "Member Data Documentation"
 .PP 

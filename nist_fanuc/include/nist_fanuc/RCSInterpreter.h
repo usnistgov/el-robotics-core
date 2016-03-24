@@ -53,7 +53,7 @@ protected:
 	\param poses is the vector of cartesian motion.
 	\return vector of planned joint states
 	*/
-    std::vector<JointState> PlanCartesianMotion(std::vector<urdf::Pose> poses);
+    std::vector<JointState> PlanCartesianMotion(std::vector<RCS::Pose> poses);
 
     //////////////////////////////////////////////////
 public:

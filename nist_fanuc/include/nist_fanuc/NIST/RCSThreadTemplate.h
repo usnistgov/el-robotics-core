@@ -20,7 +20,7 @@ See NIST Administration Manual 4.09.07 b and Appendix I.
 namespace RCS {
 
     /**
-     * \brief Thread is an RCS ulapi equivalent for timed thread.
+     * \brief Thread is an RCS ulapi equivalent for a timed thread.
      * Given a cycle time, the thread provides a wait function to sleep to exactly the 
      * amount of the thread cycle time. It keeps track of busy/idle time for diagnostic 
      * purposes.
@@ -92,7 +92,7 @@ namespace RCS {
         /*!
          * \brief Action override function called every cycle.
          */
-        virtual void Action() {
+        virtual int Action() {
         }
 
         /*!
@@ -186,8 +186,8 @@ namespace RCS {
 
             try {
                 while (_bThread) {
-                    Action();
-                    _timer.wait();
+                    _bThread=(bool) Action();
+                    _timer.wait(); // is this polling waiting or sleeping/yielding?
                 }
             } catch (...) {
                 std::cout << "Unhandled exception - " << Name().c_str() << std::endl;

@@ -55,57 +55,103 @@
 <div class="contents">
 <div class="textblock"><code>#include &lt;Eigen/Core&gt;</code><br/>
 <code>#include &lt;Eigen/Geometry&gt;</code><br/>
+<code>#include &quot;urdf_model/tfmath.h&quot;</code><br/>
 <code>#include &quot;geometry_msgs/PoseStamped.h&quot;</code><br/>
-<code>#include &quot;urdf_model/eigenmath.h&quot;</code><br/>
-<code>#include &quot;urdf_model/rosmath.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="RCS_8h_source.html">RCS.h</a>&quot;</code><br/>
 </div>
 <p><a href="Conversions_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5334bb7fb1e0ef3aa3bd6d2a03d2b07a"><td class="memItemLeft" align="right" valign="top">urdf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a5334bb7fb1e0ef3aa3bd6d2a03d2b07a">PoseMsg2UrdfPose</a> (const geometry_msgs::Pose &amp;m)</td></tr>
-<tr class="separator:a5334bb7fb1e0ef3aa3bd6d2a03d2b07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae633ac1c40eee4fc9f17cd29425cc559"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#ae633ac1c40eee4fc9f17cd29425cc559">UrdfPose2PoseMsg</a> (const urdf::Pose &amp;m)</td></tr>
-<tr class="separator:ae633ac1c40eee4fc9f17cd29425cc559"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb9bcb5d16446aedaa69e3f336c3a37f"><td class="memItemLeft" align="right" valign="top">Eigen::Affine3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#aeb9bcb5d16446aedaa69e3f336c3a37f">PoseMsgToEigenAffine</a> (const geometry_msgs::Pose &amp;m)</td></tr>
-<tr class="separator:aeb9bcb5d16446aedaa69e3f336c3a37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a930fa2ea992a7b863a1312b883bbf092"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a930fa2ea992a7b863a1312b883bbf092">poseEigenToGeomMsg</a> (const Eigen::Affine3d &amp;e)</td></tr>
-<tr class="separator:a930fa2ea992a7b863a1312b883bbf092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe66d55a7d5382503fd3338795185eca"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#afe66d55a7d5382503fd3338795185eca">UrdfPoses2PoseMsgs</a> (const std::vector&lt; urdf::Pose &gt; &amp;src)</td></tr>
-<tr class="separator:afe66d55a7d5382503fd3338795185eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5160124557f7d96f0a4d8c36dfa53796"><td class="memItemLeft" align="right" valign="top">std::vector&lt; urdf::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a5160124557f7d96f0a4d8c36dfa53796">PoseMsgs2UrdfPoses</a> (const std::vector&lt; geometry_msgs::Pose &gt; &amp;src)</td></tr>
-<tr class="separator:a5160124557f7d96f0a4d8c36dfa53796"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6078cc3327f714de561ef118a88fc899"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Affine3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a6078cc3327f714de561ef118a88fc899">PoseMsgs2AffEigenPoses</a> (const std::vector&lt; geometry_msgs::Pose &gt; &amp;src)</td></tr>
-<tr class="separator:a6078cc3327f714de561ef118a88fc899"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9489007d9aea0992eb151904faa8ede1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a9489007d9aea0992eb151904faa8ede1">AffEigenPoses2PoseMsgs</a> (const std::vector&lt; Eigen::Affine3d &gt; &amp;src)</td></tr>
-<tr class="separator:a9489007d9aea0992eb151904faa8ede1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb77e7f56484d602532da96585fc7deb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#abb77e7f56484d602532da96585fc7deb">Vector2JointState</a> (const std::vector&lt; double &gt; &amp;src)</td></tr>
-<tr class="separator:abb77e7f56484d602532da96585fc7deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fdff298343663baf8be596ca2a713e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a3fdff298343663baf8be596ca2a713e1">GeomMsgPose2UrdfPose</a> (const geometry_msgs::Pose &amp;m)</td></tr>
+<tr class="separator:a3fdff298343663baf8be596ca2a713e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79950e8b22d27e748a58b2d16e6c2e3a"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a79950e8b22d27e748a58b2d16e6c2e3a">UrdfPose2GeomMsgPose</a> (const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;m)</td></tr>
+<tr class="separator:a79950e8b22d27e748a58b2d16e6c2e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a062667366f2e4eb0df70976fbde8c479"><td class="memItemLeft" align="right" valign="top">Eigen::Affine3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a062667366f2e4eb0df70976fbde8c479">GeomMsgPose2Affine3d</a> (const geometry_msgs::Pose &amp;m)</td></tr>
+<tr class="separator:a062667366f2e4eb0df70976fbde8c479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77c46ed25f92da029d803d1f17bfe9ef"><td class="memItemLeft" align="right" valign="top">geometry_msgs::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a77c46ed25f92da029d803d1f17bfe9ef">PoseAffineToGeomMsg</a> (const Eigen::Affine3d &amp;e)</td></tr>
+<tr class="separator:a77c46ed25f92da029d803d1f17bfe9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a036d011ed7076eb62e0ae15527526dc1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a036d011ed7076eb62e0ae15527526dc1">Affine3d2UrdfPose</a> (const Eigen::Affine3d &amp;pose)</td></tr>
+<tr class="memdesc:a036d011ed7076eb62e0ae15527526dc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">affine3d2UrdfPose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose  <a href="#a036d011ed7076eb62e0ae15527526dc1">More...</a><br/></td></tr>
+<tr class="separator:a036d011ed7076eb62e0ae15527526dc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fd6da9c337939cbd7c072ef58359673"><td class="memItemLeft" align="right" valign="top">Eigen::Affine3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a2fd6da9c337939cbd7c072ef58359673">UrdfPose2Affine3d</a> (const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="memdesc:a2fd6da9c337939cbd7c072ef58359673"><td class="mdescLeft">&#160;</td><td class="mdescRight">urdfPose2Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose  <a href="#a2fd6da9c337939cbd7c072ef58359673">More...</a><br/></td></tr>
+<tr class="separator:a2fd6da9c337939cbd7c072ef58359673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade536d091dbd9847e5600d42169c3268"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#ade536d091dbd9847e5600d42169c3268">UrdfPoses2PoseMsgs</a> (const std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; &amp;src)</td></tr>
+<tr class="separator:ade536d091dbd9847e5600d42169c3268"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3952d22087a8dd05ba9debfaa168b955"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a3952d22087a8dd05ba9debfaa168b955">PoseMsgs2UrdfPoses</a> (const std::vector&lt; geometry_msgs::Pose &gt; &amp;src)</td></tr>
+<tr class="separator:a3952d22087a8dd05ba9debfaa168b955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acddecc9068058a9ff1204d62cee2baab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Affine3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#acddecc9068058a9ff1204d62cee2baab">PoseMsgs2AffEigenPoses</a> (const std::vector&lt; geometry_msgs::Pose &gt; &amp;src)</td></tr>
+<tr class="separator:acddecc9068058a9ff1204d62cee2baab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd62adb8c50c8f529cd148f24a77d236"><td class="memItemLeft" align="right" valign="top">std::vector&lt; geometry_msgs::Pose &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#afd62adb8c50c8f529cd148f24a77d236">AffEigenPoses2PoseMsgs</a> (const std::vector&lt; Eigen::Affine3d &gt; &amp;src)</td></tr>
+<tr class="separator:afd62adb8c50c8f529cd148f24a77d236"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a247ae7d07310067188e4b9071eecfea8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Conversions_8h.html#a247ae7d07310067188e4b9071eecfea8">JntPosVector2JointState</a> (const std::vector&lt; double &gt; &amp;src)</td></tr>
 <tr class="separator:a247ae7d07310067188e4b9071eecfea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a9489007d9aea0992eb151904faa8ede1"></a>
+<a class="anchor" id="afd62adb8c50c8f529cd148f24a77d236"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; geometry_msgs::Pose &gt; AffEigenPoses2PoseMsgs </td>
+          <td class="memname">std::vector&lt;geometry_msgs::Pose&gt; AffEigenPoses2PoseMsgs </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; Eigen::Affine3d &gt; &amp;&#160;</td>
           <td class="paramname"><em>src</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a036d011ed7076eb62e0ae15527526dc1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> Affine3d2UrdfPose </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Affine3d &amp;&#160;</td>
+          <td class="paramname"><em>pose</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>affine3d2UrdfPose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose </p>
+<dl class="section return"><dt>Returns</dt><dd>urdf pose with position and rotation. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a062667366f2e4eb0df70976fbde8c479"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Affine3d GeomMsgPose2Affine3d </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3fdff298343663baf8be596ca2a713e1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> GeomMsgPose2UrdfPose </td>
+          <td>(</td>
+          <td class="paramtype">const geometry_msgs::Pose &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -134,182 +180,103 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a930fa2ea992a7b863a1312b883bbf092"></a>
+<a class="anchor" id="a77c46ed25f92da029d803d1f17bfe9ef"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">geometry_msgs::Pose poseEigenToGeomMsg </td>
+          <td class="memname">geometry_msgs::Pose PoseAffineToGeomMsg </td>
           <td>(</td>
           <td class="paramtype">const Eigen::Affine3d &amp;&#160;</td>
           <td class="paramname"><em>e</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a5334bb7fb1e0ef3aa3bd6d2a03d2b07a"></a>
+<a class="anchor" id="acddecc9068058a9ff1204d62cee2baab"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">urdf::Pose PoseMsg2UrdfPose </td>
-          <td>(</td>
-          <td class="paramtype">const geometry_msgs::Pose &amp;&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6078cc3327f714de561ef118a88fc899"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; Eigen::Affine3d &gt; PoseMsgs2AffEigenPoses </td>
+          <td class="memname">std::vector&lt;Eigen::Affine3d&gt; PoseMsgs2AffEigenPoses </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; geometry_msgs::Pose &gt; &amp;&#160;</td>
           <td class="paramname"><em>src</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a5160124557f7d96f0a4d8c36dfa53796"></a>
+<a class="anchor" id="a3952d22087a8dd05ba9debfaa168b955"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; urdf::Pose &gt; PoseMsgs2UrdfPoses </td>
+          <td class="memname">std::vector&lt;<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&gt; PoseMsgs2UrdfPoses </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; geometry_msgs::Pose &gt; &amp;&#160;</td>
           <td class="paramname"><em>src</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aeb9bcb5d16446aedaa69e3f336c3a37f"></a>
+<a class="anchor" id="a2fd6da9c337939cbd7c072ef58359673"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Eigen::Affine3d PoseMsgToEigenAffine </td>
+          <td class="memname">Eigen::Affine3d UrdfPose2Affine3d </td>
           <td>(</td>
-          <td class="paramtype">const geometry_msgs::Pose &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramname"><em>pose</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>urdfPose2Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pose</td><td>is the urdf pose with position and rotation. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>eigen Affine3d pose </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a79950e8b22d27e748a58b2d16e6c2e3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">geometry_msgs::Pose UrdfPose2GeomMsgPose </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>m</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ae633ac1c40eee4fc9f17cd29425cc559"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">geometry_msgs::Pose UrdfPose2PoseMsg </td>
-          <td>(</td>
-          <td class="paramtype">const urdf::Pose &amp;&#160;</td>
-          <td class="paramname"><em>m</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="afe66d55a7d5382503fd3338795185eca"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; geometry_msgs::Pose &gt; UrdfPoses2PoseMsgs </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; urdf::Pose &gt; &amp;&#160;</td>
-          <td class="paramname"><em>src</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="abb77e7f56484d602532da96585fc7deb"></a>
+<a class="anchor" id="ade536d091dbd9847e5600d42169c3268"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> Vector2JointState </td>
+          <td class="memname">std::vector&lt;geometry_msgs::Pose&gt; UrdfPoses2PoseMsgs </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>src</em></td><td>)</td>
           <td></td>
         </tr>
@@ -321,7 +288,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

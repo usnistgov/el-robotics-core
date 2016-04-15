@@ -21,22 +21,9 @@
 #include "Setup.h"
 
 #include <ros/package.h>
-
+#include "RvizMarker.h"
 // /opt/ros/indigo/include/moveit/robot_state/robot_state.h
 // /opt/ros/indigo/include/moveit/move_group_interface/move_group.h
-
-std::string DumpUrdfPose(const RCS::Pose & p);
-
-//#include "TestMoveit.cpp"
-#include "moveit.h"
-
-inline std::string DumpUrdfPose(const RCS::Pose & p) {
-    std::stringstream s;
-    s << "Translation = " << boost::format("%11.4f") % (1000.0 * p.getOrigin().x()) << ":" 
-            << boost::format("%11.4f") % (1000.0 * p.getOrigin().y()) << ":" << boost::format("%11.4f") % (1000.0 * p.getOrigin().z()) << std::endl;
-    return s.str();
-}
-
 
 int main(int argc, char** argv) {
     
@@ -61,11 +48,15 @@ int main(int argc, char** argv) {
         boost::shared_ptr<IKinematics> kin;
         boost::shared_ptr<MoveitPlanning> moveitPlanner;
         boost::shared_ptr<RCS::RobotProgram> crclProgramInterpreter;
+        boost::shared_ptr<CRvizMarker> pRvizMarker;
+        boost::shared_ptr<CLinkReader> pLinkReader;
+
 
         // Controller shared objects NOT dependent on ROS 
         boost::shared_ptr<Crcl::CrclDelegateInterface> crcl;
         
-        // SetupRosEnvironment - needs to go before ROS!
+        //SetupRosEnvironment - needs to go before ROS!
+        SetupRosEnvironment("");
         
         // Initialize ROS
         ros::init(argc, argv, "nist_fanuc");
@@ -95,7 +86,10 @@ int main(int argc, char** argv) {
         jointReader = boost::shared_ptr<CJointReader>(new CJointReader(nh));
         jointWriter = boost::shared_ptr<CJointWriter>(new CJointWriter(nh));
         kin = boost::shared_ptr<IKinematics>(new MoveitKinematics(nh));
+        pRvizMarker= boost::shared_ptr<CRvizMarker>(new CRvizMarker(nh));
+        pRvizMarker->Init();
         moveitPlanner = boost::shared_ptr<MoveitPlanning>(new MoveitPlanning(nh));
+        pLinkReader = boost::shared_ptr<CLinkReader>(new CLinkReader(nh));
 
         // Controller instantiatio of shared objects - NOT dependent on ROS
         crcl = boost::shared_ptr<Crcl::CrclDelegateInterface>(
@@ -115,8 +109,11 @@ int main(int argc, char** argv) {
         // This initializes the asio crcl socket listener, in theory N clients can connect. Only 1 tested.
         crclServer.Init("127.0.0.1", 64444, "Command GUI");
         
+        // Logger
+        LogFile.Open(Globals.ExeDirectory + "logfile.log");
+        LogFile.DebugLevel() = 5;
+        LogFile.Timestamping() = true;
         
-
         RCS::CController::CsvLogging.Open(Globals.ExeDirectory + "logfile.csv");
         RCS::CController::CsvLogging.DebugLevel() = 5;
         RCS::CController::_debugtype = (unsigned long) RCS::CController::CRCL;
@@ -140,6 +137,13 @@ int main(int argc, char** argv) {
         RCS::Controller.Kinematics() = kin;
         //        RCS::Controller.TrajectoryWriter() = trajWriter;
         RCS::Controller.JointWriter() = jointWriter;
+        RCS::Controller.RvizMarker()= pRvizMarker;
+        RCS::Controller.EEPoseReader()= pLinkReader;
+
+        // fix me: read actual robot model and use.
+        RCS::Controller.links.push_back("/base_link");
+        RCS::Controller.links.push_back("/tool0");
+
         RCS::Controller.MoveitPlanner() = moveitPlanner;
         RCS::Controller.eCartesianMotionPlanner = RCS::CController::BASIC;
         RCS::Controller.eJointMotionPlanner = RCS::CController::BASIC;
@@ -159,15 +163,19 @@ int main(int argc, char** argv) {
             std::cout << "." << std::flush;
         }
         std::cout << "\nCurrent joints=" << VectorDump<double> (cjoints.position).c_str();
-   
+        
         // Store current joint values
         //RosKinematics kin;
         RCS::Controller.status.currentjoints = cjoints;
         std::cout << "Current=" << VectorDump<double> (RCS::Controller.status.currentjoints.position).c_str();
         RCS::Controller.status.currentpose = kin->FK(RCS::Controller.status.currentjoints.position);
-        std::cout << DumpUrdfPose(RCS::Controller.status.currentpose).c_str();
+        std::cout << DumpPose(RCS::Controller.status.currentpose).c_str();
         RCS::Controller.CrclDelegate()->crclwm.Update(RCS::Controller.status.currentpose);
         RCS::Controller.CrclDelegate()->crclwm.Update(RCS::Controller.status.currentjoints);
+
+        LogFile.LogFormatMessage ("Starting current joints=%s", DumpJoints(cjoints).c_str()); 
+        LogFile.LogFormatMessage ("Starting current pose=%s", DumpPose(RCS::Controller.status.currentpose).c_str()); 
+
         // Removed chained robot model from exe - overkill
         //RCS::Controller.robot_model.RdfFromXmlFile(Globals.ExeDirectory + "lrmate200id.urdf");
 #endif

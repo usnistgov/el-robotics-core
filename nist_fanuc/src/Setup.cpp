@@ -108,20 +108,20 @@ bool SetupAppEnvironment() {
 	return true;
 }  
 bool SetupRosEnvironment(std::string pkgpath) {
-#if 0
+#if 1
     //std::string rosdistro =  getenv ("ROS_DISTRO");
     // suppose we could just copy all the environment variables
-    std::string user = Globals._appproperties["user"];
-    std::cout << "user=" << user.c_str() << std::endl;
-    std::string cmd = Globals.StrFormat("/bin/bash -i /home/%s/catkin_ws/devel/rossetup.bash  ",  user.c_str());
+    //std::string user = Globals._appproperties["user"];
+    //std::cout << "user=" << user.c_str() << std::endl;
+    std::string cmd = Globals.StrFormat("/bin/bash -i /usr/local/michalos/nistfanuc_ws/devel/lib/nist_fanuc/rossetup.bash  ");
     std::cout << "cmd=" << cmd.c_str() << std::endl;
-#endif
+#else
     //   pkgpath=pkgpath+"/scripts/rossetup.bash"
     pkgpath = pkgpath + "/../../devel/setup.bash";
     std::cout << "pkgpath=" << pkgpath.c_str() << std::endl;
     std::string cmd = Globals.StrFormat("/bin/bash -i %s && env\n", pkgpath.c_str());
     std::cout << "cmd=" << cmd.c_str() << std::endl;
-
+#endif
     std::string envs = ExecuteShellCommand(cmd);
     std::cout << "envs=" << envs.c_str() << std::endl;
     std::map<std::string, std::string> envvars = ParseIniString(envs);

@@ -1,4 +1,4 @@
-.TH "RCS" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -140,6 +140,10 @@ RCS \-
 .RI "::CRCLProgramType::MiddleCommand_sequence & \fBDummyInit\fP ()"
 .br
 .ti -1c
+.RI "std::string \fBDumpPose\fP (\fBRCS::Pose\fP &pose)"
+.br
+.RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
 .RI "void \fBgetRPY\fP (const \fBRCS::Pose\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
 .br
 .ti -1c
@@ -149,7 +153,11 @@ RCS \-
 .RI "template<class Rep , class Period > double \fBToSeconds\fP (boost::chrono::duration< Rep, Period > d)"
 .br
 .ti -1c
-.RI "std::string \fBDumpPose\fP (\fBRCS::Pose\fP &pose)"
+.RI "std::string \fBDumpJoints\fP (\fBJointState\fP joints)"
+.br
+.RI "\fIDumpJoints takes a list of joints and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, \fBRCS::Pose\fP &pose)"
 .br
 .RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
 .ti -1c
@@ -380,7 +388,11 @@ enumeration of trajector pose points\&.
 .PP 
 .SS "::CRCLProgramType::MiddleCommand_sequence& RCS::DummyInit ()"
 
-.SS "std::string RCS::DumpPose (\fBRCS::Pose\fP &pose)\fC [inline]\fP"
+.SS "std::string RCS::DumpJoints (\fBJointState\fPjoints)\fC [inline]\fP"
+
+.PP
+DumpJoints takes a list of joints and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
+.SS "std::string RCS::DumpPose (\fBRCS::Pose\fP &pose)"
 
 .PP
 DumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
@@ -390,6 +402,10 @@ DumpPose takes a urdf pose and generates a string describing pose\&. Can be used
 DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. 
 .SS "void RCS::getRPY (const \fBRCS::Pose\fPpose, double &roll, double &pitch, double &yaw)"
 
+.SS "std::ostream& RCS::operator<< (std::ostream &os, \fBRCS::Pose\fP &pose)\fC [inline]\fP"
+
+.PP
+DumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
 .SS "template<class Rep , class Period > double RCS::ToNanoseconds (boost::chrono::duration< Rep, Period >d)"
 
 .SS "template<class Rep , class Period > double RCS::ToSeconds (boost::chrono::duration< Rep, Period >d)"

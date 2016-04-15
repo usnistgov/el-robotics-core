@@ -1,14 +1,30 @@
 
 Fanuc lrmate200id Descarte Demo
 ================================
+ROS-I Packages that must either be installed or clone from github:
+fanuc
+industrial-core
+fanuc-experimental
+descartes
+
+All are available as gihub source packages, but will take much longer to compile. So fanu and industrial-core are better installed as ROS packages.
+
+
+Using apt-get to install necessary ros industrial packages in ROS indigo:
+
+	sudo apt-get install ros-indigo-fanuc
+	sudo apt-get install ros-indigo-simple-message
+	sudo apt-get install ros-indigo-industrial-core
+
+
 
 Setting up ROS with Descartes
 -----------------------------
 Copy repositories from https://github.com/ros-industrial:
-fanuc
+fanuc - NOW A ROS INDIGO PACKAGE  (ros-indigo-fanuc)
 fanuc experimental
-motoman
-ros industrial core
+motoman - CAN OMIT
+ros industrial core - NOW A ROS INDIGO PACKAGE
 
 Repositories from ROS-I Consortium https://github.com/ros-industrial-consortium github site:
 descartes
@@ -16,8 +32,14 @@ descartes_tutorials
 
 Assume catkin_ws has been setup)
 
-    cd ~/catkin_ws/src
-    git clone  https://github.com/ros-industrial/fanuc.git
+	cd /usr/local/michalos/github/ros-industrial
+	git clone  https://github.com/ros-industrial/fanuc_experimental.git
+
+	cd /usr/local/michalos/nistfanuc_ws/src
+	ln -s /usr/local/michalos/github/ros-industrial-consortium/descartes descartes
+	ln -s /usr/local/michalos/github/ros-industrial/fanuc_experimental  fanuc_experimental
+
+
 
 How to build just one package using catkin_make?
 -----------------------------
@@ -26,6 +48,20 @@ A: catkin_make --pkg <my_package_name>
 so 
 
     `catkin_make --pkg nist_fanuc
+
+
+How do I find the list of available ROS packages?
+-----------------------------------------------------
+	apt-cache search ros | grep ros-indigo
+
+
+How do I find the list of installed ROS packages?
+--------------------------------------------------------
+From ROS FAQ http://wiki.ros.org/FAQ:
+On your running system, you can use rospack:
+
+rospack list-names
+
 
 Is there a way to enable c++11 support for catkin packages?
 -----------------------------
@@ -38,7 +74,16 @@ Is there a way to enable c++11 support for catkin packages?
 how to resolve g++ warning with -std=c++11: ‘auto_ptr’ is deprecated [duplicate]
     https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59325
 
+Creating ros workspace
+----------------------
+http://wiki.ros.org/catkin/Tutorials/create_a_workspace
 
+	source /opt/ros/indigo/setup.bash
+	mkdir -p ~/catkin_ws/src
+	cd ~/catkin_ws/src
+	catkin_init_workspace
+	cd ..
+	catkin_make -DCMAKE_BUILD_TYPE=Debug &> log.log
 
 Compiling Fanuc Demo with Debug Information
 -----------------------------
@@ -46,7 +91,7 @@ Compiling Fanuc Demo with Debug Information
     cd ~/catkin_ws
     catkin_make -DCMAKE_BUILD_TYPE=Debug &> log.log
     more log.log
-
+roslaunch fanuc_lrmate200id_moveit_config  moveit_planning_execution.launch  sim:=true
 
 Using IDE to Debug
 -----------------------------
@@ -59,6 +104,9 @@ Compiling Fanuc Demo with Debug and Error Information Redirected to log file
 -----------------------------
 
     catkin_make -DCMAKE_BUILD_TYPE=Debug &> log.log
+
+-DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../install -DCATKIN_DEVEL_PREFIX=../devel
+
 
 Location of exe directory to save ini and other runtime files
 -----------------------------
@@ -1815,4 +1863,375 @@ Movegroup died ...
 ---------------
 [move_group-5] process has died [pid 4186, exit code -11, cmd /opt/ros/indigo/lib/moveit_ros_move_group/move_group __name:=move_group __log:=/home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5.log].
 log file: /home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5*.log
+
+
+Problems with catkin now
+In file included from /opt/ros/indigo/include/moveit/robot_model/joint_model_group.h:41:0,
+                 from /opt/ros/indigo/include/moveit/robot_model/robot_model.h:48,
+                 from /opt/ros/indigo/include/moveit/robot_model_loader/robot_model_loader.h:40,
+                 from /usr/local/michalos/nistfanuc_ws/src/nist_fanuc/include/nist_fanuc/RCS.h:39,
+                 from /usr/local/michalos/nistfanuc_ws/src/nist_fanuc/include/nist_fanuc/crcl.h:18,
+                 from /usr/local/michalos/nistfanuc_ws/src/nist_fanuc/include/nist_fanuc/CrclInterface.h:16,
+                 from /usr/local/michalos/nistfanuc_ws/src/nist_fanuc/include/nist_fanuc/AsioCrclServer.h:29,
+                 from /usr/local/michalos/nistfanuc_ws/src/nist_fanuc/include/nist_fanuc/Controller.h:18,
+                 from /usr/local/michalos/nistfanuc_ws/src/nist_fanuc/src/Controller.cpp:22:
+/opt/ros/indigo/include/moveit/robot_model/joint_model.h:47:26: fatal error: Eigen/Geometry: No such file or directory
+Sigh.
+
+
+<depend package="tf"/>
+
+I installed libeigen3-dev. Now I used
+
+sudo find /usr -name eigen*
+
+and found that eigen is installed in /usr/include/eigen3/Eigen. So apparently each installation goes different.
+
+include_directories(include
+    ${catkin_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
+    ${Eigen_INCLUDE_DIRS}
+    # include breakdown for this project
+    include/${PROJECT_NAME}
+    include/${PROJECT_NAME}/CrclXsd
+    include/${PROJECT_NAME}/NIST
+
+   ${descartes_moveit_INCLUDE_DIRS}
+   ${descartes_trajectory_INCLUDE_DIRS}
+   ${descartes_planner_INCLUDE_DIRS}
+   ${descartes_core_INCLUDE_DIRS}
+   /usr/include/eigen3
+)
+
+Started using Python catkin tools
+------------------------------------
+
+Installed python catkin tools - supposedly handle single package project easier in Qt Creator
+
+	sudo apt-get install python-catkin-tools
+
+You must manually cd to the location, don't use any symlinks.
+
+	cd /usr/local/michalos
+
+Then re inited catkin package with new tools:
+	catkin clean --all
+	catkin init
+	qtcreator
+
+With the new python catkin_tools, there is no longer a top level make file for the whole workspace. Instead, open each package as an individual project in QtCreator. The trick is to set the build folder to ws/build/your_package instead of ws/build as before. 
+
+
+
+Disable qt creator auto build when debug
+Navigate to Tools/Options. Somewhre Uncheck "Always build project before running". Back to unknown error.
+
+
+Using Python catkin tools and debugging package in QT Creator
+----------------------------------------------------------------
+
+Hey, there is another post in ROS Answers addressing how to debug a rosnode in Qtcreator: http://answers.ros.org/question/34966...
+
+I think that the answer can be summarized to:
+
+    compile the node/package that you want to compile in debug mode (add "set(CMAKE_BUILD_TYPE Debug)" to your CMakeLists.txt)
+    start your roscore and everything else as usual, except for the node you want to debug
+    start qtcreator with "sudo" (remember to source correctly your catkin workspace)
+    in qtcreator start the debugging mode for the rosnode by going to "Debug"->"Start Debugging"->"Attach to unstarted Application...", look for your compiled node, it should be in: "${CATKIN_WORKSPACE_FOLDER}"/devel/lib/package_name/node_name and click "Start Watching".
+    start the node in a terminal either with rosrun or roslaunch
+    enjoy...
+
+Note: you need to run qtcreator with "sudo", otherwise you get a "ptrace operation not allowed" problem. Note2: if you try to run qtcreator as a normal user afterwards, you will have problems accessing some of the Qt configuration files of your home folder, run these commands to get this back to normal:
+
+sudo chown -R ${USER}:${USER} .qt
+sudo chown -R ${USER}:${USER} .config/
+
+Now can't see headers in Qt Project
+---------------------------------------
+http://answers.ros.org/question/56685/is-there-any-way-to-get-qt-creator-to-show-all-of-a-projects-subdirectories/
+
+'ve got many header files *.h and *.hxx which are included in several *.cpp files but do not show up in the project tree on qtcreator, is there any way of telling qtcreator that those files do belong to the project?
+set( MY_SRCS
+include/version.h
+include/idcache.h
+src/json.cpp
+include/json.h
+src/diskinfo.cpp
+include/diskinfo.h
+src/exif.cpp
+include/exif.h
+include/networkmanager.h
+include/networkmanager_p.h
+)
+
+#Add all files in subdirectories of the project in
+# a dummy_target so qtcreator have access to all files
+FILE(GLOB children ${CMAKE_SOURCE_DIR}/*)
+FOREACH(child ${children})
+  IF(IS_DIRECTORY ${child})
+    file(GLOB_RECURSE dir_files "${child}/*")
+    LIST(APPEND extra_files ${dir_files})
+  ENDIF()
+ENDFOREACH()
+add_custom_target(dummy_${PROJECT_NAME} SOURCES ${extra_files})
+
+
+
+
+Beautify Code in QT Creator
+-------------------------------
+^A ^I - only  indents - useless
+
+http://doc.qt.io/qtcreator/creator-beautifier.html
+
+Load config file into rviz with roslaunch
+---------------------------------------------
+Use the command line parameter -d <arg> at startup. <arg> is the path to your .vcg-file:
+
+	rosrun rviz rviz -d <arg>
+
+For day-to-day use, rviz stores your current config in $HOME/.rviz/display_config, so you can close and re-open rviz without losing your displays and layout.
+
+
+Problems with Markdown using email from WIndows to Unix
+---------------------------
+sudo apt-get install dos2unix
+
+Problem was double line feeds?
+
+  525  tr -s '\n' < QtCreatorWIthRos.md > Qt.md
+  526  hexdump -c Qt.md
+  527  ls
+  528  mv Qt.md QtCreatorWIthRos.md
+
+
+
+FInding contents of tool0 cartesian position as shown in rviz
+-------------------------------------------------
+Tue Apr 12 15:30:43 EDT 2016 
+
+ 507  rostopic type /move_group/goal
+  508  rosmsg show moveit_msgs/MoveGroupActionGoal
+
+
+$rostopic echo /robot_status
+--
+header: 
+  seq: 841725
+  stamp: 
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+mode: 
+  val: 2
+e_stopped: 
+  val: 0
+drives_powered: 
+  val: 1
+motion_possible: 
+  val: 1
+in_motion: 
+  val: 0
+in_error: 
+  val: 0
+error_code: 0
+---
+
+michalos@rufous:nistfanuc_ws> rostopic echo /move_group/goal
+
+header: 
+  seq: 0
+  stamp: 
+    secs: 1460490263
+    nsecs: 207782574
+  frame_id: ''
+goal_id: 
+  stamp: 
+    secs: 1460490263
+    nsecs: 207787782
+  id: /rviz_rufous_6309_8934923881601796331-1-1460490263.207787782
+goal: 
+  request: 
+    workspace_parameters: 
+      header: 
+        seq: 0
+        stamp: 
+          secs: 1460490263
+          nsecs: 207291483
+        frame_id: /base_link
+      min_corner: 
+        x: -1.0
+        y: -1.0
+        z: -1.0
+      max_corner: 
+        x: 1.0
+        y: 1.0
+        z: 1.0
+    start_state: 
+      joint_state: 
+        header: 
+          seq: 0
+          stamp: 
+            secs: 0
+            nsecs: 0
+          frame_id: /base_link
+        name: ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6']
+        position: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        velocity: []
+        effort: []
+      multi_dof_joint_state: 
+        header: 
+          seq: 0
+          stamp: 
+            secs: 0
+            nsecs: 0
+          frame_id: /base_link
+        joint_names: []
+        transforms: []
+        twist: []
+        wrench: []
+      attached_collision_objects: []
+      is_diff: False
+    goal_constraints: 
+      - 
+        name: ''
+        joint_constraints: 
+          - 
+            joint_name: joint_1
+            position: 2.47973143673
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: joint_2
+            position: -1.20101259358
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: joint_3
+            position: 1.01879929359
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: joint_4
+            position: -0.774237325468
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: joint_5
+            position: 1.0738053828
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+          - 
+            joint_name: joint_6
+            position: 2.70530184851
+            tolerance_above: 0.0001
+            tolerance_below: 0.0001
+            weight: 1.0
+        position_constraints: []
+        orientation_constraints: []
+        visibility_constraints: []
+    path_constraints: 
+      name: ''
+      joint_constraints: []
+      position_constraints: []
+      orientation_constraints: []
+      visibility_constraints: []
+    trajectory_constraints: 
+      constraints: []
+    planner_id: ''
+    group_name: manipulator
+    num_planning_attempts: 10
+    allowed_planning_time: 5.0
+    max_velocity_scaling_factor: 1.0
+  planning_options: 
+    planning_scene_diff: 
+      name: ''
+      robot_state: 
+        joint_state: 
+          header: 
+            seq: 0
+            stamp: 
+              secs: 0
+              nsecs: 0
+            frame_id: ''
+          name: []
+          position: []
+          velocity: []
+          effort: []
+        multi_dof_joint_state: 
+          header: 
+            seq: 0
+            stamp: 
+              secs: 0
+              nsecs: 0
+            frame_id: ''
+          joint_names: []
+          transforms: []
+          twist: []
+          wrench: []
+        attached_collision_objects: []
+        is_diff: True
+      robot_model_name: ''
+      fixed_frame_transforms: []
+      allowed_collision_matrix: 
+        entry_names: []
+        entry_values: []
+        default_entry_names: []
+        default_entry_values: []
+      link_padding: []
+      link_scale: []
+      object_colors: []
+      world: 
+        collision_objects: []
+        octomap: 
+          header: 
+            seq: 0
+            stamp: 
+              secs: 0
+              nsecs: 0
+            frame_id: ''
+          origin: 
+            position: 
+              x: 0.0
+              y: 0.0
+              z: 0.0
+            orientation: 
+              x: 0.0
+              y: 0.0
+              z: 0.0
+              w: 0.0
+          octomap: 
+            header: 
+              seq: 0
+              stamp: 
+                secs: 0
+                nsecs: 0
+              frame_id: ''
+            binary: False
+            id: ''
+            resolution: 0.0
+            data: []
+      is_diff: True
+    plan_only: False
+    look_around: False
+    look_around_attempts: 0
+    max_safe_execution_cost: 0.0
+    replan: False
+    replan_attempts: 0
+    replan_delay: 2.0
+---
+
+Using python and tf to get latest tool0 link trans/rot
+--------------------------------------------------------
+
+tf.ExtrapolationException: Lookup would require extrapolation into the future.  Requested time 1460650813.829602003 but the latest data is at time 1460650813.826994181, when looking up transform from frame [tool0] to frame [base_link]
+
+
+
+
 

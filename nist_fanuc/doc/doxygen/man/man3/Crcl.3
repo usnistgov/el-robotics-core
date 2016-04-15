@@ -1,4 +1,4 @@
-.TH "Crcl" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "Crcl" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -45,7 +45,7 @@ Crcl \-
 
 .in +1c
 .ti -1c
-.RI "enum \fBCRCLCmdStatus\fP { \fBCRCL_DONE\fP = 0, \fBCRCL_WORKING\fP, \fBCRCL_ERROR\fP }"
+.RI "enum \fBCRCLCmdStatus\fP { \fBCRCL_Done\fP = 0, \fBCRCL_Error\fP, \fBCRCL_Working\fP, \fBCRCL_Ready\fP }"
 .br
 .ti -1c
 .RI "enum \fBCrclReturn\fP { \fBCANON_REJECT\fP = -2, \fBCANON_FAILURE\fP = -1, \fBCANON_SUCCESS\fP = 0, \fBCANON_STATUSREPLY\fP = 1, \fBCANON_MOTION\fP = 2, \fBCANON_RUNNING\fP, \fBCANON_NOT_IMPLEMENTED\fP }"
@@ -104,6 +104,9 @@ Crcl \-
 .br
 .RI "\fIConvert converts ROS/RCS pose into codesynthesis \fBCrcl\fP Pose\&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
 .ti -1c
+.RI "std::string \fBDumpCrclJoints\fP (\fBCrcl::JointStatusSequence\fP jin)"
+.br
+.ti -1c
 .RI "\fBsensor_msgs::JointState\fP \fBConvert\fP (\fBCrcl::JointStatusSequence\fP jointStatusSeq, double angleConversion=1\&.0)"
 .br
 .RI "\fIConvert converts codesynthesis status actuator joint sequence into ROS JointState\&.(Fills position)\&. \fP"
@@ -121,12 +124,24 @@ Crcl \-
 .RI "std::vector< double > \fBConvertToAnglePositionVector\fP (\fBCrcl::ActuatorJointSequence\fP &joints, double dAngleConversion)"
 .br
 .ti -1c
+.RI "std::string \fBDumpRotationAsCrcl\fP (\fBRCS::Pose\fP rcspose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBDumpRotationAsCrcl\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
 .RI "std::string \fBDumpCrclCommand\fP (::CRCLCommandType &crclCommand)"
 .br
 .ti -1c
-.RI "std::string \fBDumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
+.RI "std::string \fBDumpStatusReply\fP (\fBCrclStatus\fP *wm)"
+.br
+.ti -1c
+.RI "std::string \fBDumpPosition\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
 .br
 .RI "\fIDump contents of codesynthesis \fBCrcl\fP pose\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
 .ti -1c
 .RI "std::vector< double > \fBConvertToPositionVector\fP (\fBActuatorJointSequence\fP &, double dConversion)"
 .br
@@ -180,11 +195,13 @@ Crcl \-
 \fBEnumerator\fP
 .in +1c
 .TP
-\fB\fICRCL_DONE \fP\fP
+\fB\fICRCL_Done \fP\fP
 .TP
-\fB\fICRCL_WORKING \fP\fP
+\fB\fICRCL_Error \fP\fP
 .TP
-\fB\fICRCL_ERROR \fP\fP
+\fB\fICRCL_Working \fP\fP
+.TP
+\fB\fICRCL_Ready \fP\fP
 .SS "enum \fBCrcl::CrclReturn\fP"
 
 .PP
@@ -206,22 +223,6 @@ Crcl \-
 \fB\fICANON_NOT_IMPLEMENTED \fP\fP
 .SH "Function Documentation"
 .PP 
-.SS "\fBJointStatusSequence\fP Crcl::Convert (ActuatorJointSequencejin)"
-
-.PP
-Convert converts codesynthesis commanded actuator joint sequence into status actuator joint sequence \&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIcodesynthesis\fP sequence of commanded joints\&. 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-codesynthesis sequence of status joints\&. 
-.RE
-.PP
-
 .SS "\fBRCS::Pose\fP Crcl::Convert (\fBCrcl::PoseType\fP &pose, doublelengthConversion = \fC1\&.0\fP)"
 
 .PP
@@ -240,14 +241,14 @@ ROS/RCS pose\&.
 .RE
 .PP
 
-.SS "\fBCrcl::JointStatusSequence\fP Crcl::Convert (\fBJointState\fPjoints)"
+.SS "\fBJointStatusSequence\fP Crcl::Convert (ActuatorJointSequencejin)"
 
 .PP
-Convert converts ROS JointState (primarily position for now) and creates codesynthesis status actuator joint sequence\&. 
+Convert converts codesynthesis commanded actuator joint sequence into status actuator joint sequence \&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIROS\fP JointState with Joint positions filled\&. 
+\fIcodesynthesis\fP sequence of commanded joints\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -285,6 +286,22 @@ Convert converts ROS/RCS pose into codesynthesis \fBCrcl\fP Pose\&. Note, no ang
 \fBReturns:\fP
 .RS 4
 codesynthesis CRCL pose type\&. 
+.RE
+.PP
+
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::Convert (\fBJointState\fPjoints)"
+
+.PP
+Convert converts ROS JointState (primarily position for now) and creates codesynthesis status actuator joint sequence\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIROS\fP JointState with Joint positions filled\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+codesynthesis sequence of status joints\&. 
 .RE
 .PP
 
@@ -332,7 +349,11 @@ std vector of doubles representing position\&.
 
 .SS "std::string Crcl::DumpCrclCommand (::CRCLCommandType &crclCommand)"
 
-.SS "std::string Crcl::DumpPose (\fBCrcl::PoseType\fPpose, std::stringseparator = \fC','\fP)"
+.SS "std::string Crcl::DumpCrclJoints (\fBCrcl::JointStatusSequence\fPjin)"
+
+.SS "std::string Crcl::DumpPose (\fBCrcl::PoseType\fPpose, std::stringseparator)"
+
+.SS "std::string Crcl::DumpPosition (\fBCrcl::PoseType\fPpose, std::stringseparator = \fC','\fP)"
 
 .PP
 Dump contents of codesynthesis \fBCrcl\fP pose\&. 
@@ -349,6 +370,12 @@ Dump contents of codesynthesis \fBCrcl\fP pose\&.
 string with \fBCrcl\fP pose contents\&. 
 .RE
 .PP
+
+.SS "std::string Crcl::DumpRotationAsCrcl (\fBRCS::Pose\fPrcspose, std::stringseparator)"
+
+.SS "std::string Crcl::DumpRotationAsCrcl (\fBCrcl::PoseType\fPpose, std::stringseparator)"
+
+.SS "std::string Crcl::DumpStatusReply (CrclStatus *wm)"
 
 .SS "inline ::\fBPointType\fP Crcl::GetPoint (\fBRCS::Vector3\fP &point)"
 

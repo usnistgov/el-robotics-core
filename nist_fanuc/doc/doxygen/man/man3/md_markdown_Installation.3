@@ -1,4 +1,4 @@
-.TH "md_markdown_Installation" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "md_markdown_Installation" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -109,6 +109,138 @@ Make a symbolic link:
 .PP
 .nf
 ln -s <path/to/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd
+
 .fi
+.PP
+.PP
+e\&.g\&., ln -s /usr/local/xsd-4\&.0\&.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd
+.PP
+.SS "4) Optionally - download netbeans "
+.PP
+https://netbeans.org/downloads/
+.PP
+cd to the directory where you downloaded netbeans: 
+.PP
+.nf
+./netbeans-8.1-cpp-linux-x64.sh
+
+.fi
+.PP
+.PP
+.SS "5) Setup ROS workspace "
+.PP
+.PP
+.nf
+$ source /opt/ros/indigo/setup.bash
+.fi
+.PP
+.PP
+Let's create a catkin workspace: 
+.PP
+.nf
+$ mkdir -p /home/local/michalos/catkin_ws/src
+$ cd /home/local/michalos/catkin_ws/src
+$ catkin_init_workspace
+
+.fi
+.PP
+.PP
+Now you can add your packages to the ROS catkin workspace\&. For those packages you cloned from GITHUB, you will need to symbolically link the package directory to the github local directory)) 
+.PP
+.nf
+$ mkdir -p /usr/local/github/ros-industrial
+$ cd /usr/local/github/ros-industrial
+$ git clone https://github.com/ros-industrial/fanuc_experimental.git
+$ cd /home/local/michalos/catkin_ws/src
+$ ln -s  /usr/local/github/ros-industrial/fanuc_experimental fanuc_experimental
+
+.fi
+.PP
+.PP
+And do for descartes, nist_fanuc, etc\&.
+.PP
+.SS "6) Compile ROS packages "
+.PP
+.PP
+.nf
+$ cd /home/local/michalos/catkin_ws
+$ catkin_make -DCMAKE_BUILD_TYPE=Debug
+.fi
+.PP
+.PP
+.SS "7) Run ROS Simulator "
+.PP
+.PP
+.nf
+$ cd /usr/local/michalos/
+$ cd nistfanuc_ws/
+$ source devel/setup.bash
+$roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch sim:=true 
+.fi
+.PP
+.PP
+.SS "8) Install Java 1\&.08 from Oracle for Java CRCL Tool "
+.PP
+To build java crcl tool one needs: 
+.PP
+.nf
+JDK 1.8+ (http://www.oracle.com/technetwork/java/javase/downloads/index.html) and
+maven 3.0.5+ (https://maven.apache.org/download.cgi)
+
+.fi
+.PP
+.PP
+Install maven: $ sudo apt-get install maven
+.PP
+Use the command: 
+.PP
+.nf
+mvn package
+
+.fi
+.PP
+.PP
+If you see this message at the beginning, bummer: 
+.PP
+.nf
+Warning: JAVA_HOME environment variable is not set. 
+
+.fi
+.PP
+.PP
+You can check /usr/lib/jvm to see if a 1\&.8 Java Virtual Machine has been installed\&. If so, skip the installation step\&.
+.PP
+So you do not have Java installed\&. These are instructions for the less than sudo installers\&. Note, you need the Oracle Java JDK 1\&.8 version, not the 1\&.7 version of Ubuntu!!!
+.PP
+Download, unzip and copy to /usr/local/jdk1\&.8\&.0_77 or whatever is the latest 1\&.8 version\&.
+.PP
+Change you will need to change \&.bashrc to set the PATH to know where the jdk is installed: 
+.PP
+.nf
+for dir in /usr/local/jdk1.8.0_77/bin /usr/lib/jvm/java-[6,7,8]-*/bin /usr/local/jdk*/bin /usr/local/jdk*/bin ; do
+  if [ -x $dir/java ] ; then
+    javadir=$dir
+  fi
+done
+if [ x"$javadir" = x ] ; then javadir=/usr/bin ; fi
+
+# platform-specific environment vars
+
+THISPLAT=`uname -s` ; export THISPLAT
+
+case $THISPLAT in
+    Linux)
+    PATH=$javadir:
+
+.fi
+.PP
+.PP
+And make sure you source the \&.bashrc before you attempt run\&.sh in java crcl\&. The voodoo worked for me\&.
+.PP
+.SS "9) Install doxygen for documentation generation "
+.PP
+.PP
+.nf
+$ sudo apt-get install doxygen.fi
 .PP
  

@@ -1,4 +1,4 @@
-.TH "ALogger" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "ALogger" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -25,6 +25,9 @@ ALogger \-
 .br
 .ti -1c
 .RI "int \fBLogMessage\fP (std::string msg, int level=-1)"
+.br
+.ti -1c
+.RI "unsigned int \fBLogFormatMessage\fP (const char *fmt,\&.\&.\&.)"
 .br
 .ti -1c
 .RI "int \fBFatal\fP (std::string msg)"
@@ -74,6 +77,11 @@ ALogger \-
 
 .in +1c
 .ti -1c
+.RI "std::map< std::string, 
+.br
+std::string > \fBproperties\fP"
+.br
+.ti -1c
 .RI "int \fB_debuglevel\fP"
 .br
 .ti -1c
@@ -109,6 +117,8 @@ ALogger \-
 
 .SS "int ALogger::Info (std::stringmsg)\fC [inline]\fP"
 
+.SS "unsigned int ALogger::LogFormatMessage (const char *fmt, \&.\&.\&.)\fC [inline]\fP"
+
 .SS "int ALogger::LogMessage (std::stringfilename, std::stringmsg, intlevel = \fC-1\fP)\fC [inline]\fP"
 
 .SS "int ALogger::LogMessage (std::stringmsg, intlevel = \fC-1\fP)\fC [inline]\fP"
@@ -140,6 +150,8 @@ ALogger \-
 .SS "std::ofstream ALogger::DebugFile"
 
 .SS "std::string ALogger::filename"
+
+.SS "std::map<std::string, std::string> ALogger::properties"
 
 
 .SH "Author"

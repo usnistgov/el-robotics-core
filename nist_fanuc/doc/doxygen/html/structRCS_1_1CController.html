@@ -110,9 +110,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7f04bc3e6f36033b2ea18bbac9c34a64"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a7f04bc3e6f36033b2ea18bbac9c34a64">Verify</a> ()</td></tr>
 <tr class="memdesc:a7f04bc3e6f36033b2ea18bbac9c34a64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifies that all the pointer references in the controller have been instantiated (i.e., not null).  <a href="#a7f04bc3e6f36033b2ea18bbac9c34a64">More...</a><br/></td></tr>
 <tr class="separator:a7f04bc3e6f36033b2ea18bbac9c34a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5629103a842e2c1d451fec16471f7639"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a5629103a842e2c1d451fec16471f7639">Action</a> ()</td></tr>
-<tr class="memdesc:a5629103a842e2c1d451fec16471f7639"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cyclic loop for the controller. Reads <a class="el" href="namespaceCrcl.html">Crcl</a> input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages.  <a href="#a5629103a842e2c1d451fec16471f7639">More...</a><br/></td></tr>
-<tr class="separator:a5629103a842e2c1d451fec16471f7639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ca284e0879e57399044e6700630a526"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a0ca284e0879e57399044e6700630a526">Action</a> ()</td></tr>
+<tr class="memdesc:a0ca284e0879e57399044e6700630a526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cyclic loop for the controller. Reads <a class="el" href="namespaceCrcl.html">Crcl</a> input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages.  <a href="#a0ca284e0879e57399044e6700630a526">More...</a><br/></td></tr>
+<tr class="separator:a0ca284e0879e57399044e6700630a526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad26d222b33f2b043f8a8d8b2b17bac01"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#ad26d222b33f2b043f8a8d8b2b17bac01">Init</a> ()</td></tr>
 <tr class="memdesc:ad26d222b33f2b043f8a8d8b2b17bac01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization routine for the controller..  <a href="#ad26d222b33f2b043f8a8d8b2b17bac01">More...</a><br/></td></tr>
 <tr class="separator:ad26d222b33f2b043f8a8d8b2b17bac01"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,9 +132,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abe34674042d0b1b983a3e4117310f66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bada8d96b15d19a1b4255f00993a241"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a4bada8d96b15d19a1b4255f00993a241">VAR</a> (MoveitPlanner, boost::shared_ptr&lt; <a class="el" href="classMoveitPlanning.html">MoveitPlanning</a> &gt;)</td></tr>
 <tr class="separator:a4bada8d96b15d19a1b4255f00993a241"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2733d3cf36b11a6b257e04a969e03abf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a2733d3cf36b11a6b257e04a969e03abf">SetKinematics</a> (boost::shared_ptr&lt; <a class="el" href="classIKinematics.html">IKinematics</a> &gt; k)</td></tr>
-<tr class="memdesc:a2733d3cf36b11a6b257e04a969e03abf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Routine to set the kinematics reference pointer. Uses the interface class <a class="el" href="classIKinematics.html" title="The IKinematics provides is an abstract class with pure virtual functions that are overriden by actua...">IKinematics</a>, but can have any implementation instance.  <a href="#a2733d3cf36b11a6b257e04a969e03abf">More...</a><br/></td></tr>
-<tr class="separator:a2733d3cf36b11a6b257e04a969e03abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7509a0e8611db8b727493428d1a2a87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#ad7509a0e8611db8b727493428d1a2a87">VAR</a> (RvizMarker, boost::shared_ptr&lt; <a class="el" href="classCRvizMarker.html">CRvizMarker</a> &gt;) VAR(EEPoseReader</td></tr>
+<tr class="separator:ad7509a0e8611db8b727493428d1a2a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cfc01ab9d46878d06051cf744390542"><td class="memItemLeft" align="right" valign="top">boost::shared_ptr&lt; CLinkReader &gt;<br class="typebreak"/>
+ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a2cfc01ab9d46878d06051cf744390542">SetKinematics</a> (boost::shared_ptr&lt; <a class="el" href="classIKinematics.html">IKinematics</a> &gt; k)</td></tr>
+<tr class="memdesc:a2cfc01ab9d46878d06051cf744390542"><td class="mdescLeft">&#160;</td><td class="mdescRight">Routine to set the kinematics reference pointer. Uses the interface class <a class="el" href="classIKinematics.html" title="The IKinematics provides is an abstract class with pure virtual functions that are overriden by actua...">IKinematics</a>, but can have any implementation instance.  <a href="#a2cfc01ab9d46878d06051cf744390542">More...</a><br/></td></tr>
+<tr class="separator:a2cfc01ab9d46878d06051cf744390542"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5113cb8a1cfaf75459e8a2b13802312e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a5113cb8a1cfaf75459e8a2b13802312e">NVAR</a> (NewCC, <a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>, _newcc)</td></tr>
 <tr class="separator:a5113cb8a1cfaf75459e8a2b13802312e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b85d1d02e33dbfe25173575f17d4498"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a1b85d1d02e33dbfe25173575f17d4498">NVAR</a> (LastCC, <a class="el" href="structRCS_1_1CanonCmd.html">RCS::CanonCmd</a>, _lastcc)</td></tr>
@@ -161,10 +164,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5f7209d2edfa23588f6adc74bbfb8f07 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uses boost thread join routine.  <a href="#a5f7209d2edfa23588f6adc74bbfb8f07">More...</a><br/></td></tr>
 <tr class="separator:a5f7209d2edfa23588f6adc74bbfb8f07 inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a8b932e4130f18d9747407fe70a87332a">Cleanup</a> ()</td></tr>
-<tr class="memdesc:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup function called after <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e" title="Action override function called every cycle. ">Action()</a> loop done.  <a href="#a8b932e4130f18d9747407fe70a87332a">More...</a><br/></td></tr>
+<tr class="memdesc:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup function called after <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1" title="Action override function called every cycle. ">Action()</a> loop done.  <a href="#a8b932e4130f18d9747407fe70a87332a">More...</a><br/></td></tr>
 <tr class="separator:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a86b50ec69dd0baeda270b115d72c1c15">Start</a> ()</td></tr>
-<tr class="memdesc:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start starts the thread which call <a class="el" href="classRCS_1_1Thread.html#a53ee19c04d064c9a23f0909cf9a4b2cc" title="Init function called before Action() loop. ">Init()</a>, and then does <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e" title="Action override function called every cycle. ">Action()</a> loop.  <a href="#a86b50ec69dd0baeda270b115d72c1c15">More...</a><br/></td></tr>
+<tr class="memdesc:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start starts the thread which call <a class="el" href="classRCS_1_1Thread.html#a53ee19c04d064c9a23f0909cf9a4b2cc" title="Init function called before Action() loop. ">Init()</a>, and then does <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1" title="Action override function called every cycle. ">Action()</a> loop.  <a href="#a86b50ec69dd0baeda270b115d72c1c15">More...</a><br/></td></tr>
 <tr class="separator:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0c4a68567ab695f4b7daf755ab874d6 inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#ae0c4a68567ab695f4b7daf755ab874d6">Stop</a> (bool bWait=false)</td></tr>
 <tr class="memdesc:ae0c4a68567ab695f4b7daf755ab874d6 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop stops the thread loop.  <a href="#ae0c4a68567ab695f4b7daf755ab874d6">More...</a><br/></td></tr>
@@ -197,6 +200,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a4c3c287cebfd9fa9fb413205fa0b49f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bd2705747d1e16f5806ddf183bfade7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a8bd2705747d1e16f5806ddf183bfade7">lastlogstatus</a></td></tr>
 <tr class="separator:a8bd2705747d1e16f5806ddf183bfade7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af21d09514563cd2bb2d0d0a5b001d205"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#af21d09514563cd2bb2d0d0a5b001d205">_eeName</a></td></tr>
+<tr class="separator:af21d09514563cd2bb2d0d0a5b001d205"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4174fd5467045e780fe53bde42e70735"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRCS_1_1CController.html#a50ede7cd9f47204828f0f7c740dc09b1">MotionPlannerEnum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#a4174fd5467045e780fe53bde42e70735">eCartesianMotionPlanner</a></td></tr>
 <tr class="separator:a4174fd5467045e780fe53bde42e70735"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad788d0def2101be74b680394bcbc78e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRCS_1_1CController.html#a50ede7cd9f47204828f0f7c740dc09b1">MotionPlannerEnum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html#ad788d0def2101be74b680394bcbc78e7">eJointMotionPlanner</a></td></tr>
@@ -385,7 +390,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5629103a842e2c1d451fec16471f7639"></a>
+<a class="anchor" id="a0ca284e0879e57399044e6700630a526"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -393,7 +398,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void RCS::CController::Action </td>
+          <td class="memname">int RCS::CController::Action </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -408,7 +413,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Cyclic loop for the controller. Reads <a class="el" href="namespaceCrcl.html">Crcl</a> input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages. </p>
 
-<p>Reimplemented from <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e">RCS::Thread</a>.</p>
+<p>Reimplemented from <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1">RCS::Thread</a>.</p>
 
 </div>
 </div>
@@ -621,7 +626,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2733d3cf36b11a6b257e04a969e03abf"></a>
+<a class="anchor" id="a2cfc01ab9d46878d06051cf744390542"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -629,7 +634,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void RCS::CController::SetKinematics </td>
+          <td class="memname">boost::shared_ptr&lt;CLinkReader&gt; void RCS::CController::SetKinematics </td>
           <td>(</td>
           <td class="paramtype">boost::shared_ptr&lt; <a class="el" href="classIKinematics.html">IKinematics</a> &gt;&#160;</td>
           <td class="paramname"><em>k</em></td><td>)</td>
@@ -751,6 +756,32 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad7509a0e8611db8b727493428d1a2a87"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RCS::CController::VAR </td>
+          <td>(</td>
+          <td class="paramtype">RvizMarker&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boost::shared_ptr&lt; <a class="el" href="classCRvizMarker.html">CRvizMarker</a> &gt;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a7f04bc3e6f36033b2ea18bbac9c34a64"></a>
 <div class="memitem">
 <div class="memproto">
@@ -828,6 +859,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>output crcl xz rotation or roll,pitch, yaw </p>
+
+</div>
+</div>
+<a class="anchor" id="af21d09514563cd2bb2d0d0a5b001d205"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string RCS::CController::_eeName</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1093,13 +1136,13 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="Controller_8h_source.html">Controller.h</a></li>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="Controller_8cpp.html">Controller.cpp</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="Controller_8h_source.html">Controller.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/<a class="el" href="Controller_8cpp.html">Controller.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

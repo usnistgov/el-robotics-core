@@ -1,8 +1,8 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/crcl.cpp" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp \- 
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/crcl.cpp \- 
 .SH SYNOPSIS
 .br
 .PP
@@ -80,6 +80,9 @@
 .br
 .RI "\fIConvert converts ROS/RCS pose into codesynthesis \fBCrcl\fP Pose\&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
 .ti -1c
+.RI "std::string \fBCrcl::DumpCrclJoints\fP (\fBCrcl::JointStatusSequence\fP jin)"
+.br
+.ti -1c
 .RI "\fBsensor_msgs::JointState\fP \fBCrcl::Convert\fP (\fBCrcl::JointStatusSequence\fP jointStatusSeq, double angleConversion=1\&.0)"
 .br
 .RI "\fIConvert converts codesynthesis status actuator joint sequence into ROS JointState\&.(Fills position)\&. \fP"
@@ -97,12 +100,24 @@
 .RI "std::vector< double > \fBCrcl::ConvertToAnglePositionVector\fP (\fBCrcl::ActuatorJointSequence\fP &joints, double dAngleConversion)"
 .br
 .ti -1c
+.RI "std::string \fBCrcl::DumpRotationAsCrcl\fP (\fBRCS::Pose\fP rcspose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpRotationAsCrcl\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
 .RI "std::string \fBCrcl::DumpCrclCommand\fP (::CRCLCommandType &crclCommand)"
 .br
 .ti -1c
-.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
+.RI "std::string \fBCrcl::DumpStatusReply\fP (CrclStatus *wm)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpPosition\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
 .br
 .RI "\fIDump contents of codesynthesis \fBCrcl\fP pose\&. \fP"
+.ti -1c
+.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
 .in -1c
 .SH "Macro Definition Documentation"
 .PP 

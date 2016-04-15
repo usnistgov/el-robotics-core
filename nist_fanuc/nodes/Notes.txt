@@ -1,0 +1,7 @@
+
+
+# get all rostopics 
+rostopic list 
+
+# list contents of rostopic
+rosmsg show xxxx

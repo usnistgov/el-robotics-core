@@ -1130,8 +1130,16 @@ Total 2 (delta 1), reused 0 (delta 0)
 To https://github.com/usnistgov/el-robotics-core
    395d561..b74a274  master -&gt; master
 michalos@rufous:~/github/usnistgov/el-robotics-core$ 
-</pre><p>Did not add nist_fanuc: 526 git add nist_fanuc 527 git commit . 528 git push origin master</p>
-<h2>git remote changes and incorporate into local repository </h2>
+</pre><p>Did not add nist_fanuc: </p>
+<pre class="fragment">git add nist_fanuc
+git commit .
+git push origin master
+</pre><p>Adding doxygen files and committing with message without using vim: </p>
+<pre class="fragment">git add .
+git status
+git commit -m "add doxygen files"
+git push origin master
+</pre><h2>git remote changes and incorporate into local repository </h2>
 <p>You cannot just "git fetch" remote changes, they will not be incorporated into your local repository unless you <b>merge</b> them. So must use "git merge remotebranchname" </p>
 <pre class="fragment">https://help.github.com/articles/fetching-a-remote/
 
@@ -1147,11 +1155,91 @@ Fast-forward
 michalos@rufous:~/github/usnistgov/el-robotics-core$ 
 </pre><h2>creating doxygen documentation </h2>
 <p>1) Install sudo apt-get install ros-indigo-rosdoc-lite 2) Run rosdoc-lite cd src/nist_fanuc rosdoc_lite ../nist_fanuc 3) Output in doc 4) cd doc/html then double click index.html</p>
-<p>Problems with exclude, so hard coded doxygen .... </p>
+<p>Problems with exclude, so hard coded doxygen ....</p>
+<h2>Catching the Signal ^C </h2>
+<p>This signal interrupt handling worked as long as there were no background threads... </p>
+<pre class="fragment">void signal_callback_handler(int signum) {
+    /* NOTE some versions of UNIX will reset signal to default
+    after each call. So for portability reset signal each time 
+    RCS::Controller.bMainLoop = false;
+    std::cout &lt;&lt; "you have pressed ctrl-c \n";
+    signal(SIGINT, signal_callback_handler); /*  
+
+}
+main() 
+{
+    struct sigaction sigIntHandler;
+
+    sigIntHandler.sa_handler = signal_callback_handler;
+    sigemptyset(&amp;sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+
+    sigaction(SIGINT, &amp;sigIntHandler, NULL);
+
+    while(RCS::Controller.bMainLoop)
+    {
+        Globals.Sleep(1000);
+    }
+    return 0;
+</pre><p>Yikes! From <a href="http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown">http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown</a></p>
+<p>By default roscpp also installs a SIGINT handler which will detect Ctrl-C and automatically shutdown for you. J roscpp/Overview/Initialization and Shutdown - ROS Wiki wiki.ros.org Initialization. There are two levels of initialization for a roscpp Node: Initializing the node through a call to one of the ros::init() functions.</p>
+<p>By default roscpp also installs a SIGINT handler which will detect Ctrl-C and automatically shutdown for you.</p>
+<p>Testing for Shutdown</p>
+<p>There are two methods to check for various states of shutdown. The most common is ros::ok(). Once ros::ok()returns false, the node has finished shutting down. A common use of ros::ok(): Toggle line numbers </p>
+<pre class="fragment">   1 while (ros::ok())
+   2 {
+   3   ...
+   4 }
+</pre><p>If you want to write your own sigint handler instead of using ROS: </p>
+<pre class="fragment">static bool bMainLoop=true;
+void mySigintHandler(int sig)
+{
+  // Do some custom action.
+  // For example, publish a stop message to some other nodes.
+   std::cout &lt;&lt; "Received Cntl c" &lt;&lt; std::flush;
+  // All the default sigint handler does is call shutdown()
+  bMainLoop=false;
+
+}
+main() { ...
+ros::init(argc, argv, "nist_fanuc", ros::init_options::NoSigintHandler);
+signal(SIGINT, mySigintHandler);
+</pre><h2>test crcl math code </h2>
+<p>1) Add /src folder, 2) Create testcrclmath.cpp file: </p>
+<pre class="fragment">#include &lt;gtest/gtest.h&gt;
+
+TEST(TestSuite, testCase1) {
+    ASSERT_EQ(1, 1) &lt;&lt; "Vectors 1 and 1 not equal";
+}
+
+int main(int argc, char ** argv) {
+
+    testing::InitGoogleTest(&amp;argc, argv);
+    return RUN_ALL_TESTS();
+}
+</pre><p> 3) Modify CMakeLists.txt (catkin will handle rest of stuff) catkin_add_gtest(crclmathunittest test/crclmathtest.cpp)</p>
+<p>4) Run individual gtest in package catkin_make run_tests_nist_fanuc</p>
+<h2>tf include locatino </h2>
+<p>/opt/ros/indigo/include/tf/LinearMath</p>
+<h2>Backup all of home directory </h2>
+<p>cp -r /home/michalos/* "/media/michalos/FreeAgent GoFlex Drive/WorkBackup"</p>
+<h2>Install python pip - risky </h2>
+<p>sudo apt-get install python-pip</p>
+<p>michalos:~/catkin_ws/src/nist_fanuc/nodes$ pip install mathutils Downloading/unpacking mathutils Downloading mathutils-2.76.tar.gz (190kB): 190kB downloaded Running setup.py (path:/tmp/pip_build_michalos/mathutils/setup.py) egg_info for package mathutils Sorry, Python 2 are not supported Cleaning up... No files/directories in /tmp/pip_build_michalos/mathutils/pip-egg-info (from PKG-INFO) Storing debug log for failure in /home/michalos/.pip/pip.log michalos:~/catkin_ws/src/nist_fanuc/nodes$</p>
+<h2>python socket </h2>
+<p>tcp 591 0 localhost:64444 localhost:46638 CLOSE_WAIT tcp 1 0 localhost:64444 localhost:46670 CLOSE_WAIT tcp 0 0 localhost:64444 localhost:46842 ESTABLISHED tcp 0 0 localhost:46842 localhost:64444 ESTABLISHED tcp 1 0 localhost:64444 localhost:46637 CLOSE_WAIT tcp 627 0 localhost:64444 localhost:46671 CLOSE_WAIT tcp 3481 0 localhost:64444 localhost:46633 CLOSE_WAIT tcp 628 0 localhost:64444 localhost:46664 CLOSE_WAIT</p>
+<p>After ^C python socket program michalos:~/catkin_ws/src/nist_fanuc/nodes$ netstat| grep 64444 tcp 591 0 localhost:64444 localhost:46638 CLOSE_WAIT tcp 1 0 localhost:64444 localhost:46670 CLOSE_WAIT tcp 1 0 localhost:64444 localhost:46842 CLOSE_WAIT tcp 0 0 localhost:46842 localhost:64444 FIN_WAIT2 tcp 1 0 localhost:64444 localhost:46637 CLOSE_WAIT tcp 627 0 localhost:64444 localhost:46671 CLOSE_WAIT tcp 3481 0 localhost:64444 localhost:46633 CLOSE_WAIT tcp 628 0 localhost:64444 localhost:46664 CLOSE_WAIT</p>
+<h2>Netbeans DebuggingExceptionBreakpoint </h2>
+<p>Exception Breakpoints</p>
+<p>It's often useful to stop execution of an application when an exception occurs, and inspect the state of the app in debugger. It is very simple to do: setup an exception breakpoint and just run the application via debugger (or attach to an running application).</p>
+<p>To setup an exception breakpoint: Go to menu Debug | New Breakpoint (Ctrl+Shift+F8). In the New Breakpoint dialog select the Exception breakpoint type from the combobox. Enter the exception to track (fully qualified class name). You can modify the other properties too. Typically you want to watch for some general exception superclass, e.g. java.lang.Exception, or exceptions that do not have to be handled, e.g. java.lang.AssertionError, or java.lang.RuntimeException. In a bigger application you may want to narrow the scope of classes to watch for exceptions only from your classes, not to stop on exceptions from JDK internals or other code. You can set a match or exclude class filter in the Filter on Classes Throwing the Exception option of the breakpoint dialog.</p>
+<p>To turn off breakpoint: Select menu Window / Debugging / Breakpoints (or press Alt + Shift + 5), then right-click in the Breakpoints window and select Delete All.</p>
+<h2>Movegroup died ... </h2>
+<p>[move_group-5] process has died [pid 4186, exit code -11, cmd /opt/ros/indigo/lib/moveit_ros_move_group/move_group __name:=move_group __log:=/home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5.log]. log file: /home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5*.log </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 11 2016 15:35:38 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

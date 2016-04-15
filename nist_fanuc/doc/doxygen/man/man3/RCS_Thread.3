@@ -1,4 +1,4 @@
-.TH "RCS::Thread" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::Thread" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -43,7 +43,7 @@ Inherited by \fBRCS::CController\fP, \fBRCS::RobotProgram\fP, and \fBRCS::RobotS
 .br
 .RI "\fICleanup function called after \fBAction()\fP loop done\&. \fP"
 .ti -1c
-.RI "virtual void \fBAction\fP ()"
+.RI "virtual int \fBAction\fP ()"
 .br
 .RI "\fIAction override function called every cycle\&. \fP"
 .ti -1c
@@ -141,7 +141,7 @@ Constructor of thread, that takes cycle time as input\&.
 Destructor of thread, makes sure thread has stopped\&. 
 .SH "Member Function Documentation"
 .PP 
-.SS "virtual void RCS::Thread::Action ()\fC [inline]\fP, \fC [virtual]\fP"
+.SS "virtual int RCS::Thread::Action ()\fC [inline]\fP, \fC [virtual]\fP"
 
 .PP
 Action override function called every cycle\&. 

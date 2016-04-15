@@ -8,6 +8,7 @@ import numpy as np
 from numpy import matrix
 import time
 from xml.dom import minidom
+import os.path
 
 
 class CrclClientSocket:
@@ -29,7 +30,7 @@ class CrclClientSocket:
         except socket.error, msg:
             print 'Failed to create socket. Error code: ' + str(msg[0]) + ' , Error message : ' + msg[1]
             time.sleep( 5 )
-            connect()
+            self.connect()
    
     def disconnect(self):
         self.sock.close()
@@ -38,8 +39,8 @@ class CrclClientSocket:
         print  msg
         sent = self.sock.send(msg)
         if sent == 0:
-            disconnect()
-            connect()  
+            self.disconnect()
+            self.connect()  
             # raise RuntimeError("socket connection broken")      
  
     # http://code.activestate.com/recipes/408859/
@@ -55,22 +56,10 @@ class CrclClientSocket:
                     alldata='' # empty string
                     return 
                 alldata=alldata+data
-                if End in alldata:
-                    alldata=alldata[:alldata.find(End)]
-                    self.nextdata=data[data.find(End)+1:]
+                if self.End in alldata:
+                    alldata=alldata[:alldata.find(self.End)]
+                    self.nextdata=data[data.find(self.End)+1:]
                     break
-                #if End in data:
-                #    total_data.append(data[:data.find(End)])
-                #    self.nextdata=data[data.find(End)+1:]
-                #    break
-                #total_data.append(data)
-                #if len(total_data)>1:
-                #    #check if end_of_data was split
-                #    last_pair=total_data[-2]+total_data[-1]
-                #    if End in last_pair:
-                #        total_data[-2]=last_pair[:last_pair.find(End)]
-                #        total_data.pop()
-                #        break
         return alldata  # ''.join(total_data)
 
 def CrclActuateJoints(cmd, num, pos, vel, acc):
@@ -141,20 +130,20 @@ def CrclDwellCmd(cmd,dwell):
 
 def parseStatus(str):
     status=''
-    xmldoc=parseString(str)
+    xmldoc=minidom.parseString(str)
     jointlist = xmldoc.getElementsByTagName('JointPosition') 
     # assuming in order?
-    for s in itemlist:
+    for s in jointlist:
         status = status +(s.childNodes[0].nodeValue)+":"
-    x = getElementsByTagName("X")[0].childNodes[0].nodeValue
-    y = getElementsByTagName("Y")[0].childNodes[0].nodeValue
-    z = getElementsByTagName("Z")[0].childNodes[0].nodeValue
-    xi= getElementsByTagName("XAxis")[0].getElementsByTagName("I")[0].childNodes[0].nodeValue
-    xj= getElementsByTagName("XAxis")[0].getElementsByTagName("J")[0].childNodes[0].nodeValue
-    xk= getElementsByTagName("XAxis")[0].getElementsByTagName("K")[0].childNodes[0].nodeValue
-    zi= getElementsByTagName("ZAxis")[0].getElementsByTagName("I")[0].childNodes[0].nodeValue
-    zj= getElementsByTagName("ZAxis")[0].getElementsByTagName("J")[0].childNodes[0].nodeValue
-    zk= getElementsByTagName("ZAxis")[0].getElementsByTagName("K")[0].childNodes[0].nodeValue
+    x = xmldoc.getElementsByTagName("X")[0].childNodes[0].nodeValue
+    y = xmldoc.getElementsByTagName("Y")[0].childNodes[0].nodeValue
+    z = xmldoc.getElementsByTagName("Z")[0].childNodes[0].nodeValue
+    xi= xmldoc.getElementsByTagName("XAxis")[0].getElementsByTagName("I")[0].childNodes[0].nodeValue
+    xj= xmldoc.getElementsByTagName("XAxis")[0].getElementsByTagName("J")[0].childNodes[0].nodeValue
+    xk= xmldoc.getElementsByTagName("XAxis")[0].getElementsByTagName("K")[0].childNodes[0].nodeValue
+    zi= xmldoc.getElementsByTagName("ZAxis")[0].getElementsByTagName("I")[0].childNodes[0].nodeValue
+    zj= xmldoc.getElementsByTagName("ZAxis")[0].getElementsByTagName("J")[0].childNodes[0].nodeValue
+    zk= xmldoc.getElementsByTagName("ZAxis")[0].getElementsByTagName("K")[0].childNodes[0].nodeValue
     status = status + '\n'+ '(' + x +","+ y +","+ z +'),' + '(' + xi +","+ xj +","+ xk +'),'+ '(' + zi +","+ zj +","+ zk +')'+ '\n'
     return status
 
@@ -187,13 +176,13 @@ def rot_max(yaw, pitch, roll):
 cmd=1
 mysocket = CrclClientSocket("localhost", 64444)
 print 'Socket Created'
-mysocket.connect("localhost", 64444)
+mysocket.connect()
 print 'Socket connected'
 
 print '> ',
 #for line in sys.stdin:
 while(1):
-    #line = 'r "/home/michalos/catkin_ws/src/nist_fanuc/doc/fanuclrmateprogram.xml"'
+    #line = 'r "/usr/local/michalos/nistfanuc_ws/src/nist_fanuc/doc/fanuclrmateprogram.xml"'
     #line = 'g 0.465 0 0.695 -180.0 -90 0'
     line=sys.stdin.readline()
     if not line.strip():
@@ -202,10 +191,15 @@ while(1):
     tokens = line.split()
     if(len(tokens)==0):
         continue
+    if tokens[0] == 'q' :
+	break
     if tokens[0] == 'r' :
         print "r \"program path\""
         line = tokens[1].strip('\"')
         line = line[0:].strip()
+	if (not os.path.isfile(line) ):
+		print "Not a file name"
+		continue
         print line
         try:
             contents = open(line, 'r').read()
@@ -246,3 +240,4 @@ while(1):
     cmd=cmd+1
     print '> ',
 
+mysocket.disconnect()

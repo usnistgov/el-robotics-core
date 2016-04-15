@@ -1,4 +1,4 @@
-.TH "md_markdown_Readme" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "md_markdown_Readme" 3 "Mon Apr 11 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -1466,7 +1466,26 @@ michalos@rufous:~/github/usnistgov/el-robotics-core$
 .fi
 .PP
 .PP
-Did not add nist_fanuc: 526 git add nist_fanuc 527 git commit \&. 528 git push origin master
+Did not add nist_fanuc: 
+.PP
+.nf
+git add nist_fanuc
+git commit .
+git push origin master
+
+.fi
+.PP
+.PP
+Adding doxygen files and committing with message without using vim: 
+.PP
+.nf
+git add .
+git status
+git commit -m "add doxygen files"
+git push origin master
+
+.fi
+.PP
 .PP
 .SS "git remote changes and incorporate into local repository "
 .PP
@@ -1493,4 +1512,132 @@ michalos@rufous:~/github/usnistgov/el-robotics-core$
 .PP
 1) Install sudo apt-get install ros-indigo-rosdoc-lite 2) Run rosdoc-lite cd src/nist_fanuc rosdoc_lite \&.\&./nist_fanuc 3) Output in doc 4) cd doc/html then double click index\&.html
 .PP
-Problems with exclude, so hard coded doxygen \&.\&.\&.\&. 
+Problems with exclude, so hard coded doxygen \&.\&.\&.\&.
+.PP
+.SS "Catching the Signal ^C "
+.PP
+This signal interrupt handling worked as long as there were no background threads\&.\&.\&. 
+.PP
+.nf
+void signal_callback_handler(int signum) {
+    /* NOTE some versions of UNIX will reset signal to default
+    after each call. So for portability reset signal each time 
+    RCS::Controller.bMainLoop = false;
+    std::cout << "you have pressed ctrl-c \n";
+    signal(SIGINT, signal_callback_handler); /*  
+
+}
+main() 
+{
+    struct sigaction sigIntHandler;
+
+    sigIntHandler.sa_handler = signal_callback_handler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+
+    sigaction(SIGINT, &sigIntHandler, NULL);
+
+    while(RCS::Controller.bMainLoop)
+    {
+        Globals.Sleep(1000);
+    }
+    return 0;
+
+.fi
+.PP
+.PP
+Yikes! From http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown
+.PP
+By default roscpp also installs a SIGINT handler which will detect Ctrl-C and automatically shutdown for you\&. J roscpp/Overview/Initialization and Shutdown - ROS Wiki wiki\&.ros\&.org Initialization\&. There are two levels of initialization for a roscpp Node: Initializing the node through a call to one of the ros::init() functions\&.
+.PP
+By default roscpp also installs a SIGINT handler which will detect Ctrl-C and automatically shutdown for you\&.
+.PP
+Testing for Shutdown
+.PP
+There are two methods to check for various states of shutdown\&. The most common is ros::ok()\&. Once ros::ok()returns false, the node has finished shutting down\&. A common use of ros::ok(): Toggle line numbers 
+.PP
+.nf
+   1 while (ros::ok())
+   2 {
+   3   ...
+   4 }
+
+.fi
+.PP
+.PP
+If you want to write your own sigint handler instead of using ROS: 
+.PP
+.nf
+static bool bMainLoop=true;
+void mySigintHandler(int sig)
+{
+  // Do some custom action.
+  // For example, publish a stop message to some other nodes.
+   std::cout << "Received Cntl c" << std::flush;
+  // All the default sigint handler does is call shutdown()
+  bMainLoop=false;
+
+}
+main() { ...
+ros::init(argc, argv, "nist_fanuc", ros::init_options::NoSigintHandler);
+signal(SIGINT, mySigintHandler);
+
+.fi
+.PP
+.PP
+.SS "test crcl math code "
+.PP
+1) Add /src folder, 2) Create testcrclmath\&.cpp file: 
+.PP
+.nf
+#include <gtest/gtest.h>
+
+TEST(TestSuite, testCase1) {
+    ASSERT_EQ(1, 1) << "Vectors 1 and 1 not equal";
+}
+
+int main(int argc, char ** argv) {
+
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+.fi
+.PP
+ 3) Modify CMakeLists\&.txt (catkin will handle rest of stuff) catkin_add_gtest(crclmathunittest test/crclmathtest\&.cpp)
+.PP
+4) Run individual gtest in package catkin_make run_tests_nist_fanuc
+.PP
+.SS "tf include locatino "
+.PP
+/opt/ros/indigo/include/tf/LinearMath
+.PP
+.SS "Backup all of home directory "
+.PP
+cp -r /home/michalos/* '/media/michalos/FreeAgent GoFlex Drive/WorkBackup'
+.PP
+.SS "Install python pip - risky "
+.PP
+sudo apt-get install python-pip
+.PP
+michalos:~/catkin_ws/src/nist_fanuc/nodes$ pip install mathutils Downloading/unpacking mathutils Downloading mathutils-2\&.76\&.tar\&.gz (190kB): 190kB downloaded Running setup\&.py (path:/tmp/pip_build_michalos/mathutils/setup\&.py) egg_info for package mathutils Sorry, Python 2 are not supported Cleaning up\&.\&.\&. No files/directories in /tmp/pip_build_michalos/mathutils/pip-egg-info (from PKG-INFO) Storing debug log for failure in /home/michalos/\&.pip/pip\&.log michalos:~/catkin_ws/src/nist_fanuc/nodes$
+.PP
+.SS "python socket "
+.PP
+tcp 591 0 localhost:64444 localhost:46638 CLOSE_WAIT tcp 1 0 localhost:64444 localhost:46670 CLOSE_WAIT tcp 0 0 localhost:64444 localhost:46842 ESTABLISHED tcp 0 0 localhost:46842 localhost:64444 ESTABLISHED tcp 1 0 localhost:64444 localhost:46637 CLOSE_WAIT tcp 627 0 localhost:64444 localhost:46671 CLOSE_WAIT tcp 3481 0 localhost:64444 localhost:46633 CLOSE_WAIT tcp 628 0 localhost:64444 localhost:46664 CLOSE_WAIT
+.PP
+After ^C python socket program michalos:~/catkin_ws/src/nist_fanuc/nodes$ netstat| grep 64444 tcp 591 0 localhost:64444 localhost:46638 CLOSE_WAIT tcp 1 0 localhost:64444 localhost:46670 CLOSE_WAIT tcp 1 0 localhost:64444 localhost:46842 CLOSE_WAIT tcp 0 0 localhost:46842 localhost:64444 FIN_WAIT2 tcp 1 0 localhost:64444 localhost:46637 CLOSE_WAIT tcp 627 0 localhost:64444 localhost:46671 CLOSE_WAIT tcp 3481 0 localhost:64444 localhost:46633 CLOSE_WAIT tcp 628 0 localhost:64444 localhost:46664 CLOSE_WAIT
+.PP
+.SS "Netbeans DebuggingExceptionBreakpoint "
+.PP
+Exception Breakpoints
+.PP
+It's often useful to stop execution of an application when an exception occurs, and inspect the state of the app in debugger\&. It is very simple to do: setup an exception breakpoint and just run the application via debugger (or attach to an running application)\&.
+.PP
+To setup an exception breakpoint: Go to menu Debug | New Breakpoint (Ctrl+Shift+F8)\&. In the New Breakpoint dialog select the Exception breakpoint type from the combobox\&. Enter the exception to track (fully qualified class name)\&. You can modify the other properties too\&. Typically you want to watch for some general exception superclass, e\&.g\&. java\&.lang\&.Exception, or exceptions that do not have to be handled, e\&.g\&. java\&.lang\&.AssertionError, or java\&.lang\&.RuntimeException\&. In a bigger application you may want to narrow the scope of classes to watch for exceptions only from your classes, not to stop on exceptions from JDK internals or other code\&. You can set a match or exclude class filter in the Filter on Classes Throwing the Exception option of the breakpoint dialog\&.
+.PP
+To turn off breakpoint: Select menu Window / Debugging / Breakpoints (or press Alt + Shift + 5), then right-click in the Breakpoints window and select Delete All\&.
+.PP
+.SS "Movegroup died \&.\&.\&. "
+.PP
+[move_group-5] process has died [pid 4186, exit code -11, cmd /opt/ros/indigo/lib/moveit_ros_move_group/move_group __name:=move_group __log:=/home/michalos/\&.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5\&.log]\&. log file: /home/michalos/\&.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5*\&.log 

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CRCL FANUC: /home/michalos/catkin_ws/src/nist_fanuc/src/crcl.cpp File Reference</title>
+<title>CRCL FANUC: /usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/crcl.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -105,6 +105,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ac74920bcb32be055b5f94010fed04cb1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ac74920bcb32be055b5f94010fed04cb1">Crcl::Convert</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> pose)</td></tr>
 <tr class="memdesc:ac74920bcb32be055b5f94010fed04cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert converts ROS/RCS pose into codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> Pose. Note, no angle conversion - rotation/orientation always in radians.  <a href="#ac74920bcb32be055b5f94010fed04cb1">More...</a><br/></td></tr>
 <tr class="separator:ac74920bcb32be055b5f94010fed04cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac02e068ed5b8f6f152cff928e554a653"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ac02e068ed5b8f6f152cff928e554a653">Crcl::DumpCrclJoints</a> (<a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a> jin)</td></tr>
+<tr class="separator:ac02e068ed5b8f6f152cff928e554a653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84440a94ca5992cf4a01e4215d1cb363"><td class="memItemLeft" align="right" valign="top"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">sensor_msgs::JointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a84440a94ca5992cf4a01e4215d1cb363">Crcl::Convert</a> (<a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a> jointStatusSeq, double angleConversion=1.0)</td></tr>
 <tr class="memdesc:a84440a94ca5992cf4a01e4215d1cb363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert converts codesynthesis status actuator joint sequence into ROS JointState.(Fills position).  <a href="#a84440a94ca5992cf4a01e4215d1cb363">More...</a><br/></td></tr>
 <tr class="separator:a84440a94ca5992cf4a01e4215d1cb363"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,11 +119,19 @@ Functions</h2></td></tr>
 <tr class="separator:a5e9036e140bcf2156b7995085f36d75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a942871711b02866236621b132bf934c2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a942871711b02866236621b132bf934c2">Crcl::ConvertToAnglePositionVector</a> (<a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a> &amp;joints, double dAngleConversion)</td></tr>
 <tr class="separator:a942871711b02866236621b132bf934c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a710c3a8bdd5a36fc1df3996f005544ec"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a710c3a8bdd5a36fc1df3996f005544ec">Crcl::DumpRotationAsCrcl</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> rcspose, std::string separator)</td></tr>
+<tr class="separator:a710c3a8bdd5a36fc1df3996f005544ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1cb883f1831e5f4be05f3d111545fd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a6f1cb883f1831e5f4be05f3d111545fd">Crcl::DumpRotationAsCrcl</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator)</td></tr>
+<tr class="separator:a6f1cb883f1831e5f4be05f3d111545fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1726015b66be8193fcd10bc157661a3d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1726015b66be8193fcd10bc157661a3d">Crcl::DumpCrclCommand</a> (::CRCLCommandType &amp;crclCommand)</td></tr>
 <tr class="separator:a1726015b66be8193fcd10bc157661a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30019a860966a9cdaa1564cc95787de4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a30019a860966a9cdaa1564cc95787de4">Crcl::DumpPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator=&quot;,&quot;)</td></tr>
-<tr class="memdesc:a30019a860966a9cdaa1564cc95787de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump contents of codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a30019a860966a9cdaa1564cc95787de4">More...</a><br/></td></tr>
-<tr class="separator:a30019a860966a9cdaa1564cc95787de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7bfef1ba7b0d1fa2ea0033ef391d254"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#af7bfef1ba7b0d1fa2ea0033ef391d254">Crcl::DumpStatusReply</a> (CrclStatus *wm)</td></tr>
+<tr class="separator:af7bfef1ba7b0d1fa2ea0033ef391d254"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ffbb8bbe0b97bcd6fc145b52eba1c6e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a7ffbb8bbe0b97bcd6fc145b52eba1c6e">Crcl::DumpPosition</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator=&quot;,&quot;)</td></tr>
+<tr class="memdesc:a7ffbb8bbe0b97bcd6fc145b52eba1c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump contents of codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a7ffbb8bbe0b97bcd6fc145b52eba1c6e">More...</a><br/></td></tr>
+<tr class="separator:a7ffbb8bbe0b97bcd6fc145b52eba1c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a666314177998417d741895bb491783bd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a666314177998417d741895bb491783bd">Crcl::DumpPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator)</td></tr>
+<tr class="separator:a666314177998417d741895bb491783bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="ac60fea3ffdeac6b995d5137ceaa108a9"></a>
@@ -139,7 +149,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

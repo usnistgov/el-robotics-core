@@ -1,4 +1,4 @@
-.TH "IKinematics" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "IKinematics" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -44,6 +44,10 @@ Inherited by \fBDummyKinematics\fP, \fBMoveitKinematics\fP, and \fBRosKinematics
 .RI "virtual void \fBInit\fP (std::string groupname, std::string eelinkname)"
 .br
 .RI "\fIInit is necessary for ROS to initialize it kinematics using robot model \&. \fP"
+.ti -1c
+.RI "virtual bool \fBIsSingular\fP (\fBRCS::Pose\fP &pose, double threshold)=0"
+.br
+.RI "\fIReturns true if the determinant of the jacobian is near zero\&. \&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -136,6 +140,21 @@ Init is necessary for ROS to initialize it kinematics using robot model \&.
 
 .PP
 Reimplemented in \fBMoveitKinematics\fP, and \fBRosKinematics\fP\&.
+.SS "virtual bool IKinematics::IsSingular (\fBRCS::Pose\fP &pose, doublethreshold)\fC [pure virtual]\fP"
+
+.PP
+Returns true if the determinant of the jacobian is near zero\&. \&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgroupname\fP name of chained joints in robot model\&. 
+.br
+\fIeelinkname\fP name of end effector joint in robot model\&. 
+.RE
+.PP
+
+.PP
+Implemented in \fBMoveitKinematics\fP, \fBRosKinematics\fP, and \fBDummyKinematics\fP\&.
 .SS "virtual std::vector<double> IKinematics::NearestJoints (std::vector< double >oldjoints, std::vector< std::vector< double > > &newjoints)\fC [pure virtual]\fP"
 
 .PP

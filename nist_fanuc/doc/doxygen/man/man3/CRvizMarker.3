@@ -1,0 +1,156 @@
+.TH "CRvizMarker" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CRvizMarker \- 
+.PP
+The \fBCRvizMarker\fP provides a C++ class to send markers to rviz\&. Note you must manually add the rviz subscribe to marker messages\&. Read here for explanation http://answers.ros.org/question/11135/plotting-a-markerarray-of-spheres-with-rviz/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RvizMarker\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCRvizMarker\fP (ros::NodeHandle &nh)"
+.br
+.RI "\fIConstructor for 'Marker' which sets default marker values\&.\&.\&. \fP"
+.ti -1c
+.RI "void \fBInit\fP ()"
+.br
+.RI "\fIInitialization routine which subsribes to the 'Marker' topic\&.\&. \fP"
+.ti -1c
+.RI "int \fBSend\fP (\fBRCS::Pose\fP p)"
+.br
+.RI "\fIPublish a visualization marker message to the Marker topic\&. \fP"
+.ti -1c
+.RI "uint32_t \fBSetShape\fP (uint32_t \fBshape\fP)"
+.br
+.RI "\fISet the marker to be displayed\&. \fP"
+.ti -1c
+.RI "void \fBSetColor\fP (double \fBr\fP, double \fBg\fP, double \fBb\fP, double \fBa\fP)"
+.br
+.RI "\fISet the color of the maker to be displayed\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "ros::Publisher \fBmarker_pub\fP"
+.br
+.ti -1c
+.RI "ros::NodeHandle & \fBn\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBshape\fP"
+.br
+.ti -1c
+.RI "int \fB_id\fP"
+.br
+.ti -1c
+.RI "double \fBscalex\fP"
+.br
+.ti -1c
+.RI "double \fBscaley\fP"
+.br
+.ti -1c
+.RI "double \fBscalez\fP"
+.br
+.ti -1c
+.RI "double \fBr\fP"
+.br
+.ti -1c
+.RI "double \fBg\fP"
+.br
+.ti -1c
+.RI "double \fBb\fP"
+.br
+.ti -1c
+.RI "double \fBa\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBCRvizMarker\fP provides a C++ class to send markers to rviz\&. Note you must manually add the rviz subscribe to marker messages\&. Read here for explanation http://answers.ros.org/question/11135/plotting-a-markerarray-of-spheres-with-rviz/\&. 
+
+In the ROS Electric version of rviz (the latest version), Marker is a proper display type\&. To show the data from the program you posted, in rviz do: Click the 'Add' button in the 'Displays' area\&. Choose 'Marker' in the type list\&. Click 'OK'
+.PP
+If it doesn't show immediately (it hung for me the first time), do:
+.PP
+Click on the 'Marker Array Topic' line in the new display entry\&. This should make an elipsis ('\&.\&.\&.') button appear\&. Click the '\&.\&.\&.' button\&. A dialog with currently-published MarkerArray topics should appear\&. Click on 'visualization_marker_array' (or whatever you have named it)\&. Click 'OK' 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CRvizMarker::CRvizMarker (ros::NodeHandle &nh)"
+
+.PP
+Constructor for 'Marker' which sets default marker values\&.\&.\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void CRvizMarker::Init ()"
+
+.PP
+Initialization routine which subsribes to the 'Marker' topic\&.\&. 
+.SS "int CRvizMarker::Send (\fBRCS::Pose\fPp)"
+
+.PP
+Publish a visualization marker message to the Marker topic\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpose\fP p is where the marker is to be placed relative to the base link\&. 
+.RE
+.PP
+
+.SS "void CRvizMarker::SetColor (doubler, doubleg, doubleb, doublea)"
+
+.PP
+Set the color of the maker to be displayed\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIred,green\&.\fP blue and alpha are the values used herein\&. 
+.RE
+.PP
+
+.SS "uint32_t CRvizMarker::SetShape (uint32_tshape)"
+
+.PP
+Set the marker to be displayed\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIshape\fP is the enumeration of the marker type\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "int CRvizMarker::_id"
+
+.SS "double CRvizMarker::a"
+
+.SS "double CRvizMarker::b"
+
+.SS "double CRvizMarker::g"
+
+.SS "ros::Publisher CRvizMarker::marker_pub"
+
+.SS "ros::NodeHandle& CRvizMarker::n"
+
+.SS "double CRvizMarker::r"
+
+.SS "double CRvizMarker::scalex"
+
+.SS "double CRvizMarker::scaley"
+
+.SS "double CRvizMarker::scalez"
+
+.SS "uint32_t CRvizMarker::shape"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

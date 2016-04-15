@@ -93,6 +93,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3d0a3d9eadca26b5a24dd9904fee6e91"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitKinematics.html#a3d0a3d9eadca26b5a24dd9904fee6e91">Init</a> (std::string groupname, std::string eelinkname)</td></tr>
 <tr class="memdesc:a3d0a3d9eadca26b5a24dd9904fee6e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init is necessary for ROS to initialize it kinematics using robot model .  <a href="#a3d0a3d9eadca26b5a24dd9904fee6e91">More...</a><br/></td></tr>
 <tr class="separator:a3d0a3d9eadca26b5a24dd9904fee6e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b8520158eba774aefc8894febe6e1d7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitKinematics.html#a4b8520158eba774aefc8894febe6e1d7">IsSingular</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose, double threshold)</td></tr>
+<tr class="memdesc:a4b8520158eba774aefc8894febe6e1d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the determinant of the jacobian is near zero. .  <a href="#a4b8520158eba774aefc8894febe6e1d7">More...</a><br/></td></tr>
+<tr class="separator:a4b8520158eba774aefc8894febe6e1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -340,6 +343,51 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a4b8520158eba774aefc8894febe6e1d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MoveitKinematics::IsSingular </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if the determinant of the jacobian is near zero. . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">groupname</td><td>name of chained joints in robot model. </td></tr>
+    <tr><td class="paramname">eelinkname</td><td>name of end effector joint in robot model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIKinematics.html#a60505b46ea856c60abc3d85cc984c5d1">IKinematics</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="acd060eacf93c71b0cfb61bd5c93ceb77"></a>
 <div class="memitem">
 <div class="memproto">
@@ -554,13 +602,13 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="Kinematics_8h_source.html">Kinematics.h</a></li>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="Kinematics_8cpp.html">Kinematics.cpp</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="Kinematics_8h_source.html">Kinematics.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/<a class="el" href="Kinematics_8cpp.html">Kinematics.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:55 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,0 +1,23 @@
+.TH "md_markdown_rufousdiskproblem" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_markdown_rufousdiskproblem \- rufous Nightmare 
+Last updated: 3/23/2016 12:17:37 PM
+.PP
+.SS "rufous disk problem "
+.PP
+Clean the disk fsck -As
+.PP
+Had to force a mount mount -o remount,rw / then deleted trash: cd ~/michalos/\&.local/share/Trash rm -rf files/*\&.*
+.PP
+sudo apt-get autoremove (problem with kuka ros downloads)
+.PP
+Then removed excessive number of 12\&.04 kernel images 
+.PP
+.nf
+cd /boot
+sudo rm *.3.13.0-58*
+.fi
+.PP
+ 

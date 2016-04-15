@@ -14,9 +14,21 @@
 #include "RCS.h"
 #include "Globals.h"
 #include "Controller.h"
-
+#include "crcl.h"
 namespace RCS {
 
+    std::string DumpPose(RCS::Pose & pose) {
+        std::stringstream s;
+
+        s << "Translation = " << 1000.0 * pose.getOrigin().x() << ":" << 1000.0 * pose.getOrigin().y() << ":" << 1000.0 * pose.getOrigin().z() << std::endl;
+        double roll, pitch, yaw;
+        getRPY(pose, roll, pitch, yaw);
+        s << "Rotation = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+        s << "Quaternion = " << pose.getRotation().x() << ":" << pose.getRotation().y() << ":" << pose.getRotation().z() << ":" << pose.getRotation().w() << std::endl;
+        s << Crcl::DumpRotationAsCrcl(pose)<< std::endl;
+        return s.str();
+    }
+       
     void getRPY(const RCS::Pose pose, double &roll, double &pitch, double &yaw) {
         tf::Matrix3x3 rot = pose.getBasis();
         rot.getRPY(roll, pitch, yaw);

@@ -110,12 +110,22 @@ namespace Crcl {
         return crclPose;
     }
 
+    std::string DumpCrclJoints(Crcl::JointStatusSequence jin) {
+        std::stringstream str;
+        for (unsigned int i = 0; i < jin.size(); i++) {
+            double pos = jin[i].JointPosition().present() ? jin[i].JointPosition().get() : nan("");
+            str << " [" << i << "]=" << pos;
+        }
+        return str.str();
+    }
+    
     sensor_msgs::JointState Convert(Crcl::JointStatusSequence jout, double angleConversion) {
         JointState joint;
         for (unsigned int i = 0; i < jout.size(); i++) {
             //::JointStatusType  jointstatus(jout[i ].JointNumber());
-            //std::cout << "Pos " << *(jout[i].JointPosition()) << std::endl;
-            joint.position.push_back(*(jout[i].JointPosition()) * angleConversion);
+            double pos = jout[i].JointPosition().present() ? jout[i].JointPosition().get(): 0.0;
+            //std::cout << "Joint[" << i << "]=" << pos << std::endl;
+            joint.position.push_back(pos); // *(jout[i].JointPosition()) * angleConversion);
             // FIXME: how do you determine if there are values for velocity and force/torque
             //joint.velocity.push_back(*(jout[i].JointVelocity())); 
             joint.effort.push_back(0.0);
@@ -185,25 +195,22 @@ namespace Crcl {
         }
         return angles;
     }
-#if 0
-
-    std::string DumpCrclPose(Crcl::PoseType pose, std::string separator) {
-        std::stringstream str;
-        str << "Translation = ";
-        str << boost::format("%8.4f") % pose.Point().X() << separator.c_str();
-        str << boost::format("%8.4f") % pose.Point().Y() << separator.c_str();
-        str << boost::format("%8.4f") % pose.Point().Z() << separator.c_str();
-        str << "\nXAxis = ";
+    std::string DumpRotationAsCrcl(RCS::Pose rcspose, std::string separator) {
+        Crcl::PoseType pose = Convert(rcspose);
+        return DumpRotationAsCrcl(pose);
+    }
+     std::string DumpRotationAsCrcl(Crcl::PoseType pose, std::string separator) {
+       std::stringstream str;
+        str << "XAxis = ";
         str << boost::format("%8.4f") % pose.XAxis().I() << separator.c_str();
         str << boost::format("%8.4f") % pose.XAxis().J() << separator.c_str();
         str << boost::format("%8.4f") % pose.XAxis().K() << separator.c_str();
-        str << "\nZAxis = ";
+        str << "\tZAxis = ";
         str << boost::format("%8.4f") % pose.ZAxis().I() << separator.c_str();
         str << boost::format("%8.4f") % pose.ZAxis().J() << separator.c_str();
-        str << boost::format("%8.4f") % pose.ZAxis().K() << separator.c_str() << std::endl;
+        str << boost::format("%8.4f") % pose.ZAxis().K() << separator.c_str();
         return str.str();
     }
-#endif
 
     std::string DumpCrclCommand(::CRCLCommandType & crclCommand) {
         std::stringstream str;
@@ -216,6 +223,30 @@ namespace Crcl {
         return str.str();
     }
 
+    std::string DumpStatusReply(CrclStatus *wm)
+    {
+        std::stringstream str;
+        //const char * sEnums[] = {"CRCL_Done", "CRCL_Error", "CRCL_Working", "CRCL_Ready"};
+        str << "GetStatusReply=" << wm->CommandID() << ":";
+        str << wm->CommandStatus() << std::endl;
+        str<< "Crcl Status Joints       =" << Crcl::DumpCrclJoints(wm->_CurrentJoints).c_str()<< std::endl;
+        str << "Crcl Status Position    ="  << Crcl::DumpPosition(wm->_CurrentPose).c_str()<< std::endl;
+        tf::Matrix3x3 m =  GetTfRotMatrix(GetVector3D(wm->_CurrentPose.XAxis()), GetVector3D(wm->_CurrentPose.ZAxis()));
+        tf::Quaternion q;
+        m.getRotation(q);
+        str << "Crcl Status Quaternion  ="  << q.x() <<":" << q.y() <<":" << q.z() <<":" <<  q.w() <<  std::endl;
+        str << "Crcl Status Orientation ="  << Crcl::DumpRotationAsCrcl(wm->_CurrentPose).c_str()<< std::endl;
+        double r,p,y; GetPoseToRPY(wm->_CurrentPose,r,p,y);
+        str << "Crcl Status RPY         ="  << Globals.StrFormat("%8.4f,%8.4f,%8.4f",Rad2Deg(r),Rad2Deg(p),Rad2Deg(y)).c_str()<< std::endl;
+        return str.str();
+    }
+     std::string DumpPosition(Crcl::PoseType pose, std::string separator) {
+        std::stringstream str;
+        str << boost::format("%8.4f") % pose.Point().X() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().Y() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().Z() << separator.c_str();
+         return str.str();
+    }   
     std::string DumpPose(Crcl::PoseType pose, std::string separator) {
         std::stringstream str;
         str << boost::format("%8.4f") % pose.Point().X() << separator.c_str();
@@ -261,9 +292,13 @@ namespace Crcl {
     }
 
     void CrclStatus::Update(JointState & joints) {
+#ifdef DEBUGJOINTSTATUSCRCLUPDATE
+        std::cout << RCS::DumpJoints(joints);
+#endif
         JointStatusSequence jout;
 
         for (unsigned int i = 0; i < joints.position.size(); i++) {
+
             ::JointStatusType jointstatus(i + 1);
 
             // Convert from radians to degrees?

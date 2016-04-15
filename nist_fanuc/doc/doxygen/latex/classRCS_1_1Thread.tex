@@ -29,13 +29,13 @@ std\-::string \& \hyperlink{classRCS_1_1Thread_a2db2a8e8dea3c4e502e8d6adbbf05724
 void \hyperlink{classRCS_1_1Thread_a5f7209d2edfa23588f6adc74bbfb8f07}{Join} ()
 \begin{DoxyCompactList}\small\item\em Uses boost thread join routine. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init} ()
-\begin{DoxyCompactList}\small\item\em Init function called before \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Init function called before \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action()} loop. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classRCS_1_1Thread_a8b932e4130f18d9747407fe70a87332a}{Cleanup} ()
-\begin{DoxyCompactList}\small\item\em Cleanup function called after \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop done. \end{DoxyCompactList}\item 
-virtual void \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action} ()
+\begin{DoxyCompactList}\small\item\em Cleanup function called after \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action()} loop done. \end{DoxyCompactList}\item 
+virtual int \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action} ()
 \begin{DoxyCompactList}\small\item\em Action override function called every cycle. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1Thread_a86b50ec69dd0baeda270b115d72c1c15}{Start} ()
-\begin{DoxyCompactList}\small\item\em Start starts the thread which call \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init()}, and then does \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Start starts the thread which call \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init()}, and then does \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action()} loop. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1Thread_ae0c4a68567ab695f4b7daf755ab874d6}{Stop} (bool b\-Wait=false)
 \begin{DoxyCompactList}\small\item\em Stop stops the thread loop. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1Thread_a6a5f86951a6b1fa10bc90844366bd23e}{Suspend} ()
@@ -110,20 +110,20 @@ Destructor of thread, makes sure thread has stopped.
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Action@{Action}}
+\hypertarget{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Action@{Action}}
 \index{Action@{Action}!RCS::Thread@{R\-C\-S\-::\-Thread}}
-\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}virtual void R\-C\-S\-::\-Thread\-::\-Action (
+\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}virtual int R\-C\-S\-::\-Thread\-::\-Action (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}
 
 
 Action override function called every cycle. 
 
 
 
-Reimplemented in \hyperlink{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b245790e}{R\-C\-S\-::\-Robot\-Program}, \hyperlink{classRCS_1_1RobotStatus_a7b8484b6d7ad5ae10e41a5d327efc658}{R\-C\-S\-::\-Robot\-Status}, and \hyperlink{structRCS_1_1CController_a5629103a842e2c1d451fec16471f7639}{R\-C\-S\-::\-C\-Controller}.
+Reimplemented in \hyperlink{classRCS_1_1RobotProgram_aeb1eb2140a7dddf6bb6609fbdcff290c}{R\-C\-S\-::\-Robot\-Program}, \hyperlink{classRCS_1_1RobotStatus_ac71a3ac33bfdf37a96dc5a0bf1ce7133}{R\-C\-S\-::\-Robot\-Status}, and \hyperlink{structRCS_1_1CController_a0ca284e0879e57399044e6700630a526}{R\-C\-S\-::\-C\-Controller}.
 
 \hypertarget{classRCS_1_1Thread_a8b932e4130f18d9747407fe70a87332a}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Cleanup@{Cleanup}}
 \index{Cleanup@{Cleanup}!RCS::Thread@{R\-C\-S\-::\-Thread}}
@@ -134,7 +134,7 @@ Reimplemented in \hyperlink{classRCS_1_1RobotProgram_a637f6305bb0beea4a9140b18b2
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a8b932e4130f18d9747407fe70a87332a}
 
 
-Cleanup function called after \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop done. 
+Cleanup function called after \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action()} loop done. 
 
 \hypertarget{classRCS_1_1Thread_a12ff1372b891db600b094d628e606045}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Cycle@{Cycle}}
 \index{Cycle@{Cycle}!RCS::Thread@{R\-C\-S\-::\-Thread}}
@@ -184,7 +184,7 @@ int returns debug dlvel of thread.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}
 
 
-Init function called before \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. 
+Init function called before \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action()} loop. 
 
 
 
@@ -259,7 +259,7 @@ Set\-Debug\-Level sets the debugging level of the thread.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1Thread_a86b50ec69dd0baeda270b115d72c1c15}
 
 
-Start starts the thread which call \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init()}, and then does \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{Action()} loop. 
+Start starts the thread which call \hyperlink{classRCS_1_1Thread_a53ee19c04d064c9a23f0909cf9a4b2cc}{Init()}, and then does \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{Action()} loop. 
 
 \hypertarget{classRCS_1_1Thread_ae0c4a68567ab695f4b7daf755ab874d6}{\index{R\-C\-S\-::\-Thread@{R\-C\-S\-::\-Thread}!Stop@{Stop}}
 \index{Stop@{Stop}!RCS::Thread@{R\-C\-S\-::\-Thread}}
@@ -349,4 +349,4 @@ boost thread
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSThreadTemplate_8h}{R\-C\-S\-Thread\-Template.\-h}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSThreadTemplate_8h}{R\-C\-S\-Thread\-Template.\-h}\end{DoxyCompactItemize}

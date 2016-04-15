@@ -144,13 +144,17 @@ enum \hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777d}{Canon\-Status\-T
 \item 
 \-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence \& \hyperlink{namespaceRCS_a0d81b5ae27814995884c1d25619db28a}{Dummy\-Init} ()
 \item 
+std\-::string \hyperlink{namespaceRCS_a35eaff1f2c8ec5520f595d6f3b2d38b3}{Dump\-Pose} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
+\begin{DoxyCompactList}\small\item\em Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
 void \hyperlink{namespaceRCS_a6e911197b35a4857f179af61811d4b0a}{get\-R\-P\-Y} (const \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} pose, double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
 \item 
 {\footnotesize template$<$class Rep , class Period $>$ }\\double \hyperlink{namespaceRCS_a1d588bfecc6b5d8e671ad9c57d18ecdc}{To\-Nanoseconds} (boost\-::chrono\-::duration$<$ Rep, Period $>$ d)
 \item 
 {\footnotesize template$<$class Rep , class Period $>$ }\\double \hyperlink{namespaceRCS_a82f7cfa7edd613a454281ce5f5685b4d}{To\-Seconds} (boost\-::chrono\-::duration$<$ Rep, Period $>$ d)
 \item 
-std\-::string \hyperlink{namespaceRCS_a35eaff1f2c8ec5520f595d6f3b2d38b3}{Dump\-Pose} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
+std\-::string \hyperlink{namespaceRCS_ad467dfc15b94a5e025af3e094ac21860}{Dump\-Joints} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} joints)
+\begin{DoxyCompactList}\small\item\em Dump\-Joints takes a list of joints and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
+std\-::ostream \& \hyperlink{namespaceRCS_af0cfadb4002d5ba5ec3ffdf2c96839e0}{operator$<$$<$} (std\-::ostream \&os, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
 \begin{DoxyCompactList}\small\item\em Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
 std\-::string \hyperlink{namespaceRCS_a994378d2744371f1afac4b59a808fef2}{Dump\-Quaterion} (std\-::ostream \&os, const \hyperlink{namespaceRCS_a3fd915276fdb632d217c560523c320e0}{R\-C\-S\-::\-Rotation} \&rot)
 \begin{DoxyCompactList}\small\item\em Dump\-Quaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std\-::cout $<$$<$ Dump\-Quaterion(urdf\-::rotation);. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -446,13 +450,24 @@ enumeration of trajector pose points.
 {}
 \end{DoxyParamCaption}
 )}}\label{namespaceRCS_a0d81b5ae27814995884c1d25619db28a}
+\hypertarget{namespaceRCS_ad467dfc15b94a5e025af3e094ac21860}{\index{R\-C\-S@{R\-C\-S}!Dump\-Joints@{Dump\-Joints}}
+\index{Dump\-Joints@{Dump\-Joints}!RCS@{R\-C\-S}}
+\subsubsection[{Dump\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-Dump\-Joints (
+\begin{DoxyParamCaption}
+\item[{{\bf Joint\-State}}]{joints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceRCS_ad467dfc15b94a5e025af3e094ac21860}
+
+
+Dump\-Joints takes a list of joints and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. 
+
 \hypertarget{namespaceRCS_a35eaff1f2c8ec5520f595d6f3b2d38b3}{\index{R\-C\-S@{R\-C\-S}!Dump\-Pose@{Dump\-Pose}}
 \index{Dump\-Pose@{Dump\-Pose}!RCS@{R\-C\-S}}
 \subsubsection[{Dump\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string R\-C\-S\-::\-Dump\-Pose (
 \begin{DoxyParamCaption}
 \item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceRCS_a35eaff1f2c8ec5520f595d6f3b2d38b3}
+)}}\label{namespaceRCS_a35eaff1f2c8ec5520f595d6f3b2d38b3}
 
 
 Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. 
@@ -479,6 +494,18 @@ Dump\-Quaterion takes a urdf quaterion and generates a string describing x,y,z,w
 \item[{double \&}]{yaw}
 \end{DoxyParamCaption}
 )}}\label{namespaceRCS_a6e911197b35a4857f179af61811d4b0a}
+\hypertarget{namespaceRCS_af0cfadb4002d5ba5ec3ffdf2c96839e0}{\index{R\-C\-S@{R\-C\-S}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!RCS@{R\-C\-S}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& R\-C\-S\-::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{os, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceRCS_af0cfadb4002d5ba5ec3ffdf2c96839e0}
+
+
+Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. 
+
 \hypertarget{namespaceRCS_a1d588bfecc6b5d8e671ad9c57d18ecdc}{\index{R\-C\-S@{R\-C\-S}!To\-Nanoseconds@{To\-Nanoseconds}}
 \index{To\-Nanoseconds@{To\-Nanoseconds}!RCS@{R\-C\-S}}
 \subsubsection[{To\-Nanoseconds}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Rep , class Period $>$ double R\-C\-S\-::\-To\-Nanoseconds (

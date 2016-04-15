@@ -23,6 +23,12 @@
 #include <sstream>
 #include <time.h>
 #include "Logging.h"
+extern ALogger LogFile;
+
+// #ifdef DUMPCANON_STATUSREPLYCRCLJOINTS
+// #ifdef HEAVYDEBUG
+//#ifdef DEBUGJOINTSTATUSCRCLUPDATE
+
 
 // #define DEBUG
 #if defined DEBUG

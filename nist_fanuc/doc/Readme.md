@@ -60,6 +60,10 @@ Compiling Fanuc Demo with Debug and Error Information Redirected to log file
 
     catkin_make -DCMAKE_BUILD_TYPE=Debug &> log.log
 
+Running rviz:
+
+	roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch sim:=true
+
 Location of exe directory to save ini and other runtime files
 -----------------------------
     path	"/home/michalos/catkin_ws/devel/lib/nist_fanuc/nist_fanuc"	
@@ -1635,4 +1639,101 @@ Problems with exclude, so hard coded doxygen ....
 
 
 
+/usr/local/michalos/nistfanuc_ws/src/nist_fanuc/doc/programs/fanuclrmateprogramjoints.xml
 
+
+ActuateJoints id=12 joint=1 pos = 9.00000
+CrclDelegateInterface::ActuateJoints
+RCSInterpreter::ParseCommand
+CController::GetLastJointState exceptionstd::exceptionNew Joint Position 0:0:0:0:0:0:
+New Joint Position 0.002:0.002:0.002:0.002:0.002:0.002:
+New Joint Position 0.006:0.006:0.006:0.006:0.006:0.006:
+New Joint Position 0.012:0.012:0.012:0.012:0.012:0.012:
+New Joint Position 0.02:0.02:0.02:0.02:0.02:0.02:
+New Joint Position 0.03:0.03:0.03:0.03:0.03:0.03:
+New Joint Position 0.042:0.042:0.042:0.042:0.042:0.042:
+New Joint Position 0.056:0.056:0.056:0.056:0.056:0.056:
+New Joint Position 0.072:0.072:0.072:0.072:0.072:0.072:
+New Joint Position 0.088:0.088:0.088:0.088:0.088:0.088:
+New Joint Position 0.102:0.104:0.104:0.104:0.104:0.104:
+New Joint Position 0.114:0.118:0.118:0.118:0.118:0.118:
+New Joint Position 0.126:0.132:0.132:0.132:0.132:0.132:
+New Joint Position 0.136:0.144:0.144:0.144:0.144:0.144:
+New Joint Position 0.144:0.154:0.154:0.154:0.154:0.154:
+New Joint Position 0.15:0.162:0.162:0.162:0.162:0.162:
+New Joint Position 0.154:0.168:0.168:0.168:0.168:0.168:
+New Joint Position 0.156:0.172:0.172:0.172:0.172:0.172:
+New Joint Position 0.15708:0.174:0.174:0.174:0.174:0.174:
+New Joint Position 0.15708:0.174533:0.174533:0.174533:0.174533:0.174533:
+
+sensor_msgs::JointState Convert(Crcl::JointStatusSequence jout, double angleConversion) {
+Pos 0=3.9922e+254
+Pos 1=10
+Pos 2=3.9922e+254
+Pos 3=2.93444e+237
+Pos 4=5.43412e+236
+Pos 5=3.65899e+237
+
+
+gnome-terminal --working-directory="/usr/local/michalos/nistfanuc_ws" --tab -e 'bash -c "export BASH_POST_RC=\"rails server\"; exec bash"' --tab -e 'bash -c "export BASH_POST_RC=\"autotest\"; exec bash"'
+
+
+
+Time compile
+----------------------------
+time catkin_make -DCMAKE_BUILD_TYPE=Debug 
+
+real	2m56.834s
+user	2m13.610s
+sys	0m9.211s
+
+Download QT
+----------------------
+https://wiki.qt.io/Install_Qt_5_on_Ubuntu
+
+	1. wget http://download.qt.io/official_releases/qt/5.0/5.0.2/qt-linux-opensource-5.0.2-x86-offline.run
+	2. chmod +x qt-linux-opensource-5.0.2-x86-offline.run
+	3. ./qt-linux-opensource-5.0.2-x86-offline.run
+
+Compiling 1st program sort of...
+
+	mkdir QtHelloWorld
+	 cd QtHelloWorld
+	gedit main.cpp
+
+	#include <QApplication>
+	#include <QLabel>
+	#include <QWidget>
+	int main(int argc, char *argv[ ])
+	{
+	QApplication app(argc, argv);
+	QLabel hello("<center>Welcome to my first WikiHow Qt program</center>");
+	hello.setWindowTitle("My First WikiHow Qt Program");
+	hello.resize(400, 400);
+	hello.show();
+	return app.exec();
+	}
+
+	qmake -project 
+	qmake
+	make
+	./QtHelloWorld
+
+Using Qt Creator with Catkin
+
+cd ~/catkin_ws/src
+ls -l  # Take note of the actual symlink target
+sed -i '' CMakeLists.txt
+ls -l # The symlink should have gone away
+
+
+
+
+To make qtcreator compile - 
+	1, removed gtest from manifest.xml
+	2. remove all install files from CMakeList.txt for cmake
+	3. Compile build into src directory
+
+Build->RUn CMake
+
+Built, and created projects with nist_fanuc source files (no headers)

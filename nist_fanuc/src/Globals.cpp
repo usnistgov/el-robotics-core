@@ -14,7 +14,7 @@
 #include <map>
 #include <iostream>
 CGlobals Globals;
-
+ALogger LogFile;
 void DebugBreak() {
     assert(0);
 }

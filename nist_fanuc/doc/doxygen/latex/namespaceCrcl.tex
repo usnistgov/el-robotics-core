@@ -24,9 +24,10 @@ typedef \hyperlink{namespaceRCS_a688a9db9f1e17b76c410c539997d07a7}{R\-C\-S\-::\-
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2}{C\-R\-C\-L\-Cmd\-Status} \{ \hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2af072d9ec71f5cad174c9d48edc63cfda}{C\-R\-C\-L\-\_\-\-D\-O\-N\-E} = 0, 
-\hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a7917015bd7568bad9b62b9a544fcc6a7}{C\-R\-C\-L\-\_\-\-W\-O\-R\-K\-I\-N\-G}, 
-\hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a0e13ed6a4f24390d9e36dacec72abaa8}{C\-R\-C\-L\-\_\-\-E\-R\-R\-O\-R}
+enum \hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2}{C\-R\-C\-L\-Cmd\-Status} \{ \hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a9ea47a762991d75df7a42371b5cca334}{C\-R\-C\-L\-\_\-\-Done} = 0, 
+\hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2aa4b171b9476a14e5f618445ea9bf0eef}{C\-R\-C\-L\-\_\-\-Error}, 
+\hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2ad556078682b7d707f43b0d124b034b98}{C\-R\-C\-L\-\_\-\-Working}, 
+\hyperlink{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2aaab13fab6143bf57d4c1b34eba7becff}{C\-R\-C\-L\-\_\-\-Ready}
  \}
 \item 
 enum \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \{ \\*
@@ -73,6 +74,8 @@ bool \hyperlink{namespaceCrcl_a394a527b4609a6d5b444f30bb9384f1a}{Get\-Pose\-To\-
 \begin{DoxyCompactList}\small\item\em Convert converts codesynthesis \hyperlink{namespaceCrcl}{Crcl} rotation (as x,z rotation vectors) into R\-O\-S/\-R\-C\-S rotation. \end{DoxyCompactList}\item 
 \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_ac74920bcb32be055b5f94010fed04cb1}{Convert} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} pose)
 \begin{DoxyCompactList}\small\item\em Convert converts R\-O\-S/\-R\-C\-S pose into codesynthesis \hyperlink{namespaceCrcl}{Crcl} Pose. Note, no angle conversion -\/ rotation/orientation always in radians. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceCrcl_ac02e068ed5b8f6f152cff928e554a653}{Dump\-Crcl\-Joints} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} jin)
+\item 
 \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{sensor\-\_\-msgs\-::\-Joint\-State} \hyperlink{namespaceCrcl_a84440a94ca5992cf4a01e4215d1cb363}{Convert} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} joint\-Status\-Seq, double angle\-Conversion=1.\-0)
 \begin{DoxyCompactList}\small\item\em Convert converts codesynthesis status actuator joint sequence into R\-O\-S Joint\-State.(Fills position). \end{DoxyCompactList}\item 
 \hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} \hyperlink{namespaceCrcl_a2a88d5186b3c539f968de637937294fb}{Convert} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} joints, double \-\_\-angle\-Conversion)
@@ -83,10 +86,18 @@ bool \hyperlink{namespaceCrcl_a394a527b4609a6d5b444f30bb9384f1a}{Get\-Pose\-To\-
 \begin{DoxyCompactList}\small\item\em Create codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose that is necessary for all codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose constructors. \end{DoxyCompactList}\item 
 std\-::vector$<$ double $>$ \hyperlink{namespaceCrcl_a942871711b02866236621b132bf934c2}{Convert\-To\-Angle\-Position\-Vector} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} \&joints, double d\-Angle\-Conversion)
 \item 
+std\-::string \hyperlink{namespaceCrcl_a710c3a8bdd5a36fc1df3996f005544ec}{Dump\-Rotation\-As\-Crcl} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} rcspose, std\-::string separator)
+\item 
+std\-::string \hyperlink{namespaceCrcl_a6f1cb883f1831e5f4be05f3d111545fd}{Dump\-Rotation\-As\-Crcl} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator)
+\item 
 std\-::string \hyperlink{namespaceCrcl_a1726015b66be8193fcd10bc157661a3d}{Dump\-Crcl\-Command} (\-::C\-R\-C\-L\-Command\-Type \&crcl\-Command)
 \item 
-std\-::string \hyperlink{namespaceCrcl_a30019a860966a9cdaa1564cc95787de4}{Dump\-Pose} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator=\char`\"{},\char`\"{})
+std\-::string \hyperlink{namespaceCrcl_af7bfef1ba7b0d1fa2ea0033ef391d254}{Dump\-Status\-Reply} (\hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} $\ast$wm)
+\item 
+std\-::string \hyperlink{namespaceCrcl_a7ffbb8bbe0b97bcd6fc145b52eba1c6e}{Dump\-Position} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator=\char`\"{},\char`\"{})
 \begin{DoxyCompactList}\small\item\em Dump contents of codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceCrcl_a666314177998417d741895bb491783bd}{Dump\-Pose} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator)
+\item 
 std\-::vector$<$ double $>$ \hyperlink{namespaceCrcl_af6bec848a13c03669ca8920795c5d3ad}{Convert\-To\-Position\-Vector} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Actuator\-Joint\-Sequence} \&, double d\-Conversion)
 \begin{DoxyCompactList}\small\item\em Convert\-To\-Position\-Vector converts codesynthesis actuator sequence into std vector of position as doubles. \end{DoxyCompactList}\item 
 \hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Joint\-Status\-Sequence} \hyperlink{namespaceCrcl_a329b70844c080b1a81c89989b58ffbd5}{Convert} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Actuator\-Joint\-Sequence} jin)
@@ -127,12 +138,14 @@ typedef\-::\-Pose\-Tolerance\-Type \hyperlink{namespaceCrcl_ac805071e16341b82d4f
 \begin{Desc}
 \item[Enumerator]\par
 \begin{description}
-\index{C\-R\-C\-L\-\_\-\-D\-O\-N\-E@{C\-R\-C\-L\-\_\-\-D\-O\-N\-E}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-D\-O\-N\-E@{C\-R\-C\-L\-\_\-\-D\-O\-N\-E}}\item[{\em 
-\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2af072d9ec71f5cad174c9d48edc63cfda}{C\-R\-C\-L\-\_\-\-D\-O\-N\-E}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2af072d9ec71f5cad174c9d48edc63cfda}
-}]\index{C\-R\-C\-L\-\_\-\-W\-O\-R\-K\-I\-N\-G@{C\-R\-C\-L\-\_\-\-W\-O\-R\-K\-I\-N\-G}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-W\-O\-R\-K\-I\-N\-G@{C\-R\-C\-L\-\_\-\-W\-O\-R\-K\-I\-N\-G}}\item[{\em 
-\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a7917015bd7568bad9b62b9a544fcc6a7}{C\-R\-C\-L\-\_\-\-W\-O\-R\-K\-I\-N\-G}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a7917015bd7568bad9b62b9a544fcc6a7}
-}]\index{C\-R\-C\-L\-\_\-\-E\-R\-R\-O\-R@{C\-R\-C\-L\-\_\-\-E\-R\-R\-O\-R}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-E\-R\-R\-O\-R@{C\-R\-C\-L\-\_\-\-E\-R\-R\-O\-R}}\item[{\em 
-\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a0e13ed6a4f24390d9e36dacec72abaa8}{C\-R\-C\-L\-\_\-\-E\-R\-R\-O\-R}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a0e13ed6a4f24390d9e36dacec72abaa8}
+\index{C\-R\-C\-L\-\_\-\-Done@{C\-R\-C\-L\-\_\-\-Done}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-Done@{C\-R\-C\-L\-\_\-\-Done}}\item[{\em 
+\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a9ea47a762991d75df7a42371b5cca334}{C\-R\-C\-L\-\_\-\-Done}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2a9ea47a762991d75df7a42371b5cca334}
+}]\index{C\-R\-C\-L\-\_\-\-Error@{C\-R\-C\-L\-\_\-\-Error}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-Error@{C\-R\-C\-L\-\_\-\-Error}}\item[{\em 
+\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2aa4b171b9476a14e5f618445ea9bf0eef}{C\-R\-C\-L\-\_\-\-Error}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2aa4b171b9476a14e5f618445ea9bf0eef}
+}]\index{C\-R\-C\-L\-\_\-\-Working@{C\-R\-C\-L\-\_\-\-Working}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-Working@{C\-R\-C\-L\-\_\-\-Working}}\item[{\em 
+\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2ad556078682b7d707f43b0d124b034b98}{C\-R\-C\-L\-\_\-\-Working}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2ad556078682b7d707f43b0d124b034b98}
+}]\index{C\-R\-C\-L\-\_\-\-Ready@{C\-R\-C\-L\-\_\-\-Ready}!Crcl@{Crcl}}\index{Crcl@{Crcl}!C\-R\-C\-L\-\_\-\-Ready@{C\-R\-C\-L\-\_\-\-Ready}}\item[{\em 
+\hypertarget{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2aaab13fab6143bf57d4c1b34eba7becff}{C\-R\-C\-L\-\_\-\-Ready}\label{namespaceCrcl_a5433cc9af1949d6f1305896f70a25eb2aaab13fab6143bf57d4c1b34eba7becff}
 }]\end{description}
 \end{Desc}
 \hypertarget{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{\index{Crcl@{Crcl}!Crcl\-Return@{Crcl\-Return}}
@@ -160,25 +173,6 @@ typedef\-::\-Pose\-Tolerance\-Type \hyperlink{namespaceCrcl_ac805071e16341b82d4f
 
 
 \subsection{Function Documentation}
-\hypertarget{namespaceCrcl_a329b70844c080b1a81c89989b58ffbd5}{\index{Crcl@{Crcl}!Convert@{Convert}}
-\index{Convert@{Convert}!Crcl@{Crcl}}
-\subsubsection[{Convert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-Status\-Sequence} Crcl\-::\-Convert (
-\begin{DoxyParamCaption}
-\item[{Actuator\-Joint\-Sequence}]{jin}
-\end{DoxyParamCaption}
-)}}\label{namespaceCrcl_a329b70844c080b1a81c89989b58ffbd5}
-
-
-Convert converts codesynthesis commanded actuator joint sequence into status actuator joint sequence . 
-
-
-\begin{DoxyParams}{Parameters}
-{\em codesynthesis} & sequence of commanded joints. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-codesynthesis sequence of status joints. 
-\end{DoxyReturn}
 \hypertarget{namespaceCrcl_abd79cdab59edf05f88b02e6963862813}{\index{Crcl@{Crcl}!Convert@{Convert}}
 \index{Convert@{Convert}!Crcl@{Crcl}}
 \subsubsection[{Convert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Crcl\-::\-Convert (
@@ -201,20 +195,20 @@ Convert converts codesynthesis \hyperlink{namespaceCrcl}{Crcl} Pose into R\-O\-S
 \begin{DoxyReturn}{Returns}
 R\-O\-S/\-R\-C\-S pose. 
 \end{DoxyReturn}
-\hypertarget{namespaceCrcl_a1f43fba61abba477ee664c4b5c6dd65b}{\index{Crcl@{Crcl}!Convert@{Convert}}
+\hypertarget{namespaceCrcl_a329b70844c080b1a81c89989b58ffbd5}{\index{Crcl@{Crcl}!Convert@{Convert}}
 \index{Convert@{Convert}!Crcl@{Crcl}}
-\subsubsection[{Convert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Joint\-Status\-Sequence} Crcl\-::\-Convert (
+\subsubsection[{Convert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-Status\-Sequence} Crcl\-::\-Convert (
 \begin{DoxyParamCaption}
-\item[{{\bf Joint\-State}}]{joints}
+\item[{Actuator\-Joint\-Sequence}]{jin}
 \end{DoxyParamCaption}
-)}}\label{namespaceCrcl_a1f43fba61abba477ee664c4b5c6dd65b}
+)}}\label{namespaceCrcl_a329b70844c080b1a81c89989b58ffbd5}
 
 
-Convert converts R\-O\-S Joint\-State (primarily position for now) and creates codesynthesis status actuator joint sequence. 
+Convert converts codesynthesis commanded actuator joint sequence into status actuator joint sequence . 
 
 
 \begin{DoxyParams}{Parameters}
-{\em R\-O\-S} & Joint\-State with Joint positions filled. \\
+{\em codesynthesis} & sequence of commanded joints. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -258,6 +252,25 @@ Convert converts R\-O\-S/\-R\-C\-S pose into codesynthesis \hyperlink{namespaceC
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 codesynthesis C\-R\-C\-L pose type. 
+\end{DoxyReturn}
+\hypertarget{namespaceCrcl_a1f43fba61abba477ee664c4b5c6dd65b}{\index{Crcl@{Crcl}!Convert@{Convert}}
+\index{Convert@{Convert}!Crcl@{Crcl}}
+\subsubsection[{Convert}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-::\-Joint\-Status\-Sequence} Crcl\-::\-Convert (
+\begin{DoxyParamCaption}
+\item[{{\bf Joint\-State}}]{joints}
+\end{DoxyParamCaption}
+)}}\label{namespaceCrcl_a1f43fba61abba477ee664c4b5c6dd65b}
+
+
+Convert converts R\-O\-S Joint\-State (primarily position for now) and creates codesynthesis status actuator joint sequence. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\-O\-S} & Joint\-State with Joint positions filled. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+codesynthesis sequence of status joints. 
 \end{DoxyReturn}
 \hypertarget{namespaceCrcl_a84440a94ca5992cf4a01e4215d1cb363}{\index{Crcl@{Crcl}!Convert@{Convert}}
 \index{Convert@{Convert}!Crcl@{Crcl}}
@@ -334,14 +347,29 @@ std vector of doubles representing position.
 \item[{\-::C\-R\-C\-L\-Command\-Type \&}]{crcl\-Command}
 \end{DoxyParamCaption}
 )}}\label{namespaceCrcl_a1726015b66be8193fcd10bc157661a3d}
-\hypertarget{namespaceCrcl_a30019a860966a9cdaa1564cc95787de4}{\index{Crcl@{Crcl}!Dump\-Pose@{Dump\-Pose}}
+\hypertarget{namespaceCrcl_ac02e068ed5b8f6f152cff928e554a653}{\index{Crcl@{Crcl}!Dump\-Crcl\-Joints@{Dump\-Crcl\-Joints}}
+\index{Dump\-Crcl\-Joints@{Dump\-Crcl\-Joints}!Crcl@{Crcl}}
+\subsubsection[{Dump\-Crcl\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Dump\-Crcl\-Joints (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Joint\-Status\-Sequence}}]{jin}
+\end{DoxyParamCaption}
+)}}\label{namespaceCrcl_ac02e068ed5b8f6f152cff928e554a653}
+\hypertarget{namespaceCrcl_a666314177998417d741895bb491783bd}{\index{Crcl@{Crcl}!Dump\-Pose@{Dump\-Pose}}
 \index{Dump\-Pose@{Dump\-Pose}!Crcl@{Crcl}}
 \subsubsection[{Dump\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Dump\-Pose (
 \begin{DoxyParamCaption}
 \item[{{\bf Crcl\-::\-Pose\-Type}}]{pose, }
+\item[{std\-::string}]{separator}
+\end{DoxyParamCaption}
+)}}\label{namespaceCrcl_a666314177998417d741895bb491783bd}
+\hypertarget{namespaceCrcl_a7ffbb8bbe0b97bcd6fc145b52eba1c6e}{\index{Crcl@{Crcl}!Dump\-Position@{Dump\-Position}}
+\index{Dump\-Position@{Dump\-Position}!Crcl@{Crcl}}
+\subsubsection[{Dump\-Position}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Dump\-Position (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type}}]{pose, }
 \item[{std\-::string}]{separator = {\ttfamily \char`\"{},\char`\"{}}}
 \end{DoxyParamCaption}
-)}}\label{namespaceCrcl_a30019a860966a9cdaa1564cc95787de4}
+)}}\label{namespaceCrcl_a7ffbb8bbe0b97bcd6fc145b52eba1c6e}
 
 
 Dump contents of codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose. 
@@ -356,6 +384,29 @@ Dump contents of codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose.
 \begin{DoxyReturn}{Returns}
 string with \hyperlink{namespaceCrcl}{Crcl} pose contents. 
 \end{DoxyReturn}
+\hypertarget{namespaceCrcl_a710c3a8bdd5a36fc1df3996f005544ec}{\index{Crcl@{Crcl}!Dump\-Rotation\-As\-Crcl@{Dump\-Rotation\-As\-Crcl}}
+\index{Dump\-Rotation\-As\-Crcl@{Dump\-Rotation\-As\-Crcl}!Crcl@{Crcl}}
+\subsubsection[{Dump\-Rotation\-As\-Crcl}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Dump\-Rotation\-As\-Crcl (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose}}]{rcspose, }
+\item[{std\-::string}]{separator}
+\end{DoxyParamCaption}
+)}}\label{namespaceCrcl_a710c3a8bdd5a36fc1df3996f005544ec}
+\hypertarget{namespaceCrcl_a6f1cb883f1831e5f4be05f3d111545fd}{\index{Crcl@{Crcl}!Dump\-Rotation\-As\-Crcl@{Dump\-Rotation\-As\-Crcl}}
+\index{Dump\-Rotation\-As\-Crcl@{Dump\-Rotation\-As\-Crcl}!Crcl@{Crcl}}
+\subsubsection[{Dump\-Rotation\-As\-Crcl}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Dump\-Rotation\-As\-Crcl (
+\begin{DoxyParamCaption}
+\item[{{\bf Crcl\-::\-Pose\-Type}}]{pose, }
+\item[{std\-::string}]{separator}
+\end{DoxyParamCaption}
+)}}\label{namespaceCrcl_a6f1cb883f1831e5f4be05f3d111545fd}
+\hypertarget{namespaceCrcl_af7bfef1ba7b0d1fa2ea0033ef391d254}{\index{Crcl@{Crcl}!Dump\-Status\-Reply@{Dump\-Status\-Reply}}
+\index{Dump\-Status\-Reply@{Dump\-Status\-Reply}!Crcl@{Crcl}}
+\subsubsection[{Dump\-Status\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-::\-Dump\-Status\-Reply (
+\begin{DoxyParamCaption}
+\item[{Crcl\-Status $\ast$}]{wm}
+\end{DoxyParamCaption}
+)}}\label{namespaceCrcl_af7bfef1ba7b0d1fa2ea0033ef391d254}
 \hypertarget{namespaceCrcl_a2c7684178c38711d407412930b9b0205}{\index{Crcl@{Crcl}!Get\-Point@{Get\-Point}}
 \index{Get\-Point@{Get\-Point}!Crcl@{Crcl}}
 \subsubsection[{Get\-Point}]{\setlength{\rightskip}{0pt plus 5cm}inline \-::{\bf Point\-Type} Crcl\-::\-Get\-Point (

@@ -23,7 +23,7 @@
 #include "Trajectory.h"
 #include "Communication.h"
 #include "moveit.h"
-
+#include "RvizMarker.h"
 namespace RCS {
 
     extern boost::mutex cncmutex;
@@ -85,6 +85,8 @@ namespace RCS {
         VAR(TrajectoryModel, boost::shared_ptr<CTrajectory>);
         VAR(JointWriter, boost::shared_ptr<CJointWriter>);
         VAR(MoveitPlanner, boost::shared_ptr<MoveitPlanning>);
+        VAR(RvizMarker, boost::shared_ptr<CRvizMarker> )
+        VAR(EEPoseReader, boost::shared_ptr<CLinkReader> )
 
         /*!
          *\brief Routine to set the kinematics reference pointer. Uses the interface class IKinematics, but can have any implementation instance. 
@@ -119,6 +121,7 @@ namespace RCS {
 
 
         std::string lastlogstatus;
+        static std::vector<std::string> links;
 
         enum DebugLevel {
             FATAL = 0, WARNING = 2, INFORM = 4, FULL = 5

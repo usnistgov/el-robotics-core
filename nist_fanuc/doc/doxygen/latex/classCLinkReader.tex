@@ -1,0 +1,98 @@
+\hypertarget{classCLinkReader}{\section{C\-Link\-Reader Class Reference}
+\label{classCLinkReader}\index{C\-Link\-Reader@{C\-Link\-Reader}}
+}
+
+
+The \hyperlink{classCLinkReader}{C\-Link\-Reader} is a class that use the tf package from R\-O\-S to return latest pose of a link. Uses tf to find the latest time and base\-\_\-link and the desired link have changed. With the latest time it returns translation and orientation (quat) of the link. tf keeps track of a tree of coordinate frames. This tree changes over time, and tf stores a time snapshot for every transform (for up to 10 seconds by default).  
+
+
+
+
+{\ttfamily \#include $<$Communication.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCLinkReader_a7d71d8a8e0b82427bf1d76025ced4213}{C\-Link\-Reader} (ros\-::\-Node\-Handle \&nh)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classCLinkReader}{C\-Link\-Reader} constructor that requires a R\-O\-S node handle. \end{DoxyCompactList}\item 
+void \hyperlink{classCLinkReader_ab4adade4dc8af8ec3bb295c1028720af}{Init} (std\-::string baselink\-\_\-name=\char`\"{}/base\-\_\-link\char`\"{})
+\begin{DoxyCompactList}\small\item\em Init sets up robot (assume 1 for now) with a base link name. \end{DoxyCompactList}\item 
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{classCLinkReader_a2474b4c72d69a7d29cd1f47e1ac2a155}{Get\-Link\-Value} (std\-::string linkname=\char`\"{}/tool0\char`\"{})
+\begin{DoxyCompactList}\small\item\em Get\-Joint\-Values sets up subscriber to joint\-\_\-state topic messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Node\-Handle \& \hyperlink{classCLinkReader_acead51b4129575aefacafca5e7c81b36}{\-\_\-nh}
+\item 
+std\-::string \hyperlink{classCLinkReader_a896e3d57e157c3bb5fdf630fbb87575d}{\-\_\-baselink\-\_\-name}
+\item 
+tf\-::\-Transform\-Listener \hyperlink{classCLinkReader_a86de58d6199f63fd823067616398a7cf}{\-\_\-listener}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classCLinkReader}{C\-Link\-Reader} is a class that use the tf package from R\-O\-S to return latest pose of a link. Uses tf to find the latest time and base\-\_\-link and the desired link have changed. With the latest time it returns translation and orientation (quat) of the link. tf keeps track of a tree of coordinate frames. This tree changes over time, and tf stores a time snapshot for every transform (for up to 10 seconds by default). 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCLinkReader_a7d71d8a8e0b82427bf1d76025ced4213}{\index{C\-Link\-Reader@{C\-Link\-Reader}!C\-Link\-Reader@{C\-Link\-Reader}}
+\index{C\-Link\-Reader@{C\-Link\-Reader}!CLinkReader@{C\-Link\-Reader}}
+\subsubsection[{C\-Link\-Reader}]{\setlength{\rightskip}{0pt plus 5cm}C\-Link\-Reader\-::\-C\-Link\-Reader (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{classCLinkReader_a7d71d8a8e0b82427bf1d76025ced4213}
+
+
+\hyperlink{classCLinkReader}{C\-Link\-Reader} constructor that requires a R\-O\-S node handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nh} & ros node handle so joint reader can tell roscore we are subscribing to joint\-\_\-state topic. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCLinkReader_a2474b4c72d69a7d29cd1f47e1ac2a155}{\index{C\-Link\-Reader@{C\-Link\-Reader}!Get\-Link\-Value@{Get\-Link\-Value}}
+\index{Get\-Link\-Value@{Get\-Link\-Value}!CLinkReader@{C\-Link\-Reader}}
+\subsubsection[{Get\-Link\-Value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} C\-Link\-Reader\-::\-Get\-Link\-Value (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{linkname = {\ttfamily \char`\"{}/tool0\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classCLinkReader_a2474b4c72d69a7d29cd1f47e1ac2a155}
+
+
+Get\-Joint\-Values sets up subscriber to joint\-\_\-state topic messages. 
+
+\begin{DoxyReturn}{Returns}
+a std vector of double containing joint positions 
+\end{DoxyReturn}
+\hypertarget{classCLinkReader_ab4adade4dc8af8ec3bb295c1028720af}{\index{C\-Link\-Reader@{C\-Link\-Reader}!Init@{Init}}
+\index{Init@{Init}!CLinkReader@{C\-Link\-Reader}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Link\-Reader\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{baselink\-\_\-name = {\ttfamily \char`\"{}/base\-\_\-link\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classCLinkReader_ab4adade4dc8af8ec3bb295c1028720af}
+
+
+Init sets up robot (assume 1 for now) with a base link name. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCLinkReader_a896e3d57e157c3bb5fdf630fbb87575d}{\index{C\-Link\-Reader@{C\-Link\-Reader}!\-\_\-baselink\-\_\-name@{\-\_\-baselink\-\_\-name}}
+\index{\-\_\-baselink\-\_\-name@{\-\_\-baselink\-\_\-name}!CLinkReader@{C\-Link\-Reader}}
+\subsubsection[{\-\_\-baselink\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string C\-Link\-Reader\-::\-\_\-baselink\-\_\-name}}\label{classCLinkReader_a896e3d57e157c3bb5fdf630fbb87575d}
+\hypertarget{classCLinkReader_a86de58d6199f63fd823067616398a7cf}{\index{C\-Link\-Reader@{C\-Link\-Reader}!\-\_\-listener@{\-\_\-listener}}
+\index{\-\_\-listener@{\-\_\-listener}!CLinkReader@{C\-Link\-Reader}}
+\subsubsection[{\-\_\-listener}]{\setlength{\rightskip}{0pt plus 5cm}tf\-::\-Transform\-Listener C\-Link\-Reader\-::\-\_\-listener}}\label{classCLinkReader_a86de58d6199f63fd823067616398a7cf}
+\hypertarget{classCLinkReader_acead51b4129575aefacafca5e7c81b36}{\index{C\-Link\-Reader@{C\-Link\-Reader}!\-\_\-nh@{\-\_\-nh}}
+\index{\-\_\-nh@{\-\_\-nh}!CLinkReader@{C\-Link\-Reader}}
+\subsubsection[{\-\_\-nh}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle\& C\-Link\-Reader\-::\-\_\-nh}}\label{classCLinkReader_acead51b4129575aefacafca5e7c81b36}
+reference pointer to R\-O\-S node handle 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Communication_8h}{Communication.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{Communication_8cpp}{Communication.\-cpp}\end{DoxyCompactItemize}

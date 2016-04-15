@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CRCL FANUC: github</title>
+<title>CRCL FANUC: GitHub</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -38,10 +38,12 @@
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">github </div>  </div>
+<div class="title">GitHub </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>git commit -a (added files) normally git commit . VIM nightmare: esc and :wq (write and quit)</p>
+<div class="textblock"><p>GitHub is a web-based Git repository hosting service. It is based on git revision control system. Unlike Git, which is strictly a command-line tool, GitHub provides a Web-based graphical interface and desktop as well as mobile integration.</p>
+<h2>github command line interface </h2>
+<p>git commit -a (added files) normally git commit . VIM nightmare: esc and :wq (write and quit)</p>
 <pre class="fragment">michalos@rufous:~/github/usnistgov/el-robotics-core$ git push origin master
 Username for 'https://github.com': johnmichaloski
 Password for 'https://johnmichaloski@github.com': 
@@ -75,10 +77,32 @@ Fast-forward
  nist_kitting/src/mover.cpp          | 111 ++++--------------------------------
  ulapi/package.xml                   |   2 +-
  5 files changed, 20 insertions(+), 161 deletions(-)
-michalos@rufous:~/github/usnistgov/el-robotics-core$ </pre> </div></div><!-- contents -->
+michalos@rufous:~/github/usnistgov/el-robotics-core$ 
+</pre><h2>Github branch with versions </h2>
+<p>In your github fork, you need to keep your master branch clean, by clean I mean without any changes, like that you can create at any time a branch from your master. Each time, that you want to commit a bug or a feature, you need to create a branch for it, which will be a copy of your master branch.</p>
+<p>When you do a pull request on a branch, you can continue to work on another branch and make another pull request on this other branch.</p>
+<p>Before creating a new branch, pull the changes from upstream. Your master needs to be up to date.</p>
+<p>Create the branch on your local machine and switch in this branch :</p>
+<pre>$ git checkout -b [name_of_your_new_branch]</pre><p>Push the branch on github :</p>
+<pre>$ git push origin [name_of_your_new_branch]</pre><p>When you want to commit something in your branch, be sure to be in your branch.</p>
+<p>You can see all branches created by using :</p>
+<pre>$ git branch</pre><p>Which will show :</p>
+<pre>* approval_messages</pre><pre>  master</pre><pre>  master_clean</pre><p>Add a new remote for your branch :</p>
+<pre>$ git remote add [name_of_your_remote] &lt;url&gt;</pre><p>Push changes from your commit into your branch :</p>
+<pre>$ git push origin [name_of_your_remote]</pre><p>Update your branch when the original branch from official repository has been updated :</p>
+<p>```sh</p>
+<p>$ git fetch [name_of_your_remote]</p>
+<p>```</p>
+<p>Then you need to apply to merge changes, if your branch is derivated from develop you need to do :</p>
+<pre>$ git merge [name_of_your_remote]/develop</pre><p>Delete a branch on your local filesystem :</p>
+<pre>$ git branch -d [name_of_your_new_branch]</pre><p>To force the deletion of local branch on your filesystem :</p>
+<pre>$ git branch -D [name_of_your_new_branch]</pre><p>Delete the branch on github :</p>
+<pre>$ git push origin :[name_of_your_new_branch]</pre><p>The only difference is the : to say delete, you can do it too by using github interface to remove branch : <a href="https://help.github.com/articles/deleting-unused-branches">https://help.github.com/articles/deleting-unused-branches</a>.</p>
+<p>If you want to change default branch, it's so easy with github, in your fork go into Admin and in the drop-down list default branch choose what you want. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 15 2016 14:48:00 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

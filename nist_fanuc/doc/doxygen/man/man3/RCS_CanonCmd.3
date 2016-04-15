@@ -1,4 +1,4 @@
-.TH "RCS::CanonCmd" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CanonCmd" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -101,10 +101,16 @@ RCS::CanonCmd \-
 .RI "\fBRCS::Pose\fP \fBpose\fP"
 .br
 .ti -1c
-.RI "\fBRCS::Pose\fP \fBtolerance\fP"
+.RI "\fBRCS::Pose\fP \fBendPoseTol\fP"
 .br
 .ti -1c
 .RI "std::vector< \fBRCS::Pose\fP > \fBwaypoints\fP"
+.br
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBintermediatePtTol\fP"
+.br
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBgripperTol\fP"
 .br
 .in -1c
 .SS "Static Public Attributes"
@@ -163,8 +169,14 @@ straigth cartesian trajectory motion boolean
 command type 
 .SS "double RCS::CanonCmd::dwell"
 time for dwelling in seconds 
+.SS "\fBRCS::Pose\fP RCS::CanonCmd::endPoseTol"
+commanded tolerance 
 .SS "double RCS::CanonCmd::gripperPos"
 gripper position 0 to 1 
+.SS "\fBRCS::Pose\fP RCS::CanonCmd::gripperTol"
+commanded cartesian waypoints in trajectory 
+.SS "\fBRCS::Pose\fP RCS::CanonCmd::intermediatePtTol"
+commanded cartesian waypoints in trajectory 
 .SS "std::vector<int> RCS::CanonCmd::jointnum"
 vector of joint numbers used by command 
 .SS "\fBJointState\fP RCS::CanonCmd::joints"
@@ -179,8 +191,6 @@ vector of joint velocities
 status type 
 .SS "\fBCanonStopMotionType\fP RCS::CanonCmd::stoptype"
 stop trajectory choice 
-.SS "\fBRCS::Pose\fP RCS::CanonCmd::tolerance"
-commanded tolerance 
 .SS "\fBTrajPointType\fP RCS::CanonCmd::type"
 trajectory points type 
 .SS "std::vector<\fBRCS::Pose\fP> RCS::CanonCmd::waypoints"

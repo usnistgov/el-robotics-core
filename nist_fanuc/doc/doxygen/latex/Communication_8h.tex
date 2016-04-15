@@ -12,10 +12,14 @@
 {\ttfamily \#include $<$control\-\_\-msgs/\-Query\-Trajectory\-State.\-h$>$}\\*
 {\ttfamily \#include $<$tf/tf.\-h$>$}\\*
 {\ttfamily \#include $<$tf/transform\-\_\-broadcaster.\-h$>$}\\*
+{\ttfamily \#include $<$tf/transform\-\_\-listener.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}R\-C\-S.\-h\char`\"{}}\\*
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classCJointReader}{C\-Joint\-Reader}
 \begin{DoxyCompactList}\small\item\em The \hyperlink{classCJointReader}{C\-Joint\-Reader} is a thread to accept joint update callbacks from R\-O\-S. Uses a ros node handle to tell roscore we are subscribing to joint\-\_\-state topic. Then, when joint updates occur, the callback routine is invoked and the latest joint values saved. \end{DoxyCompactList}\item 
 class \hyperlink{classCJointWriter}{C\-Joint\-Writer}
-\begin{DoxyCompactList}\small\item\em The \hyperlink{classCJointWriter}{C\-Joint\-Writer} is a thread to publish new joint values to R\-O\-S. Uses a ros node handle to tell roscore we are pusblishing to the joint\-\_\-path\-\_\-command topic. Then, when joint updates occur, these are published on joint\-\_\-path\-\_\-command the topic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classCJointWriter}{C\-Joint\-Writer} is a thread to publish new joint values to R\-O\-S. Uses a ros node handle to tell roscore we are pusblishing to the joint\-\_\-path\-\_\-command topic. Then, when joint updates occur, these are published on joint\-\_\-path\-\_\-command the topic. \end{DoxyCompactList}\item 
+class \hyperlink{classCLinkReader}{C\-Link\-Reader}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{classCLinkReader}{C\-Link\-Reader} is a class that use the tf package from R\-O\-S to return latest pose of a link. Uses tf to find the latest time and base\-\_\-link and the desired link have changed. With the latest time it returns translation and orientation (quat) of the link. tf keeps track of a tree of coordinate frames. This tree changes over time, and tf stores a time snapshot for every transform (for up to 10 seconds by default). \end{DoxyCompactList}\end{DoxyCompactItemize}

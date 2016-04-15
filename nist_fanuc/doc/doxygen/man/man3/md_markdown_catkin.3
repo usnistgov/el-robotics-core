@@ -1,0 +1,93 @@
+.TH "md_markdown_catkin" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_markdown_catkin \- Catkin command line tools 
+For a good background read the doc at htt: \fChttp://catkin-tools.readthedocs.org/en/latest/\fP
+.PP
+Quick overview of useful catkin commands: 
+.PP
+.nf
+catkin clean --build --devel
+
+.fi
+.PP
+.PP
+just clean a single package: 
+.PP
+.nf
+    catkin clean PKGNAME
+
+.fi
+.PP
+.PP
+Building ros packages 
+.PP
+.nf
+catkin build   
+
+.fi
+.PP
+.PP
+Setting and unsetting CMake options: 
+.PP
+.nf
+    catkin config --cmake-args -DENABLE_CORBA=ON -DCORBA_IMPLEMENTATION=OMNIORB
+    catkin config --no-cmake-args
+
+.fi
+.PP
+.PP
+Create “Debug” and “Release” profiles and then build them in independent build and devel spaces: 
+.PP
+.nf
+catkin config --profile debug -x _debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
+catkin config --profile release -x _release --cmake-args -DCMAKE_BUILD_TYPE=Release
+catkin build --profile debug
+catkin build --profile release
+
+.fi
+.PP
+.PP
+build specific packages (however this will build dependency packages) 
+.PP
+.nf
+build PKG [PKG ...]
+
+.fi
+.PP
+.PP
+.SS "Initialize catkin workspace "
+.PP
+.PP
+.nf
+source /opt/ros/indigo/setup.bash          # Source ROS indigo to use Catkin
+mkdir -p /tmp/quickstart_ws/src            # Make a new workspace and source space
+cd /tmp/quickstart_ws                      # Navigate to the workspace root
+catkin init     
+.fi
+.PP
+.PP
+.SS "Build one catkin project "
+.PP
+If you’re only interested in building a single package in a workspace, you can also use the --no-deps option along with a package name\&. This will skip all of the package’s dependencies, build the given package, and then exit\&. 
+.PP
+.nf
+catkin build PKG --no-deps # Build PKG only
+
+.fi
+.PP
+.PP
+.SS "Use some but not all of the processor cores "
+.PP
+You can control the number of build jobs\&. Typically a job controller is used and all the cores are assigned make files, which halts GUI interaction\&.
+.PP
+You can control the maximum number of packages allowed to build in parallel by using the -p or --parallel-packages option and you can change the number of make jobs available with the -j or --jobs option\&.
+.PP
+To disable the job server, you can use the --no-jobserver option\&. 
+.PP
+.nf
+catkin build PKG --no-deps -p 7 # Build PKG only, and use only 7 or 8 cores
+.fi
+.PP
+ 

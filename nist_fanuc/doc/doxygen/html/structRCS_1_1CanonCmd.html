@@ -124,10 +124,14 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a577caa222abd73e6490108c7aecbc61c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc27ad3ae01d7aab1c9c92f08df82fc1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html#adc27ad3ae01d7aab1c9c92f08df82fc1">pose</a></td></tr>
 <tr class="separator:adc27ad3ae01d7aab1c9c92f08df82fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ae62df775329f52054c5cb25d0845a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html#a0ae62df775329f52054c5cb25d0845a9">tolerance</a></td></tr>
-<tr class="separator:a0ae62df775329f52054c5cb25d0845a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11e66454d05007664d63cea7b35822c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html#a11e66454d05007664d63cea7b35822c2">endPoseTol</a></td></tr>
+<tr class="separator:a11e66454d05007664d63cea7b35822c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f7fdffabe34bcb3f0afd42f60040648"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html#a1f7fdffabe34bcb3f0afd42f60040648">waypoints</a></td></tr>
 <tr class="separator:a1f7fdffabe34bcb3f0afd42f60040648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b27fcbd1298ee6a95e412a68741ddfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html#a9b27fcbd1298ee6a95e412a68741ddfc">intermediatePtTol</a></td></tr>
+<tr class="separator:a9b27fcbd1298ee6a95e412a68741ddfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af76b1a60d2d7282d1a60863c907176de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html#af76b1a60d2d7282d1a60863c907176de">gripperTol</a></td></tr>
+<tr class="separator:af76b1a60d2d7282d1a60863c907176de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -461,6 +465,19 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a11e66454d05007664d63cea7b35822c2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> RCS::CanonCmd::endPoseTol</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>commanded tolerance </p>
+
+</div>
+</div>
 <a class="anchor" id="a03e23d97c74abd3c6b5b38aec8ae5fc2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -471,6 +488,32 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>gripper position 0 to 1 </p>
+
+</div>
+</div>
+<a class="anchor" id="af76b1a60d2d7282d1a60863c907176de"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> RCS::CanonCmd::gripperTol</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>commanded cartesian waypoints in trajectory </p>
+
+</div>
+</div>
+<a class="anchor" id="a9b27fcbd1298ee6a95e412a68741ddfc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> RCS::CanonCmd::intermediatePtTol</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>commanded cartesian waypoints in trajectory </p>
 
 </div>
 </div>
@@ -565,19 +608,6 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0ae62df775329f52054c5cb25d0845a9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> RCS::CanonCmd::tolerance</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>commanded tolerance </p>
-
-</div>
-</div>
 <a class="anchor" id="abf1d51c90a3f1b4c5796292c53cbde01"></a>
 <div class="memitem">
 <div class="memproto">
@@ -611,7 +641,7 @@ Static Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 15 2016 14:48:00 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

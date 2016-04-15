@@ -1,8 +1,12 @@
-.TH "md_markdown_githubnotes" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "md_markdown_githubnotes" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-md_markdown_githubnotes \- github 
+md_markdown_githubnotes \- GitHub 
+GitHub is a web-based Git repository hosting service\&. It is based on git revision control system\&. Unlike Git, which is strictly a command-line tool, GitHub provides a Web-based graphical interface and desktop as well as mobile integration\&.
+.PP
+.SS "github command line interface "
+.PP
 git commit -a (added files) normally git commit \&. VIM nightmare: esc and :wq (write and quit)
 .PP
 .PP
@@ -59,6 +63,120 @@ Fast-forward
  ulapi/package.xml                   |   2 +-
  5 files changed, 20 insertions(+), 161 deletions(-)
 michalos@rufous:~/github/usnistgov/el-robotics-core$ 
+
 .fi
 .PP
- 
+.PP
+.SS "Github branch with versions "
+.PP
+In your github fork, you need to keep your master branch clean, by clean I mean without any changes, like that you can create at any time a branch from your master\&. Each time, that you want to commit a bug or a feature, you need to create a branch for it, which will be a copy of your master branch\&.
+.PP
+When you do a pull request on a branch, you can continue to work on another branch and make another pull request on this other branch\&.
+.PP
+Before creating a new branch, pull the changes from upstream\&. Your master needs to be up to date\&.
+.PP
+Create the branch on your local machine and switch in this branch :
+.PP
+.PP
+.nf
+$ git checkout -b [name_of_your_new_branch]
+.fi
+.PP
+.PP
+Push the branch on github :
+.PP
+.PP
+.nf
+$ git push origin [name_of_your_new_branch]
+.fi
+.PP
+.PP
+When you want to commit something in your branch, be sure to be in your branch\&.
+.PP
+You can see all branches created by using :
+.PP
+.PP
+.nf
+$ git branch
+.fi
+.PP
+.PP
+Which will show :
+.PP
+.PP
+.nf
+* approval_messages
+.fi
+.PP
+.PP
+.PP
+.nf
+  master
+.fi
+.PP
+.PP
+.PP
+.nf
+  master_clean
+.fi
+.PP
+.PP
+Add a new remote for your branch :
+.PP
+.PP
+.nf
+$ git remote add [name_of_your_remote] <url>
+.fi
+.PP
+.PP
+Push changes from your commit into your branch :
+.PP
+.PP
+.nf
+$ git push origin [name_of_your_remote]
+.fi
+.PP
+.PP
+Update your branch when the original branch from official repository has been updated :
+.PP
+```sh
+.PP
+$ git fetch [name_of_your_remote]
+.PP
+```
+.PP
+Then you need to apply to merge changes, if your branch is derivated from develop you need to do :
+.PP
+.PP
+.nf
+$ git merge [name_of_your_remote]/develop
+.fi
+.PP
+.PP
+Delete a branch on your local filesystem :
+.PP
+.PP
+.nf
+$ git branch -d [name_of_your_new_branch]
+.fi
+.PP
+.PP
+To force the deletion of local branch on your filesystem :
+.PP
+.PP
+.nf
+$ git branch -D [name_of_your_new_branch]
+.fi
+.PP
+.PP
+Delete the branch on github :
+.PP
+.PP
+.nf
+$ git push origin :[name_of_your_new_branch]
+.fi
+.PP
+.PP
+The only difference is the : to say delete, you can do it too by using github interface to remove branch : https://help.github.com/articles/deleting-unused-branches\&.
+.PP
+If you want to change default branch, it's so easy with github, in your fork go into Admin and in the drop-down list default branch choose what you want\&. 

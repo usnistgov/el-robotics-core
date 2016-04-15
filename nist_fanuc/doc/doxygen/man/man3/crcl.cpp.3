@@ -1,4 +1,4 @@
-.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/crcl.cpp" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/crcl.cpp" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -67,6 +67,9 @@
 .RI "\fBRCS::Pose\fP \fBCrcl::Convert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion=1\&.0)"
 .br
 .RI "\fIConvert converts codesynthesis \fBCrcl\fP Pose into ROS/RCS pose using length conversion \&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBCrcl::Convert\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
+.br
 .ti -1c
 .RI "bool \fBCrcl::GetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
 .br

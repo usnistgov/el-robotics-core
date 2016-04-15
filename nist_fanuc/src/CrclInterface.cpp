@@ -1,4 +1,4 @@
-﻿// CrclInterface.cpp
+// CrclInterface.cpp
 
 /*
  * DISCLAIMER:
@@ -633,6 +633,8 @@ CrclReturn CrclDelegateInterface::ActuateJoints(Crcl::ActuatorJointSequence join
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_JOINT;
     cc.ParentCommandID() = crclwm.CommandID();
+    cc.bCoordinated=crclwm._bCoordinatedMotion;
+    cc.endPoseTol=Crcl::Convert(crclwm._endPoseTolerance); // not sure useful?
 
     for (int i = 0; i < joints.size(); i++) {
         int jn = joints[i].JointNumber() - 1;
@@ -747,6 +749,9 @@ CrclReturn CrclDelegateInterface::MoveTo(Crcl::PoseType endpose, bool bStraight)
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_TO;
     cc.ParentCommandID() = crclwm.CommandID();
+    cc.bStraight=bStraight;
+    cc.endPoseTol=Crcl::Convert(crclwm._endPoseTolerance);
+
 
     // default length units are Meters
     cc.pose = Convert(endpose, crclwm._lengthConversion);
@@ -763,6 +768,10 @@ CrclReturn CrclDelegateInterface::MoveThroughTo(std::vector<Crcl::PoseType> & po
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_THRU;
 	cc.ParentCommandID() =  crclwm.CommandID();
+    cc.bStraight=bStraight;
+    cc.endPoseTol=Crcl::Convert(crclwm._endPoseTolerance);
+    cc.intermediatePtTol=Crcl::Convert(crclwm._intermediatePoseTolerance);
+    //cc.endposetolerance=Crcl::Convert(crclwm._gripperPoseTolerance);
 
     // default length and angular units are Meters and Radians
     for (size_t i = 0; i < poses.size(); i++) {
@@ -837,24 +846,9 @@ CrclReturn CrclDelegateInterface::SetEndPoseTolerance(Crcl::PoseToleranceType to
     IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetEndPoseTolerance\n"));
     crclwm._endPoseTolerance = tolerance;
 
-    // PoseToleranceType::XPointTolerance_optional x(tolerancepose.XPointTolerance());
-    // PoseToleranceType::YPointTolerance_optional y(tolerancepose.YPointTolerance());
-    // PoseToleranceType::ZPointTolerance_optional z(tolerancepose.ZPointTolerance());
-    // robotPose pose=robotPose( *x,*y,*z);
-    // SetEndEffectorTolerance (tolerancepose);
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_SET_TOLERANCE;
-#if 0
-    cc.tolerance.position.x = *tolerance.XPointTolerance();
-    cc.tolerance.position.y = *tolerance.YPointTolerance();
-    cc.tolerance.position.z = *tolerance.ZPointTolerance();
 
-
-    // These need to be combined into quaternion, and then compared to final pose for error quaternion
-    tolerance.XAxisTolerance();
-    tolerance.ZAxisTolerance();
-#endif
-    RCS::Controller.cmds.AddMsgQueue(cc);
     return CANON_MOTION;
 }
 
@@ -903,7 +897,7 @@ CrclReturn CrclDelegateInterface::SetLengthUnits(std::string unitName) {
 
 CrclReturn CrclDelegateInterface::SetMotionCoordination(bool bCoordinatedMotion) {
     IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetMotionCoordination=%d\n",bCoordinatedMotion));
-    crclwm._bCoordinatedMotion = true;
+    crclwm._bCoordinatedMotion = bCoordinatedMotion;
     return CANON_SUCCESS;
 }
 

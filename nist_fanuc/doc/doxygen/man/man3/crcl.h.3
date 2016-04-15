@@ -1,4 +1,4 @@
-.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -106,6 +106,9 @@
 .br
 .RI "\fIGet roll,pitch,yaw orientation from codesynthesis \fBCrcl\fP pose\&. \fP"
 .ti -1c
+.RI "\fBRCS::Pose\fP \fBCrcl::Convert\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
+.br
+.ti -1c
 .RI "std::string \fBCrcl::DumpPosition\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
 .br
 .RI "\fIDump contents of codesynthesis \fBCrcl\fP pose\&. \fP"
@@ -131,6 +134,9 @@
 .RI "\fBCrcl::PoseType\fP \fBCrcl::PoseHome\fP ()"
 .br
 .RI "\fICreate codesynthesis \fBCrcl\fP pose that is necessary for all codesynthesis \fBCrcl\fP pose constructors\&. \fP"
+.ti -1c
+.RI "PoseType \fBCrcl::NullPose\fP ()"
+.br
 .in -1c
 .SS "Variables"
 

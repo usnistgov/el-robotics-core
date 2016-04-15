@@ -312,8 +312,11 @@ namespace RCS {
         JointState joints; /**<  commanded joint state */
         JointState seed; /**<  near pose joint state */
         RCS::Pose pose;  /**<  commanded pose state */
-        RCS::Pose tolerance;  /**<  commanded tolerance */
+        RCS::Pose endPoseTol;  /**<  commanded tolerance */
         std::vector<RCS::Pose> waypoints; /**< commanded cartesian waypoints in trajectory */
+       // std::vector<RCS::Pose> waypointtolerances; /**< commanded cartesian waypoints in trajectory */
+        RCS::Pose intermediatePtTol; /**< commanded cartesian waypoints in trajectory */
+        RCS::Pose gripperTol; /**< commanded cartesian waypoints in trajectory */
     };
 
 	/*!

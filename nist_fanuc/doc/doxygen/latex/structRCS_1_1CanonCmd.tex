@@ -70,9 +70,13 @@ std\-::vector$<$ int $>$ \hyperlink{structRCS_1_1CanonCmd_a1fb8395cab4ebddddafd3
 \item 
 \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_adc27ad3ae01d7aab1c9c92f08df82fc1}{pose}
 \item 
-\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_a0ae62df775329f52054c5cb25d0845a9}{tolerance}
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_a11e66454d05007664d63cea7b35822c2}{end\-Pose\-Tol}
 \item 
 std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{structRCS_1_1CanonCmd_a1f7fdffabe34bcb3f0afd42f60040648}{waypoints}
+\item 
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_a9b27fcbd1298ee6a95e412a68741ddfc}{intermediate\-Pt\-Tol}
+\item 
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_af76b1a60d2d7282d1a60863c907176de}{gripper\-Tol}
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -184,10 +188,19 @@ straigth cartesian trajectory motion boolean \hypertarget{structRCS_1_1CanonCmd_
 command type \hypertarget{structRCS_1_1CanonCmd_a842c88485db006b71c7653e2a2159233}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!dwell@{dwell}}
 \index{dwell@{dwell}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{dwell}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-Cmd\-::dwell}}\label{structRCS_1_1CanonCmd_a842c88485db006b71c7653e2a2159233}
-time for dwelling in seconds \hypertarget{structRCS_1_1CanonCmd_a03e23d97c74abd3c6b5b38aec8ae5fc2}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!gripper\-Pos@{gripper\-Pos}}
+time for dwelling in seconds \hypertarget{structRCS_1_1CanonCmd_a11e66454d05007664d63cea7b35822c2}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!end\-Pose\-Tol@{end\-Pose\-Tol}}
+\index{end\-Pose\-Tol@{end\-Pose\-Tol}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
+\subsubsection[{end\-Pose\-Tol}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} R\-C\-S\-::\-Canon\-Cmd\-::end\-Pose\-Tol}}\label{structRCS_1_1CanonCmd_a11e66454d05007664d63cea7b35822c2}
+commanded tolerance \hypertarget{structRCS_1_1CanonCmd_a03e23d97c74abd3c6b5b38aec8ae5fc2}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!gripper\-Pos@{gripper\-Pos}}
 \index{gripper\-Pos@{gripper\-Pos}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{gripper\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-Cmd\-::gripper\-Pos}}\label{structRCS_1_1CanonCmd_a03e23d97c74abd3c6b5b38aec8ae5fc2}
-gripper position 0 to 1 \hypertarget{structRCS_1_1CanonCmd_a1fb8395cab4ebddddafd37e7387f9ff8}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!jointnum@{jointnum}}
+gripper position 0 to 1 \hypertarget{structRCS_1_1CanonCmd_af76b1a60d2d7282d1a60863c907176de}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!gripper\-Tol@{gripper\-Tol}}
+\index{gripper\-Tol@{gripper\-Tol}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
+\subsubsection[{gripper\-Tol}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} R\-C\-S\-::\-Canon\-Cmd\-::gripper\-Tol}}\label{structRCS_1_1CanonCmd_af76b1a60d2d7282d1a60863c907176de}
+commanded cartesian waypoints in trajectory \hypertarget{structRCS_1_1CanonCmd_a9b27fcbd1298ee6a95e412a68741ddfc}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!intermediate\-Pt\-Tol@{intermediate\-Pt\-Tol}}
+\index{intermediate\-Pt\-Tol@{intermediate\-Pt\-Tol}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
+\subsubsection[{intermediate\-Pt\-Tol}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} R\-C\-S\-::\-Canon\-Cmd\-::intermediate\-Pt\-Tol}}\label{structRCS_1_1CanonCmd_a9b27fcbd1298ee6a95e412a68741ddfc}
+commanded cartesian waypoints in trajectory \hypertarget{structRCS_1_1CanonCmd_a1fb8395cab4ebddddafd37e7387f9ff8}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!jointnum@{jointnum}}
 \index{jointnum@{jointnum}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{jointnum}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$int$>$ R\-C\-S\-::\-Canon\-Cmd\-::jointnum}}\label{structRCS_1_1CanonCmd_a1fb8395cab4ebddddafd37e7387f9ff8}
 vector of joint numbers used by command \hypertarget{structRCS_1_1CanonCmd_aca799c5c818f28f0d9f4797b325b03de}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!joints@{joints}}
@@ -208,10 +221,7 @@ vector of joint velocities \hypertarget{structRCS_1_1CanonCmd_a8ad6bd631d2cf99c0
 status type \hypertarget{structRCS_1_1CanonCmd_a22bc418b884c7afabf0a2d3538f74cad}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!stoptype@{stoptype}}
 \index{stoptype@{stoptype}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{stoptype}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Canon\-Stop\-Motion\-Type} R\-C\-S\-::\-Canon\-Cmd\-::stoptype}}\label{structRCS_1_1CanonCmd_a22bc418b884c7afabf0a2d3538f74cad}
-stop trajectory choice \hypertarget{structRCS_1_1CanonCmd_a0ae62df775329f52054c5cb25d0845a9}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!tolerance@{tolerance}}
-\index{tolerance@{tolerance}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
-\subsubsection[{tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} R\-C\-S\-::\-Canon\-Cmd\-::tolerance}}\label{structRCS_1_1CanonCmd_a0ae62df775329f52054c5cb25d0845a9}
-commanded tolerance \hypertarget{structRCS_1_1CanonCmd_abf1d51c90a3f1b4c5796292c53cbde01}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!type@{type}}
+stop trajectory choice \hypertarget{structRCS_1_1CanonCmd_abf1d51c90a3f1b4c5796292c53cbde01}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!type@{type}}
 \index{type@{type}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Traj\-Point\-Type} R\-C\-S\-::\-Canon\-Cmd\-::type}}\label{structRCS_1_1CanonCmd_abf1d51c90a3f1b4c5796292c53cbde01}
 trajectory points type \hypertarget{structRCS_1_1CanonCmd_a1f7fdffabe34bcb3f0afd42f60040648}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!waypoints@{waypoints}}

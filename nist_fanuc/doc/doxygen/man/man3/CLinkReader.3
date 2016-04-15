@@ -1,0 +1,87 @@
+.TH "CLinkReader" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CLinkReader \- 
+.PP
+The \fBCLinkReader\fP is a class that use the tf package from ROS to return latest pose of a link\&. Uses tf to find the latest time and base_link and the desired link have changed\&. With the latest time it returns translation and orientation (quat) of the link\&. tf keeps track of a tree of coordinate frames\&. This tree changes over time, and tf stores a time snapshot for every transform (for up to 10 seconds by default)\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Communication\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCLinkReader\fP (ros::NodeHandle &nh)"
+.br
+.RI "\fI\fBCLinkReader\fP constructor that requires a ROS node handle\&. \fP"
+.ti -1c
+.RI "void \fBInit\fP (std::string baselink_name='/base_link')"
+.br
+.RI "\fIInit sets up robot (assume 1 for now) with a base link name\&. \fP"
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBGetLinkValue\fP (std::string linkname='/tool0')"
+.br
+.RI "\fIGetJointValues sets up subscriber to joint_state topic messages\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "ros::NodeHandle & \fB_nh\fP"
+.br
+.ti -1c
+.RI "std::string \fB_baselink_name\fP"
+.br
+.ti -1c
+.RI "tf::TransformListener \fB_listener\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The \fBCLinkReader\fP is a class that use the tf package from ROS to return latest pose of a link\&. Uses tf to find the latest time and base_link and the desired link have changed\&. With the latest time it returns translation and orientation (quat) of the link\&. tf keeps track of a tree of coordinate frames\&. This tree changes over time, and tf stores a time snapshot for every transform (for up to 10 seconds by default)\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CLinkReader::CLinkReader (ros::NodeHandle &nh)"
+
+.PP
+\fBCLinkReader\fP constructor that requires a ROS node handle\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInh\fP ros node handle so joint reader can tell roscore we are subscribing to joint_state topic\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBRCS::Pose\fP CLinkReader::GetLinkValue (std::stringlinkname = \fC'/tool0'\fP)"
+
+.PP
+GetJointValues sets up subscriber to joint_state topic messages\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+a std vector of double containing joint positions 
+.RE
+.PP
+
+.SS "void CLinkReader::Init (std::stringbaselink_name = \fC'/base_link'\fP)"
+
+.PP
+Init sets up robot (assume 1 for now) with a base link name\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "std::string CLinkReader::_baselink_name"
+
+.SS "tf::TransformListener CLinkReader::_listener"
+
+.SS "ros::NodeHandle& CLinkReader::_nh"
+reference pointer to ROS node handle 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

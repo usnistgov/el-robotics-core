@@ -176,7 +176,28 @@ int RCSInterpreter::ParseCommand(RCS::CanonCmd cc) {
         } else {
             gotojoints = motioncontrol.computeCoorindatedWaypoints(currentjoints.position, joints.position, 0.001, true);
         }
-        AddJointCommands(gotojoints);
+        if(cc.bCoordinated)
+        {
+            AddJointCommands(gotojoints);
+        }
+        else
+        {
+            // uncoordinated motion - 1st 0 joint, then 1 joint motion, etc.
+            // unlikely to crash into itself with this joint motion
+            for(size_t k=0; k< currentjoints.position.size(); k++)
+            {
+                JointState  eachjoint;
+                eachjoint.position = currentjoints.position;
+                eachjoint.position[k]=joints.position[k];
+                TrajectoryMaker maker;
+                maker.Rates().CurrentFeedrate() = jointsmaxvel;
+                maker.Rates().MaximumAccel() = jointsmaxacc;
+                maker.setRates(rates);
+                maker.makeJointPositionTrajectory(rates, currentjoints.position, eachjoint.position);
+                gotojoints = maker.GetJtsPlan();
+                AddJointCommands(gotojoints);
+            }
+        }
     }////////////////////////////////////////////////////////////////////////////////////////////////
         // STOP MOTION
     else if (cc.cmd == RCS::CANON_STOP_MOTION) {

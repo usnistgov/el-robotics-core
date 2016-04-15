@@ -2234,4 +2234,12 @@ tf.ExtrapolationException: Lookup would require extrapolation into the future.  
 
 
 
+github creation of 1.1 branch to match crcl verion
+--------------------------------------------------
+Fri Apr 15 14:19:06 EDT 2016 
+
+	590  git checkout -b 1.1
+	591  git push origin 1.1
+
+
 

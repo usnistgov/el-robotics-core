@@ -1,4 +1,4 @@
-.TH "Crcl" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "Crcl" 3 "Fri Apr 15 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -91,6 +91,9 @@ Crcl \-
 .RI "\fBRCS::Pose\fP \fBConvert\fP (\fBCrcl::PoseType\fP &pose, double lengthConversion=1\&.0)"
 .br
 .RI "\fIConvert converts codesynthesis \fBCrcl\fP Pose into ROS/RCS pose using length conversion \&. Note, no angle conversion - rotation/orientation always in radians\&. \fP"
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBConvert\fP (\fBCrcl::PoseToleranceType\fP tolerance)"
+.br
 .ti -1c
 .RI "bool \fBGetPoseToRPY\fP (\fBCrcl::PoseType\fP &pose, double &dRoll, double &dPitch, double &dYaw)"
 .br
@@ -241,6 +244,8 @@ ROS/RCS pose\&.
 .RE
 .PP
 
+.SS "\fBRCS::Pose\fP Crcl::Convert (\fBCrcl::PoseToleranceType\fPtolerance)"
+
 .SS "\fBJointStatusSequence\fP Crcl::Convert (ActuatorJointSequencejin)"
 
 .PP
@@ -249,6 +254,22 @@ Convert converts codesynthesis commanded actuator joint sequence into status act
 \fBParameters:\fP
 .RS 4
 \fIcodesynthesis\fP sequence of commanded joints\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+codesynthesis sequence of status joints\&. 
+.RE
+.PP
+
+.SS "\fBCrcl::JointStatusSequence\fP Crcl::Convert (\fBJointState\fPjoints)"
+
+.PP
+Convert converts ROS JointState (primarily position for now) and creates codesynthesis status actuator joint sequence\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIROS\fP JointState with Joint positions filled\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -286,22 +307,6 @@ Convert converts ROS/RCS pose into codesynthesis \fBCrcl\fP Pose\&. Note, no ang
 \fBReturns:\fP
 .RS 4
 codesynthesis CRCL pose type\&. 
-.RE
-.PP
-
-.SS "\fBCrcl::JointStatusSequence\fP Crcl::Convert (\fBJointState\fPjoints)"
-
-.PP
-Convert converts ROS JointState (primarily position for now) and creates codesynthesis status actuator joint sequence\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIROS\fP JointState with Joint positions filled\&. 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-codesynthesis sequence of status joints\&. 
 .RE
 .PP
 

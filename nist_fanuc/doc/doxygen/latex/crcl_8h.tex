@@ -72,6 +72,8 @@ Joint\-Status\-Sequence \hyperlink{namespaceCrcl_a329b70844c080b1a81c89989b58ffb
 \begin{DoxyCompactList}\small\item\em Convert converts codesynthesis \hyperlink{namespaceCrcl}{Crcl} rotation (as x,z rotation vectors) into R\-O\-S/\-R\-C\-S rotation. \end{DoxyCompactList}\item 
 bool \hyperlink{namespaceCrcl_a394a527b4609a6d5b444f30bb9384f1a}{Crcl\-::\-Get\-Pose\-To\-R\-P\-Y} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \&pose, double \&d\-Roll, double \&d\-Pitch, double \&d\-Yaw)
 \begin{DoxyCompactList}\small\item\em Get roll,pitch,yaw orientation from codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose. \end{DoxyCompactList}\item 
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{namespaceCrcl_aa06759fd113a2c191dae2a8f0cbd66b1}{Crcl\-::\-Convert} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance)
+\item 
 std\-::string \hyperlink{namespaceCrcl_a7ffbb8bbe0b97bcd6fc145b52eba1c6e}{Crcl\-::\-Dump\-Position} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} pose, std\-::string separator=\char`\"{},\char`\"{})
 \begin{DoxyCompactList}\small\item\em Dump contents of codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose. \end{DoxyCompactList}\item 
 std\-::string \hyperlink{namespaceCrcl_a710c3a8bdd5a36fc1df3996f005544ec}{Crcl\-::\-Dump\-Rotation\-As\-Crcl} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} rcspose, std\-::string separator)
@@ -87,7 +89,9 @@ std\-::string \hyperlink{namespaceCrcl_a1726015b66be8193fcd10bc157661a3d}{Crcl\-
 std\-::string \hyperlink{namespaceCrcl_ac02e068ed5b8f6f152cff928e554a653}{Crcl\-::\-Dump\-Crcl\-Joints} (\hyperlink{namespaceCrcl_a8e2d423195eeffb85b45b63f595f2825}{Crcl\-::\-Joint\-Status\-Sequence} jin)
 \item 
 \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} \hyperlink{namespaceCrcl_a5e9036e140bcf2156b7995085f36d75f}{Crcl\-::\-Pose\-Home} ()
-\begin{DoxyCompactList}\small\item\em Create codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose that is necessary for all codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose constructors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Create codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose that is necessary for all codesynthesis \hyperlink{namespaceCrcl}{Crcl} pose constructors. \end{DoxyCompactList}\item 
+Pose\-Type \hyperlink{namespaceCrcl_af090b8881d747be0380a733dfa9e3138}{Crcl\-::\-Null\-Pose} ()
+\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 

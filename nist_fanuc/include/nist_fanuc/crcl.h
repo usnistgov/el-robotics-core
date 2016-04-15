@@ -125,6 +125,9 @@ namespace Crcl {
      */
     bool GetPoseToRPY(Crcl::PoseType & pose, double & dRoll, double & dPitch, double & dYaw);
 
+
+    RCS::Pose Convert(Crcl::PoseToleranceType);
+
     /*!
      * \brief Dump contents of codesynthesis Crcl pose.
      * \param  codesynthesis CRCL pose.
@@ -145,6 +148,7 @@ namespace Crcl {
      * \return  empty codesynthesis Crcl pose.
      */
     PoseType PoseHome();
+    Crcl::PoseType NullPose();
 
     /**
      * \brief GripperStatus  dummy class for future gripper information. 
@@ -217,9 +221,12 @@ namespace Crcl {
         RCS::CanonTorqueUnit _torqueUnit;
         double _torqueConversion;
 
+        // Tolerance data structures
+        //std::vector<Crcl::PoseToleranceType> _intermediatePoseTolerance; // one only
         Crcl::PoseToleranceType _endPoseTolerance;
         Crcl::PoseToleranceType _gripperPoseTolerance;
         Crcl::PoseToleranceType _intermediatePoseTolerance;
+
         std::vector<JointReport> _vJointReport;
         std::string sCommandState;
         std::string Alarm;

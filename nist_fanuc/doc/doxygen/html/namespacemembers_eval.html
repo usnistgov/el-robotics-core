@@ -75,6 +75,9 @@
 <li>CANON_ABORT
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777da094244917abcd576f2118e80803279ee">RCS</a>
 </li>
+<li>CANON_DO_MOTION
+: <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a0e32d7c80f9f5b064f660aab9b9392e6">RCS</a>
+</li>
 <li>CANON_DONE
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777daabf0ebc3e57ea212970f33430d917eae">RCS</a>
 </li>
@@ -94,6 +97,10 @@
 <li>CANON_INIT_CANON
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75acce93027306fc36aeccc8d40dc4e7d62">RCS</a>
 </li>
+<li>CANON_MOTION
+: <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0a8044ac4052e4558e22c5be516d106204">Crcl</a>
+, <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a5eb43a35f73ab11edc5d5a28b908257e">RCS</a>
+</li>
 <li>CANON_MOVE_JOINT
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a24901ab5e41ab6e4cc5a2ab97de92f06">RCS</a>
 </li>
@@ -105,6 +112,12 @@
 </li>
 <li>CANON_NOOP
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75aec778933c8e1af18ea16550268eebaaa">RCS</a>
+</li>
+<li>CANON_NOT_IMPLEMENTED
+: <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0a7e627586bca4ce3863e89ebcd7a55c74">Crcl</a>
+</li>
+<li>CANON_OTHER
+: <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a92eaf4448ef32e4819df8b0eea8469f9">RCS</a>
 </li>
 <li>CANON_PAUSED
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777da86acce9ac34e5ca0b0056b11810af584">RCS</a>
@@ -132,6 +145,9 @@
 <li>CANON_SET_MAX_JOINT_SPEED
 : <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75adda3bf1c656804e5d07912149ceb9760">RCS</a>
 </li>
+<li>CANON_SET_TOLERANCE
+: <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75ab3c4fe7af4d06fbd188e53f4825a9425">RCS</a>
+</li>
 <li>CANON_STATUSREPLY
 : <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0af8040d4fa18254e17c0e5b1893ba8859">Crcl</a>
 , <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79ae5d8cf70f462c3e4aee8050f308132fb">RCS</a>
@@ -152,14 +168,17 @@
 <li>CANON_WORKING
 : <a class="el" href="namespaceRCS.html#a0e720341c250145b8a2bbf6a1afa777da4a0ac89d145f0ac2ab9d2322ea4f3a08">RCS</a>
 </li>
-<li>CRCL_DONE
-: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2af072d9ec71f5cad174c9d48edc63cfda">Crcl</a>
+<li>CRCL_Done
+: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2a9ea47a762991d75df7a42371b5cca334">Crcl</a>
 </li>
-<li>CRCL_ERROR
-: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2a0e13ed6a4f24390d9e36dacec72abaa8">Crcl</a>
+<li>CRCL_Error
+: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2aa4b171b9476a14e5f618445ea9bf0eef">Crcl</a>
 </li>
-<li>CRCL_WORKING
-: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2a7917015bd7568bad9b62b9a544fcc6a7">Crcl</a>
+<li>CRCL_Ready
+: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2aaab13fab6143bf57d4c1b34eba7becff">Crcl</a>
+</li>
+<li>CRCL_Working
+: <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2ad556078682b7d707f43b0d124b034b98">Crcl</a>
 </li>
 </ul>
 
@@ -287,7 +306,7 @@
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:55 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

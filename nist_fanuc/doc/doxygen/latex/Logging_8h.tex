@@ -1,6 +1,7 @@
-\hypertarget{Logging_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Logging.h File Reference}
-\label{Logging_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Logging.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Logging.\-h}}
+\hypertarget{Logging_8h}{\section{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Logging.h File Reference}
+\label{Logging_8h}\index{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Logging.\-h@{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Logging.\-h}}
 }
+{\ttfamily \#include $<$map$>$}\\*
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -10,6 +11,13 @@ class \hyperlink{classALogger}{A\-Logger}
 \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{Logging_8h_ae7a57789838c6e4cd8b43e6506184419}{L\-O\-G\-O\-N\-C\-E}~static long n\-Log \#\# \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\- = 0; if ( 0 == n\-Log \#\# \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-++ )
+\item 
+\#define \hyperlink{Logging_8h_afb9d4cf8a68efe6b923b0492d21acd5c}{L\-O\-G\-N\-A\-M\-E}(F, L)~\hyperlink{Logging_8h_a3097c119d88e2adeb3b87d4ceb745c13}{Line\-Name}(F, L)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::string \hyperlink{Logging_8h_a3097c119d88e2adeb3b87d4ceb745c13}{Line\-Name} (std\-::string file, int line)
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -19,9 +27,28 @@ class \hyperlink{classALogger}{A\-Logger}
 
 
 \subsection{Macro Definition Documentation}
+\hypertarget{Logging_8h_afb9d4cf8a68efe6b923b0492d21acd5c}{\index{Logging.\-h@{Logging.\-h}!L\-O\-G\-N\-A\-M\-E@{L\-O\-G\-N\-A\-M\-E}}
+\index{L\-O\-G\-N\-A\-M\-E@{L\-O\-G\-N\-A\-M\-E}!Logging.h@{Logging.\-h}}
+\subsubsection[{L\-O\-G\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-O\-G\-N\-A\-M\-E(
+\begin{DoxyParamCaption}
+\item[{}]{F, }
+\item[{}]{L}
+\end{DoxyParamCaption}
+)~{\bf Line\-Name}(F, L)}}\label{Logging_8h_afb9d4cf8a68efe6b923b0492d21acd5c}
 \hypertarget{Logging_8h_ae7a57789838c6e4cd8b43e6506184419}{\index{Logging.\-h@{Logging.\-h}!L\-O\-G\-O\-N\-C\-E@{L\-O\-G\-O\-N\-C\-E}}
 \index{L\-O\-G\-O\-N\-C\-E@{L\-O\-G\-O\-N\-C\-E}!Logging.h@{Logging.\-h}}
 \subsubsection[{L\-O\-G\-O\-N\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-O\-G\-O\-N\-C\-E~static long n\-Log \#\# \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\- = 0; if ( 0 == n\-Log \#\# \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-++ )}}\label{Logging_8h_ae7a57789838c6e4cd8b43e6506184419}
+
+
+\subsection{Function Documentation}
+\hypertarget{Logging_8h_a3097c119d88e2adeb3b87d4ceb745c13}{\index{Logging.\-h@{Logging.\-h}!Line\-Name@{Line\-Name}}
+\index{Line\-Name@{Line\-Name}!Logging.h@{Logging.\-h}}
+\subsubsection[{Line\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Line\-Name (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file, }
+\item[{int}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{Logging_8h_a3097c119d88e2adeb3b87d4ceb745c13}
 
 
 \subsection{Variable Documentation}

@@ -3,7 +3,7 @@
 }
 
 
-The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} provides an boost asio session ( which listens for each connected client). The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} listens for X\-M\-L messages and constructs. The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection. The operation is started by creating a session which starts an aynchronous thread, that is supplied I\-O communication events by the asio io service provider. After connection to the socket client, an \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read()} that is paired with a timer is used to wait for communicatin from a socket. There is no trailing marker on C\-R\-C\-L X\-M\-L so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue. During the socket communication, a timeout can occur, which at this point only causes a new to be\-Start\-Aync\-Read() initiated. Because C\-R\-C\-L Xml does not have a trailing marker (e.\-g., zero or line feed), the \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} must determine the trailing X\-M\-L tag to search for, by inspecting the communication for a X\-M\-L leading tag. It works, but is dubious. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly. \par
+The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} class provides an boost asio session ( which listens for each connected client). The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} listens for X\-M\-L messages and constructs. The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection. The operation is started by creating a session which starts an aynchronous thread, that is supplied I\-O communication events by the asio io service provider. After connection to the socket client, an \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read()} that is paired with a timer is used to wait for communicatin from a socket. There is no trailing marker on C\-R\-C\-L X\-M\-L so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue. During the socket communication, a timeout can occur, which at this point only causes a new to be\-Start\-Aync\-Read() initiated. Because C\-R\-C\-L Xml does not have a trailing marker (e.\-g., zero or line feed), the \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} must determine the trailing X\-M\-L tag to search for, by inspecting the communication for a X\-M\-L leading tag. It works, but is dubious. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly. \par
  Useful web sites\-:  
 
 
@@ -95,7 +95,7 @@ static \hyperlink{AsioCrclServer_8h_a1437e07e96384f32c0bd411135742579}{C\-Asio\-
 
 
 \subsection{Detailed Description}
-The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} provides an boost asio session ( which listens for each connected client). The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} listens for X\-M\-L messages and constructs. The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection. The operation is started by creating a session which starts an aynchronous thread, that is supplied I\-O communication events by the asio io service provider. After connection to the socket client, an \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read()} that is paired with a timer is used to wait for communicatin from a socket. There is no trailing marker on C\-R\-C\-L X\-M\-L so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue. During the socket communication, a timeout can occur, which at this point only causes a new to be\-Start\-Aync\-Read() initiated. Because C\-R\-C\-L Xml does not have a trailing marker (e.\-g., zero or line feed), the \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} must determine the trailing X\-M\-L tag to search for, by inspecting the communication for a X\-M\-L leading tag. It works, but is dubious. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly. \par
+The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} class provides an boost asio session ( which listens for each connected client). The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} listens for X\-M\-L messages and constructs. The \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} uses mostly asynchronous operation for waiting, reading, and timeout of a socket connection. The operation is started by creating a session which starts an aynchronous thread, that is supplied I\-O communication events by the asio io service provider. After connection to the socket client, an \hyperlink{classCAsioCrclSession_ac7e0900916ab6de40bf546116d5e6d3e}{Start\-Aync\-Read()} that is paired with a timer is used to wait for communicatin from a socket. There is no trailing marker on C\-R\-C\-L X\-M\-L so any socket communication must be buffered and when a complete message has been received, it is pushed onto the inmsgs message queue. During the socket communication, a timeout can occur, which at this point only causes a new to be\-Start\-Aync\-Read() initiated. Because C\-R\-C\-L Xml does not have a trailing marker (e.\-g., zero or line feed), the \hyperlink{classCAsioCrclSession}{C\-Asio\-Crcl\-Session} must determine the trailing X\-M\-L tag to search for, by inspecting the communication for a X\-M\-L leading tag. It works, but is dubious. However, if the communicating socket is disconnected, an error is returned by asio, and the session is terminated cleanly. \par
  Useful web sites\-: 
 
 \par
@@ -117,7 +117,18 @@ Buffering\-: \par
 \href{http://stackoverflow.com/questions/4294651/sending-an-xml-message-in-parts-through-a-tcp-socket-using-qt}{\tt http\-://stackoverflow.\-com/questions/4294651/sending-\/an-\/xml-\/message-\/in-\/parts-\/through-\/a-\/tcp-\/socket-\/using-\/qt} \par
 \href{http://www.codesynthesis.com/pipermail/xsde-users/2014-January/000631.html}{\tt http\-://www.\-codesynthesis.\-com/pipermail/xsde-\/users/2014-\/\-January/000631.\-html} \par
 Raw\-: \par
-\href{http://www.bogotobogo.com/cplusplus/sockets_server_client.php}{\tt http\-://www.\-bogotobogo.\-com/cplusplus/sockets\-\_\-server\-\_\-client.\-php} 
+\href{http://www.bogotobogo.com/cplusplus/sockets_server_client.php}{\tt http\-://www.\-bogotobogo.\-com/cplusplus/sockets\-\_\-server\-\_\-client.\-php}
+
+\begin{DoxyAuthor}{Author}
+john michaloski, nist 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 30, 2015 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Public Domain with disclaimer 
+\end{DoxyCopyright}
+
 
 \subsection{Member Enumeration Documentation}
 \hypertarget{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum\hspace{0.3cm}{\ttfamily [protected]}}}\label{classCAsioCrclSession_a459056f275a7910eeaf4f1ce2a4d48e3}
@@ -412,5 +423,5 @@ function pointer to error message emitter
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{AsioCrclServer_8h}{Asio\-Crcl\-Server.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{AsioCrclServer_8cpp}{Asio\-Crcl\-Server.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{AsioCrclServer_8h}{Asio\-Crcl\-Server.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{AsioCrclServer_8cpp}{Asio\-Crcl\-Server.\-cpp}\end{DoxyCompactItemize}

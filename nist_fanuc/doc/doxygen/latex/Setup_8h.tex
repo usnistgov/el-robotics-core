@@ -1,5 +1,5 @@
-\hypertarget{Setup_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Setup.h File Reference}
-\label{Setup_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Setup.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Setup.\-h}}
+\hypertarget{Setup_8h}{\section{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Setup.h File Reference}
+\label{Setup_8h}\index{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Setup.\-h@{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-Setup.\-h}}
 }
 {\ttfamily \#include $<$ros/ros.\-h$>$}\\*
 {\ttfamily \#include $<$map$>$}\\*
@@ -8,7 +8,7 @@
 \item 
 bool \hyperlink{Setup_8h_a0ff50a5a4093f44d505f5b07842f48ff}{Setup\-App\-Environment} ()
 \begin{DoxyCompactList}\small\item\em Setup\-App\-Environment will attempt save some of the application settings, e.\-g., user, nostname. \end{DoxyCompactList}\item 
-bool \hyperlink{Setup_8h_a1165d713d127d1839b2551b3a0080854}{Setup\-Ros\-Environment} ()
+bool \hyperlink{Setup_8h_a62f6ef827b3218e75143be016805ff87}{Setup\-Ros\-Environment} (std\-::string pkgpath)
 \begin{DoxyCompactList}\small\item\em Setup\-Ros\-Environment will attempt to provide an environment equivalent to R\-O\-S \char`\"{}source devel/setup.\-bash\char`\"{}.  some of the code is hard coded, but unnecessary if executable run in shell. \end{DoxyCompactList}\item 
 std\-::string \hyperlink{Setup_8h_a55b8d43fbffe5e65315a953bc6fbacb3}{Read\-Ros\-Params} (ros\-::\-Node\-Handle \&nh)
 \begin{DoxyCompactList}\small\item\em Read\-Ros\-Params will read and record all ros params in system. \end{DoxyCompactList}\item 
@@ -69,13 +69,13 @@ Setup\-App\-Environment will attempt save some of the application settings, e.\-
 \begin{DoxyReturn}{Returns}
 bool true if success. 
 \end{DoxyReturn}
-\hypertarget{Setup_8h_a1165d713d127d1839b2551b3a0080854}{\index{Setup.\-h@{Setup.\-h}!Setup\-Ros\-Environment@{Setup\-Ros\-Environment}}
+\hypertarget{Setup_8h_a62f6ef827b3218e75143be016805ff87}{\index{Setup.\-h@{Setup.\-h}!Setup\-Ros\-Environment@{Setup\-Ros\-Environment}}
 \index{Setup\-Ros\-Environment@{Setup\-Ros\-Environment}!Setup.h@{Setup.\-h}}
 \subsubsection[{Setup\-Ros\-Environment}]{\setlength{\rightskip}{0pt plus 5cm}bool Setup\-Ros\-Environment (
 \begin{DoxyParamCaption}
-{}
+\item[{std\-::string}]{pkgpath}
 \end{DoxyParamCaption}
-)}}\label{Setup_8h_a1165d713d127d1839b2551b3a0080854}
+)}}\label{Setup_8h_a62f6ef827b3218e75143be016805ff87}
 
 
 Setup\-Ros\-Environment will attempt to provide an environment equivalent to R\-O\-S \char`\"{}source devel/setup.\-bash\char`\"{}.  some of the code is hard coded, but unnecessary if executable run in shell. 

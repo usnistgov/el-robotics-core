@@ -1,4 +1,4 @@
-.TH "RCS::RobotProgram" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::RobotProgram" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -21,11 +21,15 @@ Inherits \fBRCS::Thread\fP\&.
 .br
 .RI "\fI\fBRobotProgram\fP constructor that requires a cycle time for \fBRCS\fP thread timing\&. \fP"
 .ti -1c
-.RI "virtual void \fBExecuteProgram\fP (std::string programpath)"
+.RI "virtual void \fBExecuteProgramFromFile\fP (std::string programpath)"
 .br
-.RI "\fIExecuteProgram reads a file path for CRCL XML program\&. It will set up interpreting the program\&. It is thread safe\&. \fP"
+.RI "\fIExecuteProgramFromFile reads a file path for CRCL XML program\&. It will set up interpreting the program\&. It is thread safe\&. \fP"
 .ti -1c
-.RI "virtual void \fBAction\fP ()"
+.RI "virtual void \fBExecuteProgram\fP (std::string programstr)"
+.br
+.RI "\fIExecuteProgram reads and interprets a CRCL XML program string\&. It will set up interpreting the program\&. It is thread safe\&. \fP"
+.ti -1c
+.RI "virtual int \fBAction\fP ()"
 .br
 .RI "\fIAction is the main loop in the \fBRobotProgram\fP \fBRCS\fP thread\&. \fP"
 .in -1c
@@ -40,9 +44,6 @@ Inherits \fBRCS::Thread\fP\&.
 .br
 .ti -1c
 .RI "std::istringstream \fBistr\fP"
-.br
-.ti -1c
-.RI "int \fBcmdnum\fP"
 .br
 .ti -1c
 .RI "::CRCLProgramType::MiddleCommand_sequence & \fBcmds\fP"
@@ -74,16 +75,27 @@ The \fBRobotProgram\fP is a thread to handle crcl programs\&. \fBCrcl\fP program
 
 .SH "Member Function Documentation"
 .PP 
-.SS "void RCS::RobotProgram::Action ()\fC [virtual]\fP"
+.SS "int RCS::RobotProgram::Action ()\fC [virtual]\fP"
 
 .PP
 Action is the main loop in the \fBRobotProgram\fP \fBRCS\fP thread\&. Executes one program command at a time\&.  needs to wait until current command is done before moving on to next command\&. 
 .PP
 Reimplemented from \fBRCS::Thread\fP\&.
-.SS "void RCS::RobotProgram::ExecuteProgram (std::stringprogrampath)\fC [virtual]\fP"
+.SS "void RCS::RobotProgram::ExecuteProgram (std::stringprogramstr)\fC [virtual]\fP"
 
 .PP
-ExecuteProgram reads a file path for CRCL XML program\&. It will set up interpreting the program\&. It is thread safe\&. 
+ExecuteProgram reads and interprets a CRCL XML program string\&. It will set up interpreting the program\&. It is thread safe\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIprogrampath\fP str containing crcl xml program\&. 
+.RE
+.PP
+
+.SS "void RCS::RobotProgram::ExecuteProgramFromFile (std::stringprogrampath)\fC [virtual]\fP"
+
+.PP
+ExecuteProgramFromFile reads a file path for CRCL XML program\&. It will set up interpreting the program\&. It is thread safe\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -99,8 +111,6 @@ crcl delegate used to interpret \fBCrcl\fP XML command
 mutex for thread safe access to \fBRobotProgram\fP commands 
 .SS "std::string RCS::RobotProgram::_programname"
 saved \fBRobotProgram\fP program file path 
-.SS "int RCS::RobotProgram::cmdnum"
-number of \fBCrcl\fP XML command to execute 
 .SS "::CRCLProgramType::MiddleCommand_sequence& RCS::RobotProgram::cmds"
 reference to crcl program XML commands (from codesynthesis parsing) 
 .SS "std::istringstream RCS::RobotProgram::istr"

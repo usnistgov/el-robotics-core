@@ -1,10 +1,10 @@
-.TH "RCS::CController" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CController" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 RCS::CController \- 
 .PP
-The \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.)  
+The \fBCController\fP provides a collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance of this class, called 'Controller', is created and is used throughout the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.)  
 
 .SH SYNOPSIS
 .br
@@ -44,7 +44,7 @@ Inherits \fBRCS::Thread\fP\&.
 .br
 .RI "\fIVerifies that all the pointer references in the controller have been instantiated (i\&.e\&., not null)\&. \fP"
 .ti -1c
-.RI "virtual void \fBAction\fP ()"
+.RI "virtual int \fBAction\fP ()"
 .br
 .RI "\fICyclic loop for the controller\&. Reads \fBCrcl\fP input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages\&. \fP"
 .ti -1c
@@ -75,9 +75,31 @@ Inherits \fBRCS::Thread\fP\&.
 .RI "\fBVAR\fP (MoveitPlanner, boost::shared_ptr< \fBMoveitPlanning\fP >)"
 .br
 .ti -1c
-.RI "void \fBSetKinematics\fP (boost::shared_ptr< \fBIKinematics\fP > k)"
+.RI "\fBVAR\fP (RvizMarker, boost::shared_ptr< \fBCRvizMarker\fP >) VAR(EEPoseReader"
+.br
+.ti -1c
+.RI "boost::shared_ptr< CLinkReader >
+.br
+ void \fBSetKinematics\fP (boost::shared_ptr< \fBIKinematics\fP > k)"
 .br
 .RI "\fIRoutine to set the kinematics reference pointer\&. Uses the interface class \fBIKinematics\fP, but can have any implementation instance\&. \fP"
+.ti -1c
+.RI "\fBNVAR\fP (NewCC, \fBRCS::CanonCmd\fP, _newcc)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (LastCC, \fBRCS::CanonCmd\fP, _lastcc)"
+.br
+.ti -1c
+.RI "\fBRCS::CanonCmd\fP \fBGetLastRobotCommand\fP ()"
+.br
+.ti -1c
+.RI "\fBJointState\fP \fBGetLastJointState\fP ()"
+.br
+.RI "\fIGet the last joint state, if no motion, last actual joint reading, else last joints on robot motion queue\&. \fP"
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBGetLastCommandedPose\fP ()"
+.br
+.RI "\fIGet the last commanded , if no motion, use last actual joint reading to compute FK, else use last joints on robot motion queue to compute FK\&. \fP"
 .in -1c
 .SS "Public Attributes"
 
@@ -86,13 +108,10 @@ Inherits \fBRCS::Thread\fP\&.
 .RI "\fBRCSInterpreter\fP \fB_interpreter\fP"
 .br
 .ti -1c
-.RI "\fBRCS::CanonCmd\fP \fB_newcc\fP"
-.br
-.ti -1c
-.RI "\fBRCS::CanonCmd\fP \fB_lastcc\fP"
-.br
-.ti -1c
 .RI "std::string \fBlastlogstatus\fP"
+.br
+.ti -1c
+.RI "std::string \fB_eeName\fP"
 .br
 .ti -1c
 .RI "\fBMotionPlannerEnum\fP \fBeCartesianMotionPlanner\fP"
@@ -151,7 +170,7 @@ Inherits \fBRCS::Thread\fP\&.
 .SS "Additional Inherited Members"
 .SH "Detailed Description"
 .PP 
-The \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) 
+The \fBCController\fP provides a collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance of this class, called 'Controller', is created and is used throughout the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) 
 .SH "Member Typedef Documentation"
 .PP 
 .SS "typedef std::list<\fBRCS::CanonCmd\fP> \fBRCS::CController::xml_message_list\fP"
@@ -214,7 +233,7 @@ The \fBCController\fP provides an collection for all the relevant controller pie
 
 .SH "Member Function Documentation"
 .PP 
-.SS "void RCS::CController::Action ()\fC [virtual]\fP"
+.SS "int RCS::CController::Action ()\fC [virtual]\fP"
 
 .PP
 Cyclic loop for the controller\&. Reads \fBCrcl\fP input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages\&. 
@@ -228,6 +247,16 @@ Creates a comma separated string of current state of robot\&. (Can use other sep
 
 .PP
 Creates a header line containing names of comma separated string fields that describes the current state of robot\&. (Can use other separator)\&. 
+.SS "\fBRCS::Pose\fP RCS::CController::GetLastCommandedPose ()"
+
+.PP
+Get the last commanded , if no motion, use last actual joint reading to compute FK, else use last joints on robot motion queue to compute FK\&. 
+.SS "\fBJointState\fP RCS::CController::GetLastJointState ()"
+
+.PP
+Get the last joint state, if no motion, last actual joint reading, else last joints on robot motion queue\&. 
+.SS "\fBRCS::CanonCmd\fP RCS::CController::GetLastRobotCommand ()"
+
 .SS "void RCS::CController::Init ()\fC [virtual]\fP"
 
 .PP
@@ -236,7 +265,11 @@ Initialization routine for the controller\&.\&.
 Reimplemented from \fBRCS::Thread\fP\&.
 .SS "RCS::CController::NVAR (CrclDelegate, boost::shared_ptr< \fBCrcl::CrclDelegateInterface\fP >, crclinterface)"
 
-.SS "void RCS::CController::SetKinematics (boost::shared_ptr< \fBIKinematics\fP >k)\fC [inline]\fP"
+.SS "RCS::CController::NVAR (NewCC, \fBRCS::CanonCmd\fP, _newcc)"
+last canon command interpreted 
+.SS "RCS::CController::NVAR (LastCC, \fBRCS::CanonCmd\fP, _lastcc)"
+
+.SS "boost::shared_ptr<CLinkReader> void RCS::CController::SetKinematics (boost::shared_ptr< \fBIKinematics\fP >k)\fC [inline]\fP"
 
 .PP
 Routine to set the kinematics reference pointer\&. Uses the interface class \fBIKinematics\fP, but can have any implementation instance\&. 
@@ -247,6 +280,8 @@ Routine to set the kinematics reference pointer\&. Uses the interface class \fBI
 .SS "RCS::CController::VAR (JointWriter, boost::shared_ptr< \fBCJointWriter\fP >)"
 
 .SS "RCS::CController::VAR (MoveitPlanner, boost::shared_ptr< \fBMoveitPlanning\fP >)"
+
+.SS "RCS::CController::VAR (RvizMarker, boost::shared_ptr< \fBCRvizMarker\fP >)"
 
 .SS "bool RCS::CController::Verify ()"
 
@@ -260,12 +295,10 @@ Verifies that all the pointer references in the controller have been instantiate
 level of debugging, 0 least, 5 most 
 .SS "unsigned long RCS::CController::_debugtype = (unsigned long) \fBRPY\fP\fC [static]\fP"
 output crcl xz rotation or roll,pitch, yaw 
+.SS "std::string RCS::CController::_eeName"
+
 .SS "\fBRCSInterpreter\fP RCS::CController::_interpreter"
-interprets canon commands into robot commands 
-.SS "\fBRCS::CanonCmd\fP RCS::CController::_lastcc"
-last canon command interpreted 
-.SS "\fBRCS::CanonCmd\fP RCS::CController::_newcc"
-current new canon command to interpret 
+interprets canon commands into robot commands current new canon command to interpret 
 .SS "size_t RCS::CController::_NumJoints\fC [static]\fP"
 number of joints in controller robot - assuming serial link manipulator 
 .SS "bool RCS::CController::bGenerateProgram = false\fC [static]\fP"

@@ -58,6 +58,9 @@
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="classCrcl_1_1CrclDelegateInterface.html" title="CrclDelegateInterface parses Crcl commands and interprets into robot motion. https://github.com/usnistgov/crcl/blob/master/doc/Reference.md. ">CrclDelegateInterface</a> parses <a class="el" href="namespaceCrcl.html">Crcl</a> commands and interprets into robot motion. <a href="https://github.com/usnistgov/crcl/blob/master/doc/Reference.md">https://github.com/usnistgov/crcl/blob/master/doc/Reference.md</a>.  
+ <a href="classCrcl_1_1CrclDelegateInterface.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="CrclInterface_8h_source.html">CrclInterface.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -73,70 +76,96 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7513484f2c0d14332f844bdbae2c0586"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a7513484f2c0d14332f844bdbae2c0586">DelegateCRCLCmd</a> (::CRCLCommandType &amp;crclCommand)</td></tr>
 <tr class="separator:a7513484f2c0d14332f844bdbae2c0586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e666cfdbbaee53ddead4035cda12399"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a5e666cfdbbaee53ddead4035cda12399">ActuateJoints</a> (<a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a> joints)</td></tr>
+<tr class="memdesc:a5e666cfdbbaee53ddead4035cda12399"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actuate the joints of the robot as specified. The joints argument is a list of instances of ActuateJointType. Each joint may appear at most once on the list. If a joint is not on the list, its actuation should be as previously set.  <a href="#a5e666cfdbbaee53ddead4035cda12399">More...</a><br/></td></tr>
 <tr class="separator:a5e666cfdbbaee53ddead4035cda12399"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c8fc025f6c0eba5609b3e0866810651"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a3c8fc025f6c0eba5609b3e0866810651">CloseToolChanger</a> ()</td></tr>
+<tr class="memdesc:a3c8fc025f6c0eba5609b3e0866810651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the tool changer on the robot so that it attaches to an end effector.. The robot must be in an appropriate position with respect to the end effector for the changer mechanism on the robot to attach to the end effector.  <a href="#a3c8fc025f6c0eba5609b3e0866810651">More...</a><br/></td></tr>
 <tr class="separator:a3c8fc025f6c0eba5609b3e0866810651"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41d9d47da2cb9463fe258903c7c8ed62"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a41d9d47da2cb9463fe258903c7c8ed62">ConfigureJointReports</a> (std::vector&lt; <a class="el" href="structCrcl_1_1JointReport.html">Crcl::JointReport</a> &gt; &amp;jointReports)</td></tr>
+<tr class="memdesc:a41d9d47da2cb9463fe258903c7c8ed62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify how the status of the robot joints should be reported. This may be used only if CRCL status is being reported. The value of ResetAll is either true or false. Joints is a list of of instances of ConfigureJointReportType. Each joint may appear at most once on the list.  <a href="#a41d9d47da2cb9463fe258903c7c8ed62">More...</a><br/></td></tr>
 <tr class="separator:a41d9d47da2cb9463fe258903c7c8ed62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c4272b12bfcbd390d3c9baa3a858e73"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a5c4272b12bfcbd390d3c9baa3a858e73">Couple</a> (char *targetID)</td></tr>
 <tr class="separator:a5c4272b12bfcbd390d3c9baa3a858e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0202e19f87f1609889820ce3dc7e2aa3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a0202e19f87f1609889820ce3dc7e2aa3">Dwell</a> (double seconds)</td></tr>
+<tr class="memdesc:a0202e19f87f1609889820ce3dc7e2aa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stay motionless for the given amount of time in seconds.  <a href="#a0202e19f87f1609889820ce3dc7e2aa3">More...</a><br/></td></tr>
 <tr class="separator:a0202e19f87f1609889820ce3dc7e2aa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a401c506a2e16f1498fb28a638f0a816a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a401c506a2e16f1498fb28a638f0a816a">EndCanon</a> ()</td></tr>
+<tr class="memdesc:a401c506a2e16f1498fb28a638f0a816a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do whatever is necessary to stop executing canonical robot commands. No specific action is required. The robot controller should not execute any canonical robot command except InitCanon after executing EndCanon and should signal an error if it is given one. This command will normally be given when execution of a plan is complete but may also be given if an error is detected, or for any other reason.  <a href="#a401c506a2e16f1498fb28a638f0a816a">More...</a><br/></td></tr>
 <tr class="separator:a401c506a2e16f1498fb28a638f0a816a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace91dcb602e1aa5a45bdf8bbcec38391"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ace91dcb602e1aa5a45bdf8bbcec38391">InitCanon</a> ()</td></tr>
-<tr class="separator:ace91dcb602e1aa5a45bdf8bbcec38391"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a695656a7cdcb0ec121fabeb8847e47f2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a695656a7cdcb0ec121fabeb8847e47f2">GetStatus</a> ()</td></tr>
+<tr class="memdesc:a695656a7cdcb0ec121fabeb8847e47f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command to retrieve status immediately. This may be used only if CRCL status is being reported.  <a href="#a695656a7cdcb0ec121fabeb8847e47f2">More...</a><br/></td></tr>
 <tr class="separator:a695656a7cdcb0ec121fabeb8847e47f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace91dcb602e1aa5a45bdf8bbcec38391"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ace91dcb602e1aa5a45bdf8bbcec38391">InitCanon</a> ()</td></tr>
+<tr class="memdesc:ace91dcb602e1aa5a45bdf8bbcec38391"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do whatever is necessary to get ready to move. All units are set to the default units. This command will normally be given when a plan interpreter opens a plan to be executed.  <a href="#ace91dcb602e1aa5a45bdf8bbcec38391">More...</a><br/></td></tr>
+<tr class="separator:ace91dcb602e1aa5a45bdf8bbcec38391"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24d05f3f6758ff75df04ef4ef6260fae"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a24d05f3f6758ff75df04ef4ef6260fae">Message</a> (std::string message)</td></tr>
+<tr class="memdesc:a24d05f3f6758ff75df04ef4ef6260fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the given message on the operator console.  <a href="#a24d05f3f6758ff75df04ef4ef6260fae">More...</a><br/></td></tr>
 <tr class="separator:a24d05f3f6758ff75df04ef4ef6260fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac04c8af185b4465add0654b47d3b4ce3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ac04c8af185b4465add0654b47d3b4ce3">MoveTo</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> endpose, bool bStraight)</td></tr>
+<tr class="memdesc:ac04c8af185b4465add0654b47d3b4ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move the controlled point to the given pose, and stop there. The robot must reach the pose within the tolerance established (1) by the tolerance given for the pose, if there is a tolerance in the pose, or if not (2) by the most recently executed instance of SetEndPoseTolerance. The speed and acceleration to use are set either in the pose or by previously executed CRCL commands.  <a href="#ac04c8af185b4465add0654b47d3b4ce3">More...</a><br/></td></tr>
 <tr class="separator:ac04c8af185b4465add0654b47d3b4ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7b40e1070284dc5ca9069eb1ea7026d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#aa7b40e1070284dc5ca9069eb1ea7026d">MoveThroughTo</a> (std::vector&lt; <a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &gt; &amp;poses, bool bStraight)</td></tr>
-<tr class="separator:aa7b40e1070284dc5ca9069eb1ea7026d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14b31a646c0601b17783156a32f3bac8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a14b31a646c0601b17783156a32f3bac8">MoveThroughTo</a> (std::vector&lt; <a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &gt; &amp;waypoints, bool bStraight)</td></tr>
+<tr class="memdesc:a14b31a646c0601b17783156a32f3bac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move the controlled point along a trajectory passing near all but the last of the given waypoints (poses), and stop at the last of the given waypoints. The robot must pass each waypoint within the tolerance established <br/>
+ (1) by the tolerance given for the pose in the waypoint, if there is a tolerance in the waypoint, or if not <br/>
+ (2) by the most recently executed instance of SetIntermediatePoseToleranceType (or by SetEndPoseToleranceType for the final waypoint). The speed and acceleration to use are set either in the waypoint or by previously executed CRCL commands. If the value of straight is true, the controlled point must be moved in a straight line between waypoints. If the value of straight is false, the controlled point may be moved along any convenient trajectory between waypoints. In either case, there are no restrictions on the values of XAxis and ZAxis between waypoints. The numberWaypoints gives the number of waypoints.  <a href="#a14b31a646c0601b17783156a32f3bac8">More...</a><br/></td></tr>
+<tr class="separator:a14b31a646c0601b17783156a32f3bac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b78b935f64602c8543dd4cb6a6929ba"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a0b78b935f64602c8543dd4cb6a6929ba">OpenToolChanger</a> ()</td></tr>
+<tr class="memdesc:a0b78b935f64602c8543dd4cb6a6929ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open the tool changer on the robot. If an end effector is attached to the robot when this command is given, executing the command releases the end effector. This command is normally given only after an end effector attached to the robot has been moved into an end effector changer.  <a href="#a0b78b935f64602c8543dd4cb6a6929ba">More...</a><br/></td></tr>
 <tr class="separator:a0b78b935f64602c8543dd4cb6a6929ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a524e770e96afe3fd89fd11d70e56cbe3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a524e770e96afe3fd89fd11d70e56cbe3">RunProgram</a> (std::string programText)</td></tr>
+<tr class="memdesc:a524e770e96afe3fd89fd11d70e56cbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a program written in a non-CRCL language that the robot controller understands.  is the program represented as a string of text.  <a href="#a524e770e96afe3fd89fd11d70e56cbe3">More...</a><br/></td></tr>
 <tr class="separator:a524e770e96afe3fd89fd11d70e56cbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a723c774e71cac9c51fb8159d06e9ae1a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a723c774e71cac9c51fb8159d06e9ae1a">SetAbsoluteAcceleration</a> (double acceleration)</td></tr>
 <tr class="separator:a723c774e71cac9c51fb8159d06e9ae1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad26647a78097ff9ee50e1abe285b7dbe"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ad26647a78097ff9ee50e1abe285b7dbe">SetAbsoluteSpeed</a> (double speed)</td></tr>
 <tr class="separator:ad26647a78097ff9ee50e1abe285b7dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08129b3f3681981b1d0e294a88674269"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a08129b3f3681981b1d0e294a88674269">SetAngleUnits</a> (std::string unitName)</td></tr>
+<tr class="memdesc:a08129b3f3681981b1d0e294a88674269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set angle units to the named unit.  <a href="#a08129b3f3681981b1d0e294a88674269">More...</a><br/></td></tr>
 <tr class="separator:a08129b3f3681981b1d0e294a88674269"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae25f975824369ab1b82aa4c1b44c8754"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ae25f975824369ab1b82aa4c1b44c8754">SetAxialSpeeds</a> (std::vector&lt; double &gt; speeds)</td></tr>
 <tr class="separator:ae25f975824369ab1b82aa4c1b44c8754"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e49a7fb746c451704f6c55720f9caec"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a3e49a7fb746c451704f6c55720f9caec">SetEndEffector</a> (double percent)</td></tr>
+<tr class="memdesc:a3e49a7fb746c451704f6c55720f9caec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the effectivity of the end effector. The setting is a number between zero and one. If an end effector has multiple control modes, the control mode must be set using a SetEndEffectorParameters command, so that the meaning of SetEndEffector commands is unambiguous.  <a href="#a3e49a7fb746c451704f6c55720f9caec">More...</a><br/></td></tr>
 <tr class="separator:a3e49a7fb746c451704f6c55720f9caec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a741f72f042107d75f97e225afb49eed0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a741f72f042107d75f97e225afb49eed0">SetEndEffectorTolerance</a> (<a class="el" href="namespaceCrcl.html#ac805071e16341b82d4fa4e12b7f3ac6f">Crcl::PoseToleranceType</a> dTolerance)</td></tr>
 <tr class="separator:a741f72f042107d75f97e225afb49eed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d2c6e58dbaa65eda19ae857853875b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a96d2c6e58dbaa65eda19ae857853875b">SetEndPoseTolerance</a> (<a class="el" href="namespaceCrcl.html#ac805071e16341b82d4fa4e12b7f3ac6f">Crcl::PoseToleranceType</a> tolerance)</td></tr>
+<tr class="memdesc:a96d2c6e58dbaa65eda19ae857853875b"><td class="mdescLeft">&#160;</td><td class="mdescRight">et the tolerance for the position and orientation of the end of the arm (whenever there is no gripper there) or of the gripper (whenever a gripper is on the end of the arm) to the given value.  <a href="#a96d2c6e58dbaa65eda19ae857853875b">More...</a><br/></td></tr>
 <tr class="separator:a96d2c6e58dbaa65eda19ae857853875b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a9e07589fb159c1252f3a1964dab3c5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a6a9e07589fb159c1252f3a1964dab3c5">SetForceUnits</a> (std::string unitName)</td></tr>
+<tr class="memdesc:a6a9e07589fb159c1252f3a1964dab3c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set force units to the named unit. After this command is executed, all commands that use force units are in terms of the named force unit. The default force unit is "newton".  <a href="#a6a9e07589fb159c1252f3a1964dab3c5">More...</a><br/></td></tr>
 <tr class="separator:a6a9e07589fb159c1252f3a1964dab3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bf311ad72c05dbdf43eb1d17a2f6458"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a0bf311ad72c05dbdf43eb1d17a2f6458">SetIntermediatePoseTolerance</a> (<a class="el" href="namespaceCrcl.html#ac805071e16341b82d4fa4e12b7f3ac6f">Crcl::PoseToleranceType</a> tolerance)</td></tr>
+<tr class="memdesc:a0bf311ad72c05dbdf43eb1d17a2f6458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the tolerance for smooth motion near intermediate points.  <a href="#a0bf311ad72c05dbdf43eb1d17a2f6458">More...</a><br/></td></tr>
 <tr class="separator:a0bf311ad72c05dbdf43eb1d17a2f6458"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a3a26ceedee34111d177ecfa31bc978"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a8a3a26ceedee34111d177ecfa31bc978">SetLengthUnits</a> (std::string unitName)</td></tr>
+<tr class="memdesc:a8a3a26ceedee34111d177ecfa31bc978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set length units to the named unit. After this command is executed, all commands that use length units (for location, tolerance, speed, and acceleration) are in terms of the named length unit. Existing values for speed, position, acceleration, etc. are converted automatically to the equivalent value in new length units. The default length unit is "meter".  <a href="#a8a3a26ceedee34111d177ecfa31bc978">More...</a><br/></td></tr>
 <tr class="separator:a8a3a26ceedee34111d177ecfa31bc978"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0d4f4101f60374097d50126c35bcc74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#aa0d4f4101f60374097d50126c35bcc74">SetMotionCoordination</a> (bool bCoordinatedMotion)</td></tr>
+<tr class="memdesc:aa0d4f4101f60374097d50126c35bcc74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Either require rotational motion and translational motion to be coordinated or allow them to be uncoordinated. Motion is coordinated when rotational motion and translational motion must finish simultaneously in motion commands (including each segment in a multiple segment motion command), except as possibly temporarily overridden in the the motion command.  <a href="#aa0d4f4101f60374097d50126c35bcc74">More...</a><br/></td></tr>
 <tr class="separator:aa0d4f4101f60374097d50126c35bcc74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a961922ae3370ba783a6efd49c60b2615"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a961922ae3370ba783a6efd49c60b2615">SetParameter</a> (char *paramName, void *paramVal)</td></tr>
+<tr class="memdesc:a961922ae3370ba783a6efd49c60b2615"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set one or more robot parameters as specified. The meaning of the parameter is not known to CRCL, but the robot controller knows what it means. This command is not to be used to set any parameter that can be set using a CRCL command.  <a href="#a961922ae3370ba783a6efd49c60b2615">More...</a><br/></td></tr>
 <tr class="separator:a961922ae3370ba783a6efd49c60b2615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75b341b2b89b4e2c8994f0f8f9090a8c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a75b341b2b89b4e2c8994f0f8f9090a8c">SetRelativeAcceleration</a> (double percent)</td></tr>
 <tr class="separator:a75b341b2b89b4e2c8994f0f8f9090a8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3862f5c58782fcd5105af10975432d0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ae3862f5c58782fcd5105af10975432d0">SetRelativeSpeed</a> (double percent)</td></tr>
-<tr class="separator:ae3862f5c58782fcd5105af10975432d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc10167b3d7468331c434b60b7f8f737"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#afc10167b3d7468331c434b60b7f8f737">SetRotAccel</a> (double accel)</td></tr>
+<tr class="memdesc:afc10167b3d7468331c434b60b7f8f737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set rotational acceleration to the given setting in current angle units per second per second.  <a href="#afc10167b3d7468331c434b60b7f8f737">More...</a><br/></td></tr>
 <tr class="separator:afc10167b3d7468331c434b60b7f8f737"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab27eaeb82b7b859cf17addcade824829"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#ab27eaeb82b7b859cf17addcade824829">SetRotSpeed</a> (double speed)</td></tr>
+<tr class="memdesc:ab27eaeb82b7b859cf17addcade824829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set rotational speed to the given setting in current angle units per second.  <a href="#ab27eaeb82b7b859cf17addcade824829">More...</a><br/></td></tr>
 <tr class="separator:ab27eaeb82b7b859cf17addcade824829"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addfaf2d1240dcca39c813c1de09f81a1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#addfaf2d1240dcca39c813c1de09f81a1">SetTorqueUnits</a> (std::string unitName)</td></tr>
+<tr class="memdesc:addfaf2d1240dcca39c813c1de09f81a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set torque units to the named unit. This tells the robot that all further commands giving torque values will implicitly use the named unit. The default torque unit is "newtonMeter".  <a href="#addfaf2d1240dcca39c813c1de09f81a1">More...</a><br/></td></tr>
 <tr class="separator:addfaf2d1240dcca39c813c1de09f81a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a897b31164e969c95bc8e0ba516c0aca8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a897b31164e969c95bc8e0ba516c0aca8">SetTransAccel</a> (double accel)</td></tr>
+<tr class="memdesc:a897b31164e969c95bc8e0ba516c0aca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set translational acceleration to the given setting in current length units per second per second.  <a href="#a897b31164e969c95bc8e0ba516c0aca8">More...</a><br/></td></tr>
 <tr class="separator:a897b31164e969c95bc8e0ba516c0aca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a957f09eff572d3175cd045c492f521b6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a957f09eff572d3175cd045c492f521b6">SetTransSpeed</a> (double speed)</td></tr>
+<tr class="memdesc:a957f09eff572d3175cd045c492f521b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set translational speed to the given setting in current length units per second.  <a href="#a957f09eff572d3175cd045c492f521b6">More...</a><br/></td></tr>
 <tr class="separator:a957f09eff572d3175cd045c492f521b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f1326fca669d46ea7be5ac08c59f645"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a0f1326fca669d46ea7be5ac08c59f645">StopMotion</a> (int condition)</td></tr>
+<tr class="memdesc:a0f1326fca669d46ea7be5ac08c59f645"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the robot motion according to the given condition, Immediate, Fast, or Normal. Immediate means the robot's drives are deactivated immediately and the brakes are applied. This may result in the controlled point being off the commanded path when the robot stops.  <a href="#a0f1326fca669d46ea7be5ac08c59f645">More...</a><br/></td></tr>
 <tr class="separator:a0f1326fca669d46ea7be5ac08c59f645"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcee182e23a8ea376fa1fa829336feb0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#afcee182e23a8ea376fa1fa829336feb0">GetTool</a> (double *percent)</td></tr>
 <tr class="separator:afcee182e23a8ea376fa1fa829336feb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,7 +177,9 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a18d6ff1b51227f0424f2611804bed4bd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structCrcl_1_1CrclStatus.html">CrclStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCrcl_1_1CrclDelegateInterface.html#a18d6ff1b51227f0424f2611804bed4bd">crclwm</a></td></tr>
 <tr class="separator:a18d6ff1b51227f0424f2611804bed4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classCrcl_1_1CrclDelegateInterface.html" title="CrclDelegateInterface parses Crcl commands and interprets into robot motion. https://github.com/usnistgov/crcl/blob/master/doc/Reference.md. ">CrclDelegateInterface</a> parses <a class="el" href="namespaceCrcl.html">Crcl</a> commands and interprets into robot motion. <a href="https://github.com/usnistgov/crcl/blob/master/doc/Reference.md">https://github.com/usnistgov/crcl/blob/master/doc/Reference.md</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab6dab41e2398ed9a2cd2ac58e4c00ea2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -195,6 +226,17 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Actuate the joints of the robot as specified. The joints argument is a list of instances of ActuateJointType. Each joint may appear at most once on the list. If a joint is not on the list, its actuation should be as previously set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">joints</td><td>is codesynthesis C++ representation that contains: <br/>
+ a JointNumber that identifies the joint <br/>
+a JointPosition that is the target position for the joint <br/>
+JointDetails that provides either(1) the speed and acceleration to use in getting to the position or (2) the force or torque and rate of change of force or torque to use in getting to the position. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a3c8fc025f6c0eba5609b3e0866810651"></a>
@@ -217,6 +259,8 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Close the tool changer on the robot so that it attaches to an end effector.. The robot must be in an appropriate position with respect to the end effector for the changer mechanism on the robot to attach to the end effector. </p>
 
 </div>
 </div>
@@ -241,6 +285,8 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Specify how the status of the robot joints should be reported. This may be used only if CRCL status is being reported. The value of ResetAll is either true or false. Joints is a list of of instances of ConfigureJointReportType. Each joint may appear at most once on the list. </p>
 
 </div>
 </div>
@@ -338,6 +384,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Stay motionless for the given amount of time in seconds. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dwell</td><td>time in seconds </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a401c506a2e16f1498fb28a638f0a816a"></a>
@@ -360,6 +414,8 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Do whatever is necessary to stop executing canonical robot commands. No specific action is required. The robot controller should not execute any canonical robot command except InitCanon after executing EndCanon and should signal an error if it is given one. This command will normally be given when execution of a plan is complete but may also be given if an error is detected, or for any other reason. </p>
 
 </div>
 </div>
@@ -423,6 +479,8 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Command to retrieve status immediately. This may be used only if CRCL status is being reported. </p>
+
 </div>
 </div>
 <a class="anchor" id="afcee182e23a8ea376fa1fa829336feb0"></a>
@@ -470,6 +528,8 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Do whatever is necessary to get ready to move. All units are set to the default units. This command will normally be given when a plan interpreter opens a plan to be executed. </p>
+
 </div>
 </div>
 <a class="anchor" id="a24d05f3f6758ff75df04ef4ef6260fae"></a>
@@ -494,9 +554,18 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Display the given message on the operator console. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>to display on console </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>If there is no operator console, this command has no effect and should be reported as executed without error. </dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="aa7b40e1070284dc5ca9069eb1ea7026d"></a>
+<a class="anchor" id="a14b31a646c0601b17783156a32f3bac8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -507,7 +576,7 @@ Static Public Attributes</h2></td></tr>
           <td class="memname"><a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a> CrclDelegateInterface::MoveThroughTo </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; <a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>poses</em>, </td>
+          <td class="paramname"><em>waypoints</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -527,6 +596,17 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Move the controlled point along a trajectory passing near all but the last of the given waypoints (poses), and stop at the last of the given waypoints. The robot must pass each waypoint within the tolerance established <br/>
+ (1) by the tolerance given for the pose in the waypoint, if there is a tolerance in the waypoint, or if not <br/>
+ (2) by the most recently executed instance of SetIntermediatePoseToleranceType (or by SetEndPoseToleranceType for the final waypoint). The speed and acceleration to use are set either in the waypoint or by previously executed CRCL commands. If the value of straight is true, the controlled point must be moved in a straight line between waypoints. If the value of straight is false, the controlled point may be moved along any convenient trajectory between waypoints. In either case, there are no restrictions on the values of XAxis and ZAxis between waypoints. The numberWaypoints gives the number of waypoints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">waypoints</td><td>list of poses to move thru </td></tr>
+    <tr><td class="paramname">bStraight</td><td>if the value of straight is true, the controlled point must be moved in a straight line. If the value of straight is false, the controlled point may be moved along any convenient trajectory. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -562,6 +642,15 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Move the controlled point to the given pose, and stop there. The robot must reach the pose within the tolerance established (1) by the tolerance given for the pose, if there is a tolerance in the pose, or if not (2) by the most recently executed instance of SetEndPoseTolerance. The speed and acceleration to use are set either in the pose or by previously executed CRCL commands. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bStraight</td><td>if the value of straight is true, the controlled point must be moved in a straight line. If the value of straight is false, the controlled point may be moved along any convenient trajectory. </td></tr>
+    <tr><td class="paramname">endpose</td><td>may include settings for speed, acceleration, and tolerance. Any such settings apply only while the command is being executed, after which the settings revert to what they were. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a0b78b935f64602c8543dd4cb6a6929ba"></a>
@@ -584,6 +673,8 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Open the tool changer on the robot. If an end effector is attached to the robot when this command is given, executing the command releases the end effector. This command is normally given only after an end effector attached to the robot has been moved into an end effector changer. </p>
 
 </div>
 </div>
@@ -608,6 +699,8 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Run a program written in a non-CRCL language that the robot controller understands.  is the program represented as a string of text. </p>
 
 </div>
 </div>
@@ -681,6 +774,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set angle units to the named unit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unitName</td><td>is the unit name must be either "degree" or "radian". After this command is executed, all commands that use angle units (for orientation or orientation tolerance) are in terms of the named angle unit. Existing values for orientation are converted automatically to the equivalent value in new angle units. The default angle unit is "radian". </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="ae25f975824369ab1b82aa4c1b44c8754"></a>
@@ -728,6 +829,15 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set the effectivity of the end effector. The setting is a number between zero and one. If an end effector has multiple control modes, the control mode must be set using a SetEndEffectorParameters command, so that the meaning of SetEndEffector commands is unambiguous. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">percent</td><td>- for end effectors that have a continuously variable setting, the setting means a fraction of maximum openness, force, torque, power, etc.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>For end effectors that have only two choices (powered or unpowered, open or closed, on or off), a positive setting value means powered, open, or on, while a zero setting value means unpowered, closed, or off. </p>
 
 </div>
 </div>
@@ -777,6 +887,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>et the tolerance for the position and orientation of the end of the arm (whenever there is no gripper there) or of the gripper (whenever a gripper is on the end of the arm) to the given value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tolerance</td><td>is the tolerance argument specifies both position tolerance in length units and orientation tolerance in angle units. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a6a9e07589fb159c1252f3a1964dab3c5"></a>
@@ -800,6 +918,14 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set force units to the named unit. After this command is executed, all commands that use force units are in terms of the named force unit. The default force unit is "newton". </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unitName</td><td>must be one of "newton", "pound", or "ounce". </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -825,6 +951,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set the tolerance for smooth motion near intermediate points. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tolerance</td><td>argument specifies both position tolerance in length units and orientation tolerance in angle units. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a8a3a26ceedee34111d177ecfa31bc978"></a>
@@ -849,6 +983,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set length units to the named unit. After this command is executed, all commands that use length units (for location, tolerance, speed, and acceleration) are in terms of the named length unit. Existing values for speed, position, acceleration, etc. are converted automatically to the equivalent value in new length units. The default length unit is "meter". </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unitName</td><td>must be one of "inch", "mm" or "meter". </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="aa0d4f4101f60374097d50126c35bcc74"></a>
@@ -872,6 +1014,14 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Either require rotational motion and translational motion to be coordinated or allow them to be uncoordinated. Motion is coordinated when rotational motion and translational motion must finish simultaneously in motion commands (including each segment in a multiple segment motion command), except as possibly temporarily overridden in the the motion command. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bCoordinatedMotion</td><td>is the coordinated parameter is a boolean value. True means require coordinated motion. False means allow uncoordinated motion. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -907,6 +1057,15 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set one or more robot parameters as specified. The meaning of the parameter is not known to CRCL, but the robot controller knows what it means. This command is not to be used to set any parameter that can be set using a CRCL command. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paramName</td><td>Each specified parameter has a name that is a string </td></tr>
+    <tr><td class="paramname">a</td><td>value that is a string. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a75b341b2b89b4e2c8994f0f8f9090a8c"></a>
@@ -918,30 +1077,6 @@ Static Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a> CrclDelegateInterface::SetRelativeAcceleration </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>percent</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae3862f5c58782fcd5105af10975432d0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">CrclReturn</a> CrclDelegateInterface::SetRelativeSpeed </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>percent</em></td><td>)</td>
@@ -979,6 +1114,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set rotational acceleration to the given setting in current angle units per second per second. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">accel</td><td>is either an absolute value or a fraction of the maximum rotational acceleration. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="ab27eaeb82b7b859cf17addcade824829"></a>
@@ -1002,6 +1145,14 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set rotational speed to the given setting in current angle units per second. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>is may be either an absolute value or a fraction of the maximum rotational speed. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1027,6 +1178,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set torque units to the named unit. This tells the robot that all further commands giving torque values will implicitly use the named unit. The default torque unit is "newtonMeter". </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unitName</td><td>must be one of "newtonMeter", or "footPound". </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a897b31164e969c95bc8e0ba516c0aca8"></a>
@@ -1050,6 +1209,14 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set translational acceleration to the given setting in current length units per second per second. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">accel</td><td>may be either an absolute value or a fraction of the maximum translational acceleration. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1075,6 +1242,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set translational speed to the given setting in current length units per second. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>may be either an absolute value or a fraction of the maximum translational speed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a class="anchor" id="a0f1326fca669d46ea7be5ac08c59f645"></a>
@@ -1098,6 +1273,16 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Stop the robot motion according to the given condition, Immediate, Fast, or Normal. Immediate means the robot's drives are deactivated immediately and the brakes are applied. This may result in the controlled point being off the commanded path when the robot stops. </p>
+<p>Fast means the robot and any external axes are brought to a fast, controlled stop. The drives are deactivated after one second, and the brakes are applied. The controlled point must be kept on the on the commanded path as the robot stops.</p>
+<p>Normal means the robot and any external drives are stopped using a normal braking ramp. The drives are not deactivated, and the brakes are not applied. The controlled point must be kept on the on the commanded path as the robot stops. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">condition</td><td>is either Immediate, Fast, or Normal </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1123,13 +1308,13 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="CrclInterface_8h_source.html">CrclInterface.h</a></li>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="CrclInterface_8cpp.html">CrclInterface.cpp</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="CrclInterface_8h_source.html">CrclInterface.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/<a class="el" href="CrclInterface_8cpp.html">CrclInterface.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

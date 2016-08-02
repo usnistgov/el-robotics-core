@@ -3,6 +3,11 @@
 }
 
 
+The \hyperlink{classMoveitKinematics}{Moveit\-Kinematics} class instantiates the \hyperlink{classIKinematics}{I\-Kinematics} abstract class and fills in the pure virtual functions with Moveit kinematic methods.  
+
+
+
+
 {\ttfamily \#include $<$Kinematics.\-h$>$}
 
 Inheritance diagram for Moveit\-Kinematics\-:\begin{figure}[H]
@@ -17,19 +22,21 @@ Inheritance diagram for Moveit\-Kinematics\-:\begin{figure}[H]
 \hyperlink{classMoveitKinematics_aff96ca668755f869ba25a4a775e15eac}{Moveit\-Kinematics} (ros\-::\-Node\-Handle \&nh)
 \item 
 virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a8f186684d000616a6ff805fa0f41151e}{Get\-Joint\-Values} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Get\-Joint\-Values returns latest reading of end effector. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2e}{Set\-Joint\-Values} (std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a0ae2d3b65c1855ec6d6f094d1cd267f7}{joint\-\_\-values})
-\item 
-virtual urdf\-::\-Pose \hyperlink{classMoveitKinematics_a530fd2f88c75df40248a24c55081e1eb}{F\-K} (std\-::vector$<$ double $>$ jv)
-\item 
-virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a70fa6e222157b71b6bf8fa7ed33075cc}{I\-K} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
-\item 
-virtual size\-\_\-t \hyperlink{classMoveitKinematics_a256bfc139809c215c34112a38938a372}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
-\item 
+\begin{DoxyCompactList}\small\item\em Set\-Joint\-Values sets the latest joint values of the robot. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{classMoveitKinematics_aef65c355097c1b8373f5bd60ef1b92f8}{F\-K} (std\-::vector$<$ double $>$ jv)
+\begin{DoxyCompactList}\small\item\em F\-K performs the forward kinematics using the joint values of the robot provided. \end{DoxyCompactList}\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_a70fa6e222157b71b6bf8fa7ed33075cc}{I\-K} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
+\begin{DoxyCompactList}\small\item\em I\-K performs the inverse kinematics using the Cartesian pose provided. \end{DoxyCompactList}\item 
+virtual size\-\_\-t \hyperlink{classMoveitKinematics_a256bfc139809c215c34112a38938a372}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\begin{DoxyCompactList}\small\item\em All\-Pose\-To\-Joints solves the inverse kinematics to find all solutions using the Cartesian pose provided. \end{DoxyCompactList}\item 
 virtual std\-::vector$<$ double $>$ \hyperlink{classMoveitKinematics_acd060eacf93c71b0cfb61bd5c93ceb77}{Nearest\-Joints} (std\-::vector$<$ double $>$ oldjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
-\item 
+\begin{DoxyCompactList}\small\item\em Nearest\-Joints finds the joint set that is closest to the old joints. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}{Init} (std\-::string groupname, std\-::string eelinkname)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Init is necessary for R\-O\-S to initialize it kinematics using robot model . \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classMoveitKinematics_a4b8520158eba774aefc8894febe6e1d7}{Is\-Singular} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, double threshold)
+\begin{DoxyCompactList}\small\item\em Returns true if the determinant of the jacobian is near zero. . \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,6 +65,9 @@ boost\-::mutex \hyperlink{classMoveitKinematics_a94dd916f6d9a7074ebd00356975d51e
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+The \hyperlink{classMoveitKinematics}{Moveit\-Kinematics} class instantiates the \hyperlink{classIKinematics}{I\-Kinematics} abstract class and fills in the pure virtual functions with Moveit kinematic methods. 
+
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classMoveitKinematics_aff96ca668755f869ba25a4a775e15eac}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Moveit\-Kinematics@{Moveit\-Kinematics}}
 \index{Moveit\-Kinematics@{Moveit\-Kinematics}!MoveitKinematics@{Moveit\-Kinematics}}
@@ -79,18 +89,44 @@ boost\-::mutex \hyperlink{classMoveitKinematics_a94dd916f6d9a7074ebd00356975d51e
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classMoveitKinematics_a256bfc139809c215c34112a38938a372}
 
 
+All\-Pose\-To\-Joints solves the inverse kinematics to find all solutions using the Cartesian pose provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cartesian} & robot pose of end effector. \\
+\hline
+{\em vector} & of double vectos to hold all the I\-K joint solutions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of solutions found. 
+\end{DoxyReturn}
+
+
 Implements \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c10}{I\-Kinematics}.
 
-\hypertarget{classMoveitKinematics_a530fd2f88c75df40248a24c55081e1eb}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!F\-K@{F\-K}}
+\hypertarget{classMoveitKinematics_aef65c355097c1b8373f5bd60ef1b92f8}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!F\-K@{F\-K}}
 \index{F\-K@{F\-K}!MoveitKinematics@{Moveit\-Kinematics}}
-\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Moveit\-Kinematics\-::\-F\-K (
+\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Moveit\-Kinematics\-::\-F\-K (
 \begin{DoxyParamCaption}
 \item[{std\-::vector$<$ double $>$}]{jv}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a530fd2f88c75df40248a24c55081e1eb}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_aef65c355097c1b8373f5bd60ef1b92f8}
 
 
-Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kinematics}.
+F\-K performs the forward kinematics using the joint values of the robot provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & of all robot joint values in doubles. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+corresponding Cartesian robot pose of end effector. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classIKinematics_abf765053ac39fac5b94ef99e80b17f1b}{I\-Kinematics}.
 
 \hypertarget{classMoveitKinematics_a8f186684d000616a6ff805fa0f41151e}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Get\-Joint\-Values@{Get\-Joint\-Values}}
 \index{Get\-Joint\-Values@{Get\-Joint\-Values}!MoveitKinematics@{Moveit\-Kinematics}}
@@ -99,6 +135,13 @@ Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kin
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a8f186684d000616a6ff805fa0f41151e}
+
+
+Get\-Joint\-Values returns latest reading of end effector. 
+
+\begin{DoxyReturn}{Returns}
+vector of joint values in doubles. 
+\end{DoxyReturn}
 
 
 Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kinematics}.
@@ -113,6 +156,20 @@ Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kin
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a70fa6e222157b71b6bf8fa7ed33075cc}
 
 
+I\-K performs the inverse kinematics using the Cartesian pose provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cartesian} & robot pose of end effector. \\
+\hline
+{\em optional} & seed joint values to use as best guess for I\-K joint values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of all robot joint values in doubles. 
+\end{DoxyReturn}
+
+
 Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kinematics}.
 
 \hypertarget{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Init@{Init}}
@@ -125,7 +182,41 @@ Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kin
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}
 
 
+Init is necessary for R\-O\-S to initialize it kinematics using robot model . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & name of chained joints in robot model. \\
+\hline
+{\em eelinkname} & name of end effector joint in robot model. \\
+\hline
+\end{DoxyParams}
+
+
 Reimplemented from \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f}{I\-Kinematics}.
+
+\hypertarget{classMoveitKinematics_a4b8520158eba774aefc8894febe6e1d7}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Is\-Singular@{Is\-Singular}}
+\index{Is\-Singular@{Is\-Singular}!MoveitKinematics@{Moveit\-Kinematics}}
+\subsubsection[{Is\-Singular}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Kinematics\-::\-Is\-Singular (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{double}]{threshold}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_a4b8520158eba774aefc8894febe6e1d7}
+
+
+Returns true if the determinant of the jacobian is near zero. . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & name of chained joints in robot model. \\
+\hline
+{\em eelinkname} & name of end effector joint in robot model. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classIKinematics_a60505b46ea856c60abc3d85cc984c5d1}{I\-Kinematics}.
 
 \hypertarget{classMoveitKinematics_acd060eacf93c71b0cfb61bd5c93ceb77}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Nearest\-Joints@{Nearest\-Joints}}
 \index{Nearest\-Joints@{Nearest\-Joints}!MoveitKinematics@{Moveit\-Kinematics}}
@@ -137,6 +228,20 @@ Reimplemented from \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classMoveitKinematics_acd060eacf93c71b0cfb61bd5c93ceb77}
 
 
+Nearest\-Joints finds the joint set that is closest to the old joints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em old} & seed joint values to use as best guess for I\-K joint values. \\
+\hline
+{\em vector} & of double vectos that holds all the I\-K joint solutions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of doubles with closest set to seed joints. 
+\end{DoxyReturn}
+
+
 Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kinematics}.
 
 \hypertarget{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2e}{\index{Moveit\-Kinematics@{Moveit\-Kinematics}!Set\-Joint\-Values@{Set\-Joint\-Values}}
@@ -146,6 +251,15 @@ Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kin
 \item[{std\-::vector$<$ double $>$}]{joint\-\_\-values}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2e}
+
+
+Set\-Joint\-Values sets the latest joint values of the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & of all robot joint values in doubles. \\
+\hline
+\end{DoxyParams}
 
 
 Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kinematics}.
@@ -190,5 +304,5 @@ Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kin
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Kinematics_8cpp}{Kinematics.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{Kinematics_8cpp}{Kinematics.\-cpp}\end{DoxyCompactItemize}

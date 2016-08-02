@@ -1,8 +1,229 @@
-        //        std::string planningplugin;
+ 
+  inline std::string DumpPose(RCS::Pose & pose) {
+        std::stringstream s;
+
+        s << "Translation = " << 1000.0 * pose.position.x << ":" << 1000.0 * pose.position.y << ":" << 1000.0 * pose.position.z << std::endl;
+
+        // os << "Rotation = "  << pose.rotation.x << ":"<<  pose.rotation.y  << ":"<< pose.rotation.z << ":"<< pose.rotation.w << std::endl;
+        double roll, pitch, yaw;
+        _quatToRpy(pose.rotation,roll, pitch, yaw);
+        s << "Rotation = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+        return s.str();
+    }
+
+
+
+
+
+
+
+
+
+
+       //        std::string planningplugin;
         //        if (nh.getParam("/move_group/planning_plugin", planningplugin))
         //        {
         //            std::cout << "planningplugin" << planningplugin.c_str() << std::endl; 
         //        }
+/////////////////////////////
+
+namespace urdf {
+
+    class Vector3 {
+    public:
+
+        Vector3(double _x, double _y, double _z) {
+            this->x = _x;
+            this->y = _y;
+            this->z = _z;
+        }
+
+        Vector3() {
+        }
+        double x;
+        double y;
+        double z;
+    };
+
+    class Rotation {
+    public:
+        double x, y, z, w;
+
+        Rotation(double _x, double _y, double _z, double _w) {
+            this->x = _x;
+            this->y = _y;
+            this->z = _z;
+            this->w = _w;
+        }
+
+        Rotation() {
+        }
+
+        void getRPY(double & roll, double & pitch, double & yaw) {
+            double sqw;
+            double sqx;
+            double sqy;
+            double sqz;
+
+            sqx = this->x * this->x;
+            sqy = this->y * this->y;
+            sqz = this->z * this->z;
+            sqw = this->w * this->w;
+
+            // Cases derived from https://orbitalstation.wordpress.com/tag/quaternion/
+            double sarg = -2 * (this->x * this->z - this->w * this->y);
+
+            if (sarg <= -0.99999) {
+                pitch = -0.5 * M_PI;
+                roll = 0;
+                yaw = 2 * atan2(this->x, -this->y);
+            } else if (sarg >= 0.99999) {
+                pitch = 0.5 * M_PI;
+                roll = 0;
+                yaw = 2 * atan2(-this->x, this->y);
+            } else {
+                pitch = asin(sarg);
+                roll = atan2(2 * (this->y * this->z + this->w * this->x), sqw - sqx - sqy + sqz);
+                yaw = atan2(2 * (this->x * this->y + this->w * this->z), sqw + sqx - sqy - sqz);
+            }
+        }
+
+        void setFromRPY(double roll, double pitch, double yaw) {
+            double phi, the, psi;
+
+            phi = roll / 2.0;
+            the = pitch / 2.0;
+            psi = yaw / 2.0;
+
+            this->x = sin(phi) * cos(the) * cos(psi) - cos(phi) * sin(the) * sin(psi);
+            this->y = cos(phi) * sin(the) * cos(psi) + sin(phi) * cos(the) * sin(psi);
+            this->z = cos(phi) * cos(the) * sin(psi) - sin(phi) * sin(the) * cos(psi);
+            this->w = cos(phi) * cos(the) * cos(psi) + sin(phi) * sin(the) * sin(psi);
+
+            this->normalize();
+        }
+
+        void normalize() {
+            double s = sqrt(this->x * this->x
+                    + this->y * this->y
+                    + this->z * this->z
+                    + this->w * this->w);
+
+            if (s == 0.0) {
+                this->x = 0.0;
+                this->y = 0.0;
+                this->z = 0.0;
+                this->w = 1.0;
+            } else {
+                this->x /= s;
+                this->y /= s;
+                this->z /= s;
+                this->w /= s;
+            }
+        }
+
+    };
+
+}
+
+std::string DumpQ(Eigen::Quaterniond q) {
+    std::stringstream ss;
+    ss << "X=" << q.x() << ":Y=" << q.y() << ":Z=" << q.z() << ":W=" << q.w() << ":" << std::endl;
+    return ss.str();
+}
+
+Eigen::Quaterniond ToEigenQuaterion(urdf::Rotation rot) {
+    return Eigen::Quaterniond(rot.w, rot.x, rot.y, rot.z);
+}
+
+Eigen::Vector3d Normalize(const Eigen::Vector3d v, double epsilon = 0.0001) {
+    double size = sqrt(v.dot(v));
+    if (size < epsilon)
+        throw std::runtime_error("Can make unit vector out of zero vector");
+    return (1.0 / size) * v;
+}
+
+Eigen::Vector3d Projection(Eigen::Vector3d v1, Eigen::Vector3d v2) {
+    Eigen::Vector3d v2u = Normalize(v2);
+    double d = v1.dot(v2u);
+    return v2u * d;
+}
+
+Eigen::Matrix3d ToHighlands(Eigen::Vector3d x, Eigen::Vector3d z) {
+    Eigen::Vector3d zp = Projection(x, z);
+    z = z - zp;
+    x = Normalize(x);
+    Eigen::Vector3d y = z.cross(x);
+    Eigen::Matrix3d m;
+    m << x(0), x(1), x(2),
+            y(0), y(1), y(2),
+            z(0), z(1), z(2);
+    std::cout << "Highlands=\n" << m << std::endl;
+    return m;
+
+}
+
+    Eigen::Matrix3d m = ToHighlands(Eigen::Vector3d (0,0,1), Eigen::Vector3d (1,0,0));
+    Eigen::Quaterniond qq(m);       
+    std::cout <<  "0,0,1:1,0,0=>" << DumpQ(qq).c_str()<<std::endl;
+   double roll, pitch, yaw;
+    GetRPY(urdf::Vector3(0, 0, 1), urdf::Vector3(1, 0, 0), roll, pitch, yaw);
+    std::cout << "Eigen 0,0,1:1,0,0=> -180., -90., 0. Roll pitch yaw = " << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+    
+    urdf::Rotation rot;
+    rot.setFromRPY(Deg2Rad(-180.), Deg2Rad(-90.), Deg2Rad(0.));
+    rot.getRPY(roll, pitch, yaw);
+    std::cout << "Urdf Set/GetRPY Roll pitch yaw = (-180., -90., 0.)" << Rad2Deg(roll) << ":" << Rad2Deg(pitch) << ":" << Rad2Deg(yaw) << std::endl;
+
+    Eigen::Quaterniond q2 = SetRPY(Deg2Rad(-180.), Deg2Rad(-90.), Deg2Rad(0.));
+    std::cout << "Roll pitch yaw = (-180., -90., 0.)" << DumpQ(q2).c_str()<<std::endl;
+
+
+Eigen::Matrix3d GetEigenRotMatrix(urdf::Vector3 Xrot, urdf::Vector3 Zrot) {
+
+    double x, y, z;
+    double xi, xj, xk;
+    double zi, zj, zk;
+    double r, p, w;
+    xi = Xrot.x;
+    xj = Xrot.y;
+    xk = Xrot.z;
+    Eigen::Vector3d xaxis(xi, xj, xk);
+    zi = Zrot.x;
+    zj = Zrot.y;
+    zk = Zrot.z;
+    Eigen::Vector3d zaxis(zi, zj, zk);
+    Eigen::Vector3d yaxis = zaxis.cross(xaxis);
+    Eigen::Matrix3d m(3, 3);
+
+    m << xi, xj, xk,
+            yaxis.x(), yaxis.y(), yaxis.z(),
+            zi, zj, zk;
+     std::cout << "GetEigenRotMatrix=\n" << m << std::endl;
+   return m;
+}
+//http://eigen.tuxfamily.org/dox/group__Geometry__Module.html#gad118fececd448d7485ffea4858775e5a
+// http://wiki.ros.org/geometry/RotationMethods
+
+bool GetRPY(urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &roll, double &pitch, double &yaw) {
+    Eigen::Matrix3d m = GetEigenRotMatrix(Xrot, Zrot);
+    Eigen::Vector3d ea = m.eulerAngles(2,1,0);
+    roll = ea(0);
+    pitch = ea(1);
+    yaw = ea(2);
+    return true;
+}
+
+Eigen::Quaterniond SetRPY(double roll, double pitch, double yaw) {
+    Eigen::Affine3d pose;
+    Eigen::Affine3d ax = Eigen::Affine3d(Eigen::AngleAxisd(roll, Eigen::Vector3d(1, 0, 0)));
+    Eigen::Affine3d ay = Eigen::Affine3d(Eigen::AngleAxisd(pitch, Eigen::Vector3d(0, 1, 0)));
+    Eigen::Affine3d az = Eigen::Affine3d(Eigen::AngleAxisd(yaw, Eigen::Vector3d(0, 0, 1)));
+    pose = ax * ay * az;
+    return Eigen::Quaterniond(pose.rotation());
+}
+
+/////////////////////////////////////////////////
 <MiddleCommand xsi:type="ActuateJointsType">
     <Name>ActuateJoints</Name>
     <CommandID>8</CommandID>
@@ -488,3 +709,69 @@ CTrajectoryWriter::toROSJointTrajectory(const TrajectoryVec& trajectory,
         Globals.ReadFile("/home/michalos/catkin_ws/src/fanucdemo/doc/fanuclrmateprogram.xml", contents);
         mycrcl.DelegateCRCLCmd(contents);
 #endif
+
+
+Fallout from Row Major COlumn Major
+#if 0
+
+    bool GetRPY(urdf::Vector3 Xrot, urdf::Vector3 Zrot, double & dRoll, double & dPitch, double & dYaw) {
+
+        RosMatrix rot = GetXZRotMatrix(Xrot, Zrot);
+        dYaw = atan2(rot[4 * 2 + 0], rot[4 * 2 + 1]);
+        dPitch = acos(rot[4 * 2 + 2]);
+        dRoll = -atan2(rot[4 * 0 + 2], rot[4 * 1 + 2]);
+
+        urdf::Rotation q = Convert(Xrot, Zrot);
+        _quatToRpy(q, dRoll, dPitch, dYaw);
+        return true;
+    }
+#endif
+#else
+
+    urdf::Pose Convert(Crcl::PoseType & pose, double lengthConversion) {
+        urdf::Pose p;
+
+        p.position.x = pose.Point().X() * lengthConversion;
+        p.position.y = pose.Point().Y() * lengthConversion;
+        p.position.z = pose.Point().Z() * lengthConversion;
+        double dRoll, dPitch, dYaw;
+        GetPoseToRPY(pose, dRoll, dPitch, dYaw);
+        // Orientation angles always appear to be in radians (NOT DEGREES?)
+        //p.rotation.setFromRPY(dRoll * _angleConversion, dPitch * _angleConversion, dYaw * _angleConversion);
+        p.rotation.setFromRPY(dRoll, dPitch, dYaw);
+        return p;
+    }
+#endif
+
+
+Crcl::ActuatorJointSequence CrclStatus::Merge(Crcl::ActuatorJointSequence joints, bool bIncremental) {
+        Crcl::ActuatorJointSequence alljoints;
+
+        // First copy all of status into actuator joint sequence
+        for (unsigned int i = 0; i < _GoalJoints.size(); i++) {
+            ::xml_schema::positive_integer num = _GoalJoints[i].JointNumber();
+            JointStatusType::JointPosition_optional & optpos = _GoalJoints[i].JointPosition();
+            ActuateJointType::JointPosition_type pos(*optpos);
+            ::ActuateJointType jointcmd(_GoalJoints[i].JointNumber(), pos, ::JointDetailsType());
+            alljoints.push_back(jointcmd);
+        }
+
+        for (unsigned int i = 0; i < joints.size(); i++) {
+            size_t n = joints[i].JointNumber() - 1;
+
+            if (bIncremental) {
+                double increment = joints[i].JointPosition();
+                JointStatusType::JointPosition_optional & optpos = _GoalJoints[n].JointPosition();
+                ActuateJointType::JointPosition_type pos(*optpos);
+                pos += increment;
+
+                ::ActuateJointType jointcmd(joints[i].JointNumber(), pos, ::JointDetailsType());
+                alljoints[n] = jointcmd;
+            } else {
+                ::ActuateJointType jointcmd(joints[i].JointNumber(), joints[i].JointPosition(), ::JointDetailsType());
+                alljoints[n] = jointcmd;
+            }
+        }
+        return alljoints;
+    }
+

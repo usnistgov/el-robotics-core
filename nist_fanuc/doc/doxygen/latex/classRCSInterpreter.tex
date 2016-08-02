@@ -28,7 +28,7 @@ int \hyperlink{classRCSInterpreter_a7f7cee6a3606a2b3f22ca3f802a1fc39}{Parse\-Com
 \item 
 std\-::vector$<$ double $>$ \hyperlink{classRCSInterpreter_a2437a1768cfa972b39ff56c8f16ff3c1}{times}
 \item 
-\hyperlink{classIRate}{I\-Rate} \hyperlink{classRCSInterpreter_a11b1a673682a9d0451877d3b5c3e0e3e}{rates}
+\hyperlink{classRCS_1_1IRate}{I\-Rate} \hyperlink{classRCSInterpreter_a11b1a673682a9d0451877d3b5c3e0e3e}{rates}
 \item 
 \hyperlink{classMotionControl}{Motion\-Control} \hyperlink{classRCSInterpreter_ae59648ec8d61ea6957bbd320f2a4665a}{motioncontrol}
 \end{DoxyCompactItemize}
@@ -37,7 +37,7 @@ std\-::vector$<$ double $>$ \hyperlink{classRCSInterpreter_a2437a1768cfa972b39ff
 \item 
 void \hyperlink{classRCSInterpreter_af33d7a81522ff6de4f7e56a20520c4de}{Add\-Joint\-Commands} (std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ gotojoints)
 \begin{DoxyCompactList}\small\item\em Add\-Joint\-Commands accepts vector of joint trajectories and adds to robot motion queue. \end{DoxyCompactList}\item 
-std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classRCSInterpreter_ad5393d870957f985f307a9aadd41231c}{Plan\-Cartesian\-Motion} (std\-::vector$<$ urdf\-::\-Pose $>$ poses)
+std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classRCSInterpreter_a97141cf064f2db2959f0c7e9e911fd9c}{Plan\-Cartesian\-Motion} (std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ poses)
 \begin{DoxyCompactList}\small\item\em Plan\-Cartesian\-Motion accepts vector of poses and generates a vector of joint trajectories. Can use a couple of planning algorithms to generate trajectory. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -103,13 +103,13 @@ Parse\-Command parses a \hyperlink{namespaceRCS}{R\-C\-S} command and queues rob
 {\em cmd} & is the command to interpret \\
 \hline
 \end{DoxyParams}
-\hypertarget{classRCSInterpreter_ad5393d870957f985f307a9aadd41231c}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!Plan\-Cartesian\-Motion@{Plan\-Cartesian\-Motion}}
+\hypertarget{classRCSInterpreter_a97141cf064f2db2959f0c7e9e911fd9c}{\index{R\-C\-S\-Interpreter@{R\-C\-S\-Interpreter}!Plan\-Cartesian\-Motion@{Plan\-Cartesian\-Motion}}
 \index{Plan\-Cartesian\-Motion@{Plan\-Cartesian\-Motion}!RCSInterpreter@{R\-C\-S\-Interpreter}}
 \subsubsection[{Plan\-Cartesian\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Joint\-State} $>$ R\-C\-S\-Interpreter\-::\-Plan\-Cartesian\-Motion (
 \begin{DoxyParamCaption}
-\item[{std\-::vector$<$ urdf\-::\-Pose $>$}]{poses}
+\item[{std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$}]{poses}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCSInterpreter_ad5393d870957f985f307a9aadd41231c}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classRCSInterpreter_a97141cf064f2db2959f0c7e9e911fd9c}
 
 
 Plan\-Cartesian\-Motion accepts vector of poses and generates a vector of joint trajectories. Can use a couple of planning algorithms to generate trajectory. 
@@ -144,5 +144,5 @@ descartes times for trajectory results
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCSInterpreter_8h}{R\-C\-S\-Interpreter.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Archive/\hyperlink{Archive_2RCSInterpreter_8cpp}{R\-C\-S\-Interpreter.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCSInterpreter_8h}{R\-C\-S\-Interpreter.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Archive/\hyperlink{Archive_2RCSInterpreter_8cpp}{R\-C\-S\-Interpreter.\-cpp}\end{DoxyCompactItemize}

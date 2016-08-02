@@ -1,4 +1,5 @@
 
+
 //https://github.com/ros-planning/moveit_pr2/blob/hydro-devel/pr2_moveit_tutorials/planning/src/move_group_interface_tutorial.cpp
 
 #include "moveit.h"
@@ -6,6 +7,12 @@
 #include "Conversions.h"
 
 MoveitPlanning::MoveitPlanning(ros::NodeHandle &nh) {
+
+    NumPlanningAttempts() = 1;
+    PlanningTime() = .01;
+    GoalTolerance() = 0.0;
+    CartesianJumpThreshold()=0.001; //The jump detection can be disabled by setting jump_threshold to 0.0
+    CartesianInterpolationResolution()=0.001;  // 0.001=1 mm
     _groupname = "manipulator";
     nh.getParam("controller_joint_names", joint_names);
     display_publisher = nh.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
@@ -33,10 +40,10 @@ MoveitPlanning::~MoveitPlanning() {
 std::vector<JointState> MoveitPlanning::GetJtsPlan() {
     return plannedjts;
 }
-urdf::Pose MoveitPlanning::ForwardKinematics() {
+RCS::Pose MoveitPlanning::ForwardKinematics() {
     Eigen::Affine3d end_effector_state = Eigen::Affine3d(
             kinematic_state->getGlobalLinkTransform(group->getEndEffectorLink().c_str()));
-    return affine3d2UrdfPose(end_effector_state);
+    return Affine3d2UrdfPose(end_effector_state);
 }
 
 std::vector<double> MoveitPlanning::GetJointValues() {
@@ -57,10 +64,11 @@ std::vector<double> MoveitPlanning::SetRandomJoints() {
 bool MoveitPlanning::Plan(JointState joints) {
     //http://docs.ros.org/indigo/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroup.html
     std::cout << "Plan to these joints=" << VectorDump<double> (joints.position).c_str();
+    group->allowReplanning(false);
     group->setJointValueTarget(joints.position);
-    group->setNumPlanningAttempts(5);
-    group->setPlanningTime(10.0);
-    group->setGoalTolerance(0.01);
+    group->setNumPlanningAttempts(NumPlanningAttempts());
+    group->setPlanningTime(PlanningTime());
+    group->setGoalTolerance(GoalTolerance());
     if (!group->plan(my_plan))
         return false;
     //group->move();
@@ -75,10 +83,11 @@ bool MoveitPlanning::Plan(JointState curjoints, JointState goaljoints) {
 	group->setStartState (robotstate);
 
 	// std::cout << "Plan to these joints=" << VectorDump<double> (joints.position).c_str();
-    group->setJointValueTarget(curjoints.position);
-    group->setNumPlanningAttempts(5);
-    group->setPlanningTime(10.0);
-    group->setGoalTolerance(0.01);
+    group->allowReplanning(false);
+   group->setJointValueTarget(curjoints.position);
+    group->setNumPlanningAttempts(NumPlanningAttempts());
+    group->setPlanningTime(PlanningTime());
+    group->setGoalTolerance(GoalTolerance());
     if (!group->plan(my_plan))
         return false;
     //group->move();
@@ -86,17 +95,18 @@ bool MoveitPlanning::Plan(JointState curjoints, JointState goaljoints) {
     return true;
 }
 
-urdf::Pose MoveitPlanning::GetCurrentPose() {
+RCS::Pose MoveitPlanning::GetCurrentPose() {
     // http://answers.ros.org/question/89006/retrieve-end-effector-pose-in-moveit/
 
     geometry_msgs::PoseStamped current_pose =
             group->getCurrentPose();
-    return PoseMsg2UrdfPose(current_pose.pose);
+    return GeomMsgPose2UrdfPose(current_pose.pose);
 }
 bool MoveitPlanning::Plan(geometry_msgs::Pose& pose) {
-     group->setNumPlanningAttempts(20);
-    group->setPlanningTime(15.0);
-    group->setGoalTolerance(10.0);
+    group->allowReplanning(false);
+    group->setNumPlanningAttempts(NumPlanningAttempts());
+    group->setPlanningTime(PlanningTime());
+    group->setGoalTolerance(GoalTolerance());;
     group->setPoseTarget(pose);
 
     if (!group->plan(my_plan))
@@ -105,12 +115,12 @@ bool MoveitPlanning::Plan(geometry_msgs::Pose& pose) {
     return true;
 }
 bool MoveitPlanning::Plan(Eigen::Affine3d& pose) {
-    
-    group->setNumPlanningAttempts(10);
-    group->setPlanningTime(15.0);
-    group->setGoalTolerance(10.0);
-    geometry_msgs::Pose target_pose1 = poseEigenToGeomMsg(pose);
 
+    geometry_msgs::Pose target_pose1 = PoseAffineToGeomMsg(pose);
+    group->allowReplanning(false);
+    group->setNumPlanningAttempts(NumPlanningAttempts());
+    group->setPlanningTime(PlanningTime());
+    group->setGoalTolerance(GoalTolerance());
     group->setPoseTarget(target_pose1);
 
     if (!group->plan(my_plan))
@@ -118,15 +128,17 @@ bool MoveitPlanning::Plan(Eigen::Affine3d& pose) {
      SavePlan();
      return true;
 }
-bool MoveitPlanning::Plan(urdf::Pose& pose) {
+bool MoveitPlanning::Plan(RCS::Pose& pose) {
+     Eigen::Affine3d affpose = UrdfPose2Affine3d(pose);
+    geometry_msgs::Pose target_pose1 = PoseAffineToGeomMsg(affpose);
+ 
+    
     // We will use the :planning_scene_interface:`PlanningSceneInterface`
     // class to deal directly with the world.
-    group->setNumPlanningAttempts(10);
-    group->setPlanningTime(15.0);
-    group->setGoalTolerance(0.01);
-    
-    Eigen::Affine3d affpose = urdfPose2Affine3d(pose);
-    geometry_msgs::Pose target_pose1 = poseEigenToGeomMsg(affpose);
+    group->allowReplanning(false);
+    group->setNumPlanningAttempts(NumPlanningAttempts());
+    group->setPlanningTime(PlanningTime());
+    group->setGoalTolerance(GoalTolerance());
     group->setPoseTarget(target_pose1);
 
     if (!group->plan(my_plan))
@@ -135,10 +147,10 @@ bool MoveitPlanning::Plan(urdf::Pose& pose) {
     return true;
 }
 
-bool MoveitPlanning::Plan(urdf::Pose & curpose,urdf::Pose & goalpose)
+bool MoveitPlanning::Plan(RCS::Pose & curpose,RCS::Pose & goalpose)
 {
 	robot_state::RobotState robotstate(kinematic_model);
-	robotstate.setFromIK(joint_model_group, UrdfPose2PoseMsg(curpose)) ; 
+	robotstate.setFromIK(joint_model_group, UrdfPose2GeomMsgPose(curpose)) ; 
 	group->setStartState (robotstate);
 	return Plan(goalpose);
 }
@@ -161,19 +173,21 @@ void MoveitPlanning::SavePlan() {
         plannedjts.push_back(traj);
     }
 }
-bool MoveitPlanning::Plan(std::vector<urdf::Pose>& pwaypoints) {
+bool MoveitPlanning::Plan(std::vector<RCS::Pose>& pwaypoints) {
     std::vector<geometry_msgs::Pose> waypoints;
     for(size_t i=0; i< pwaypoints.size(); i++)
     {    
-        waypoints.push_back(UrdfPose2PoseMsg(pwaypoints[i]));
+        waypoints.push_back(UrdfPose2GeomMsgPose(pwaypoints[i]));
     }
 
+    group->allowReplanning(false);
     moveit_msgs::RobotTrajectory trajectory;
     double fraction = group->computeCartesianPath(waypoints,
-            0.001, // cartesian path to be interpolated at a resolution of 1 mm 
-            //0.01, // cartesian path to be interpolated at a resolution of 1 cm 
-            0.0, // NO jump_threshold
-            trajectory);  // trajectory.joint_trajectory.points  (position)
+            CartesianInterpolationResolution(), // cartesian path to be interpolated at a resolution of 1 mm 
+            0.05, 
+            trajectory, // trajectory.joint_trajectory.points  (position)
+            false // avoid collisions
+            );  
     plannedjts.clear();
     for(size_t j=0; j< trajectory.joint_trajectory.points.size(); j++)
     {
@@ -181,5 +195,38 @@ bool MoveitPlanning::Plan(std::vector<urdf::Pose>& pwaypoints) {
         traj.position = trajectory.joint_trajectory.points[j].positions;
         plannedjts.push_back(traj);
     }
+    return true;
+}
+bool MoveitPlanning::Plan(JointState curjoints, std::vector<RCS::Pose>& inwaypoints, double maxstep) {
+    std::vector<Eigen::Affine3d > waypoints;
+    std::vector< robot_state::RobotStatePtr > traj;
+    for (size_t i = 0; i < curjoints.position.size(); i++)
+        kinematic_state->setJointPositions(joint_names[i], &curjoints.position[i]);
+    
+    for (size_t i = 0; i < inwaypoints.size(); i++)
+        waypoints.push_back(UrdfPose2Affine3d(inwaypoints[i]));
+
+    moveit::core::JointModelGroup * jmg = (moveit::core::JointModelGroup *)joint_model_group;
+
+    double percentdone = kinematic_state->computeCartesianPath(jmg,
+            traj, 
+            kinematic_state->getLinkModel(0), 
+            ( const EigenSTL::vector_Affine3d &) waypoints, 
+            true, // bool global_reference_frame, 
+            0.01, 
+            0.0); // disable jump threshold - fails to finish if exceeded?
+    
+#if 0
+    // Get RobotTrajectory_msg from RobotTrajectory
+    moveit_msgs::RobotTrajectory trajectory_;
+    robot_trajectory::RobotTrajectory rt(kinematic_state->getRobotModel(), "manipulator");
+    rt.getRobotTrajectoryMsg(trajectory_);
+    plannedjts.clear();
+    for (size_t j = 0; j < trajectory.joint_trajectory.points.size(); j++) {
+        JointState traj;
+        traj.position = trajectory.joint_trajectory.points[j].positions;
+        plannedjts.push_back(traj);
+    }
+#endif
     return true;
 }

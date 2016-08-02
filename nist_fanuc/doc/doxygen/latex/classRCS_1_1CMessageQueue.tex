@@ -3,7 +3,7 @@
 }
 
 
-The \hyperlink{classRCS_1_1CMessageQueue}{C\-Message\-Queue} offers a mutexed front to a stl deque. The queue is a L\-I\-F\-O data structure. Useful for safely sharing data between multiple threads.  
+The \hyperlink{classRCS_1_1CMessageQueue}{C\-Message\-Queue} offers a mutexed front to a S\-T\-L/std deque. The queue is a L\-I\-F\-O data structure. Useful for safely sharing data between multiple threads.  
 
 
 
@@ -27,7 +27,7 @@ size\-\_\-t \hyperlink{classRCS_1_1CMessageQueue_a7929c4ce871eab3dfb8dfabd5bf4bd
 T \hyperlink{classRCS_1_1CMessageQueue_afbde6b0fa4044557ba5f990c69d52ff7}{Pop\-Front\-Msg\-Queue} ()
 \begin{DoxyCompactList}\small\item\em Pop\-Front\-Msg\-Queue mutex pop of front item of message queue. \end{DoxyCompactList}\item 
 T \hyperlink{classRCS_1_1CMessageQueue_a5d669a3cecd23be9113567421f2b06a1}{Back\-Msg\-Queue} ()
-\begin{DoxyCompactList}\small\item\em Back\-Msg\-Queue mutex pop of back item of message queue. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Back\-Msg\-Queue mutex retrieves back item of message queue. Does not pop queue. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1CMessageQueue_a1f23fdbd7b3c7c3861abea8fb0899288}{Add\-Msg\-Queue} (T t)
 \begin{DoxyCompactList}\small\item\em Add\-Msg\-Queue mutex push to back an item onto message queue. \end{DoxyCompactList}\item 
 void \hyperlink{classRCS_1_1CMessageQueue_ab9a9aa2c8e05c74bd0b67dc2b576850f}{Insert\-Front\-Msg\-Queue} (T t)
@@ -44,7 +44,7 @@ boost\-::mutex \hyperlink{classRCS_1_1CMessageQueue_a874fdf08657e4ca2da89168bb61
 \subsection{Detailed Description}
 \subsubsection*{template$<$typename T$>$class R\-C\-S\-::\-C\-Message\-Queue$<$ T $>$}
 
-The \hyperlink{classRCS_1_1CMessageQueue}{C\-Message\-Queue} offers a mutexed front to a stl deque. The queue is a L\-I\-F\-O data structure. Useful for safely sharing data between multiple threads. 
+The \hyperlink{classRCS_1_1CMessageQueue}{C\-Message\-Queue} offers a mutexed front to a S\-T\-L/std deque. The queue is a L\-I\-F\-O data structure. Useful for safely sharing data between multiple threads. 
 
 \subsection{Member Typedef Documentation}
 \hypertarget{classRCS_1_1CMessageQueue_a272ec6240c0ae616f66e71a033326e28}{\index{R\-C\-S\-::\-C\-Message\-Queue@{R\-C\-S\-::\-C\-Message\-Queue}!xml\-\_\-message\-\_\-queue@{xml\-\_\-message\-\_\-queue}}
@@ -88,7 +88,7 @@ Add\-Msg\-Queue mutex push to back an item onto message queue.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1CMessageQueue_a5d669a3cecd23be9113567421f2b06a1}
 
 
-Back\-Msg\-Queue mutex pop of back item of message queue. 
+Back\-Msg\-Queue mutex retrieves back item of message queue. Does not pop queue. 
 
 \begin{DoxyReturn}{Returns}
 T returns back item from message queue. 
@@ -158,4 +158,4 @@ Size\-Msg\-Queue returns number of items in message queue.
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSMsgQueue_8h}{R\-C\-S\-Msg\-Queue.\-h}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-N\-I\-S\-T/\hyperlink{RCSMsgQueue_8h}{R\-C\-S\-Msg\-Queue.\-h}\end{DoxyCompactItemize}

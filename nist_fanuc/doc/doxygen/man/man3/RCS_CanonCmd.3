@@ -1,4 +1,4 @@
-.TH "RCS::CanonCmd" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CanonCmd" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -29,6 +29,12 @@ RCS::CanonCmd \-
 .br
 .ti -1c
 .RI "\fBVAR\fP (StatusID, unsigned long long)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (Rates, \fBIRate\fP)"
+.br
+.ti -1c
+.RI "bool \fBIsMotionCmd\fP ()"
 .br
 .in -1c
 .SS "Public Attributes"
@@ -89,20 +95,23 @@ RCS::CanonCmd \-
 .RI "\fBJointState\fP \fBjoints\fP"
 .br
 .ti -1c
-.RI "urdf::Pose \fBpose\fP"
+.RI "\fBJointState\fP \fBseed\fP"
 .br
 .ti -1c
-.RI "urdf::Pose \fBtolerance\fP"
+.RI "\fBRCS::Pose\fP \fBpose\fP"
 .br
 .ti -1c
-.RI "std::vector< urdf::Pose > \fBwaypoints\fP"
+.RI "\fBRCS::Pose\fP \fBtolerance\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBRCS::Pose\fP > \fBwaypoints\fP"
 .br
 .in -1c
 .SS "Static Public Attributes"
 
 .in +1c
 .ti -1c
-.RI "static unsigned long long \fB_cmdid\fP =0"
+.RI "static unsigned long long \fB_cmdid\fP = 0"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -118,15 +127,19 @@ RCS::CanonCmd \-
 .PP 
 .SS "void RCS::CanonCmd::Init ()"
 
+.SS "bool RCS::CanonCmd::IsMotionCmd ()"
+
 .SS "RCS::CanonCmd::VAR (CommandID, unsigned longlong)"
 
 .SS "RCS::CanonCmd::VAR (ParentCommandID, unsigned longlong)"
 
 .SS "RCS::CanonCmd::VAR (StatusID, unsigned longlong)"
 
+.SS "RCS::CanonCmd::VAR (Rates, \fBIRate\fP)"
+
 .SH "Member Data Documentation"
 .PP 
-.SS "unsigned long long RCS::CanonCmd::_cmdid =0\fC [static]\fP"
+.SS "unsigned long long RCS::CanonCmd::_cmdid = 0\fC [static]\fP"
 
 .SS "double RCS::CanonCmd::absJointAcc"
 joint max acceleration 
@@ -156,19 +169,21 @@ gripper position 0 to 1
 vector of joint numbers used by command 
 .SS "\fBJointState\fP RCS::CanonCmd::joints"
 commanded joint state 
-.SS "urdf::Pose RCS::CanonCmd::pose"
+.SS "\fBRCS::Pose\fP RCS::CanonCmd::pose"
 commanded pose state 
+.SS "\fBJointState\fP RCS::CanonCmd::seed"
+near pose joint state 
 .SS "std::vector<double> RCS::CanonCmd::speed"
 vector of joint velocities 
 .SS "\fBCanonStatusType\fP RCS::CanonCmd::status"
 status type 
 .SS "\fBCanonStopMotionType\fP RCS::CanonCmd::stoptype"
 stop trajectory choice 
-.SS "urdf::Pose RCS::CanonCmd::tolerance"
+.SS "\fBRCS::Pose\fP RCS::CanonCmd::tolerance"
 commanded tolerance 
 .SS "\fBTrajPointType\fP RCS::CanonCmd::type"
 trajectory points type 
-.SS "std::vector<urdf::Pose> RCS::CanonCmd::waypoints"
+.SS "std::vector<\fBRCS::Pose\fP> RCS::CanonCmd::waypoints"
 commanded cartesian waypoints in trajectory 
 
 .SH "Author"

@@ -1,4 +1,4 @@
-.TH "MotionControl" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "MotionControl" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -19,11 +19,11 @@ MotionControl \-
 .br
 .RI "\fIexecuteTrajectory will send a traject to ros to execute \fP"
 .ti -1c
-.RI "urdf::Pose \fBcomputeTranslation\fP (urdf::Pose &_curPos, urdf::Pose &_goalPos, double dIncrement)"
+.RI "\fBRCS::Pose\fP \fBcomputeTranslation\fP (\fBRCS::Pose\fP &_curPos, \fBRCS::Pose\fP &_goalPos, double dIncrement)"
 .br
 .RI "\fIReturn linear interpolation (lerp) between current and goal translation\&. \fP"
 .ti -1c
-.RI "std::vector< urdf::Pose > \fBcomputeWaypoints\fP (urdf::Pose &_curPos, urdf::Pose &_goalPos, double dGap=0\&.001, bool bAddStart=false)"
+.RI "std::vector< \fBRCS::Pose\fP > \fBcomputeWaypoints\fP (\fBRCS::Pose\fP &_curPos, \fBRCS::Pose\fP &_goalPos, double dGap=0\&.001, bool bAddStart=false)"
 .br
 .RI "\fICompute waypoints between current and goal poses with assigned distance between poses\&. \fP"
 .ti -1c
@@ -38,7 +38,7 @@ MotionControl \-
 .RI "int \fBcomputeIncrements\fP (std::vector< double > &_curJts, std::vector< double > &_goalJts, double gap=0\&.001)"
 .br
 .ti -1c
-.RI "int \fBcomputeIncrements\fP (urdf::Pose &_curPos, urdf::Pose &_goalPos, double dGap=0\&.001)"
+.RI "int \fBcomputeIncrements\fP (\fBRCS::Pose\fP &_curPos, \fBRCS::Pose\fP &_goalPos, double dGap=0\&.001)"
 .br
 .in -1c
 .SS "Static Public Member Functions"
@@ -105,9 +105,9 @@ vector of straighline waypoint poses with gap distance between poses\&.
 
 .SS "int MotionControl::computeIncrements (std::vector< double > &_curJts, std::vector< double > &_goalJts, doublegap = \fC0\&.001\fP)"
 
-.SS "int MotionControl::computeIncrements (urdf::Pose &_curPos, urdf::Pose &_goalPos, doubledGap = \fC0\&.001\fP)"
+.SS "int MotionControl::computeIncrements (\fBRCS::Pose\fP &_curPos, \fBRCS::Pose\fP &_goalPos, doubledGap = \fC0\&.001\fP)"
 
-.SS "urdf::Pose MotionControl::computeTranslation (urdf::Pose &_curPos, urdf::Pose &_goalPos, doubledIncrement)"
+.SS "\fBRCS::Pose\fP MotionControl::computeTranslation (\fBRCS::Pose\fP &_curPos, \fBRCS::Pose\fP &_goalPos, doubledIncrement)"
 
 .PP
 Return linear interpolation (lerp) between current and goal translation\&. 
@@ -149,7 +149,7 @@ vector of straighline waypoint poses with gap distance between poses\&.
 .RE
 .PP
 
-.SS "std::vector< urdf::Pose > MotionControl::computeWaypoints (urdf::Pose &_curPos, urdf::Pose &_goalPos, doubledGap = \fC0\&.001\fP, boolbAddStart = \fCfalse\fP)"
+.SS "std::vector< \fBRCS::Pose\fP > MotionControl::computeWaypoints (\fBRCS::Pose\fP &_curPos, \fBRCS::Pose\fP &_goalPos, doubledGap = \fC0\&.001\fP, boolbAddStart = \fCfalse\fP)"
 
 .PP
 Compute waypoints between current and goal poses with assigned distance between poses\&. 

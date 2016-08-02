@@ -257,8 +257,11 @@ class FractionType;
 class LengthUnitEnumType;
 class PointType;
 class PoseType;
+class PositiveDecimalType;
 class TorqueUnitEnumType;
+class TwistType;
 class VectorType;
+class WrenchType;
 
 #include <memory>    // ::std::auto_ptr
 #include <limits>    // std::numeric_limits
@@ -709,6 +712,38 @@ class PoseType: public ::DataThingType
   ::xsd::cxx::tree::one< ZAxis_type > ZAxis_;
 };
 
+class PositiveDecimalType: public ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal >
+{
+  public:
+  // Constructors.
+  //
+  PositiveDecimalType (const ::xml_schema::decimal&);
+
+  PositiveDecimalType (const ::xercesc::DOMElement& e,
+                       ::xml_schema::flags f = 0,
+                       ::xml_schema::container* c = 0);
+
+  PositiveDecimalType (const ::xercesc::DOMAttr& a,
+                       ::xml_schema::flags f = 0,
+                       ::xml_schema::container* c = 0);
+
+  PositiveDecimalType (const ::std::string& s,
+                       const ::xercesc::DOMElement* e,
+                       ::xml_schema::flags f = 0,
+                       ::xml_schema::container* c = 0);
+
+  PositiveDecimalType (const PositiveDecimalType& x,
+                       ::xml_schema::flags f = 0,
+                       ::xml_schema::container* c = 0);
+
+  virtual PositiveDecimalType*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  virtual 
+  ~PositiveDecimalType ();
+};
+
 class TorqueUnitEnumType: public ::xml_schema::nmtoken
 {
   public:
@@ -763,6 +798,81 @@ class TorqueUnitEnumType: public ::xml_schema::nmtoken
   public:
   static const char* const _xsd_TorqueUnitEnumType_literals_[2];
   static const value _xsd_TorqueUnitEnumType_indexes_[2];
+};
+
+class TwistType: public ::DataThingType
+{
+  public:
+  // LinearVelocity
+  //
+  typedef ::VectorType LinearVelocity_type;
+  typedef ::xsd::cxx::tree::traits< LinearVelocity_type, char > LinearVelocity_traits;
+
+  const LinearVelocity_type&
+  LinearVelocity () const;
+
+  LinearVelocity_type&
+  LinearVelocity ();
+
+  void
+  LinearVelocity (const LinearVelocity_type& x);
+
+  void
+  LinearVelocity (::std::auto_ptr< LinearVelocity_type > p);
+
+  // AngularVelocity
+  //
+  typedef ::VectorType AngularVelocity_type;
+  typedef ::xsd::cxx::tree::traits< AngularVelocity_type, char > AngularVelocity_traits;
+
+  const AngularVelocity_type&
+  AngularVelocity () const;
+
+  AngularVelocity_type&
+  AngularVelocity ();
+
+  void
+  AngularVelocity (const AngularVelocity_type& x);
+
+  void
+  AngularVelocity (::std::auto_ptr< AngularVelocity_type > p);
+
+  // Constructors.
+  //
+  TwistType (const LinearVelocity_type&,
+             const AngularVelocity_type&);
+
+  TwistType (::std::auto_ptr< LinearVelocity_type >,
+             ::std::auto_ptr< AngularVelocity_type >);
+
+  TwistType (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f = 0,
+             ::xml_schema::container* c = 0);
+
+  TwistType (const TwistType& x,
+             ::xml_schema::flags f = 0,
+             ::xml_schema::container* c = 0);
+
+  virtual TwistType*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  TwistType&
+  operator= (const TwistType& x);
+
+  virtual 
+  ~TwistType ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< LinearVelocity_type > LinearVelocity_;
+  ::xsd::cxx::tree::one< AngularVelocity_type > AngularVelocity_;
 };
 
 class VectorType: public ::DataThingType
@@ -847,6 +957,81 @@ class VectorType: public ::DataThingType
   ::xsd::cxx::tree::one< K_type > K_;
 };
 
+class WrenchType: public ::DataThingType
+{
+  public:
+  // Force
+  //
+  typedef ::VectorType Force_type;
+  typedef ::xsd::cxx::tree::traits< Force_type, char > Force_traits;
+
+  const Force_type&
+  Force () const;
+
+  Force_type&
+  Force ();
+
+  void
+  Force (const Force_type& x);
+
+  void
+  Force (::std::auto_ptr< Force_type > p);
+
+  // Moment
+  //
+  typedef ::VectorType Moment_type;
+  typedef ::xsd::cxx::tree::traits< Moment_type, char > Moment_traits;
+
+  const Moment_type&
+  Moment () const;
+
+  Moment_type&
+  Moment ();
+
+  void
+  Moment (const Moment_type& x);
+
+  void
+  Moment (::std::auto_ptr< Moment_type > p);
+
+  // Constructors.
+  //
+  WrenchType (const Force_type&,
+              const Moment_type&);
+
+  WrenchType (::std::auto_ptr< Force_type >,
+              ::std::auto_ptr< Moment_type >);
+
+  WrenchType (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
+
+  WrenchType (const WrenchType& x,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
+
+  virtual WrenchType*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  WrenchType&
+  operator= (const WrenchType& x);
+
+  virtual 
+  ~WrenchType ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< Force_type > Force_;
+  ::xsd::cxx::tree::one< Moment_type > Moment_;
+};
+
 #include <iosfwd>
 
 #include <xercesc/sax/InputSource.hpp>
@@ -911,6 +1096,16 @@ void
 operator<< (::xercesc::DOMElement&, const PoseType&);
 
 void
+operator<< (::xercesc::DOMElement&, const PositiveDecimalType&);
+
+void
+operator<< (::xercesc::DOMAttr&, const PositiveDecimalType&);
+
+void
+operator<< (::xml_schema::list_stream&,
+            const PositiveDecimalType&);
+
+void
 operator<< (::xercesc::DOMElement&, const TorqueUnitEnumType&);
 
 void
@@ -921,7 +1116,13 @@ operator<< (::xml_schema::list_stream&,
             const TorqueUnitEnumType&);
 
 void
+operator<< (::xercesc::DOMElement&, const TwistType&);
+
+void
 operator<< (::xercesc::DOMElement&, const VectorType&);
+
+void
+operator<< (::xercesc::DOMElement&, const WrenchType&);
 
 #include <xsd/cxx/post.hxx>
 

@@ -1,0 +1,1205 @@
+<!--?xml version="1.0" encoding="utf-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="Org-mode">
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link href="howto_files/bootstrap.css" rel="stylesheet" media="screen">
+<link href="howto_files/bootstrap-responsive.css" rel="stylesheet">
+<link href="howto_files/mine.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title"></h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">How to create a webpage like this with Emacs org-mode</a></li>
+<li><a href="#sec-2">gazebo ros note</a>
+<ul>
+<li><a href="#sec-2-1">Useful links</a></li>
+<li><a href="#sec-2-2">use LADAR</a></li>
+<li><a href="#sec-2-3">how to create your package with catkin</a></li>
+<li><a href="#sec-2-4">using RViz to visualize your robots</a></li>
+<li><a href="#sec-2-5">Set Model Pose and Twist in Simulation via Topics</a></li>
+<li><a href="#sec-2-6">how to get&amp;set  model states</a></li>
+<li><a href="#sec-2-7">how to get and set link states</a></li>
+<li><a href="#sec-2-8">Retrieving Simulation World and Object Properties</a></li>
+<li><a href="#sec-2-9">Use of rosservice</a></li>
+<li><a href="#sec-2-10">How to detect contacts</a></li>
+<li><a href="#sec-2-11">use camera data</a></li>
+<li><a href="#sec-2-12">install Gazebo 3.0 from source</a></li>
+<li><a href="#sec-2-13">tf notes</a></li>
+<li><a href="#sec-2-14">apply a external force to a link</a></li>
+<li><a href="#sec-2-15">notes about customized messages</a></li>
+<li><a href="#sec-2-16">visualization</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Video format conversion under Ubuntu</a></li>
+<li><a href="#sec-4">How to Emacs</a>
+<ul>
+<li><a href="#sec-4-1">installation from source</a></li>
+<li><a href="#sec-4-2">narrowing for programming</a></li>
+<li><a href="#sec-4-3">common key bindings</a></li>
+<li><a href="#sec-4-4">color theme</a></li>
+<li><a href="#sec-4-5">Column View in org-mode</a></li>
+<li><a href="#sec-4-6">search in Emacs</a></li>
+<li><a href="#sec-4-7">get rid of ^M&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="REMOVE">REMOVE</span></span></a></li>
+<li><a href="#sec-4-8">org-mode&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="KEYS">KEYS</span></span></a></li>
+<li><a href="#sec-4-9">Emacs org clocking&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="CLOCK_KEYS">CLOCK_KEYS</span></span></a></li>
+<li><a href="#sec-4-10">Functions&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="FUNCTIONS">FUNCTIONS</span></span></a></li>
+<li><a href="#sec-4-11">Spreadsheet</a></li>
+<li><a href="#sec-4-12">useful command</a></li>
+<li><a href="#sec-4-13">UI settings</a></li>
+<li><a href="#sec-4-14">switch between input method</a></li>
+<li><a href="#sec-4-15">useful command</a></li>
+<li><a href="#sec-4-16">How to make presentation / slides</a></li>
+<li><a href="#sec-4-17">Chinese in Emacs</a></li>
+<li><a href="#sec-4-18">presentation using org-mode</a></li>
+<li><a href="#sec-4-19">change font size</a></li>
+<li><a href="#sec-4-20">How to split into 3 even windows</a></li>
+<li><a href="#sec-4-21">How to decide whether to save (diff buffer with original file)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="http://www.andrew.cmu.edu/user/cgliu/index.html">Chengang Liu</a>
+      <div class="nav-collapse collapse">   
+        <ul class="nav">                            
+          <li class="">
+            <a href="http://www.andrew.cmu.edu/user/cgliu/index.html">Home</a>
+          </li>
+          <li class="">
+            <a href="http://www.andrew.cmu.edu/user/cgliu/research.html">Current Research</a>
+          </li>
+          <li class="">
+            <a href="http://www.andrew.cmu.edu/user/cgliu/project-demo-updated/index.html">Past Experience</a>
+          </li>
+          <li class="">
+            <a href="http://www.andrew.cmu.edu/user/cgliu/publications.html">Publications &amp; Patents</a>
+          </li>
+          <li class="">
+            <a href="http://www.andrew.cmu.edu/user/cgliu/howto.html">How to</a>
+          </li>
+          <li class="">
+            <a href="http://www.andrew.cmu.edu/user/cgliu/gallery/index.html">Gallery</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">How to create a webpage like this with Emacs org-mode</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>org-mode project configuration
+</li>
+</ul>
+<pre class="example">(setq org-publish-project-alist
+      '(
+        ("org-notes"               ;Used to export .org file
+         :base-directory "~/www/"  ;directory holds .org files 
+         :base-extension "org"     ;process .org file only    
+         :publishing-directory "~/public_html/"    ;export destination
+         :recursive t
+         :publishing-function org-html-publish-to-html
+	 :headline-levels 4               ; Just the default for this project.
+         ;; :auto-preamble t
+         :auto-sitemap t                  ; Generate sitemap.org automagically...
+         :sitemap-filename "sitemap.org"  ; ... call it sitemap.org (it's the default)...
+         :sitemap-title "Sitemap"         ; ... with title 'Sitemap'.
+         :export-creator-info nil    ; Disable the inclusion of "Created by Org" in the postamble.
+         :export-author-info nil     ; Disable the inclusion of "Author: Your Name" in the postamble.
+         :auto-postamble nil         ; Disable auto postamble 
+         :table-of-contents t        ; Set this to "t" if you want a table of contents, set to "nil" disables TOC.
+         :section-numbers nil        ; Set this to "t" if you want headings to have numbers.
+         :style-include-default nil  ;Disable the default css style
+	 :html-preamble nil
+	 :html-postamble nil
+        )
+        ("org-static"                ;Used to publish static files
+         :base-directory "~/www/"
+         :base-extension "css\\|js\\|png\\|JPG\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+	 :publishing-directory "~/public_html/"    ;export destination
+         :recursive t
+         :publishing-function org-publish-attachment
+         )
+        ("org" :components ("org-notes" "org-static")) ;combine "org-notes" and "org-static" into one function call
+	))
+</pre>
+<ul class="org-ul">
+<li>download <a href="http://getbootstrap.com/2.3.2/">Bootstrap</a> and extract .zip and make sure these folders (css, img and js) are in the same folder as your org files. 
+</li>
+<li>Use the following line as the first line in your org files. 
+</li>
+</ul>
+<pre class="example">#+INCLUDE: "./css/level-0.orgcss" 
+#+TITLE:
+</pre>
+<ul class="org-ul">
+<li>create level-0.orgcss as following and save it in /css
+</li>
+</ul>
+<pre class="example">#+AUTHOR:    
+#+EMAIL:     
+#+LINK_HOME: index.html
+#+LINK_UP:   index.html
+#+HTML_HEAD:   &lt;link href="css/bootstrap.min.css" rel="stylesheet" media="screen"&gt;
+#+HTML_HEAD:   &lt;link href="css/bootstrap-responsive.min.css" rel="stylesheet"&gt;
+#+HTML_HEAD:   &lt;link href="css/mine.css" rel="stylesheet" type="text/css"&gt;
+#+OPTIONS: :html-include-style t toc:2 author:nil creator:nil timestamp:nil
+
+#+BEGIN_HTML
+    &lt;div class="navbar navbar-fixed-top"&gt;
+      &lt;div class="navbar-inner"&gt;
+        &lt;div class="container"&gt;
+          &lt;button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"&gt;
+            &lt;span class="icon-bar"&gt;&lt;/span&gt;
+            &lt;span class="icon-bar"&gt;&lt;/span&gt;
+            &lt;span class="icon-bar"&gt;&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;a class="brand" href="./index.html"&gt;Chengang Liu&lt;/a&gt;
+          &lt;div class="nav-collapse collapse"&gt;	
+            &lt;ul class="nav"&gt;				
+              &lt;li class=""&gt;
+                &lt;a href="./index.html"&gt;Home&lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li class=""&gt;
+                &lt;a href="./research.html"&gt;Current Research&lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li class=""&gt;
+                &lt;a href="./project-demo-updated/index.html"&gt;Past Experience&lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li class=""&gt;
+                &lt;a href="./publications.html"&gt;Publications &amp; Patents&lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li class=""&gt;
+                &lt;a href="./howto.html"&gt;How to&lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li class=""&gt;
+                &lt;a href="./gallery/index.html"&gt;Gallery&lt;/a&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+#+END_HTML
+</pre>
+
+<ul class="org-ul">
+<li>you are done and enjoy!
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">gazebo ros note</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Useful links</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Tutorials/1.9/Using A URDF In Gazebo <br>
+    <a href="http://gazebosim.org/wiki/Tutorials/1.9/ROS_Communication_with_Gazebo">http://gazebosim.org/wiki/Tutorials/1.9/ROS_Communication_with_Gazebo</a>
+</li>
+<li>Core ROS Tutorials <br>
+    <a href="http://wiki.ros.org/ROS/Tutorials">http://wiki.ros.org/ROS/Tutorials</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">use LADAR</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>To set rotation speed commands to the LIDAR spindle, for drcsim &gt;= 4.1.0, open a new terminal and type
+</li>
+</ul>
+<pre class="example">rostopic pub --once /multisense_sl/set_spindle_speed std_msgs/Float64 '{data: 3.0}'
+</pre>
+<p>
+If you are using atlas versions &gt;= v3 (e.g. atlas_v3.launch), use the following command instead:
+</p>
+<pre class="example">rostopic pub --once /multisense/set_spindle_speed std_msgs/Float64 '{data: 3.0}'
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">how to create your package with catkin</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+<a href="http://wiki.ros.org/catkin/Tutorials">http://wiki.ros.org/catkin/Tutorials</a>
+</p>
+<ol class="org-ol">
+<li>create a catkin workspace if you don't yet
+</li>
+</ol>
+<pre class="example">mkdir -p ~/catkin_ws_path/src
+cd ~/catkin_ws_path/src
+catkin_init_workspace
+cd ~/catkin_ws_path/
+catkin_make
+</pre>
+
+<p>
+Make sure ros can find your packages under your catkin workspace by adding the following to your ~/.bashrc <sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> 
+</p>
+<pre class="example">source ~/catkin_ws_path/devel/setup.bash
+</pre>
+
+<ol class="org-ol">
+<li>Create your own package 
+</li>
+</ol>
+<pre class="example">cd ~/catkin_ws/src
+catkin_create_pkg &lt;package_name&gt; [depend1] [depend2] [depend3]
+e.g. catkin_create_pkg your_pkg_name std_msgs rospy roscpp
+e.g. catkin_create_pkg r2d2 roscpp rospy std_msgs tf
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">using RViz to visualize your robots</h3>
+<div class="outline-text-3" id="text-2-4">
+</div><div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1">resources</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+<a href="http://wiki.ros.org/rviz/UserGuide">User Manual</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2">how to run rviz</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+Open a new terminal and run 
+</p>
+<pre class="example">roscore &amp;
+rosrun rviz rviz
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">Set Model Pose and Twist in Simulation via Topics</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Topics can be used to set the pose and twist of a model rapidly without 
+waiting for the pose setting action to complete. To do so, publish the 
+desired model state message to /gazebo/set_model_state topic. For 
+example, to test pose setting via topics, add a coke can to the 
+simulation by spawning a new model from the online database:
+</p>
+<pre class="example">rosrun gazebo_ros spawn_model -database coke_can -gazebo -model coke_can -y 1
+</pre>
+<p>
+and set the pose of the coke can by publishing on the /gazebo/set_model_state topic:
+</p>
+<pre class="example">rostopic pub -r 20 /gazebo/set_model_state gazebo_msgs/ModelState '{model_name: coke_can, pose: { position: { x: 1, y: 0, z: 2 }, orientation: {x: 0, y: 0.491983115673, z: 0, w: 0.870604813099 } }, twist: { linear: { x: 0, y: 0, z: 0 }, angular: { x: 0, y: 0, z: 0}  }, reference_frame: world }'
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">how to get&amp;set  model states</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+get 
+</p>
+<ol class="org-ol">
+<li>by rostopic
+</li>
+</ol>
+<pre class="example">rostopic echo -n 1 /gazebo/model_states
+</pre>
+<ol class="org-ol">
+<li>by rosservice 
+</li>
+</ol>
+<pre class="example">rosservice call gazebo/get_model_state '{model_name: atlas}'
+</pre>
+<p>
+set 
+</p>
+<ol class="org-ol">
+<li>by topic 
+</li>
+</ol>
+<pre class="example">rostopic pub -r 20 /gazebo/set_model_state gazebo_msgs/ModelState '{model_name: coke_can, pose: { position: { x: 1, y: 0, z: 2 }, orientation: {x: 0, y: 0.491983115673, z: 0, w: 0.870604813099 } }, twist: { linear: { x: 0, y: 0, z: 0 }, angular: { x: 0, y: 0, z: 0}  }, reference_frame: world }'
+</pre>
+</div>
+<div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1">in cpp</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+refer to <a href="http://wiki.silgon.me/doku.php?id=ros:gazebo:model_state">http://wiki.silgon.me/doku.php?id=ros:gazebo:model_state</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7">how to get and set link states</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+get 
+</p>
+<ol class="org-ol">
+<li>by rostopic
+</li>
+</ol>
+<pre class="example">rostopic echo -n 1 /gazebo/link_states
+</pre>
+<ol class="org-ol">
+<li>by rosservice 
+</li>
+</ol>
+<pre class="example">rosservice call /gazebo/get_link_state '{link_name: pelvis,  reference_frame: world}'
+</pre>
+<p>
+set 
+</p>
+<ol class="org-ol">
+<li>by rostopic
+</li>
+</ol>
+<pre class="example">rostopic pub -r 20 /gazebo/set_link_state gazebo_msgs/LinkState '{link_name: coke_can, pose: { position: { x: 1, y: 0, z: 2 }, orientation: {x: 0, y: 0.491983115673, z: 0, w: 0.870604813099 } }, twist: { linear: { x: 0, y: 0, z: 0 }, angular: { x: 0, y: 0, z: 0}  }, reference_frame: world }'
+</pre>
+<ol class="org-ol">
+<li>by rosservice 
+</li>
+</ol>
+<pre class="example">rosservice call /gazebo/set_link_state '{link_state: {link_name: pelvis, pose: { position: {  x: 2, y: -0.55, z: 0.85} , orientation: {x: -0.01, y: -0.06, z: 0.00, w: 0.99} }, twist: {linear: {x: -0.00, y: 0.00, z: -0.00} , angular: {  x: -0.00, y: 0.01, z: 0.00 } } , reference_frame: world } }'
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8">Retrieving Simulation World and Object Properties</h3>
+<div class="outline-text-3" id="text-2-8">
+<ul class="org-ul">
+<li>You can get a list of models (ground_plane, coke cane, rrbot) in the world by running:
+</li>
+</ul>
+<pre class="example">rosservice call gazebo/get_world_properties
+</pre>
+<ul class="org-ul">
+<li>retrieve details of a specific model by
+</li>
+</ul>
+<pre class="example">rosservice call gazebo/get_model_properties '{model_name: rrbot}'
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9">Use of rosservice</h3>
+<div class="outline-text-3" id="text-2-9">
+<dl class="org-dl">
+<dt> rosservice list </dt><dd>list all service
+</dd>
+<dt> rosservice type </dt><dd>show service type
+</dd>
+<dt> rossrv show </dt><dd>show detail of service type
+</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10">How to detect contacts</h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+<a href="http://gazebosim.org/wiki/Tutorials/1.3/sensors/contact">http://gazebosim.org/wiki/Tutorials/1.3/sensors/contact</a>
+two ways:
+</p>
+<ul class="org-ul">
+<li>add contact sensor
+</li>
+<li>use Plugin 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11">use camera data</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+refer to <a href="http://wiki.ros.org/image_view">http://wiki.ros.org/image_view</a>
+</p>
+</div>
+<div id="outline-container-sec-2-11-1" class="outline-4">
+<h4 id="sec-2-11-1">show camera data</h4>
+<div class="outline-text-4" id="text-2-11-1">
+<ul class="org-ul">
+<li>rosrun image_view image_view image:=&lt;image topic&gt; [image transport type]
+for example:
+</li>
+</ul>
+<pre class="example">rosrun image_view image_view image:=/r_situational_awareness_camera/image_raw
+</pre>
+<ul class="org-ul">
+<li>rosrun image_view stereo_view stereo:=&lt;stereo namespace&gt; image:=&lt;image topic identifier&gt;
+for example:
+</li>
+</ul>
+<pre class="example">rosrun image_view stereo_view stereo:=/multisense_sl image:=/image_mono
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-11-2" class="outline-4">
+<h4 id="sec-2-11-2">recode camera data</h4>
+<div class="outline-text-4" id="text-2-11-2">
+<ul class="org-ul">
+<li>rosrun image_view video_recorder image:=&lt;image topic&gt; [_parameter:=value] 
+for example: 
+</li>
+</ul>
+<pre class="example">rosrun image_view video_recorder image:=/multisense_sl/right/image_raw _filename:=egress_v1.avi
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-12" class="outline-3">
+<h3 id="sec-2-12">install Gazebo 3.0 from source</h3>
+<div class="outline-text-3" id="text-2-12">
+<ol class="org-ol">
+<li>Prerequisites
+</li>
+</ol>
+
+<p>
+Make sure you have removed the Ubuntu pre-compiled binaries before installing from source:
+</p>
+
+<p>
+sudo apt-get remove 'gazebo-*' 'sdformat-*'
+</p>
+
+<p>
+We also recommend ROS users remove older ROS versions of Gazebo:
+</p>
+
+<p>
+sudo apt-get remove ros-hydro-simulator-gazebo ros-indigo-simulator-gazebo
+</p>
+
+<ol class="org-ol">
+<li>install all dep 
+for Precise
+</li>
+</ol>
+<pre class="example">sudo apt-get install build-essential libtinyxml-dev libboost-all-dev cmake mercurial pkg-config libprotoc-dev libprotobuf-dev protobuf-compiler libqt4-dev libtar-dev libcurl4-openssl-dev libcegui-mk2-dev libopenal-dev libtbb-dev libswscale-dev libavformat-dev libavcodec-dev libogre-dev libgts-dev libltdl3-dev playerc++ libxml2-dev libfreeimage-dev freeglut3-dev
+</pre>
+
+<ol class="org-ol">
+<li>Build And Install SDFormat
+</li>
+</ol>
+<pre class="example">cd ~; hg clone https://bitbucket.org/osrf/sdformat
+cd ~/sdformat
+hg up sdf_2.0
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+make -j4
+sudo make install
+</pre>
+<ol class="org-ol">
+<li>download Gazebo 3.0 and 
+</li>
+</ol>
+<pre class="example">mkdir build
+cd build
+cmake ../
+make -j4
+sudo make install
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2-13" class="outline-3">
+<h3 id="sec-2-13">tf notes</h3>
+<div class="outline-text-3" id="text-2-13">
+</div><div id="outline-container-sec-2-13-1" class="outline-4">
+<h4 id="sec-2-13-1">resources</h4>
+<div class="outline-text-4" id="text-2-13-1">
+<p>
+<a href="http://wiki.ros.org/tf/Tutorials">Tutorials</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-13-2" class="outline-4">
+<h4 id="sec-2-13-2">how to show the relationship between frames</h4>
+<div class="outline-text-4" id="text-2-13-2">
+<pre class="example">rosrun tf view_frames
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-14" class="outline-3">
+<h3 id="sec-2-14">apply a external force to a link</h3>
+<div class="outline-text-3" id="text-2-14">
+<pre class="example">rosservice call /gazebo/apply_body_wrench '{body_name: "object_1::object_1_base_link", reference_frame: "object_1::object_1_base_link", wrench: { force: { x: 0, y: 0, z: -20.0 } }, start_time: 0, duration: -1 }'
+rosservice call /gazebo/apply_body_wrench '{body_name: "atlas::utorso", reference_frame: "atlas::utorso", wrench: { force: { x: 0, y: -1000, z: 0.0 } }, start_time: 0, duration: 1 }'
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-15" class="outline-3">
+<h3 id="sec-2-15">notes about customized messages</h3>
+<div class="outline-text-3" id="text-2-15">
+<ul class="org-ul">
+<li>Creating a ROS msg and srv
+     <a href="http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Creating_a_msg">http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Creating_a_msg</a>
+</li>
+<li>Generating Messages
+     <a href="http://wiki.ros.org/ROS/Tutorials/DefiningCustomMessages">http://wiki.ros.org/ROS/Tutorials/DefiningCustomMessages</a>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-16" class="outline-3">
+<h3 id="sec-2-16">visualization</h3>
+<div class="outline-text-3" id="text-2-16">
+<ul class="org-ul">
+<li>show nodes and messages
+     <a href="http://wiki.ros.org/rqt_graph">http://wiki.ros.org/rqt_graph</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Video format conversion under Ubuntu</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>ogv to mp4
+</li>
+</ul>
+<pre class="example">ffmpeg -i input.ogv output.mp4
+</pre>
+<ul class="org-ul">
+<li>webm to wmv and 10 times faster 
+</li>
+</ul>
+<pre class="example">mencoder input.webm -o x.wmv -speed 10 -ofps 30 -nosound -ovc lavc -lavcopts vcodec=wmv2:vbitrate=5000 -vf scale=960:540
+</pre>
+<ul class="org-ul">
+<li>webm to mp4 
+</li>
+</ul>
+<pre class="example">mencoder input.webm -o x.wmv -speed 10 -ofps 30 -nosound -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=5000 -vf scale=960:540
+</pre>
+<ul class="org-ul">
+<li>trim or split videos with memcoder <br>
+    start from: by -ss
+</li>
+</ul>
+<pre class="example">mencoder -ss 01:30:24 right_foot_down_x4.webm -o x.wmv -speed 10 -ofps 30 -nosound -ovc lavc -lavcopts vcodec=wmv2:vbitrate=5000 -vf scale=960:540
+</pre>
+<p>
+end at: by -endpos
+</p>
+<pre class="example">mencoder -endpos hh:mm:ss right_foot_down_x4.webm -o x.wmv -speed 10 -ofps 30 -nosound -ovc lavc -lavcopts vcodec=wmv2:vbitrate=5000 -vf scale=960:540
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">How to Emacs</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">installation from source</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>install all dependencies
+</li>
+</ul>
+<pre class="example">sudo apt-get build-dep emacs23
+</pre>
+
+<ul class="org-ul">
+<li>download source code from 
+     <a href="http://www.gnu.org/software/emacs/">http://www.gnu.org/software/emacs/</a>
+</li>
+<li>extract emacs-xx.x.tar.gz and install 
+</li>
+</ul>
+<pre class="example">tar -zxvf emacs-24.3.tar.gz 
+cd emacs-24.3
+./configure
+make 
+sudo make install
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">narrowing for programming</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>C-x n n  Narrow down to between point and mark (narrow-to-region).
+</li>
+<li>C-x n d  Narrow down to the current defun (narrow-to-defun). 
+</li>
+<li>C-x n w  cancel narrow down (widen)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">common key bindings</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>alt-x  same as M-x
+</li>
+<li>C-h a  search for command
+c-h i  information page
+c-h f  help on function
+c-h k  help on key bindings
+c-h m  help on current mode
+</li>
+<li>C-/    undo
+</li>
+<li>C-x (  start recording macro
+C-x )  stop recording macro
+C-x e  execute
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">color theme</h3>
+<div class="outline-text-3" id="text-4-4">
+</div><div id="outline-container-sec-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1">Cool website that can generate color theme online:</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+<a href="http://jasonm23.github.io/emacs-theme-editor/">http://jasonm23.github.io/emacs-theme-editor/</a>#
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-4-2" class="outline-4">
+<h4 id="sec-4-4-2">Using Emacs native color theme (maybe only for V24 or later)</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<ul class="org-ul">
+<li>try ESC-x color-theme
+TAB to show all available themes. 
+</li>
+<li>after you have find a favorite theme, you can add the following to .emacs (theme manoj-dark for example)
+</li>
+</ul>
+<pre class="example">(load-theme  'manoj-dark)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">Column View in org-mode</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>setting what to show
+</li>
+</ul>
+<pre class="example">#+COLUMNS: %25ITEM %TAGS %Effort(EV) %CLOCKSUM(RC) %TODO
+</pre>
+<ul class="org-ul">
+<li>C-c C-x C-c  column view
+</li>
+<li>C-c C-x i    generate gdynamic table 
+</li>
+<li>q            quit column view
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">search in Emacs</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>find a file with its name
+</li>
+</ul>
+<pre class="example">M-x find-name-dired
+</pre>
+<p>
+or 
+</p>
+<pre class="example">*M-x find-dired*  (accept any command that find do)
+</pre>
+<p>
+e.g. case-insensitive search 
+-iname \*xxx\*
+Note: '\' is necessary
+</p>
+
+<ul class="org-ul">
+<li>find a file with its contain
+</li>
+</ul>
+<pre class="example">M-x rgrep
+</pre>
+<ul class="org-ul">
+<li>locate or locate-with-filter 
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7">get rid of ^M&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="REMOVE">REMOVE</span></span></h3>
+<div class="outline-text-3" id="text-4-7">
+<pre class="example">M-x replace-string C-q C-m RET
+</pre>
+<p>
+or run dos2unix
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8">org-mode&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="KEYS">KEYS</span></span></h3>
+<div class="outline-text-3" id="text-4-8">
+<ul class="org-ul">
+<li>C-c C-&lt;         outline-promote
+</li>
+<li>C-c C-&gt;         outline-demote
+</li>
+
+<li>C-j         org-return-indent
+</li>
+
+<li>C-c C-x v  Copy the visible text in the region into the kill ring.
+</li>
+<li>C-c C-u    Backward to higher level heading.
+</li>
+<li>C-c C-j    Jump to a different place without changing the current outline visibility. Shows
+the document structure in a temporary buffer, where you can use the following
+keys to find your destination
+</li>
+
+<li>C-c C-x C-s subtree archive
+</li>
+<li>C-c l  store a internal link
+</li>
+<li>C-c C-l  insert a link to current location
+</li>
+<li>C-c &amp;   return back
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-8-1" class="outline-4">
+<h4 id="sec-4-8-1">demote and promote</h4>
+<div class="outline-text-4" id="text-4-8-1">
+<ul class="org-ul">
+<li>M-x outline-demote
+</li>
+<li>M-x demote selected region
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9">Emacs org clocking&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="CLOCK_KEYS">CLOCK_KEYS</span></span></h3>
+<div class="outline-text-3" id="text-4-9">
+<ul class="org-ul">
+<li>C-c C-x C-i  clock in
+</li>
+<li>C-c C-x C-o  clock out
+</li>
+<li>C-c C-x C-i  clock jump
+</li>
+<li>C-c C-c      recalculate the time interval
+</li>
+<li>C-c C-x C-d  Display time summaries for each subtree in the current buffer (C-c C-c  cancel)
+</li>
+<li>C-c C-x C-r  Insert a dynamic block (see Dynamic blocks) containing a clock report
+</li>
+<li>M-x org-resolve-clocks  You can also check all the files visited by 
+your Org agenda for dangling clocks at any time using M-x 
+org-resolve-clocks.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-10" class="outline-3">
+<h3 id="sec-4-10">Functions&nbsp;&nbsp;&nbsp;<span class="tag"><span class="EMACS">EMACS</span>&nbsp;<span class="FUNCTIONS">FUNCTIONS</span></span></h3>
+<div class="outline-text-3" id="text-4-10">
+<ul class="org-ul">
+<li>M-x apropos, very useful, find similar functions.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-11" class="outline-3">
+<h3 id="sec-4-11">Spreadsheet</h3>
+<div class="outline-text-3" id="text-4-11">
+<ul class="org-ul">
+<li>C-c } you can always turn on the reference visualization grid with
+</li>
+<li>first formula: :=vmean($2..$3)
+hit C-c C-c you should observe two things
+</li>
+<li>C-c ' interactive formula editor / C-c = simple interactive formula editor
+</li>
+<li>C-c | convertactive region into a table.
+items can be separated by s whitespace, comma, or tab.
+</li>
+<li>C-c ^ sort according to current column.
+</li>
+<li>&lt;N&gt; in the column to set the field width. as follows:
+</li>
+</ul>
+<pre class="example">| &lt;4&gt;  | &lt;5&gt;   | &lt;7&gt;     |
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4-12" class="outline-3">
+<h3 id="sec-4-12">useful command</h3>
+<div class="outline-text-3" id="text-4-12">
+<ul class="org-ul">
+<li>C-c ; Toggle the COMMENT keyword at the beginning of an entry, which won't be exported.
+</li>
+<li>C-c / search in current buffer shown as a sparse tree.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-13" class="outline-3">
+<h3 id="sec-4-13">UI settings</h3>
+<div class="outline-text-3" id="text-4-13">
+<ul class="org-ul">
+<li>How to show line numbers? <br>
+     (global-linum-mode 1) ; display line numbers in margin. Emacs 23 only.
+</li>
+<li>How to show the cursor's column position? <br>
+     (column-number-mode 1)
+</li>
+<li>How to have lines soft wrapped at word boundary? <br>
+     Pull the menu ?Options ? Line Wrapping in this Buffer?, or call visual-line-mode.
+</li>
+<li>How to have lines soft wrapped at word boundary? <br>
+     (global-visual-line-mode 1) ; 1 for on, 0 for off.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-14" class="outline-3">
+<h3 id="sec-4-14">switch between input method</h3>
+<div class="outline-text-3" id="text-4-14">
+<ul class="org-ul">
+<li>C-\
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-15" class="outline-3">
+<h3 id="sec-4-15">useful command</h3>
+<div class="outline-text-3" id="text-4-15">
+<ul class="org-ul">
+<li>M-! run shell command in Emacs
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-16" class="outline-3">
+<h3 id="sec-4-16">How to make presentation / slides</h3>
+<div class="outline-text-3" id="text-4-16">
+</div><div id="outline-container-sec-4-16-1" class="outline-4">
+<h4 id="sec-4-16-1">S5 solution (A Simple Standards-Based Slide Show System)</h4>
+<div class="outline-text-4" id="text-4-16-1">
+<ul class="org-ul">
+<li>add the following to .emacs
+</li>
+</ul>
+<pre class="example">;; export slides in org mode
+;; remember to copy folder "ui" to your pub folder
+(add-to-list 'load-path "~/site-lisp/org-s5-master")
+(require 'org-export-as-s5)
+;;(setq org-s5-theme "railscast")   ; based off `color-theme-railscasts'
+(setq org-s5-theme "default")     ; the default S5 theme
+;;(setq org-s5-theme "i18n")        ; the i18n theme by the author of S5
+;;(setq org-s5-theme "advanced_gfx")
+</pre>
+<ul class="org-ul">
+<li>to export an org buffer to S5 slides, run the following command:
+org-export-as-s5
+</li>
+<li>get more themes from:    S5_1.3beta7
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-16-2" class="outline-4">
+<h4 id="sec-4-16-2">beamer</h4>
+<div class="outline-text-4" id="text-4-16-2">
+<p>
+<a href="http://linuxnote.net/jianingy/en/emacs/presentation.html#sec-1-1">http://linuxnote.net/jianingy/en/emacs/presentation.html#sec-1-1</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-16-3" class="outline-4">
+<h4 id="sec-4-16-3">reveal</h4>
+<div class="outline-text-4" id="text-4-16-3">
+<ol class="org-ol">
+<li>copy ~/site-lisp/org-reveal-master to DIR1
+</li>
+<li>copy ~/site-lisp/reveal-master to DIR2
+</li>
+<li>setting emacs
+</li>
+</ol>
+<pre class="example">;; org reveal export
+(add-to-list 'load-path "~/site-lisp/org-reveal-master/")
+(require 'ox-reveal)
+(setq org-reveal-root "file:///D:/cgliu/emacs-24.2/site-lisp/reveal-master/")
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-17" class="outline-3">
+<h3 id="sec-4-17">Chinese in Emacs</h3>
+<div class="outline-text-3" id="text-4-17">
+</div><div id="outline-container-sec-4-17-1" class="outline-4">
+<h4 id="sec-4-17-1">Chinese input method</h4>
+<div class="outline-text-4" id="text-4-17-1">
+<ul class="org-ul">
+<li>install Fcitex
+</li>
+<li>add the following to .bashrc
+</li>
+</ul>
+<pre class="example">export LC_CTYPE="zh_CN.UTF-8"
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-18" class="outline-3">
+<h3 id="sec-4-18">presentation using org-mode</h3>
+<div class="outline-text-3" id="text-4-18">
+</div><div id="outline-container-sec-4-18-1" class="outline-4">
+<h4 id="sec-4-18-1">for 8.2.3b</h4>
+<div class="outline-text-4" id="text-4-18-1">
+<ul class="org-ul">
+<li>add the following at the beginning of an org file
+</li>
+</ul>
+<pre class="example">#+startup: beamer
+#+LaTeX_CLASS: beamer
+</pre>
+<ul class="org-ul">
+<li>add the following to .emacs
+</li>
+</ul>
+<pre class="example">(require 'ox-latex)
+(add-to-list 'org-latex-classes
+          '("beamer"
+            "\\documentclass\[presentation\]\{beamer\}"
+            ("\\section\{%s\}" . "\\section*\{%s\}")
+            ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+            ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-19" class="outline-3">
+<h3 id="sec-4-19">change font size</h3>
+<div class="outline-text-3" id="text-4-19">
+<ul class="org-ul">
+<li>C-x C-+ increase font size
+</li>
+<li>C-x C– decrease fint size 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-20" class="outline-3">
+<h3 id="sec-4-20">How to split into 3 even windows</h3>
+<div class="outline-text-3" id="text-4-20">
+<ul class="org-ul">
+<li>C-x 3 to add one more frame
+</li>
+<li>C-x + to equally size all windows
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-21" class="outline-3">
+<h3 id="sec-4-21">How to decide whether to save (diff buffer with original file)</h3>
+<div class="outline-text-3" id="text-4-21">
+<ul class="org-ul">
+<li>M-x diff-buffer-with-file
+</li>
+</ul>
+
+<p>
+or 
+</p>
+<ul class="org-ul">
+<li>C-x s then d
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+With the introduction of catkin, ROS_PACKAGE_PATH becomes obsolete, and 
+will be kept only for backwards compatibility with rosbuild packages.  
+</p></div>
+
+
+</div>
+</div></div>
+
+
+</body></html>

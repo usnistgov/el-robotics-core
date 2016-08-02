@@ -1,4 +1,4 @@
-.TH "RCSInterpreter" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCSInterpreter" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -53,7 +53,7 @@ RCSInterpreter \-
 .br
 .RI "\fIAddJointCommands accepts vector of joint trajectories and adds to robot motion queue\&. \fP"
 .ti -1c
-.RI "std::vector< \fBJointState\fP > \fBPlanCartesianMotion\fP (std::vector< urdf::Pose > poses)"
+.RI "std::vector< \fBJointState\fP > \fBPlanCartesianMotion\fP (std::vector< \fBRCS::Pose\fP > poses)"
 .br
 .RI "\fIPlanCartesianMotion accepts vector of poses and generates a vector of joint trajectories\&. Can use a couple of planning algorithms to generate trajectory\&. \fP"
 .in -1c
@@ -99,7 +99,7 @@ ParseCommand parses a \fBRCS\fP command and queues robot motion commands\&.
 .RE
 .PP
 
-.SS "std::vector< \fBJointState\fP > RCSInterpreter::PlanCartesianMotion (std::vector< urdf::Pose >poses)\fC [protected]\fP"
+.SS "std::vector< \fBJointState\fP > RCSInterpreter::PlanCartesianMotion (std::vector< \fBRCS::Pose\fP >poses)\fC [protected]\fP"
 
 .PP
 PlanCartesianMotion accepts vector of poses and generates a vector of joint trajectories\&. Can use a couple of planning algorithms to generate trajectory\&. 

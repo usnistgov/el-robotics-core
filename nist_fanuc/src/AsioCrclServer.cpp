@@ -1,4 +1,13 @@
-// AsioCrclServer.cpp
+
+/*!
+ *	\file		AsioCrclServer.cpp
+ *	\brief          The CAsioCrclSession provides an boost asio session ( which listens for each connected client).
+ *	\class		CAsioCrclServer
+ *	\class		CAsioCrclSession
+ *	\author		john michaloski, nist
+ *	\date		January 30, 2015
+ *      \copyright      Public Domain with disclaimer
+ */
 
 /*
  * DISCLAIMER:
@@ -10,6 +19,9 @@
  *
  * See NIST Administration Manual 4.09.07 b and Appendix I.
  */
+
+
+
 #include "CrclConfig.h"
 #include "AsioCrclServer.h"
 #include <boost/exception/all.hpp>
@@ -33,7 +45,7 @@ static void trans_func(unsigned int u, EXCEPTION_POINTERS *pExp) {
     throw std::exception();
 }
 #else
-#define S_OK 0
+
 #endif
 // --------------------------------------------------------
 std::set<CAsioCrclSession *> CAsioCrclSession::_devices;

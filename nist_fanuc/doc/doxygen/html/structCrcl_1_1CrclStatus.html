@@ -58,6 +58,9 @@
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="structCrcl_1_1CrclStatus.html" title="CrclStatus is a class that encapsulates all the CRCL information. All lot of the knowledge is convert...">CrclStatus</a> is a class that encapsulates all the CRCL information. All lot of the knowledge is converting ROS oriented <a class="el" href="namespaceRCS.html">RCS</a> data into codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> representation and vice versa. <a class="el" href="structCrcl_1_1CrclStatus.html" title="CrclStatus is a class that encapsulates all the CRCL information. All lot of the knowledge is convert...">CrclStatus</a> maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc.  
+ <a href="structCrcl_1_1CrclStatus.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="crcl_8h_source.html">crcl.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -66,8 +69,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1cd41778adfbcbf93acf69b4696ca690"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7e716027dc6c885675ff2016f36786b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#ad7e716027dc6c885675ff2016f36786b">JointsHome</a> ()</td></tr>
 <tr class="separator:ad7e716027dc6c885675ff2016f36786b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9eaeee83f8d6742d8e1d0f69f4d6e45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#ae9eaeee83f8d6742d8e1d0f69f4d6e45">Merge</a> (<a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a>, bool bIncremental=false)</td></tr>
-<tr class="separator:ae9eaeee83f8d6742d8e1d0f69f4d6e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50e2821837a7a50b50df2260435f9917"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a50e2821837a7a50b50df2260435f9917">Update</a> (unsigned long long CommandID)</td></tr>
 <tr class="separator:a50e2821837a7a50b50df2260435f9917"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6aa15c7d9c21c17cc591a141a52bae15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a6aa15c7d9c21c17cc591a141a52bae15">Update</a> (<a class="el" href="namespaceCrcl.html#a5b3aa14f2f4ed63cc67ecba8eaab5c93">Crcl::CommandStateEnum</a> state)</td></tr>
@@ -78,14 +79,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad538ccbf9fe6448b9c97c5ae79d6f818"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a626f981943a5d9a358b3394997dd8530"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a626f981943a5d9a358b3394997dd8530">Update</a> (<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> &amp;joints)</td></tr>
 <tr class="separator:a626f981943a5d9a358b3394997dd8530"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abed6fce26b69adcec0beea0bd1d19169"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#abed6fce26b69adcec0beea0bd1d19169">Update</a> (urdf::Pose &amp;pose)</td></tr>
-<tr class="separator:abed6fce26b69adcec0beea0bd1d19169"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb90bfc3db1819f29fd23e7920610a42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#abb90bfc3db1819f29fd23e7920610a42">Update</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="separator:abb90bfc3db1819f29fd23e7920610a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4051bdc6200a904e5c892968e42a43d6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a4051bdc6200a904e5c892968e42a43d6">VAR</a> (CommandID, unsigned long long)</td></tr>
 <tr class="separator:a4051bdc6200a904e5c892968e42a43d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04deac202f412e0087fd07f09ccec5b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a04deac202f412e0087fd07f09ccec5b7">VAR</a> (StatusID, unsigned long long)</td></tr>
 <tr class="separator:a04deac202f412e0087fd07f09ccec5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29a7ab97f492696b8a83be8762b0afda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a29a7ab97f492696b8a83be8762b0afda">VAR</a> (CommandStatus, <a class="el" href="namespaceCrcl.html#a5b3aa14f2f4ed63cc67ecba8eaab5c93">Crcl::CommandStateEnum</a>)</td></tr>
 <tr class="separator:a29a7ab97f492696b8a83be8762b0afda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2162dbecfd7f9a01f5f92e0746e8dbfe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a2162dbecfd7f9a01f5f92e0746e8dbfe">VAR</a> (Rates, <a class="el" href="classRCS_1_1IRate.html">RCS::IRate</a>)</td></tr>
+<tr class="separator:a2162dbecfd7f9a01f5f92e0746e8dbfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -140,7 +143,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0cd3ee396ed753479bd03ec30809db22"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCrcl_1_1CrclStatus.html#a0cd3ee396ed753479bd03ec30809db22">Alarm</a></td></tr>
 <tr class="separator:a0cd3ee396ed753479bd03ec30809db22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="structCrcl_1_1CrclStatus.html" title="CrclStatus is a class that encapsulates all the CRCL information. All lot of the knowledge is convert...">CrclStatus</a> is a class that encapsulates all the CRCL information. All lot of the knowledge is converting ROS oriented <a class="el" href="namespaceRCS.html">RCS</a> data into codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> representation and vice versa. <a class="el" href="structCrcl_1_1CrclStatus.html" title="CrclStatus is a class that encapsulates all the CRCL information. All lot of the knowledge is convert...">CrclStatus</a> maintains the unit a crcl session uses to transmit robot commands, latest robot status, etc. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1cd41778adfbcbf93acf69b4696ca690"></a>
 <div class="memitem">
 <div class="memproto">
@@ -166,32 +171,6 @@ Public Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae9eaeee83f8d6742d8e1d0f69f4d6e45"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a> Crcl::CrclStatus::Merge </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceCrcl.html#af084766e8e2d38a135cc67ef54d9904d">Crcl::ActuatorJointSequence</a>&#160;</td>
-          <td class="paramname"><em>joints</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>bIncremental</em> = <code>false</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -298,14 +277,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abed6fce26b69adcec0beea0bd1d19169"></a>
+<a class="anchor" id="abb90bfc3db1819f29fd23e7920610a42"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Crcl::CrclStatus::Update </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
           <td class="paramname"><em>pose</em></td><td>)</td>
           <td></td>
         </tr>
@@ -380,6 +359,32 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespaceCrcl.html#a5b3aa14f2f4ed63cc67ecba8eaab5c93">Crcl::CommandStateEnum</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2162dbecfd7f9a01f5f92e0746e8dbfe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Crcl::CrclStatus::VAR </td>
+          <td>(</td>
+          <td class="paramtype">Rates&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classRCS_1_1IRate.html">RCS::IRate</a>&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -694,13 +699,13 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="crcl_8h_source.html">crcl.h</a></li>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="crcl_8cpp.html">crcl.cpp</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="crcl_8h_source.html">crcl.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/<a class="el" href="crcl_8cpp.html">crcl.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

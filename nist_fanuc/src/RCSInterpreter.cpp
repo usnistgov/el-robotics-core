@@ -15,7 +15,6 @@
 #include "Controller.h"
 #include "Globals.h"
 #include <algorithm>  // max
-#include "urdf_model/eigenmath.h"
 #include "Conversions.h"
 #include "trajectoryMaker.h"
 
@@ -57,7 +56,7 @@ static JointState EmptyJointState(size_t n) {
     return js;
 }
 
-std::vector<JointState> RCSInterpreter::PlanCartesianMotion(std::vector<urdf::Pose> poses) {
+std::vector<JointState> RCSInterpreter::PlanCartesianMotion(std::vector<RCS::Pose> poses) {
     std::vector<JointState> gotojoints;
     if (poses.size() == 0)
         return gotojoints;
@@ -70,15 +69,29 @@ std::vector<JointState> RCSInterpreter::PlanCartesianMotion(std::vector<urdf::Po
     }
 #endif
     if (RCS::Controller.eCartesianMotionPlanner == RCS::CController::MOVEIT) {
+#if 1
         if (RCS::Controller.MoveitPlanner()->Plan(poses)) {
             gotojoints = RCS::Controller.MoveitPlanner()->GetJtsPlan();
             return gotojoints;
-#ifdef DEBUG
-            for (size_t k = 0; k < gotojoints.size(); k++) {
-                std::cout << VectorDump<double> (gotojoints[k].position);
-            }
-#endif
         }
+#else
+        // assume first one is where were are already
+        for(size_t j=1; j< poses.size(); j++) {
+            if (RCS::Controller.MoveitPlanner()->Plan(poses[j-1], poses[j])) {
+                std::vector<JointState> intermedjoints;
+                intermedjoints = RCS::Controller.MoveitPlanner()->GetJtsPlan();
+                gotojoints.insert(gotojoints.end(), intermedjoints.begin(), intermedjoints.end());
+            }
+        }
+#endif
+#ifdef DEBUG
+        std::cout << "*******CARTESIAN MOVE TO POSE******\n";
+        for (size_t k = 0; k < gotojoints.size(); k++) {
+            std::cout << VectorDump<double> (gotojoints[k].position);
+        }
+#endif
+        return gotojoints;
+
     } else // if (RCS::Controller.eCartesianMotionPlanner == RCS::CController::WAYPOINT) {
     {
         std::vector<double> oldjoints = RCS::Controller.status.currentjoints.position;
@@ -87,8 +100,10 @@ std::vector<JointState> RCSInterpreter::PlanCartesianMotion(std::vector<urdf::Po
             //RCS::Controller.Kinematics()->SetJointValues(oldjoints);
 
             std::vector<double> joints = RCS::Controller.Kinematics()-> IK(poses[i], oldjoints);
+#ifdef DEBUG
             std::cout << "GotoPose " << DumpPose(poses[i]).c_str();
             std::cout << "New Joints " << VectorDump<double>(joints).c_str();
+#endif
             gotojoints.push_back(EmptyJointState(joints.size()));
             gotojoints.back().position = joints;
             oldjoints = joints;
@@ -98,47 +113,71 @@ std::vector<JointState> RCSInterpreter::PlanCartesianMotion(std::vector<urdf::Po
 }
 
 int RCSInterpreter::ParseCommand(RCS::CanonCmd cc) {
-    Globals.ErrorMessage("RCSInterpreter::ParseCommand\n");
-    //TrajectoryMaker traj;
+    IfDebug(Globals.ErrorMessage("RCSInterpreter::ParseCommand\n"));
+
+    // This approach should debounce multiple commands to same position - e.g., 0->30, 0->30
+    JointState currentjoints;
+    RCS::Pose currentpose; // = RCS::Controller.status.currentpose;
+
+    //RCS::CanonCmd lastrobotcmd = Controller.GetLastRobotCommand();
+    currentjoints = RCS::Controller.GetLastJointState(); //  open loop - "not actual"
+    currentpose = RCS::Controller.Kinematics()->FK(currentjoints.position);
+#ifdef HEAVYDEBUG
+    std::cout << "Current Joints " << VectorDump<double>(currentjoints.position).c_str();
+    std::cout << "Current Pose " << DumpPose(currentpose).c_str();
+#endif
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // MOVE JOINTS
     if (cc.cmd == RCS::CANON_MOVE_JOINT) {
-        JointState currentjoints = RCS::Controller.status.currentjoints;
         rates = IRate(DEFAULT_JOINT_MAX_VEL, DEFAULT_JOINT_MAX_ACCEL, DEFAULT_LOOP_CYCLE);
 
-        //std::cout << "Current Joints " << VectorDump<double>(currentjoints.position).c_str();
-        std::vector<double> joints;
-        joints.insert(joints.begin(),
-                currentjoints.position.begin(),
-                currentjoints.position.end());
+        JointState joints;
+        for (size_t i = 0; i < currentjoints.position.size(); i++) {
+            joints.position.push_back(currentjoints.position[i]);
+            joints.velocity.push_back(DEFAULT_JOINT_MAX_VEL);
+            joints.effort.push_back(DEFAULT_JOINT_MAX_ACCEL);
+        }
 
+        std::vector<double> maxvel;
+        std::vector<double> maxacc;
         // Check each joint, to see if joint is being actuated, if so, change goal position
         for (size_t i = 0; i < cc.jointnum.size(); i++) {
-            joints[cc.jointnum[i]] = cc.joints.position[i]; // joint numbers already adjusted from CRCL to rcs model
-            //std::cout << n << " cc.joints.position[i] " << cc.joints.position[i] << std::endl;
+            size_t n = cc.jointnum[i];
+            joints.position[n] = cc.joints.position[n]; // joint numbers already adjusted from CRCL to rcs model
+            joints.velocity[n] = cc.joints.velocity[n];
+            joints.effort[n] = cc.joints.effort[n];
+            maxvel.push_back(cc.joints.velocity[n]);
+            maxacc.push_back(cc.joints.effort[n]);
         }
-        std::cout << "Updated Joints " << VectorDump<double>(joints).c_str();
+        // not sure what happends if no elements in maxvel or maxacc... - should never happen
+        double jointsmaxvel = *(std::min_element(std::begin(maxvel), std::end(maxvel)));
+        double jointsmaxacc = *(std::min_element(std::begin(maxacc), std::end(maxacc)));
+#ifdef HEAVYDEBUG
+        std::cout << "Updated Joints Position " << VectorDump<double>(joints.position).c_str();
+        std::cout << "Updated Joints Velocity " << VectorDump<double>(joints.velocity).c_str();
+        std::cout << "Updated Joints Effort " << VectorDump<double>(joints.effort).c_str();
+#endif
         std::vector<JointState > gotojoints;
 
         if (RCS::Controller.eJointMotionPlanner == RCS::CController::WAYPOINT) {
-            gotojoints = motioncontrol.computeCoorindatedWaypoints(currentjoints.position, joints, 0.001, true);
+            gotojoints = motioncontrol.computeCoorindatedWaypoints(currentjoints.position, joints.position, 0.001, true);
         } else if (RCS::Controller.eJointMotionPlanner == RCS::CController::BASIC) {
             TrajectoryMaker maker;
-            maker.Rates().CurrentFeedrate() = rates.MaximumVelocity();
+            maker.Rates().CurrentFeedrate() = jointsmaxvel;
+            maker.Rates().MaximumAccel() = jointsmaxacc;
             maker.setRates(rates);
-            maker.makeJointPositionTrajectory(rates, currentjoints.position, joints);
+            maker.makeJointPositionTrajectory(rates, currentjoints.position, joints.position);
             gotojoints = maker.GetJtsPlan();
         } else if (RCS::Controller.eJointMotionPlanner == RCS::CController::MOVEIT) {
-            JointState js = JntPosVector2JointState(joints);
-            if (!RCS::Controller.MoveitPlanner()->Plan(js))
+            if (!RCS::Controller.MoveitPlanner()->Plan(joints))
                 return -1;
             gotojoints = RCS::Controller.MoveitPlanner()->GetJtsPlan();
         } else {
-            gotojoints = motioncontrol.computeCoorindatedWaypoints(currentjoints.position, joints, 0.001, true);
+            gotojoints = motioncontrol.computeCoorindatedWaypoints(currentjoints.position, joints.position, 0.001, true);
         }
         AddJointCommands(gotojoints);
-    }        ////////////////////////////////////////////////////////////////////////////////////////////////
+    }////////////////////////////////////////////////////////////////////////////////////////////////
         // STOP MOTION
     else if (cc.cmd == RCS::CANON_STOP_MOTION) {
         std::vector<std::vector<double> > displacements(Controller.status.currentjoints.velocity.size(), std::vector<double>());
@@ -149,24 +188,31 @@ int RCSInterpreter::ParseCommand(RCS::CanonCmd cc) {
     }////////////////////////////////////////////////////////////////////////////////////////////////
         // MOVE CARTESIAN
     else if (cc.cmd == RCS::CANON_MOVE_TO) {
-        rates = IRate(DEFAULT_CART_MAX_VEL, DEFAULT_CART_MAX_ACCEL, DEFAULT_LOOP_CYCLE);
-        urdf::Pose goalpose = cc.pose;
-        urdf::Pose currentpose = RCS::Controller.status.currentpose;
+
+        rates = cc.Rates(); // IRate(DEFAULT_CART_MAX_VEL, DEFAULT_CART_MAX_ACCEL, DEFAULT_LOOP_CYCLE);
+        RCS::Pose goalpose = cc.pose;
+        if (RCS::Controller.Kinematics()->IsSingular(goalpose, 0.0001)) {
+            std::cout << "Is singular pose: " << DumpPose(goalpose).c_str();
+        }
         std::vector<JointState> gotojoints;
-        std::vector<urdf::Pose> poses = motioncontrol.computeWaypoints(RCS::Controller.status.currentpose, goalpose, 0.1, true);
+        std::cout << "Current Pose " << DumpPose(currentpose).c_str();
+        std::vector<RCS::Pose> poses = motioncontrol.computeWaypoints(currentpose, goalpose, 
+                0.01, // cc.Rates().CurrentFeedrate() * DEFAULT_LOOP_CYCLE, //0.01, 
+                true);
+        for (size_t k = 0; k < poses.size(); k++)
+            std::cout << "\n\nWaypoint[" << k << "]" << DumpPose(poses[k]).c_str();
+
         gotojoints = PlanCartesianMotion(poses);
         AddJointCommands(gotojoints);
     } else if (cc.cmd == RCS::CANON_MOVE_THRU) {
         rates = IRate(DEFAULT_CART_MAX_VEL, DEFAULT_CART_MAX_ACCEL, DEFAULT_LOOP_CYCLE);
-        urdf::Pose currentpose = RCS::Controller.status.currentpose;
         std::vector<JointState> gotojoints;
-        std::vector<urdf::Pose> poses = cc.waypoints;
+        std::vector<RCS::Pose> poses = cc.waypoints;
         poses.insert(poses.begin(), currentpose); // add beginning pose -again?
         // and in case interrupted
         gotojoints = PlanCartesianMotion(poses);
         AddJointCommands(gotojoints);
-    }
-    else  if (cc.cmd == RCS::CANON_DWELL) {
+    } else if (cc.cmd == RCS::CANON_DWELL) {
         // wait here or at robot command thread?
         // Could just copy over command to robot
         RCS::CanonCmd newcc;

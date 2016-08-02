@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CRCL FANUC: /home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/NIST/RCSThreadTemplate.h Source File</title>
+<title>CRCL FANUC: /usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/NIST/RCSThreadTemplate.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -110,7 +110,7 @@
 <div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classRCS_1_1Thread.html#a8b932e4130f18d9747407fe70a87332a">   89</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classRCS_1_1Thread.html#a8b932e4130f18d9747407fe70a87332a">Cleanup</a>() {</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e">   95</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e">Action</a>() {</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1">   95</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1">Action</a>() {</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
 <div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="classRCS_1_1Thread.html#a86b50ec69dd0baeda270b115d72c1c15">  101</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classRCS_1_1Thread.html#a86b50ec69dd0baeda270b115d72c1c15">Start</a>() {</div>
@@ -168,8 +168,8 @@
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">try</span> {</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">while</span> (<a class="code" href="classRCS_1_1Thread.html#acf46e3695b682bf24b8c80d0316edd82">_bThread</a>) {</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    <a class="code" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e">Action</a>();</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    <a class="code" href="classRCS_1_1Thread.html#afddbc109781286f80017468dcccc6b10">_timer</a>.<a class="code" href="classRCS_1_1Timer.html#a1e33cc91158802fb37003445bd77ad64">wait</a>();</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    <a class="code" href="classRCS_1_1Thread.html#acf46e3695b682bf24b8c80d0316edd82">_bThread</a>=(bool) <a class="code" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1">Action</a>();</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    <a class="code" href="classRCS_1_1Thread.html#afddbc109781286f80017468dcccc6b10">_timer</a>.<a class="code" href="classRCS_1_1Timer.html#a1e33cc91158802fb37003445bd77ad64">wait</a>(); <span class="comment">// is this polling waiting or sleeping/yielding?</span></div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                }</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            } <span class="keywordflow">catch</span> (...) {</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Unhandled exception - &quot;</span> &lt;&lt; <a class="code" href="classRCS_1_1Thread.html#a2db2a8e8dea3c4e502e8d6adbbf05724">Name</a>().c_str() &lt;&lt; std::endl;</div>
@@ -201,13 +201,13 @@
 <div class="ttc" id="classRCS_1_1Thread_html_a53ee19c04d064c9a23f0909cf9a4b2cc"><div class="ttname"><a href="classRCS_1_1Thread.html#a53ee19c04d064c9a23f0909cf9a4b2cc">RCS::Thread::Init</a></div><div class="ttdeci">virtual void Init()</div><div class="ttdoc">Init function called before Action() loop. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:83</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_acae3e9901f7de3fadd89fa67a30fabdf"><div class="ttname"><a href="classRCS_1_1Thread.html#acae3e9901f7de3fadd89fa67a30fabdf">RCS::Thread::_bDone</a></div><div class="ttdeci">bool _bDone</div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:204</div></div>
 <div class="ttc" id="classRCS_1_1Timer_html_ae83a5a6260dd5d79ab884ef593df2db3"><div class="ttname"><a href="classRCS_1_1Timer.html#ae83a5a6260dd5d79ab884ef593df2db3">RCS::Timer::suspend</a></div><div class="ttdeci">void suspend()</div><div class="ttdoc">Suspend the timing. </div><div class="ttdef"><b>Definition:</b> RCSTimer.h:231</div></div>
+<div class="ttc" id="classRCS_1_1Thread_html_a78aec7128f4fbf5d6859ceb09f9f9ae1"><div class="ttname"><a href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1">RCS::Thread::Action</a></div><div class="ttdeci">virtual int Action()</div><div class="ttdoc">Action override function called every cycle. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:95</div></div>
 <div class="ttc" id="classRCS_1_1Timer_html"><div class="ttname"><a href="classRCS_1_1Timer.html">RCS::Timer</a></div><div class="ttdoc">Timer is a general-purpose timer. The Timer is a general-purpose timer, which can be used for waiting...</div><div class="ttdef"><b>Definition:</b> RCSTimer.h:50</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_afddbc109781286f80017468dcccc6b10"><div class="ttname"><a href="classRCS_1_1Thread.html#afddbc109781286f80017468dcccc6b10">RCS::Thread::_timer</a></div><div class="ttdeci">RCS::Timer _timer</div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:205</div></div>
-<div class="ttc" id="classRCS_1_1Thread_html_a327655d2626c51ea61bcc233a94dc78e"><div class="ttname"><a href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e">RCS::Thread::Action</a></div><div class="ttdeci">virtual void Action()</div><div class="ttdoc">Action override function called every cycle. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:95</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_af87a4097886fda25c7527089548fe2c8"><div class="ttname"><a href="classRCS_1_1Thread.html#af87a4097886fda25c7527089548fe2c8">RCS::Thread::StopAll</a></div><div class="ttdeci">static void StopAll()</div><div class="ttdoc">Static StopAll which stops all the threads created in the boost thread group. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:110</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_a86b50ec69dd0baeda270b115d72c1c15"><div class="ttname"><a href="classRCS_1_1Thread.html#a86b50ec69dd0baeda270b115d72c1c15">RCS::Thread::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">Start starts the thread which call Init(), and then does Action() loop. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:101</div></div>
 <div class="ttc" id="classRCS_1_1Timer_html_a3c56c4237a97887278ec307101d93d93"><div class="ttname"><a href="classRCS_1_1Timer.html#a3c56c4237a97887278ec307101d93d93">RCS::Timer::load</a></div><div class="ttdeci">double load()</div><div class="ttdoc">Returns % loading on timer, 0.0 means all waits, 1.0 means no time in wait. This is average load...</div><div class="ttdef"><b>Definition:</b> RCSTimer.h:198</div></div>
-<div class="ttc" id="classRCS_1_1Thread_html"><div class="ttname"><a href="classRCS_1_1Thread.html">RCS::Thread</a></div><div class="ttdoc">Thread is an RCS ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait fu...</div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:30</div></div>
+<div class="ttc" id="classRCS_1_1Thread_html"><div class="ttname"><a href="classRCS_1_1Thread.html">RCS::Thread</a></div><div class="ttdoc">Thread is an RCS ulapi equivalent for a timed thread. Given a cycle time, the thread provides a wait ...</div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:30</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_a2db2a8e8dea3c4e502e8d6adbbf05724"><div class="ttname"><a href="classRCS_1_1Thread.html#a2db2a8e8dea3c4e502e8d6adbbf05724">RCS::Thread::Name</a></div><div class="ttdeci">std::string &amp; Name()</div><div class="ttdoc">Name returns name of thread. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:69</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_ae0c4a68567ab695f4b7daf755ab874d6"><div class="ttname"><a href="classRCS_1_1Thread.html#ae0c4a68567ab695f4b7daf755ab874d6">RCS::Thread::Stop</a></div><div class="ttdeci">void Stop(bool bWait=false)</div><div class="ttdoc">Stop stops the thread loop. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:125</div></div>
 <div class="ttc" id="classRCS_1_1Thread_html_a4bb0d136529374782030bf1bd19cad6d"><div class="ttname"><a href="classRCS_1_1Thread.html#a4bb0d136529374782030bf1bd19cad6d">RCS::Thread::SetDebugLevel</a></div><div class="ttdeci">void SetDebugLevel(int n)</div><div class="ttdoc">SetDebugLevel sets the debugging level of the thread. </div><div class="ttdef"><b>Definition:</b> RCSThreadTemplate.h:166</div></div>
@@ -225,7 +225,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

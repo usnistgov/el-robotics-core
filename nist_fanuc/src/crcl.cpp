@@ -11,203 +11,121 @@
  * See NIST Administration Manual 4.09.07 b and Appendix I.
  */
 #include "crcl.h"
-//#include "Kinematics.h"
 #include "Globals.h"
 #include "CrclInterface.h"
-#include "boost/array.hpp"
-#include "urdf_model/rosmath.h"
-#include <Eigen/Dense>
-#include "urdf_model/eigenmath.h"
+//#include "boost/array.hpp"
+#define ROWMAJOR
 
+// http://wiki.ros.org/APIs
+// http://docs.ros.org/api/tf/html/c++/annotated.html
 namespace Crcl {
-    static const char *sStateEnums[] = {"Done", "Error", "Working"};
+    static const char *sStateEnums[] = {"CRCL_Done", "CRCL_Error", "CRCL_Working", "CRCL_Ready"};
 
-    RosMatrix GetXZRotMatrix(urdf::Vector3 Xrot, urdf::Vector3 Zrot) {
+    bool GetRPY(RCS::Vector3 Xrot, RCS::Vector3 Zrot, double & dRoll, double & dPitch, double & dYaw);
+    PoseType NullPose();
+    Crcl::VectorType VectorZero();
+    Crcl::PoseType IdentityPose();
 
-        RosMatrix rot;
-        rot[4 * 0 + 0] = Xrot.x;
-        rot[4 * 0 + 1] = Xrot.y;
-        rot[4 * 0 + 2] = Xrot.z;
-        rot[4 * 2 + 0] = Zrot.x;
-        rot[4 * 2 + 1] = Zrot.y;
-        rot[4 * 2 + 2] = Zrot.z;
-        urdf::Vector3 Yrot = _cross3(Zrot, Xrot);
-        rot[4 * 1 + 0] = Yrot.x;
-        rot[4 * 1 + 1] = Yrot.y;
-        rot[4 * 1 + 2] = Yrot.z;
-        return rot;
+    inline RCS::Vector3 GetVector3D(Crcl::VectorType & vector) {
+        return RCS::Vector3(vector.I(), vector.J(), vector.K());
     }
 
-    Eigen::Matrix3d GetEigenRotMatrix(urdf::Vector3 Xrot, urdf::Vector3 Zrot) {
+    inline RCS::Vector3 GetVector3D(Crcl::PointType & point) {
+        return RCS::Vector3(point.X(), point.Y(), point.Z());
+    }
 
-        double x, y, z;
-        double xi, xj, xk;
-        double zi, zj, zk;
-        double r, p, w;
-        xi = Xrot.x;
-        xj = Xrot.y;
-        xk = Xrot.z;
-        Eigen::Vector3d xaxis(xi, xj, xk);
-        zi = Zrot.x;
-        zj = Zrot.y;
-        zk = Zrot.z;
-        Eigen::Vector3d zaxis(zi, zj, zk);
-        Eigen::Vector3d yaxis = zaxis.cross(xaxis);
-        Eigen::Matrix3d m(3, 3);
+    inline tf::Vector3 GetTfVector(Crcl::PointType & point) {
+        return tf::Vector3(point.X(), point.Y(), point.Z());
+    }
 
-        m << xi, yaxis.x(), zi,
-                xj, yaxis.y(), zj,
-                xk, yaxis.z(), zk;
+    inline tf::Vector3 GetTfVector(Crcl::VectorType & vector) {
+        return tf::Vector3(vector.I(), vector.J(), vector.K());
+    }
+
+    inline ::PointType GetPoint(RCS::Vector3 & point) {
+        return ::PointType(point.x(), point.y(), point.z());
+    }
+
+    inline ::VectorType GetVector(RCS::Vector3 & point) {
+        return ::VectorType(point.x(), point.y(), point.z());
+    }
+
+    tf::Matrix3x3 GetTfRotMatrix(RCS::Vector3 Xrot, RCS::Vector3 Zrot) {
+
+        tf::Vector3 YRot = Zrot.cross(Xrot);
+
+        tf::Matrix3x3 m(Xrot.getX(), YRot.getX(), Zrot.getX(),
+                Xrot.getY(), YRot.getY(), Zrot.getY(),
+                Xrot.getZ(), YRot.getZ(), Zrot.getZ());
         return m;
     }
 
-    bool GetRPY(Crcl::PoseType pose, double &roll, double &pitch, double &yaw) {
-        Eigen::Matrix3d m = GetEigenRotMatrix(GetVector3D(pose.XAxis()), GetVector3D(pose.ZAxis()));
-        Eigen::Vector3d ea = m.eulerAngles(0, 1, 2);
-        roll = ea(0);
-        pitch = ea(1);
-        yaw = ea(2);
-        return true;
-    }
-
-    bool GetRPY(urdf::Vector3 Xrot, urdf::Vector3 Zrot, double &roll, double &pitch, double &yaw) {
-        Eigen::Matrix3d m = GetEigenRotMatrix(Xrot, Zrot);
-        Eigen::Vector3d ea = m.eulerAngles(0, 1, 2);
-        roll = ea(0);
-        pitch = ea(1);
-        yaw = ea(2);
+    bool GetRPY(RCS::Vector3 Xrot, RCS::Vector3 Zrot, double &roll, double &pitch, double &yaw) {
+        tf::Matrix3x3 m = GetTfRotMatrix(Xrot, Zrot);
+        m.getRPY(roll, pitch, yaw);
         return true;
 
     }
-#if 1
 
-    urdf::Pose Convert(Crcl::PoseType & pose, double lengthConversion) {
-        urdf::Pose p;
-
-        p.position.x = pose.Point().X() * lengthConversion;
-        p.position.y = pose.Point().Y() * lengthConversion;
-        p.position.z = pose.Point().Z() * lengthConversion;
-
-        Eigen::Matrix3d mat = GetEigenRotMatrix(GetVector3D(pose.XAxis()), GetVector3D(pose.ZAxis()));
-        Eigen::Quaterniond q(mat);
-        p.rotation.x = q.x();
-        p.rotation.y = q.y();
-        p.rotation.z = q.z();
-        p.rotation.w = q.w();
+    RCS::Pose Convert(Crcl::PoseType & pose, double lengthConversion) {
+        RCS::Pose p;
+        p.setOrigin(GetTfVector(pose.Point()) * lengthConversion);
+        p.setBasis(GetTfRotMatrix(GetVector3D(pose.XAxis()), GetVector3D(pose.ZAxis())));
         return p;
     }
-#else
-
-    urdf::Pose Convert(Crcl::PoseType & pose, double lengthConversion) {
-        urdf::Pose p;
-
-        p.position.x = pose.Point().X() * lengthConversion;
-        p.position.y = pose.Point().Y() * lengthConversion;
-        p.position.z = pose.Point().Z() * lengthConversion;
-        double dRoll, dPitch, dYaw;
-        GetPoseToRPY(pose, dRoll, dPitch, dYaw);
-        // Orientation angles always appear to be in radians (NOT DEGREES?)
-        //p.rotation.setFromRPY(dRoll * _angleConversion, dPitch * _angleConversion, dYaw * _angleConversion);
-        p.rotation.setFromRPY(dRoll, dPitch, dYaw);
-        return p;
-    }
-#endif
 
     inline Crcl::VectorType VectorZero() {
         return Crcl::VectorType(0.0, 0.0, 0.0);
     }
 
-    inline urdf::Vector3 GetVector3D(Crcl::PointType & point) {
-        return urdf::Vector3(point.X(), point.Y(), point.Z());
-    }
-
-    inline urdf::Vector3 GetVector3D(Crcl::VectorType & vector) {
-        return urdf::Vector3(vector.I(), vector.J(), vector.K());
-    }
-
     bool GetPoseToRPY(Crcl::PoseType & pose, double & dRoll, double & dPitch, double & dYaw) {
-        // urdf::Pose outpose = Convert(pose, 1.0);
-        // outpose.rotation.getRPY(dRoll,  dPitch,   dYaw);
-        // return true;
         return GetRPY(GetVector3D(pose.XAxis()), GetVector3D(pose.ZAxis()), dRoll, dPitch, dYaw);
     }
-    // returns radians
-#if 0
 
-    bool GetRPY(urdf::Vector3 Xrot, urdf::Vector3 Zrot, double & dRoll, double & dPitch, double & dYaw) {
-
-        RosMatrix rot = GetXZRotMatrix(Xrot, Zrot);
-        dYaw = atan2(rot[4 * 2 + 0], rot[4 * 2 + 1]);
-        dPitch = acos(rot[4 * 2 + 2]);
-        dRoll = -atan2(rot[4 * 0 + 2], rot[4 * 1 + 2]);
-
-        urdf::Rotation q = Convert(Xrot, Zrot);
-        _quatToRpy(q, dRoll, dPitch, dYaw);
-        return true;
-    }
-#endif
-
-    urdf::Rotation Convert(urdf::Vector3 Xrot, urdf::Vector3 Zrot) {
-        //RosMatrix rot = GetXZRotMatrix(Xrot, Zrot);
-        //return _quatFromMatrix(rot);
-        Eigen::Matrix3d mat(GetEigenRotMatrix(Xrot, Zrot));
-        Eigen::Quaterniond q(mat);
-        urdf::Rotation rotation;
-        rotation.x = q.x();
-        rotation.y = q.y();
-        rotation.z = q.z();
-        rotation.w = q.w();
+    RCS::Rotation Convert(RCS::Vector3 Xrot, RCS::Vector3 Zrot) {
+        double roll, pitch, yaw;
+        GetRPY(Xrot, Zrot, roll, pitch, yaw);
+        RCS::Rotation rotation;
+        rotation.setRPY(roll, pitch, yaw);
         return rotation;
     }
 
-    Crcl::PoseType Init(std::vector<double> terms) {
-        assert(terms.size() == 9);
+    Crcl::PoseType Convert(RCS::Pose pose) {
         Crcl::PoseType crclPose(NullPose());
-        crclPose.Point().X() = terms[0];
-        crclPose.Point().Y() = terms[1];
-        crclPose.Point().Z() = terms[2];
-        Crcl::VectorType xunitv(Crcl::VectorZero());
-        xunitv.I(terms[3]);
-        xunitv.J(terms[4]);
-        xunitv.K(terms[5]);
-        crclPose.XAxis(xunitv);
-        Crcl::VectorType zunitv(Crcl::VectorZero());
-        zunitv.I(terms[6]);
-        zunitv.J(terms[7]);
-        zunitv.K(terms[8]);
-        crclPose.ZAxis(zunitv);
+        crclPose.Point() = GetPoint(pose.getOrigin());
+#if 0
+        crclPose.Point().X() = pose.getOrigin().x();
+        crclPose.Point().Y() = pose.getOrigin().y();
+        crclPose.Point().Z() = pose.getOrigin().z();
+#endif
+        tf::Matrix3x3 m = pose.getBasis();
+        tf::Vector3 v1, v2, v3;
+
+        v1 = m.getColumn(0);
+        v2 = m.getColumn(1);
+        v3 = m.getColumn(2);
+        crclPose.XAxis(GetVector(v1));
+        crclPose.ZAxis(GetVector(v3));
+
         return crclPose;
     }
 
-    Crcl::PoseType Convert(urdf::Pose pose) {
-        Crcl::PoseType crclPose(NullPose());
-
-        crclPose.Point().X() = pose.position.x;
-        crclPose.Point().Y() = pose.position.y;
-        crclPose.Point().Z() = pose.position.z;
-
-        // NOTE!!! Rotation/orientation  must be in radians....
-        RosMatrix m = _matrixFromPose(pose);
-        Crcl::VectorType xunitv(Crcl::VectorZero());
-        xunitv.I(m[4 * 0 + 0]);
-        xunitv.J(m[4 * 0 + 1]);
-        xunitv.K(m[4 * 0 + 2]);
-        crclPose.XAxis(xunitv);
-
-        Crcl::VectorType zunitv(Crcl::VectorZero());
-        zunitv.I(m[4 * 2 + 0]);
-        zunitv.J(m[4 * 2 + 1]);
-        zunitv.K(m[4 * 2 + 2]);
-        crclPose.ZAxis(zunitv);
-        return crclPose;
+    std::string DumpCrclJoints(Crcl::JointStatusSequence jin) {
+        std::stringstream str;
+        for (unsigned int i = 0; i < jin.size(); i++) {
+            double pos = jin[i].JointPosition().present() ? jin[i].JointPosition().get() : nan("");
+            str << " [" << i << "]=" << pos;
+        }
+        return str.str();
     }
-
+    
     sensor_msgs::JointState Convert(Crcl::JointStatusSequence jout, double angleConversion) {
         JointState joint;
         for (unsigned int i = 0; i < jout.size(); i++) {
             //::JointStatusType  jointstatus(jout[i ].JointNumber());
-            //std::cout << "Pos " << *(jout[i].JointPosition()) << std::endl;
-            joint.position.push_back(*(jout[i].JointPosition()) * angleConversion);
+            double pos = jout[i].JointPosition().present() ? jout[i].JointPosition().get(): 0.0;
+            //std::cout << "Joint[" << i << "]=" << pos << std::endl;
+            joint.position.push_back(pos); // *(jout[i].JointPosition()) * angleConversion);
             // FIXME: how do you determine if there are values for velocity and force/torque
             //joint.velocity.push_back(*(jout[i].JointVelocity())); 
             joint.effort.push_back(0.0);
@@ -239,14 +157,6 @@ namespace Crcl {
         return jout;
     }
 
-    ::PointType GetPoint(RCS::Vector3 & point) {
-        return ::PointType(point.x, point.y, point.z);
-    }
-
-    ::VectorType GetVector(RCS::Vector3 & point) {
-        return ::VectorType(point.x, point.y, point.z);
-    }
-
     Crcl::PoseType NullPose() {
         Crcl::PointType point(0.0, 0.0, 0.0);
         Crcl::VectorType xrot(1.0, 0.0, 0.0);
@@ -268,11 +178,10 @@ namespace Crcl {
 
         std::vector<double> h;
         std::copy(&home[0], &home[6], std::back_inserter(h));
-        // FIXME: remove ikfast kinematics
-        urdf::Pose pose;
+        RCS::Pose pose;
         // maybe hard code this
-        pose.position = RCS::Vector3(0, 0, 0);
-        pose.rotation.setFromRPY(0, 0, 0);
+        pose.getOrigin() = RCS::Vector3(0, 0, 0);
+        pose.getRotation().setRPY(0, 0, 0);
         //return Convert(IkFastKinematics::JointsToPose(h) );
         return Convert(pose);
     }
@@ -286,45 +195,75 @@ namespace Crcl {
         }
         return angles;
     }
-
-    std::string DumpCrclPose(Crcl::PoseType pose, std::string separator) {
-        std::stringstream str;
-
-        str.precision(4);
-        str << "Translation = ";
-        str << pose.Point().X() << separator.c_str();
-        str << pose.Point().Y() << separator.c_str();
-        str << pose.Point().Z() << separator.c_str();
-        str << "\nXAxis = ";
-        str << pose.XAxis().I() << separator.c_str();
-        str << pose.XAxis().J() << separator.c_str();
-        str << pose.XAxis().K() << separator.c_str();
-        str << "\nZAxis = ";
-        str << pose.ZAxis().I() << separator.c_str();
-        str << pose.ZAxis().J() << separator.c_str();
-        str << pose.ZAxis().K() << separator.c_str();
+    std::string DumpRotationAsCrcl(RCS::Pose rcspose, std::string separator) {
+        Crcl::PoseType pose = Convert(rcspose);
+        return DumpRotationAsCrcl(pose);
+    }
+     std::string DumpRotationAsCrcl(Crcl::PoseType pose, std::string separator) {
+       std::stringstream str;
+        str << "XAxis = ";
+        str << boost::format("%8.4f") % pose.XAxis().I() << separator.c_str();
+        str << boost::format("%8.4f") % pose.XAxis().J() << separator.c_str();
+        str << boost::format("%8.4f") % pose.XAxis().K() << separator.c_str();
+        str << "\tZAxis = ";
+        str << boost::format("%8.4f") % pose.ZAxis().I() << separator.c_str();
+        str << boost::format("%8.4f") % pose.ZAxis().J() << separator.c_str();
+        str << boost::format("%8.4f") % pose.ZAxis().K() << separator.c_str();
         return str.str();
     }
 
+    std::string DumpCrclCommand(::CRCLCommandType & crclCommand) {
+        std::stringstream str;
+        try {
+            if (crclCommand.Name().present())
+                str << *crclCommand.Name();
+        } catch (...) {
+        }
+        str << "CommandID=" << crclCommand.CommandID() << std::endl;
+        return str.str();
+    }
+
+    std::string DumpStatusReply(CrclStatus *wm)
+    {
+        std::stringstream str;
+        //const char * sEnums[] = {"CRCL_Done", "CRCL_Error", "CRCL_Working", "CRCL_Ready"};
+        str << "GetStatusReply=" << wm->CommandID() << ":";
+        str << wm->CommandStatus() << std::endl;
+        str<< "Crcl Status Joints       =" << Crcl::DumpCrclJoints(wm->_CurrentJoints).c_str()<< std::endl;
+        str << "Crcl Status Position    ="  << Crcl::DumpPosition(wm->_CurrentPose).c_str()<< std::endl;
+        tf::Matrix3x3 m =  GetTfRotMatrix(GetVector3D(wm->_CurrentPose.XAxis()), GetVector3D(wm->_CurrentPose.ZAxis()));
+        tf::Quaternion q;
+        m.getRotation(q);
+        str << "Crcl Status Quaternion  ="  << q.x() <<":" << q.y() <<":" << q.z() <<":" <<  q.w() <<  std::endl;
+        str << "Crcl Status Orientation ="  << Crcl::DumpRotationAsCrcl(wm->_CurrentPose).c_str()<< std::endl;
+        double r,p,y; GetPoseToRPY(wm->_CurrentPose,r,p,y);
+        str << "Crcl Status RPY         ="  << Globals.StrFormat("%8.4f,%8.4f,%8.4f",Rad2Deg(r),Rad2Deg(p),Rad2Deg(y)).c_str()<< std::endl;
+        return str.str();
+    }
+     std::string DumpPosition(Crcl::PoseType pose, std::string separator) {
+        std::stringstream str;
+        str << boost::format("%8.4f") % pose.Point().X() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().Y() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().Z() << separator.c_str();
+         return str.str();
+    }   
     std::string DumpPose(Crcl::PoseType pose, std::string separator) {
         std::stringstream str;
-
-        str.precision(4);
-        str << pose.Point().X() << separator.c_str();
-        str << pose.Point().Y() << separator.c_str();
-        str << pose.Point().Z() << separator.c_str();
-        str << pose.XAxis().I() << separator.c_str();
-        str << pose.XAxis().J() << separator.c_str();
-        str << pose.XAxis().K() << separator.c_str();
-        str << pose.ZAxis().I() << separator.c_str();
-        str << pose.ZAxis().J() << separator.c_str();
-        str << pose.ZAxis().K() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().X() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().Y() << separator.c_str();
+        str << boost::format("%8.4f") % pose.Point().Z() << separator.c_str();
+        str << boost::format("%8.4f") % pose.XAxis().I() << separator.c_str();
+        str << boost::format("%8.4f") % pose.XAxis().J() << separator.c_str();
+        str << boost::format("%8.4f") % pose.XAxis().K() << separator.c_str();
+        str << boost::format("%8.4f") % pose.ZAxis().I() << separator.c_str();
+        str << boost::format("%8.4f") % pose.ZAxis().J() << separator.c_str();
+        str << boost::format("%8.4f") % pose.ZAxis().K() << separator.c_str();
         return str.str();
     }
     // ----------------------------------
 
     CrclStatus::CrclStatus() :
-    _CommandStatus("Done"),
+    _CommandStatus("CRCL_Done"),
     _GoalPose(Crcl::PoseHome()),
     _CurrentPose(Crcl::PoseHome()) {
         _GoalJoints = JointsHome();
@@ -347,12 +286,19 @@ namespace Crcl {
         _torqueConversion = 1.0;
 
         _bCoordinatedMotion = true;
+
+        Rates().JointVelLimit().resize(8, DEFAULT_JOINT_MAX_VEL);
+        Rates().JointAccLimit().resize(8, DEFAULT_JOINT_MAX_ACCEL);
     }
 
     void CrclStatus::Update(JointState & joints) {
+#ifdef DEBUGJOINTSTATUSCRCLUPDATE
+        std::cout << RCS::DumpJoints(joints);
+#endif
         JointStatusSequence jout;
 
         for (unsigned int i = 0; i < joints.position.size(); i++) {
+
             ::JointStatusType jointstatus(i + 1);
 
             // Convert from radians to degrees?
@@ -385,37 +331,6 @@ namespace Crcl {
         return _GoalJoints;
     }
 
-    Crcl::ActuatorJointSequence CrclStatus::Merge(Crcl::ActuatorJointSequence joints, bool bIncremental) {
-        Crcl::ActuatorJointSequence alljoints;
-
-        // First copy all of status into actuator joint sequence
-        for (unsigned int i = 0; i < _GoalJoints.size(); i++) {
-            ::xml_schema::positive_integer num = _GoalJoints[i].JointNumber();
-            JointStatusType::JointPosition_optional & optpos = _GoalJoints[i].JointPosition();
-            ActuateJointType::JointPosition_type pos(*optpos);
-            ::ActuateJointType jointcmd(_GoalJoints[i].JointNumber(), pos, ::JointDetailsType());
-            alljoints.push_back(jointcmd);
-        }
-
-        for (unsigned int i = 0; i < joints.size(); i++) {
-            size_t n = joints[i].JointNumber() - 1;
-
-            if (bIncremental) {
-                double increment = joints[i].JointPosition();
-                JointStatusType::JointPosition_optional & optpos = _GoalJoints[n].JointPosition();
-                ActuateJointType::JointPosition_type pos(*optpos);
-                pos += increment;
-
-                ::ActuateJointType jointcmd(joints[i].JointNumber(), pos, ::JointDetailsType());
-                alljoints[n] = jointcmd;
-            } else {
-                ::ActuateJointType jointcmd(joints[i].JointNumber(), joints[i].JointPosition(), ::JointDetailsType());
-                alljoints[n] = jointcmd;
-            }
-        }
-        return alljoints;
-    }
-
     void CrclStatus::Update(unsigned long long _CommandID) {
         StatusID() = CommandID() = _CommandID;
     }
@@ -442,10 +357,12 @@ namespace Crcl {
         }
     }
 
-    void CrclStatus::Update(urdf::Pose & pose) {
-        _CurrentPose.Point().X() = pose.position.x;
-        _CurrentPose.Point().Y() = pose.position.y;
-        _CurrentPose.Point().Z() = pose.position.z;
+    void CrclStatus::Update(RCS::Pose & pose) {
+        _CurrentPose = Convert(pose);
+#if 0
+        _CurrentPose.Point().X() = pose.getOrigin().x();
+        _CurrentPose.Point().Y() = pose.getOrigin().y();
+        _CurrentPose.Point().Z() = pose.getOrigin().z();
         boost::array<double, 12> m = _matrixFromQuat(pose.rotation);
         Crcl::VectorType xunitv(Crcl::VectorZero());
         xunitv.I(m[4 * 0 + 0]);
@@ -458,6 +375,7 @@ namespace Crcl {
         zunitv.J(m[4 * 2 + 1]);
         zunitv.K(m[4 * 2 + 2]);
         _CurrentPose.ZAxis(zunitv);
+#endif
         _GoalPose = _CurrentPose;
     }
 };

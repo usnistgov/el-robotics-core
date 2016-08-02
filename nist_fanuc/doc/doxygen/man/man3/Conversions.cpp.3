@@ -1,0 +1,95 @@
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/Conversions.cpp" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/Conversions.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Conversions\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBGeomMsgPose2UrdfPose\fP (const geometry_msgs::Pose &m)"
+.br
+.ti -1c
+.RI "geometry_msgs::Pose \fBUrdfPose2GeomMsgPose\fP (const \fBRCS::Pose\fP &m)"
+.br
+.ti -1c
+.RI "Eigen::Affine3d \fBGeomMsgPose2Affine3d\fP (const geometry_msgs::Pose &m)"
+.br
+.ti -1c
+.RI "geometry_msgs::Pose \fBPoseAffineToGeomMsg\fP (const Eigen::Affine3d &e)"
+.br
+.ti -1c
+.RI "Eigen::Affine3d \fBUrdfPose2Affine3d\fP (const \fBRCS::Pose\fP &pose)"
+.br
+.RI "\fIurdfPose2Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose \fP"
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBAffine3d2UrdfPose\fP (const Eigen::Affine3d &pose)"
+.br
+.RI "\fIaffine3d2UrdfPose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose \fP"
+.ti -1c
+.RI "std::vector< geometry_msgs::Pose > \fBUrdfPoses2PoseMsgs\fP (const std::vector< \fBRCS::Pose\fP > &src)"
+.br
+.ti -1c
+.RI "std::vector< \fBRCS::Pose\fP > \fBPoseMsgs2UrdfPoses\fP (const std::vector< geometry_msgs::Pose > &src)"
+.br
+.ti -1c
+.RI "std::vector< Eigen::Affine3d > \fBPoseMsgs2AffEigenPoses\fP (const std::vector< geometry_msgs::Pose > &src)"
+.br
+.ti -1c
+.RI "std::vector< geometry_msgs::Pose > \fBAffEigenPoses2PoseMsgs\fP (const std::vector< Eigen::Affine3d > &src)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "std::vector<geometry_msgs::Pose> AffEigenPoses2PoseMsgs (const std::vector< Eigen::Affine3d > &src)"
+
+.SS "\fBRCS::Pose\fP Affine3d2UrdfPose (const Eigen::Affine3d &pose)"
+
+.PP
+affine3d2UrdfPose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose 
+.PP
+\fBReturns:\fP
+.RS 4
+urdf pose with position and rotation\&. 
+.RE
+.PP
+
+.SS "Eigen::Affine3d GeomMsgPose2Affine3d (const geometry_msgs::Pose &m)"
+
+.SS "\fBRCS::Pose\fP GeomMsgPose2UrdfPose (const geometry_msgs::Pose &m)"
+
+.SS "geometry_msgs::Pose PoseAffineToGeomMsg (const Eigen::Affine3d &e)"
+
+.SS "std::vector<Eigen::Affine3d> PoseMsgs2AffEigenPoses (const std::vector< geometry_msgs::Pose > &src)"
+
+.SS "std::vector<\fBRCS::Pose\fP> PoseMsgs2UrdfPoses (const std::vector< geometry_msgs::Pose > &src)"
+
+.SS "Eigen::Affine3d UrdfPose2Affine3d (const \fBRCS::Pose\fP &pose)"
+
+.PP
+urdfPose2Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpose\fP is the urdf pose with position and rotation\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen Affine3d pose 
+.RE
+.PP
+
+.SS "geometry_msgs::Pose UrdfPose2GeomMsgPose (const \fBRCS::Pose\fP &m)"
+
+.SS "std::vector<geometry_msgs::Pose> UrdfPoses2PoseMsgs (const std::vector< \fBRCS::Pose\fP > &src)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

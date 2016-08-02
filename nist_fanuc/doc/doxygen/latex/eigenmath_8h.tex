@@ -1,0 +1,851 @@
+\hypertarget{eigenmath_8h}{\section{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Archive/eigenmath.h File Reference}
+\label{eigenmath_8h}\index{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Archive/eigenmath.\-h@{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Archive/eigenmath.\-h}}
+}
+{\ttfamily \#include $<$Eigen/\-Dense$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model\-\_\-loader/robot\-\_\-model\-\_\-loader.\-h$>$}\\*
+{\ttfamily \#include $<$moveit/robot\-\_\-model/robot\-\_\-model.\-h$>$}\\*
+{\ttfamily \#include $<$sensor\-\_\-msgs/\-Joint\-State.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{eigenmath_8h_a03bd9b8394f4fc31e4397996db48d8ca}{R\-O\-S\-M\-A\-T\-R\-I\-X}
+\item 
+\#define \hyperlink{eigenmath_8h_a257689b7bc15b7df46ee0f5ac97485a8}{C\-L\-O\-S\-E\-S\-M\-A\-L\-L}
+\item 
+\#define \hyperlink{eigenmath_8h_afdb5a6cfe5d482d5392535414934ab19}{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}
+\item 
+\#define \hyperlink{eigenmath_8h_a1746386da1f047ffdc313f06a6a01c7d}{Deg2\-Rad}(Ang)~( (double) ( Ang $\ast$ M\-\_\-\-P\-I / 180.\-0 ) )
+\item 
+\#define \hyperlink{eigenmath_8h_ac537143ba31a17c03653c8a73637d2b5}{Rad2\-Deg}(Ang)~( (double) ( Ang $\ast$ 180.\-0 / M\-\_\-\-P\-I ) )
+\item 
+\#define \hyperlink{eigenmath_8h_ae2840348cfb348f1452aa08417076b95}{M\-M2\-Meter}(d)~( (double) ( d / 1000.\-00 ) )
+\item 
+\#define \hyperlink{eigenmath_8h_acf2d8e758b52de05580d30a91802ce48}{Meter2\-M\-M}(d)~( (double) ( d $\ast$ 1000.\-00 ) )
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef boost\-::array$<$ double, 12 $>$ \hyperlink{eigenmath_8h_ac53c899c37aced88b01552b2bfdc693e}{Ros\-Matrix}
+\item 
+typedef Eigen\-::\-Matrix$<$ double, \\*
+Eigen\-::\-Dynamic, Eigen\-::\-Dynamic, \\*
+Eigen\-::\-Row\-Major $>$ \hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd}
+\item 
+typedef Eigen\-::\-Vector\-Xd \hyperlink{eigenmath_8h_a6305142340db35ab0e801acbed4bc8c8}{E\-Joint\-Vector}
+\item 
+typedef Eigen\-::\-Vector\-Xd \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose}
+\item 
+typedef Eigen\-::\-Vector3d \hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{eigenmath_8h_a2e20ddc15b56a802ea451849db61ac12}{C\-L\-O\-S\-E} (double x, double y)
+\item 
+bool \hyperlink{eigenmath_8h_a2dd77930645c88a9031853e542717c94}{S\-M\-A\-L\-L} (double x)
+\item 
+void \hyperlink{eigenmath_8h_a37ebbdda6b81fc9b7d355e372c2a0f50}{sincos} (double x, double $\ast$sx, double $\ast$cx)
+\item 
+\hyperlink{eigenmath_8h_a6305142340db35ab0e801acbed4bc8c8}{E\-Joint\-Vector} \hyperlink{eigenmath_8h_a5aa242ec794e899d79b3ac322d77ef37}{To\-Radians} (\hyperlink{eigenmath_8h_a6305142340db35ab0e801acbed4bc8c8}{E\-Joint\-Vector} joints)
+\begin{DoxyCompactList}\small\item\em To\-Radians converts an eigne vector of joints in degrees to radian values. \end{DoxyCompactList}\item 
+Eigen\-::\-Vector\-Xd \hyperlink{eigenmath_8h_acb2bf9df7b85c63d1becd833a0616486}{Convert\-Joints} (std\-::vector$<$ double $>$ v)
+\begin{DoxyCompactList}\small\item\em Convert\-Joints converts std vector of double into an eigen vector . \end{DoxyCompactList}\item 
+std\-::vector$<$ double $>$ \hyperlink{eigenmath_8h_a029604414c84e92f3e60e872bed732ea}{Convert\-Joints} (Eigen\-::\-Vector\-Xd ev)
+\begin{DoxyCompactList}\small\item\em Convert\-Joints converts eigen vector into a std vector of double into an. \end{DoxyCompactList}\item 
+Eigen\-::\-Vector\-Xd \hyperlink{eigenmath_8h_ab093e71b4f9afa0798a457318e1042e7}{Convert\-Pose} (urdf\-::\-Pose p)
+\begin{DoxyCompactList}\small\item\em Convert\-Pose converts urdf pose into an eigen vector\-Xd pose representation. \end{DoxyCompactList}\item 
+Eigen\-::\-Vector\-Xd \hyperlink{eigenmath_8h_aef0a96d9e6e5200e3c5a01312f0ceeee}{Convert\-Position} (urdf\-::\-Vector3 p)
+\begin{DoxyCompactList}\small\item\em Convert\-Position converts urdf vector3\-D position into an eigen vector\-Xd position representation. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{eigenmath_8h_abd004e92fd678a73e33166de9c629583}{Dump\-E\-Matrix} (const Eigen\-::\-Matrix$<$ double, Eigen\-::\-Dynamic, Eigen\-::\-Dynamic, Eigen\-::\-Row\-Major $>$ \&m)
+\begin{DoxyCompactList}\small\item\em Dump\-E\-Matrix creates a string of the eigen matrix representation. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{eigenmath_8h_ae8b7bb3fefa6d07d2bcf691a1deb1130}{Dump\-E\-Position} (const \hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} \&v)
+\begin{DoxyCompactList}\small\item\em Dump\-E\-Position creates a string of the eigen position vector representation. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{eigenmath_8h_a90b795d3222b6780becaf46d9e44ba4e}{Dump\-E\-Pose} (const \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p)
+\begin{DoxyCompactList}\small\item\em Dump\-E\-Pose creates a string of the eigen pose representation. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{eigenmath_8h_a1735e798c2cac13a5b3d8b9eb078362d}{Dump\-E\-Joints} (const \hyperlink{eigenmath_8h_a6305142340db35ab0e801acbed4bc8c8}{E\-Joint\-Vector} \&joints)
+\begin{DoxyCompactList}\small\item\em Dump\-E\-Joints creates a string of the eigen joint representation in degrees. \end{DoxyCompactList}\item 
+bool \hyperlink{eigenmath_8h_a3c3bc791dd669feaec80b4eee6cb318b}{E\-Quat\-Is\-Norm} (Eigen\-::\-Quaterniond \&q1)
+\begin{DoxyCompactList}\small\item\em E\-Quat\-Is\-Norm determines if Eigen quaterion is normalized. \end{DoxyCompactList}\item 
+Eigen\-::\-Quaterniond \hyperlink{eigenmath_8h_a2045f6462c1f9833bfcd80f07700946c}{E\-Pose2\-Quat} (\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} p)
+\begin{DoxyCompactList}\small\item\em E\-Pose2\-Quat converts rotation element of an Eigen pose into an Eigen quaterion. \end{DoxyCompactList}\item 
+Eigen\-::\-Quaterniond \hyperlink{eigenmath_8h_a113b0b2d5b4cbab54278006bf1e1c1bd}{E\-Quat\-From\-Rpy} (double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
+\begin{DoxyCompactList}\small\item\em E\-Quat\-From\-Rpy return Eigen quaterion from roll, pitch and yaw angles given in radians. \end{DoxyCompactList}\item 
+void \hyperlink{eigenmath_8h_a6115e140d1a91799418aeb637d54388a}{E\-Quat\-To\-Rpy} (const Eigen\-::\-Quaterniond \&q1, double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
+\begin{DoxyCompactList}\small\item\em E\-Quat\-To\-Rpy return roll, pitch and yaw angles given in radians from Eigen quaterion. \end{DoxyCompactList}\item 
+Eigen\-::\-Quaterniond \hyperlink{eigenmath_8h_a9fdf34aa5c18150046dff20cdf009c38}{Create\-Quaterian} (double \hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
+\begin{DoxyCompactList}\small\item\em Create\-Quaterian from roll, pitch and yaw angles given in radians. \end{DoxyCompactList}\item 
+Eigen\-::\-Vector\-Xd \hyperlink{eigenmath_8h_a26d04781751567f49abfb5bea758b287}{E\-Err\-Poses\-Axis\-Angle} (\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} current, \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} goal)
+\begin{DoxyCompactList}\small\item\em E\-Err\-Poses\-Axis\-Angle computes the error vector from two Eigen poses. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \hyperlink{eigenmath_8h_a300c1bfd8669919009b93abad1ca2f10}{E\-Create\-Pose} (\hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} pos, Eigen\-::\-Quaterniond \&q)
+\begin{DoxyCompactList}\small\item\em E\-Create\-Pose creates an Eigen pose from a Eigen position vector and an Eigen quaterion. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \hyperlink{eigenmath_8h_a55bc1e8da60e90916aac57c290149a9d}{E\-Matrix2\-Pose} (\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \&m)
+\begin{DoxyCompactList}\small\item\em E\-Matrix2\-Pose converts Eigen 4x4 matrix into an eigen pose. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \hyperlink{eigenmath_8h_aba8bbcf85e7311626d3be35b1fe68020}{E\-Pose\-Add\-Quat} (\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} p, Eigen\-::\-Quaterniond \&q)
+\begin{DoxyCompactList}\small\item\em E\-Pose\-Add\-Quat stores an Eigen quaterion into a Eigen pose. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \hyperlink{eigenmath_8h_adf89406b3fd14141d6f22980ce0a32a9}{E\-Pose\-Inv} (const \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p1)
+\begin{DoxyCompactList}\small\item\em E\-Pose\-Inv computes the inverse of an Eigen Pose. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \hyperlink{eigenmath_8h_a24624e4271167842d42121be26b26b8c}{E\-Pose\-Mult} (const \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p0, const \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p1)
+\item 
+\hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} \hyperlink{eigenmath_8h_a4fe217310f11ca99133fad7bc19da752}{E\-Create\-Position} (\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} pose)
+\begin{DoxyCompactList}\small\item\em E\-Create\-Position extracts and returns the translation element from an Eigen pose. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} \hyperlink{eigenmath_8h_a987a68a39c7f7f552b73b047cecf0c6b}{E\-Pose\-Mult} (const \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p, const \hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} \&v)
+\begin{DoxyCompactList}\small\item\em E\-Pose\-Mult multiplies an Eigen pose by an Eigen position vector. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} \hyperlink{eigenmath_8h_af906245aa7f42d6bf514758770a6c029}{E\-Quat\-Cart\-Mult} (Eigen\-::\-Quaterniond \&q1, const \hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} v2)
+\begin{DoxyCompactList}\small\item\em E\-Quat\-Cart\-Mult multiplies an Eigen quaterion by a Eigen position. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a6b06d9bb6159752adae002d1bce9d03e}{Ros2\-Eigen} (\hyperlink{eigenmath_8h_ac53c899c37aced88b01552b2bfdc693e}{Ros\-Matrix} m)
+\begin{DoxyCompactList}\small\item\em Ros2\-Eigen converts 3x4 matrix (boost array) into an eigen matrix. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a557d8b43ba471d9c3f7224d623585121}{Create4x4\-Identity\-Matrix} ()
+\begin{DoxyCompactList}\small\item\em Create4x4\-Identity\-Matrix creates an Eigen Matrix\-E\-Xd identity matrix. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a851af047bed8eb1a5fc2b759e5145e03}{Create\-Matrix} (const double angle, Eigen\-::\-Vector3d axis)
+\begin{DoxyCompactList}\small\item\em Create\-Matrix creates an Eigen Matrix\-E\-Xd 4x4 matrix from an axis angle representation. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a2f8ce64002980f50c4f447d93a205fa6}{Create\-Matrix} (const \hyperlink{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{Eigen\-Position} translation)
+\begin{DoxyCompactList}\small\item\em Create\-Matrix creates an Eigen Matrix\-E\-Xd matrix with translation defined. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a94003affc3426e32ad30434445a4f419}{E\-Pose2\-Matrix} (\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p)
+\begin{DoxyCompactList}\small\item\em E\-Pose2\-Matrix converts an Eigen pose into an Eigen 4x4 matrix. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a6fe34db0580bc106638b54deb46eafd9}{E\-Quat2\-Matrix} (Eigen\-::\-Quaterniond \&q)
+\begin{DoxyCompactList}\small\item\em E\-Quat2\-Matrix converts an Eigen quaterion into an Eigen 4x4 matrix. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \hyperlink{eigenmath_8h_a2dc3f53398d46c5c767e772004b2a483}{Pseudo\-Invert\-Jacobian} (const \hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \&a)
+\begin{DoxyCompactList}\small\item\em Pseudo\-Invert\-Jacobian attempts does a pseudo invert of a Eigen Matrix\-E\-Xd matrix if not a square matrix. \end{DoxyCompactList}\item 
+Eigen\-::\-Affine3d \hyperlink{eigenmath_8h_ab3dfadfa88862a014b4112f018d10cd4}{urdf\-Pose2\-Affine3d} (const urdf\-::\-Pose \&pose)
+\begin{DoxyCompactList}\small\item\em urdf\-Pose2\-Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose \end{DoxyCompactList}\item 
+urdf\-::\-Pose \hyperlink{eigenmath_8h_ae82010889674773936f9445b585db716}{affine3d2\-Urdf\-Pose} (const Eigen\-::\-Affine3d \&pose)
+\begin{DoxyCompactList}\small\item\em affine3d2\-Urdf\-Pose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose \end{DoxyCompactList}\item 
+std\-::ostream \& \hyperlink{eigenmath_8h_a3aec598a7e01091389dd9d0c273fdaa2}{operator$<$$<$} (std\-::ostream \&os, const std\-::vector$<$ Eigen\-::\-Vector3d $>$ \&v)
+\item 
+Eigen\-::\-Quaterniond \hyperlink{eigenmath_8h_a6cefb9f68ab597e0f09a94aaa8fb29a8}{E\-Matrix2\-Quaterion} (\hyperlink{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{Matrix\-E\-Xd} \&m)
+\begin{DoxyCompactList}\small\item\em E\-Matrix2\-Quaterion converts Eigen 4x4 matrix into an eigen quaterion. \end{DoxyCompactList}\item 
+\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \hyperlink{eigenmath_8h_aaa29ce6c688b2daa60947eedddd902b6}{E\-Pose\-Mult} (\hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p0, \hyperlink{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{Eigen\-Pose} \&p1)
+\begin{DoxyCompactList}\small\item\em E\-Pose\-Mult multiplies two Eigen poses. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{eigenmath_8h_a257689b7bc15b7df46ee0f5ac97485a8}{\index{eigenmath.\-h@{eigenmath.\-h}!C\-L\-O\-S\-E\-S\-M\-A\-L\-L@{C\-L\-O\-S\-E\-S\-M\-A\-L\-L}}
+\index{C\-L\-O\-S\-E\-S\-M\-A\-L\-L@{C\-L\-O\-S\-E\-S\-M\-A\-L\-L}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{C\-L\-O\-S\-E\-S\-M\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\-L\-O\-S\-E\-S\-M\-A\-L\-L}}\label{eigenmath_8h_a257689b7bc15b7df46ee0f5ac97485a8}
+\hypertarget{eigenmath_8h_a1746386da1f047ffdc313f06a6a01c7d}{\index{eigenmath.\-h@{eigenmath.\-h}!Deg2\-Rad@{Deg2\-Rad}}
+\index{Deg2\-Rad@{Deg2\-Rad}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Deg2\-Rad}]{\setlength{\rightskip}{0pt plus 5cm}\#define Deg2\-Rad(
+\begin{DoxyParamCaption}
+\item[{}]{Ang}
+\end{DoxyParamCaption}
+)~( (double) ( Ang $\ast$ M\-\_\-\-P\-I / 180.\-0 ) )}}\label{eigenmath_8h_a1746386da1f047ffdc313f06a6a01c7d}
+\hypertarget{eigenmath_8h_afdb5a6cfe5d482d5392535414934ab19}{\index{eigenmath.\-h@{eigenmath.\-h}!H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S@{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}}
+\index{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S@{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}}\label{eigenmath_8h_afdb5a6cfe5d482d5392535414934ab19}
+\hypertarget{eigenmath_8h_acf2d8e758b52de05580d30a91802ce48}{\index{eigenmath.\-h@{eigenmath.\-h}!Meter2\-M\-M@{Meter2\-M\-M}}
+\index{Meter2\-M\-M@{Meter2\-M\-M}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Meter2\-M\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define Meter2\-M\-M(
+\begin{DoxyParamCaption}
+\item[{}]{d}
+\end{DoxyParamCaption}
+)~( (double) ( d $\ast$ 1000.\-00 ) )}}\label{eigenmath_8h_acf2d8e758b52de05580d30a91802ce48}
+\hypertarget{eigenmath_8h_ae2840348cfb348f1452aa08417076b95}{\index{eigenmath.\-h@{eigenmath.\-h}!M\-M2\-Meter@{M\-M2\-Meter}}
+\index{M\-M2\-Meter@{M\-M2\-Meter}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{M\-M2\-Meter}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-M2\-Meter(
+\begin{DoxyParamCaption}
+\item[{}]{d}
+\end{DoxyParamCaption}
+)~( (double) ( d / 1000.\-00 ) )}}\label{eigenmath_8h_ae2840348cfb348f1452aa08417076b95}
+\hypertarget{eigenmath_8h_ac537143ba31a17c03653c8a73637d2b5}{\index{eigenmath.\-h@{eigenmath.\-h}!Rad2\-Deg@{Rad2\-Deg}}
+\index{Rad2\-Deg@{Rad2\-Deg}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Rad2\-Deg}]{\setlength{\rightskip}{0pt plus 5cm}\#define Rad2\-Deg(
+\begin{DoxyParamCaption}
+\item[{}]{Ang}
+\end{DoxyParamCaption}
+)~( (double) ( Ang $\ast$ 180.\-0 / M\-\_\-\-P\-I ) )}}\label{eigenmath_8h_ac537143ba31a17c03653c8a73637d2b5}
+\hypertarget{eigenmath_8h_a03bd9b8394f4fc31e4397996db48d8ca}{\index{eigenmath.\-h@{eigenmath.\-h}!R\-O\-S\-M\-A\-T\-R\-I\-X@{R\-O\-S\-M\-A\-T\-R\-I\-X}}
+\index{R\-O\-S\-M\-A\-T\-R\-I\-X@{R\-O\-S\-M\-A\-T\-R\-I\-X}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{R\-O\-S\-M\-A\-T\-R\-I\-X}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\-O\-S\-M\-A\-T\-R\-I\-X}}\label{eigenmath_8h_a03bd9b8394f4fc31e4397996db48d8ca}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}{\index{eigenmath.\-h@{eigenmath.\-h}!Eigen\-Pose@{Eigen\-Pose}}
+\index{Eigen\-Pose@{Eigen\-Pose}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Eigen\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}typedef Eigen\-::\-Vector\-Xd {\bf Eigen\-Pose}}}\label{eigenmath_8h_a5f0d05477a63a42cb818134c62869722}
+\hypertarget{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}{\index{eigenmath.\-h@{eigenmath.\-h}!Eigen\-Position@{Eigen\-Position}}
+\index{Eigen\-Position@{Eigen\-Position}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Eigen\-Position}]{\setlength{\rightskip}{0pt plus 5cm}typedef Eigen\-::\-Vector3d {\bf Eigen\-Position}}}\label{eigenmath_8h_a65215bb052738988b5b3dbc61ee29f3e}
+\hypertarget{eigenmath_8h_a6305142340db35ab0e801acbed4bc8c8}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Joint\-Vector@{E\-Joint\-Vector}}
+\index{E\-Joint\-Vector@{E\-Joint\-Vector}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Joint\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}typedef Eigen\-::\-Vector\-Xd {\bf E\-Joint\-Vector}}}\label{eigenmath_8h_a6305142340db35ab0e801acbed4bc8c8}
+\hypertarget{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}{\index{eigenmath.\-h@{eigenmath.\-h}!Matrix\-E\-Xd@{Matrix\-E\-Xd}}
+\index{Matrix\-E\-Xd@{Matrix\-E\-Xd}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Matrix\-E\-Xd}]{\setlength{\rightskip}{0pt plus 5cm}typedef Eigen\-::\-Matrix$<$double, Eigen\-::\-Dynamic, Eigen\-::\-Dynamic, Eigen\-::\-Row\-Major$>$ {\bf Matrix\-E\-Xd}}}\label{eigenmath_8h_a697e10d572f44ac7af5ad14054b91ab2}
+\hypertarget{eigenmath_8h_ac53c899c37aced88b01552b2bfdc693e}{\index{eigenmath.\-h@{eigenmath.\-h}!Ros\-Matrix@{Ros\-Matrix}}
+\index{Ros\-Matrix@{Ros\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Ros\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::array$<$double, 12$>$ {\bf Ros\-Matrix}}}\label{eigenmath_8h_ac53c899c37aced88b01552b2bfdc693e}
+
+
+\subsection{Function Documentation}
+\hypertarget{eigenmath_8h_ae82010889674773936f9445b585db716}{\index{eigenmath.\-h@{eigenmath.\-h}!affine3d2\-Urdf\-Pose@{affine3d2\-Urdf\-Pose}}
+\index{affine3d2\-Urdf\-Pose@{affine3d2\-Urdf\-Pose}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{affine3d2\-Urdf\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose affine3d2\-Urdf\-Pose (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Affine3d \&}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_ae82010889674773936f9445b585db716}
+
+
+affine3d2\-Urdf\-Pose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose 
+
+\begin{DoxyReturn}{Returns}
+urdf pose with position and rotation. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a2e20ddc15b56a802ea451849db61ac12}{\index{eigenmath.\-h@{eigenmath.\-h}!C\-L\-O\-S\-E@{C\-L\-O\-S\-E}}
+\index{C\-L\-O\-S\-E@{C\-L\-O\-S\-E}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{C\-L\-O\-S\-E}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-L\-O\-S\-E (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a2e20ddc15b56a802ea451849db61ac12}
+\hypertarget{eigenmath_8h_acb2bf9df7b85c63d1becd833a0616486}{\index{eigenmath.\-h@{eigenmath.\-h}!Convert\-Joints@{Convert\-Joints}}
+\index{Convert\-Joints@{Convert\-Joints}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Convert\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Vector\-Xd Convert\-Joints (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ double $>$}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_acb2bf9df7b85c63d1becd833a0616486}
+
+
+Convert\-Joints converts std vector of double into an eigen vector . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & is vector of doubles \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the equivalent size\-\_\-t n element eigen vector\-Xd . 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a029604414c84e92f3e60e872bed732ea}{\index{eigenmath.\-h@{eigenmath.\-h}!Convert\-Joints@{Convert\-Joints}}
+\index{Convert\-Joints@{Convert\-Joints}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Convert\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ Convert\-Joints (
+\begin{DoxyParamCaption}
+\item[{Eigen\-::\-Vector\-Xd}]{ev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a029604414c84e92f3e60e872bed732ea}
+
+
+Convert\-Joints converts eigen vector into a std vector of double into an. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the} & n element eigen vector\-Xd . \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+v is vector of doubles 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_ab093e71b4f9afa0798a457318e1042e7}{\index{eigenmath.\-h@{eigenmath.\-h}!Convert\-Pose@{Convert\-Pose}}
+\index{Convert\-Pose@{Convert\-Pose}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Convert\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Vector\-Xd Convert\-Pose (
+\begin{DoxyParamCaption}
+\item[{urdf\-::\-Pose}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_ab093e71b4f9afa0798a457318e1042e7}
+
+
+Convert\-Pose converts urdf pose into an eigen vector\-Xd pose representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & is the urdf pose. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen vector\-Xd representing pose with translation and quaterion elements 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_aef0a96d9e6e5200e3c5a01312f0ceeee}{\index{eigenmath.\-h@{eigenmath.\-h}!Convert\-Position@{Convert\-Position}}
+\index{Convert\-Position@{Convert\-Position}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Convert\-Position}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Vector\-Xd Convert\-Position (
+\begin{DoxyParamCaption}
+\item[{urdf\-::\-Vector3}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_aef0a96d9e6e5200e3c5a01312f0ceeee}
+
+
+Convert\-Position converts urdf vector3\-D position into an eigen vector\-Xd position representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & is the urdf position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen vector\-Xd representing position with translation elements 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a557d8b43ba471d9c3f7224d623585121}{\index{eigenmath.\-h@{eigenmath.\-h}!Create4x4\-Identity\-Matrix@{Create4x4\-Identity\-Matrix}}
+\index{Create4x4\-Identity\-Matrix@{Create4x4\-Identity\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Create4x4\-Identity\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix\-E\-Xd} Create4x4\-Identity\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a557d8b43ba471d9c3f7224d623585121}
+
+
+Create4x4\-Identity\-Matrix creates an Eigen Matrix\-E\-Xd identity matrix. 
+
+\begin{DoxyReturn}{Returns}
+Eigen Matrix\-E\-Xd identity matrix. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a851af047bed8eb1a5fc2b759e5145e03}{\index{eigenmath.\-h@{eigenmath.\-h}!Create\-Matrix@{Create\-Matrix}}
+\index{Create\-Matrix@{Create\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Create\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix\-E\-Xd} Create\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const double}]{angle, }
+\item[{Eigen\-::\-Vector3d}]{axis}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a851af047bed8eb1a5fc2b759e5145e03}
+
+
+Create\-Matrix creates an Eigen Matrix\-E\-Xd 4x4 matrix from an axis angle representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & in radians \\
+\hline
+{\em unit} & vector of direction given in Eigen position vector3d \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen Matrix\-E\-Xd matrix. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a2f8ce64002980f50c4f447d93a205fa6}{\index{eigenmath.\-h@{eigenmath.\-h}!Create\-Matrix@{Create\-Matrix}}
+\index{Create\-Matrix@{Create\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Create\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix\-E\-Xd} Create\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const {\bf Eigen\-Position}}]{translation}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a2f8ce64002980f50c4f447d93a205fa6}
+
+
+Create\-Matrix creates an Eigen Matrix\-E\-Xd matrix with translation defined. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em translation} & Eigen position vector3d \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen Matrix\-E\-Xd matrix. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a9fdf34aa5c18150046dff20cdf009c38}{\index{eigenmath.\-h@{eigenmath.\-h}!Create\-Quaterian@{Create\-Quaterian}}
+\index{Create\-Quaterian@{Create\-Quaterian}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Create\-Quaterian}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Quaterniond Create\-Quaterian (
+\begin{DoxyParamCaption}
+\item[{double}]{roll, }
+\item[{double}]{pitch, }
+\item[{double}]{yaw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a9fdf34aa5c18150046dff20cdf009c38}
+
+
+Create\-Quaterian from roll, pitch and yaw angles given in radians. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em roll} & pitch yaw are angles. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotation as defined by Eigen quaterion. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a1735e798c2cac13a5b3d8b9eb078362d}{\index{eigenmath.\-h@{eigenmath.\-h}!Dump\-E\-Joints@{Dump\-E\-Joints}}
+\index{Dump\-E\-Joints@{Dump\-E\-Joints}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Dump\-E\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Dump\-E\-Joints (
+\begin{DoxyParamCaption}
+\item[{const {\bf E\-Joint\-Vector} \&}]{joints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a1735e798c2cac13a5b3d8b9eb078362d}
+
+
+Dump\-E\-Joints creates a string of the eigen joint representation in degrees. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joints} & is the n element eigen vector\-Xd of joint values. \\
+\hline
+\end{DoxyParams}
+\hypertarget{eigenmath_8h_abd004e92fd678a73e33166de9c629583}{\index{eigenmath.\-h@{eigenmath.\-h}!Dump\-E\-Matrix@{Dump\-E\-Matrix}}
+\index{Dump\-E\-Matrix@{Dump\-E\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Dump\-E\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Dump\-E\-Matrix (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Matrix$<$ double, Eigen\-::\-Dynamic, Eigen\-::\-Dynamic, Eigen\-::\-Row\-Major $>$ \&}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_abd004e92fd678a73e33166de9c629583}
+
+
+Dump\-E\-Matrix creates a string of the eigen matrix representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & is the eigen matrix. \\
+\hline
+\end{DoxyParams}
+\hypertarget{eigenmath_8h_a90b795d3222b6780becaf46d9e44ba4e}{\index{eigenmath.\-h@{eigenmath.\-h}!Dump\-E\-Pose@{Dump\-E\-Pose}}
+\index{Dump\-E\-Pose@{Dump\-E\-Pose}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Dump\-E\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Dump\-E\-Pose (
+\begin{DoxyParamCaption}
+\item[{const {\bf Eigen\-Pose} \&}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a90b795d3222b6780becaf46d9e44ba4e}
+
+
+Dump\-E\-Pose creates a string of the eigen pose representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & is the 7 element eigen vector\-Xd. \\
+\hline
+\end{DoxyParams}
+\hypertarget{eigenmath_8h_ae8b7bb3fefa6d07d2bcf691a1deb1130}{\index{eigenmath.\-h@{eigenmath.\-h}!Dump\-E\-Position@{Dump\-E\-Position}}
+\index{Dump\-E\-Position@{Dump\-E\-Position}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Dump\-E\-Position}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Dump\-E\-Position (
+\begin{DoxyParamCaption}
+\item[{const {\bf Eigen\-Position} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_ae8b7bb3fefa6d07d2bcf691a1deb1130}
+
+
+Dump\-E\-Position creates a string of the eigen position vector representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & is the 3 element eigen vector3d. \\
+\hline
+\end{DoxyParams}
+\hypertarget{eigenmath_8h_a300c1bfd8669919009b93abad1ca2f10}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Create\-Pose@{E\-Create\-Pose}}
+\index{E\-Create\-Pose@{E\-Create\-Pose}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Create\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Pose} E\-Create\-Pose (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Position}}]{pos, }
+\item[{Eigen\-::\-Quaterniond \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a300c1bfd8669919009b93abad1ca2f10}
+
+
+E\-Create\-Pose creates an Eigen pose from a Eigen position vector and an Eigen quaterion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & is Eigendd vector containing translation \\
+\hline
+{\em q} & Eigen quaterion describing rotation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a4fe217310f11ca99133fad7bc19da752}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Create\-Position@{E\-Create\-Position}}
+\index{E\-Create\-Position@{E\-Create\-Position}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Create\-Position}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Position} E\-Create\-Position (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Pose}}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a4fe217310f11ca99133fad7bc19da752}
+
+
+E\-Create\-Position extracts and returns the translation element from an Eigen pose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pose} & Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen vector3\-D describing tranlsation 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a26d04781751567f49abfb5bea758b287}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Err\-Poses\-Axis\-Angle@{E\-Err\-Poses\-Axis\-Angle}}
+\index{E\-Err\-Poses\-Axis\-Angle@{E\-Err\-Poses\-Axis\-Angle}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Err\-Poses\-Axis\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Vector\-Xd E\-Err\-Poses\-Axis\-Angle (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Pose}}]{current, }
+\item[{{\bf Eigen\-Pose}}]{goal}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a26d04781751567f49abfb5bea758b287}
+
+
+E\-Err\-Poses\-Axis\-Angle computes the error vector from two Eigen poses. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current} & pose which is a 7\-D Vector\-Xd as translation and quaterion elements \\
+\hline
+{\em goal} & pose which is a 7\-D Vector\-Xd as translation and quaterion elements \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen vector of difference between vectors 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a55bc1e8da60e90916aac57c290149a9d}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Matrix2\-Pose@{E\-Matrix2\-Pose}}
+\index{E\-Matrix2\-Pose@{E\-Matrix2\-Pose}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Matrix2\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Pose} E\-Matrix2\-Pose (
+\begin{DoxyParamCaption}
+\item[{{\bf Matrix\-E\-Xd} \&}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a55bc1e8da60e90916aac57c290149a9d}
+
+
+E\-Matrix2\-Pose converts Eigen 4x4 matrix into an eigen pose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & is eigen 4x4 Matrix containing rotation and translation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen vector\-Xd containing rotation and translation 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a6cefb9f68ab597e0f09a94aaa8fb29a8}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Matrix2\-Quaterion@{E\-Matrix2\-Quaterion}}
+\index{E\-Matrix2\-Quaterion@{E\-Matrix2\-Quaterion}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Matrix2\-Quaterion}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Quaterniond E\-Matrix2\-Quaterion (
+\begin{DoxyParamCaption}
+\item[{{\bf Matrix\-E\-Xd} \&}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a6cefb9f68ab597e0f09a94aaa8fb29a8}
+
+
+E\-Matrix2\-Quaterion converts Eigen 4x4 matrix into an eigen quaterion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & is eigen 4x4 Matrix containing rotation and translation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen Quaterniond containing rotation 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a94003affc3426e32ad30434445a4f419}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose2\-Matrix@{E\-Pose2\-Matrix}}
+\index{E\-Pose2\-Matrix@{E\-Pose2\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose2\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix\-E\-Xd} E\-Pose2\-Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Pose} \&}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a94003affc3426e32ad30434445a4f419}
+
+
+E\-Pose2\-Matrix converts an Eigen pose into an Eigen 4x4 matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Eigen\-Xd vector representing pose, as translation and quaterion elements \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen Matrix\-E\-Xd 4x4 matrix. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a2045f6462c1f9833bfcd80f07700946c}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose2\-Quat@{E\-Pose2\-Quat}}
+\index{E\-Pose2\-Quat@{E\-Pose2\-Quat}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose2\-Quat}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Quaterniond E\-Pose2\-Quat (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Pose}}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a2045f6462c1f9833bfcd80f07700946c}
+
+
+E\-Pose2\-Quat converts rotation element of an Eigen pose into an Eigen quaterion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pose} & is Eigen\-Xd vectorcontaining translation and quaterion elements \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen quaterion . 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_aba8bbcf85e7311626d3be35b1fe68020}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose\-Add\-Quat@{E\-Pose\-Add\-Quat}}
+\index{E\-Pose\-Add\-Quat@{E\-Pose\-Add\-Quat}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose\-Add\-Quat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Pose} E\-Pose\-Add\-Quat (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Pose}}]{p, }
+\item[{Eigen\-::\-Quaterniond \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_aba8bbcf85e7311626d3be35b1fe68020}
+
+
+E\-Pose\-Add\-Quat stores an Eigen quaterion into a Eigen pose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Eigen\-Xd vector representing pose, as translation and quaterion elements \\
+\hline
+{\em q} & Eigen quaterion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen pose which is a 7\-D Vector\-Xd. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_adf89406b3fd14141d6f22980ce0a32a9}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose\-Inv@{E\-Pose\-Inv}}
+\index{E\-Pose\-Inv@{E\-Pose\-Inv}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose\-Inv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Pose} E\-Pose\-Inv (
+\begin{DoxyParamCaption}
+\item[{const {\bf Eigen\-Pose} \&}]{p1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_adf89406b3fd14141d6f22980ce0a32a9}
+
+
+E\-Pose\-Inv computes the inverse of an Eigen Pose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+inverted Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a24624e4271167842d42121be26b26b8c}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose\-Mult@{E\-Pose\-Mult}}
+\index{E\-Pose\-Mult@{E\-Pose\-Mult}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose\-Mult}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Pose} E\-Pose\-Mult (
+\begin{DoxyParamCaption}
+\item[{const {\bf Eigen\-Pose} \&}]{p0, }
+\item[{const {\bf Eigen\-Pose} \&}]{p1}
+\end{DoxyParamCaption}
+)}}\label{eigenmath_8h_a24624e4271167842d42121be26b26b8c}
+\hypertarget{eigenmath_8h_a987a68a39c7f7f552b73b047cecf0c6b}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose\-Mult@{E\-Pose\-Mult}}
+\index{E\-Pose\-Mult@{E\-Pose\-Mult}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose\-Mult}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Position} E\-Pose\-Mult (
+\begin{DoxyParamCaption}
+\item[{const {\bf Eigen\-Pose} \&}]{p, }
+\item[{const {\bf Eigen\-Position} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a987a68a39c7f7f552b73b047cecf0c6b}
+
+
+E\-Pose\-Mult multiplies an Eigen pose by an Eigen position vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & ispose which is a 7\-D Vector\-Xd as translation and quaterion elements. \\
+\hline
+{\em v} & Eigen vector3\-D describing tranlsation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_aaa29ce6c688b2daa60947eedddd902b6}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Pose\-Mult@{E\-Pose\-Mult}}
+\index{E\-Pose\-Mult@{E\-Pose\-Mult}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Pose\-Mult}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Pose} E\-Pose\-Mult (
+\begin{DoxyParamCaption}
+\item[{{\bf Eigen\-Pose} \&}]{p0, }
+\item[{{\bf Eigen\-Pose} \&}]{p1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_aaa29ce6c688b2daa60947eedddd902b6}
+
+
+E\-Pose\-Mult multiplies two Eigen poses. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p0} & Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. \\
+\hline
+{\em p1} & Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+multiply result as Eigen pose which is a 7\-D Vector\-Xd as translation and quaterion elements 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a6fe34db0580bc106638b54deb46eafd9}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Quat2\-Matrix@{E\-Quat2\-Matrix}}
+\index{E\-Quat2\-Matrix@{E\-Quat2\-Matrix}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Quat2\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix\-E\-Xd} E\-Quat2\-Matrix (
+\begin{DoxyParamCaption}
+\item[{Eigen\-::\-Quaterniond \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a6fe34db0580bc106638b54deb46eafd9}
+
+
+E\-Quat2\-Matrix converts an Eigen quaterion into an Eigen 4x4 matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & Eigen quaterion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen Matrix\-E\-Xd 4x4 matrix. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_af906245aa7f42d6bf514758770a6c029}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Quat\-Cart\-Mult@{E\-Quat\-Cart\-Mult}}
+\index{E\-Quat\-Cart\-Mult@{E\-Quat\-Cart\-Mult}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Quat\-Cart\-Mult}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eigen\-Position} E\-Quat\-Cart\-Mult (
+\begin{DoxyParamCaption}
+\item[{Eigen\-::\-Quaterniond \&}]{q1, }
+\item[{const {\bf Eigen\-Position}}]{v2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_af906245aa7f42d6bf514758770a6c029}
+
+
+E\-Quat\-Cart\-Mult multiplies an Eigen quaterion by a Eigen position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q1} & Eigen quaterion. \\
+\hline
+{\em q1} & Eigen position vector3d. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eigen position vector3d 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a113b0b2d5b4cbab54278006bf1e1c1bd}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Quat\-From\-Rpy@{E\-Quat\-From\-Rpy}}
+\index{E\-Quat\-From\-Rpy@{E\-Quat\-From\-Rpy}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Quat\-From\-Rpy}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Quaterniond E\-Quat\-From\-Rpy (
+\begin{DoxyParamCaption}
+\item[{double \&}]{roll, }
+\item[{double \&}]{pitch, }
+\item[{double \&}]{yaw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a113b0b2d5b4cbab54278006bf1e1c1bd}
+
+
+E\-Quat\-From\-Rpy return Eigen quaterion from roll, pitch and yaw angles given in radians. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em roll} & pitch yaw are angles. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotation as defined by Eigen quaterion. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a3c3bc791dd669feaec80b4eee6cb318b}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Quat\-Is\-Norm@{E\-Quat\-Is\-Norm}}
+\index{E\-Quat\-Is\-Norm@{E\-Quat\-Is\-Norm}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Quat\-Is\-Norm}]{\setlength{\rightskip}{0pt plus 5cm}bool E\-Quat\-Is\-Norm (
+\begin{DoxyParamCaption}
+\item[{Eigen\-::\-Quaterniond \&}]{q1}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a3c3bc791dd669feaec80b4eee6cb318b}
+
+
+E\-Quat\-Is\-Norm determines if Eigen quaterion is normalized. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q1} & Eigen quaterion. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if normalized 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a6115e140d1a91799418aeb637d54388a}{\index{eigenmath.\-h@{eigenmath.\-h}!E\-Quat\-To\-Rpy@{E\-Quat\-To\-Rpy}}
+\index{E\-Quat\-To\-Rpy@{E\-Quat\-To\-Rpy}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{E\-Quat\-To\-Rpy}]{\setlength{\rightskip}{0pt plus 5cm}void E\-Quat\-To\-Rpy (
+\begin{DoxyParamCaption}
+\item[{const Eigen\-::\-Quaterniond \&}]{q1, }
+\item[{double \&}]{roll, }
+\item[{double \&}]{pitch, }
+\item[{double \&}]{yaw}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a6115e140d1a91799418aeb637d54388a}
+
+
+E\-Quat\-To\-Rpy return roll, pitch and yaw angles given in radians from Eigen quaterion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em roll} & pitch yaw references will be filled with equivalent angles in radians. \\
+\hline
+{\em rotation} & as defined by Eigen quaterion. \\
+\hline
+\end{DoxyParams}
+\hypertarget{eigenmath_8h_a3aec598a7e01091389dd9d0c273fdaa2}{\index{eigenmath.\-h@{eigenmath.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{os, }
+\item[{const std\-::vector$<$ Eigen\-::\-Vector3d $>$ \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a3aec598a7e01091389dd9d0c273fdaa2}
+\hypertarget{eigenmath_8h_a2dc3f53398d46c5c767e772004b2a483}{\index{eigenmath.\-h@{eigenmath.\-h}!Pseudo\-Invert\-Jacobian@{Pseudo\-Invert\-Jacobian}}
+\index{Pseudo\-Invert\-Jacobian@{Pseudo\-Invert\-Jacobian}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Pseudo\-Invert\-Jacobian}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix\-E\-Xd} Pseudo\-Invert\-Jacobian (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix\-E\-Xd} \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a2dc3f53398d46c5c767e772004b2a483}
+
+
+Pseudo\-Invert\-Jacobian attempts does a pseudo invert of a Eigen Matrix\-E\-Xd matrix if not a square matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Eigen Matrix\-E\-Xd matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pseudo inverted Eigen Matrix\-E\-Xd matrix. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a6b06d9bb6159752adae002d1bce9d03e}{\index{eigenmath.\-h@{eigenmath.\-h}!Ros2\-Eigen@{Ros2\-Eigen}}
+\index{Ros2\-Eigen@{Ros2\-Eigen}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{Ros2\-Eigen}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Matrix$<$ double, Eigen\-::\-Dynamic, Eigen\-::\-Dynamic, Eigen\-::\-Row\-Major $>$ Ros2\-Eigen (
+\begin{DoxyParamCaption}
+\item[{{\bf Ros\-Matrix}}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a6b06d9bb6159752adae002d1bce9d03e}
+
+
+Ros2\-Eigen converts 3x4 matrix (boost array) into an eigen matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & is the boost array equivalent to 3x4 matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen 4x4 Matrix containing rotation and translation 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_a37ebbdda6b81fc9b7d355e372c2a0f50}{\index{eigenmath.\-h@{eigenmath.\-h}!sincos@{sincos}}
+\index{sincos@{sincos}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{sincos}]{\setlength{\rightskip}{0pt plus 5cm}void sincos (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double $\ast$}]{sx, }
+\item[{double $\ast$}]{cx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a37ebbdda6b81fc9b7d355e372c2a0f50}
+\hypertarget{eigenmath_8h_a2dd77930645c88a9031853e542717c94}{\index{eigenmath.\-h@{eigenmath.\-h}!S\-M\-A\-L\-L@{S\-M\-A\-L\-L}}
+\index{S\-M\-A\-L\-L@{S\-M\-A\-L\-L}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{S\-M\-A\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-M\-A\-L\-L (
+\begin{DoxyParamCaption}
+\item[{double}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a2dd77930645c88a9031853e542717c94}
+\hypertarget{eigenmath_8h_a5aa242ec794e899d79b3ac322d77ef37}{\index{eigenmath.\-h@{eigenmath.\-h}!To\-Radians@{To\-Radians}}
+\index{To\-Radians@{To\-Radians}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{To\-Radians}]{\setlength{\rightskip}{0pt plus 5cm}{\bf E\-Joint\-Vector} To\-Radians (
+\begin{DoxyParamCaption}
+\item[{{\bf E\-Joint\-Vector}}]{joints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_a5aa242ec794e899d79b3ac322d77ef37}
+
+
+To\-Radians converts an eigne vector of joints in degrees to radian values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joints} & is the n element eigen vector\-Xd of joint values in degrees. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+n element eigen vector\-Xd of joint values in radians. 
+\end{DoxyReturn}
+\hypertarget{eigenmath_8h_ab3dfadfa88862a014b4112f018d10cd4}{\index{eigenmath.\-h@{eigenmath.\-h}!urdf\-Pose2\-Affine3d@{urdf\-Pose2\-Affine3d}}
+\index{urdf\-Pose2\-Affine3d@{urdf\-Pose2\-Affine3d}!eigenmath.h@{eigenmath.\-h}}
+\subsubsection[{urdf\-Pose2\-Affine3d}]{\setlength{\rightskip}{0pt plus 5cm}Eigen\-::\-Affine3d urdf\-Pose2\-Affine3d (
+\begin{DoxyParamCaption}
+\item[{const urdf\-::\-Pose \&}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{eigenmath_8h_ab3dfadfa88862a014b4112f018d10cd4}
+
+
+urdf\-Pose2\-Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pose} & is the urdf pose with position and rotation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+eigen Affine3d pose 
+\end{DoxyReturn}

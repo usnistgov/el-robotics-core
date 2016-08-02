@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CRCL FANUC: /home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Setup.h Source File</title>
+<title>CRCL FANUC: /usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/Setup.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,26 +80,26 @@
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="Setup_8h.html#a0ff50a5a4093f44d505f5b07842f48ff">SetupAppEnvironment</a>();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   <span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="Setup_8h.html#a1165d713d127d1839b2551b3a0080854">SetupRosEnvironment</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code" href="Setup_8h.html#a62f6ef827b3218e75143be016805ff87">SetupRosEnvironment</a>(std::string pkgpath);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">extern</span> std::string <a class="code" href="Setup_8h.html#a55b8d43fbffe5e65315a953bc6fbacb3">ReadRosParams</a>(ros::NodeHandle &amp;nh);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::string <a class="code" href="Setup_8h.html#af037b73c560ca5d28802cda50c8cf42b">ExecuteShellCommand</a>(std::string);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifdef  __cplusplus</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span>}</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">/* SETUP_H */</span><span class="preprocessor"></span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span></div>
-<div class="ttc" id="Setup_8h_html_a55b8d43fbffe5e65315a953bc6fbacb3"><div class="ttname"><a href="Setup_8h.html#a55b8d43fbffe5e65315a953bc6fbacb3">ReadRosParams</a></div><div class="ttdeci">std::string ReadRosParams(ros::NodeHandle &amp;nh)</div><div class="ttdoc">ReadRosParams will read and record all ros params in system. </div><div class="ttdef"><b>Definition:</b> Setup.cpp:178</div></div>
-<div class="ttc" id="Setup_8h_html_a1165d713d127d1839b2551b3a0080854"><div class="ttname"><a href="Setup_8h.html#a1165d713d127d1839b2551b3a0080854">SetupRosEnvironment</a></div><div class="ttdeci">bool SetupRosEnvironment()</div><div class="ttdoc">SetupRosEnvironment will attempt to provide an environment equivalent to ROS &quot;source devel/setup...</div><div class="ttdef"><b>Definition:</b> Setup.cpp:110</div></div>
+<div class="ttc" id="Setup_8h_html_a55b8d43fbffe5e65315a953bc6fbacb3"><div class="ttname"><a href="Setup_8h.html#a55b8d43fbffe5e65315a953bc6fbacb3">ReadRosParams</a></div><div class="ttdeci">std::string ReadRosParams(ros::NodeHandle &amp;nh)</div><div class="ttdoc">ReadRosParams will read and record all ros params in system. </div><div class="ttdef"><b>Definition:</b> Setup.cpp:187</div></div>
 <div class="ttc" id="Setup_8h_html_a0ff50a5a4093f44d505f5b07842f48ff"><div class="ttname"><a href="Setup_8h.html#a0ff50a5a4093f44d505f5b07842f48ff">SetupAppEnvironment</a></div><div class="ttdeci">bool SetupAppEnvironment()</div><div class="ttdoc">SetupAppEnvironment will attempt save some of the application settings, e.g., user, nostname. </div><div class="ttdef"><b>Definition:</b> Setup.cpp:101</div></div>
 <div class="ttc" id="Setup_8h_html_af037b73c560ca5d28802cda50c8cf42b"><div class="ttname"><a href="Setup_8h.html#af037b73c560ca5d28802cda50c8cf42b">ExecuteShellCommand</a></div><div class="ttdeci">std::string ExecuteShellCommand(std::string)</div><div class="ttdoc">ExecuteShellCommand runs a shell script and returns results. </div><div class="ttdef"><b>Definition:</b> Setup.cpp:71</div></div>
+<div class="ttc" id="Setup_8h_html_a62f6ef827b3218e75143be016805ff87"><div class="ttname"><a href="Setup_8h.html#a62f6ef827b3218e75143be016805ff87">SetupRosEnvironment</a></div><div class="ttdeci">bool SetupRosEnvironment(std::string pkgpath)</div><div class="ttdoc">SetupRosEnvironment will attempt to provide an environment equivalent to ROS &quot;source devel/setup...</div><div class="ttdef"><b>Definition:</b> Setup.cpp:110</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

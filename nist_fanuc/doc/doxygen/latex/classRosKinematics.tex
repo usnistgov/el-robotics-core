@@ -3,6 +3,11 @@
 }
 
 
+The \hyperlink{classRosKinematics}{Ros\-Kinematics} class instantiates the \hyperlink{classIKinematics}{I\-Kinematics} abstract class and fills in the pure virtual functions with Descartes kinematic methods.  
+
+
+
+
 {\ttfamily \#include $<$Kinematics.\-h$>$}
 
 Inheritance diagram for Ros\-Kinematics\-:\begin{figure}[H]
@@ -17,23 +22,25 @@ Inheritance diagram for Ros\-Kinematics\-:\begin{figure}[H]
 \hyperlink{classRosKinematics_a9dc704b4556f6db399ad18cea7d6259b}{Ros\-Kinematics} ()
 \item 
 virtual void \hyperlink{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}{Init} (std\-::string groupname, std\-::string eelinkname)
-\item 
+\begin{DoxyCompactList}\small\item\em Init is necessary for R\-O\-S to initialize it kinematics using robot model . \end{DoxyCompactList}\item 
 virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ab3e293c7f5d7220fa7ee91256321ec92}{Get\-Joint\-Values} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Get\-Joint\-Values returns latest reading of end effector. \end{DoxyCompactList}\item 
 void \hyperlink{classRosKinematics_af9af8957f54e5d2343b2ab00dcb55525}{Set\-Joint\-Values} (std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_af95c3ba0edaccafeb68022895b9824ac}{joint\-\_\-values})
-\item 
-virtual urdf\-::\-Pose \hyperlink{classRosKinematics_ac892e14e3d6b14efbc4908404cd9e706}{F\-K} (std\-::vector$<$ double $>$ jv)
-\item 
-virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ae8f76a870595ca94d3876bbe51c7b142}{I\-K} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
-\item 
+\begin{DoxyCompactList}\small\item\em Set\-Joint\-Values sets the latest joint values of the robot. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{classRosKinematics_a1b0ea6900e6da0aa888d4f4c2a23b445}{F\-K} (std\-::vector$<$ double $>$ jv)
+\begin{DoxyCompactList}\small\item\em F\-K performs the forward kinematics using the joint values of the robot provided. \end{DoxyCompactList}\item 
+virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ae8f76a870595ca94d3876bbe51c7b142}{I\-K} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ double $>$ oldjoints)
+\begin{DoxyCompactList}\small\item\em I\-K performs the inverse kinematics using the Cartesian pose provided. \end{DoxyCompactList}\item 
 bool \hyperlink{classRosKinematics_ae51c062c810983b29d418399d38da42f}{Satisfies\-Bounds} ()
 \item 
 void \hyperlink{classRosKinematics_a19e0993e7e188491918785f4ca6ce115}{Enforce\-Bounds} ()
 \item 
-virtual size\-\_\-t \hyperlink{classRosKinematics_ae3d78b75e8cbd38a12d451e0e0e95548}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
-\item 
+virtual bool \hyperlink{classRosKinematics_aba5780a92ef59b3b27eb204b68989588}{Is\-Singular} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, double threshold)
+\begin{DoxyCompactList}\small\item\em Returns true if the determinant of the jacobian is near zero. . \end{DoxyCompactList}\item 
+virtual size\-\_\-t \hyperlink{classRosKinematics_ae3d78b75e8cbd38a12d451e0e0e95548}{All\-Pose\-To\-Joints} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
+\begin{DoxyCompactList}\small\item\em All\-Pose\-To\-Joints solves the inverse kinematics to find all solutions using the Cartesian pose provided. \end{DoxyCompactList}\item 
 virtual std\-::vector$<$ double $>$ \hyperlink{classRosKinematics_ab50d3e7666cf3b2bdb1ae3d5e0a7db8e}{Nearest\-Joints} (std\-::vector$<$ double $>$ oldjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Nearest\-Joints finds the joint set that is closest to the old joints. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -57,6 +64,9 @@ boost\-::mutex \hyperlink{classRosKinematics_a79f88926f9403d9b90cad26d0fa43193}{
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+The \hyperlink{classRosKinematics}{Ros\-Kinematics} class instantiates the \hyperlink{classIKinematics}{I\-Kinematics} abstract class and fills in the pure virtual functions with Descartes kinematic methods. 
+
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classRosKinematics_a9dc704b4556f6db399ad18cea7d6259b}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Ros\-Kinematics@{Ros\-Kinematics}}
 \index{Ros\-Kinematics@{Ros\-Kinematics}!RosKinematics@{Ros\-Kinematics}}
@@ -78,6 +88,20 @@ boost\-::mutex \hyperlink{classRosKinematics_a79f88926f9403d9b90cad26d0fa43193}{
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRosKinematics_ae3d78b75e8cbd38a12d451e0e0e95548}
 
 
+All\-Pose\-To\-Joints solves the inverse kinematics to find all solutions using the Cartesian pose provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cartesian} & robot pose of end effector. \\
+\hline
+{\em vector} & of double vectos to hold all the I\-K joint solutions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of solutions found. 
+\end{DoxyReturn}
+
+
 Implements \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c10}{I\-Kinematics}.
 
 \hypertarget{classRosKinematics_a19e0993e7e188491918785f4ca6ce115}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Enforce\-Bounds@{Enforce\-Bounds}}
@@ -87,16 +111,28 @@ Implements \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c10}{I\-Kin
 {}
 \end{DoxyParamCaption}
 )}}\label{classRosKinematics_a19e0993e7e188491918785f4ca6ce115}
-\hypertarget{classRosKinematics_ac892e14e3d6b14efbc4908404cd9e706}{\index{Ros\-Kinematics@{Ros\-Kinematics}!F\-K@{F\-K}}
+\hypertarget{classRosKinematics_a1b0ea6900e6da0aa888d4f4c2a23b445}{\index{Ros\-Kinematics@{Ros\-Kinematics}!F\-K@{F\-K}}
 \index{F\-K@{F\-K}!RosKinematics@{Ros\-Kinematics}}
-\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Ros\-Kinematics\-::\-F\-K (
+\subsubsection[{F\-K}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Ros\-Kinematics\-::\-F\-K (
 \begin{DoxyParamCaption}
 \item[{std\-::vector$<$ double $>$}]{jv}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_ac892e14e3d6b14efbc4908404cd9e706}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_a1b0ea6900e6da0aa888d4f4c2a23b445}
 
 
-Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kinematics}.
+F\-K performs the forward kinematics using the joint values of the robot provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & of all robot joint values in doubles. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+corresponding Cartesian robot pose of end effector. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classIKinematics_abf765053ac39fac5b94ef99e80b17f1b}{I\-Kinematics}.
 
 \hypertarget{classRosKinematics_ab3e293c7f5d7220fa7ee91256321ec92}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Get\-Joint\-Values@{Get\-Joint\-Values}}
 \index{Get\-Joint\-Values@{Get\-Joint\-Values}!RosKinematics@{Ros\-Kinematics}}
@@ -105,6 +141,13 @@ Implements \hyperlink{classIKinematics_a377f817ce25355513b518491436150fc}{I\-Kin
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_ab3e293c7f5d7220fa7ee91256321ec92}
+
+
+Get\-Joint\-Values returns latest reading of end effector. 
+
+\begin{DoxyReturn}{Returns}
+vector of joint values in doubles. 
+\end{DoxyReturn}
 
 
 Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kinematics}.
@@ -119,6 +162,20 @@ Implements \hyperlink{classIKinematics_af41a85f8dc0cac9d94f982c7cf58b475}{I\-Kin
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_ae8f76a870595ca94d3876bbe51c7b142}
 
 
+I\-K performs the inverse kinematics using the Cartesian pose provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Cartesian} & robot pose of end effector. \\
+\hline
+{\em optional} & seed joint values to use as best guess for I\-K joint values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of all robot joint values in doubles. 
+\end{DoxyReturn}
+
+
 Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kinematics}.
 
 \hypertarget{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Init@{Init}}
@@ -131,7 +188,41 @@ Implements \hyperlink{classIKinematics_ad0715c776a7eb325d2543bc34fa8114f}{I\-Kin
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}
 
 
+Init is necessary for R\-O\-S to initialize it kinematics using robot model . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & name of chained joints in robot model. \\
+\hline
+{\em eelinkname} & name of end effector joint in robot model. \\
+\hline
+\end{DoxyParams}
+
+
 Reimplemented from \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f}{I\-Kinematics}.
+
+\hypertarget{classRosKinematics_aba5780a92ef59b3b27eb204b68989588}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Is\-Singular@{Is\-Singular}}
+\index{Is\-Singular@{Is\-Singular}!RosKinematics@{Ros\-Kinematics}}
+\subsubsection[{Is\-Singular}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Ros\-Kinematics\-::\-Is\-Singular (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{double}]{threshold}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRosKinematics_aba5780a92ef59b3b27eb204b68989588}
+
+
+Returns true if the determinant of the jacobian is near zero. . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & name of chained joints in robot model. \\
+\hline
+{\em eelinkname} & name of end effector joint in robot model. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classIKinematics_a60505b46ea856c60abc3d85cc984c5d1}{I\-Kinematics}.
 
 \hypertarget{classRosKinematics_ab50d3e7666cf3b2bdb1ae3d5e0a7db8e}{\index{Ros\-Kinematics@{Ros\-Kinematics}!Nearest\-Joints@{Nearest\-Joints}}
 \index{Nearest\-Joints@{Nearest\-Joints}!RosKinematics@{Ros\-Kinematics}}
@@ -141,6 +232,20 @@ Reimplemented from \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f
 \item[{std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&}]{newjoints}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classRosKinematics_ab50d3e7666cf3b2bdb1ae3d5e0a7db8e}
+
+
+Nearest\-Joints finds the joint set that is closest to the old joints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em old} & seed joint values to use as best guess for I\-K joint values. \\
+\hline
+{\em vector} & of double vectos that holds all the I\-K joint solutions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of doubles with closest set to seed joints. 
+\end{DoxyReturn}
 
 
 Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kinematics}.
@@ -159,6 +264,15 @@ Implements \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{I\-Kin
 \item[{std\-::vector$<$ double $>$}]{joint\-\_\-values}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRosKinematics_af9af8957f54e5d2343b2ab00dcb55525}
+
+
+Set\-Joint\-Values sets the latest joint values of the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & of all robot joint values in doubles. \\
+\hline
+\end{DoxyParams}
 
 
 Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kinematics}.
@@ -197,5 +311,5 @@ Implements \hyperlink{classIKinematics_ad43b2185f06e20eb0bf9d5a94d4aec18}{I\-Kin
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Kinematics_8cpp}{Kinematics.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{Kinematics_8cpp}{Kinematics.\-cpp}\end{DoxyCompactItemize}

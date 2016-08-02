@@ -16,11 +16,11 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 \item 
 bool \hyperlink{classMoveitPlanning_a37dd79bdbcb114884100bd68b5f107b7}{Plan} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} curjoints, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} goaljoints)
 \item 
-bool \hyperlink{classMoveitPlanning_ab83293f9a377f8539c949ffdd5c89e0a}{Plan} (urdf\-::\-Pose \&curpose, urdf\-::\-Pose \&goalpose)
+bool \hyperlink{classMoveitPlanning_a322c58a642f7c8f20f6692d1f204a319}{Plan} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&curpose, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&goalpose)
 \item 
-bool \hyperlink{classMoveitPlanning_a0d645edc1964fd98600798f4c7474a16}{Plan} (urdf\-::\-Pose \&pose)
+bool \hyperlink{classMoveitPlanning_a1c053664491e65b04a84651a93e6c9a7}{Plan} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
 \item 
-bool \hyperlink{classMoveitPlanning_a10f7770fcaa229cdffd2f63215bed37b}{Plan} (std\-::vector$<$ urdf\-::\-Pose $>$ \&waypoints)
+bool \hyperlink{classMoveitPlanning_a133bf8ecef57cc08a01cddb474d5baa7}{Plan} (std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \&waypoints)
 \item 
 bool \hyperlink{classMoveitPlanning_a21c7727e0906a6ed2e24a31165ed3ba6}{Plan} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} joints)
 \item 
@@ -28,11 +28,13 @@ bool \hyperlink{classMoveitPlanning_a535856f4f406cb7d2f89c0bd03618109}{Plan} (Ei
 \item 
 bool \hyperlink{classMoveitPlanning_ac0e53ee15cf0ac2f605422534963d78e}{Plan} (geometry\-\_\-msgs\-::\-Pose \&pose)
 \item 
-urdf\-::\-Pose \hyperlink{classMoveitPlanning_ab5304af5d89d46daafa10a5b7698a006}{Get\-Current\-Pose} ()
+bool \hyperlink{classMoveitPlanning_a89a6cc30c32514b8382f1a31868a32d4}{Plan} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} curjoints, std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \&waypoints, double maxstep=0.\-01)
+\item 
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{classMoveitPlanning_a44786615bc6798f29575d5846078c881}{Get\-Current\-Pose} ()
 \item 
 std\-::vector$<$ double $>$ \hyperlink{classMoveitPlanning_a4ad173a662340daf91ab2ddde44e0946}{Get\-Joint\-Values} ()
 \item 
-urdf\-::\-Pose \hyperlink{classMoveitPlanning_a0417e420f1c97c887e5e4b70ebebdb57}{Forward\-Kinematics} ()
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{classMoveitPlanning_a9eb93f8c0456c80bd07ebc57e5c90d32}{Forward\-Kinematics} ()
 \item 
 std\-::vector$<$ double $>$ \hyperlink{classMoveitPlanning_a8e98e6c54141fc0a3ef92cfcef7bcfa5}{Set\-Random\-Joints} ()
 \item 
@@ -44,6 +46,16 @@ boost\-::shared\-\_\-ptr\\*
 $<$ moveit\-::planning\-\_\-interface\-::\-Move\-Group $>$ \hyperlink{classMoveitPlanning_ae8754bf6b519a2fc6ada11a44989479b}{Get\-Group} ()
 \item 
 std\-::vector$<$ std\-::string $>$ \hyperlink{classMoveitPlanning_a26149b824c249979b28fcb46d4909668}{Get\-Joint\-Names} ()
+\item 
+\hyperlink{classMoveitPlanning_a16acdb968a79729866f33aa51035aa17}{V\-A\-R} (Num\-Planning\-Attempts, double)
+\item 
+\hyperlink{classMoveitPlanning_ab89c04762fec4567601f1f9e3518d9b7}{V\-A\-R} (Planning\-Time, double)
+\item 
+\hyperlink{classMoveitPlanning_ad373c539d0caa8defff124c0bdfafebf}{V\-A\-R} (Goal\-Tolerance, double)
+\item 
+\hyperlink{classMoveitPlanning_ad3ff47e0cb727e46074122505a2b1e0a}{V\-A\-R} (Cartesian\-Interpolation\-Resolution, double)
+\item 
+\hyperlink{classMoveitPlanning_aebedee2a63d3a034b784acc6bb46d55f}{V\-A\-R} (Cartesian\-Jump\-Threshold, double)
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -96,20 +108,20 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 {}
 \end{DoxyParamCaption}
 )}}\label{classMoveitPlanning_abe8bbc034b09c7935ee2a54d557fb5c8}
-\hypertarget{classMoveitPlanning_a0417e420f1c97c887e5e4b70ebebdb57}{\index{Moveit\-Planning@{Moveit\-Planning}!Forward\-Kinematics@{Forward\-Kinematics}}
+\hypertarget{classMoveitPlanning_a9eb93f8c0456c80bd07ebc57e5c90d32}{\index{Moveit\-Planning@{Moveit\-Planning}!Forward\-Kinematics@{Forward\-Kinematics}}
 \index{Forward\-Kinematics@{Forward\-Kinematics}!MoveitPlanning@{Moveit\-Planning}}
-\subsubsection[{Forward\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Moveit\-Planning\-::\-Forward\-Kinematics (
+\subsubsection[{Forward\-Kinematics}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Moveit\-Planning\-::\-Forward\-Kinematics (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classMoveitPlanning_a0417e420f1c97c887e5e4b70ebebdb57}
-\hypertarget{classMoveitPlanning_ab5304af5d89d46daafa10a5b7698a006}{\index{Moveit\-Planning@{Moveit\-Planning}!Get\-Current\-Pose@{Get\-Current\-Pose}}
+)}}\label{classMoveitPlanning_a9eb93f8c0456c80bd07ebc57e5c90d32}
+\hypertarget{classMoveitPlanning_a44786615bc6798f29575d5846078c881}{\index{Moveit\-Planning@{Moveit\-Planning}!Get\-Current\-Pose@{Get\-Current\-Pose}}
 \index{Get\-Current\-Pose@{Get\-Current\-Pose}!MoveitPlanning@{Moveit\-Planning}}
-\subsubsection[{Get\-Current\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Moveit\-Planning\-::\-Get\-Current\-Pose (
+\subsubsection[{Get\-Current\-Pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Moveit\-Planning\-::\-Get\-Current\-Pose (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classMoveitPlanning_ab5304af5d89d46daafa10a5b7698a006}
+)}}\label{classMoveitPlanning_a44786615bc6798f29575d5846078c881}
 \hypertarget{classMoveitPlanning_ae8754bf6b519a2fc6ada11a44989479b}{\index{Moveit\-Planning@{Moveit\-Planning}!Get\-Group@{Get\-Group}}
 \index{Get\-Group@{Get\-Group}!MoveitPlanning@{Moveit\-Planning}}
 \subsubsection[{Get\-Group}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::shared\-\_\-ptr$<$moveit\-::planning\-\_\-interface\-::\-Move\-Group$>$ Moveit\-Planning\-::\-Get\-Group (
@@ -146,28 +158,28 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 \item[{{\bf Joint\-State}}]{goaljoints}
 \end{DoxyParamCaption}
 )}}\label{classMoveitPlanning_a37dd79bdbcb114884100bd68b5f107b7}
-\hypertarget{classMoveitPlanning_ab83293f9a377f8539c949ffdd5c89e0a}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
+\hypertarget{classMoveitPlanning_a322c58a642f7c8f20f6692d1f204a319}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
 \index{Plan@{Plan}!MoveitPlanning@{Moveit\-Planning}}
 \subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Planning\-::\-Plan (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{curpose, }
-\item[{urdf\-::\-Pose \&}]{goalpose}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{curpose, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{goalpose}
 \end{DoxyParamCaption}
-)}}\label{classMoveitPlanning_ab83293f9a377f8539c949ffdd5c89e0a}
-\hypertarget{classMoveitPlanning_a0d645edc1964fd98600798f4c7474a16}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
+)}}\label{classMoveitPlanning_a322c58a642f7c8f20f6692d1f204a319}
+\hypertarget{classMoveitPlanning_a1c053664491e65b04a84651a93e6c9a7}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
 \index{Plan@{Plan}!MoveitPlanning@{Moveit\-Planning}}
 \subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Planning\-::\-Plan (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{pose}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose}
 \end{DoxyParamCaption}
-)}}\label{classMoveitPlanning_a0d645edc1964fd98600798f4c7474a16}
-\hypertarget{classMoveitPlanning_a10f7770fcaa229cdffd2f63215bed37b}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
+)}}\label{classMoveitPlanning_a1c053664491e65b04a84651a93e6c9a7}
+\hypertarget{classMoveitPlanning_a133bf8ecef57cc08a01cddb474d5baa7}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
 \index{Plan@{Plan}!MoveitPlanning@{Moveit\-Planning}}
 \subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Planning\-::\-Plan (
 \begin{DoxyParamCaption}
-\item[{std\-::vector$<$ urdf\-::\-Pose $>$ \&}]{waypoints}
+\item[{std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ \&}]{waypoints}
 \end{DoxyParamCaption}
-)}}\label{classMoveitPlanning_a10f7770fcaa229cdffd2f63215bed37b}
+)}}\label{classMoveitPlanning_a133bf8ecef57cc08a01cddb474d5baa7}
 \hypertarget{classMoveitPlanning_a21c7727e0906a6ed2e24a31165ed3ba6}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
 \index{Plan@{Plan}!MoveitPlanning@{Moveit\-Planning}}
 \subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Planning\-::\-Plan (
@@ -189,6 +201,15 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 \item[{geometry\-\_\-msgs\-::\-Pose \&}]{pose}
 \end{DoxyParamCaption}
 )}}\label{classMoveitPlanning_ac0e53ee15cf0ac2f605422534963d78e}
+\hypertarget{classMoveitPlanning_a89a6cc30c32514b8382f1a31868a32d4}{\index{Moveit\-Planning@{Moveit\-Planning}!Plan@{Plan}}
+\index{Plan@{Plan}!MoveitPlanning@{Moveit\-Planning}}
+\subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Moveit\-Planning\-::\-Plan (
+\begin{DoxyParamCaption}
+\item[{{\bf Joint\-State}}]{curjoints, }
+\item[{std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ \&}]{waypoints, }
+\item[{double}]{maxstep = {\ttfamily 0.01}}
+\end{DoxyParamCaption}
+)}}\label{classMoveitPlanning_a89a6cc30c32514b8382f1a31868a32d4}
 \hypertarget{classMoveitPlanning_a99ae8ab8c7047f95d114701f1f3f2a49}{\index{Moveit\-Planning@{Moveit\-Planning}!Save\-Plan@{Save\-Plan}}
 \index{Save\-Plan@{Save\-Plan}!MoveitPlanning@{Moveit\-Planning}}
 \subsubsection[{Save\-Plan}]{\setlength{\rightskip}{0pt plus 5cm}void Moveit\-Planning\-::\-Save\-Plan (
@@ -203,6 +224,46 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 {}
 \end{DoxyParamCaption}
 )}}\label{classMoveitPlanning_a8e98e6c54141fc0a3ef92cfcef7bcfa5}
+\hypertarget{classMoveitPlanning_a16acdb968a79729866f33aa51035aa17}{\index{Moveit\-Planning@{Moveit\-Planning}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!MoveitPlanning@{Moveit\-Planning}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Moveit\-Planning\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Num\-Planning\-Attempts}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classMoveitPlanning_a16acdb968a79729866f33aa51035aa17}
+\hypertarget{classMoveitPlanning_ab89c04762fec4567601f1f9e3518d9b7}{\index{Moveit\-Planning@{Moveit\-Planning}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!MoveitPlanning@{Moveit\-Planning}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Moveit\-Planning\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Planning\-Time}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classMoveitPlanning_ab89c04762fec4567601f1f9e3518d9b7}
+\hypertarget{classMoveitPlanning_ad373c539d0caa8defff124c0bdfafebf}{\index{Moveit\-Planning@{Moveit\-Planning}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!MoveitPlanning@{Moveit\-Planning}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Moveit\-Planning\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Goal\-Tolerance}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classMoveitPlanning_ad373c539d0caa8defff124c0bdfafebf}
+\hypertarget{classMoveitPlanning_ad3ff47e0cb727e46074122505a2b1e0a}{\index{Moveit\-Planning@{Moveit\-Planning}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!MoveitPlanning@{Moveit\-Planning}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Moveit\-Planning\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Cartesian\-Interpolation\-Resolution}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classMoveitPlanning_ad3ff47e0cb727e46074122505a2b1e0a}
+\hypertarget{classMoveitPlanning_aebedee2a63d3a034b784acc6bb46d55f}{\index{Moveit\-Planning@{Moveit\-Planning}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!MoveitPlanning@{Moveit\-Planning}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}Moveit\-Planning\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Cartesian\-Jump\-Threshold}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classMoveitPlanning_aebedee2a63d3a034b784acc6bb46d55f}
 
 
 \subsection{Member Data Documentation}
@@ -240,5 +301,5 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{moveit_8h}{moveit.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{moveit_8cpp}{moveit.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{moveit_8h}{moveit.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{moveit_8cpp}{moveit.\-cpp}\end{DoxyCompactItemize}

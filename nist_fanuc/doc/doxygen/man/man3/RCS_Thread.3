@@ -1,10 +1,10 @@
-.TH "RCS::Thread" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::Thread" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 RCS::Thread \- 
 .PP
-\fBThread\fP is an \fBRCS\fP ulapi equivalent for timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
+\fBThread\fP is an \fBRCS\fP ulapi equivalent for a timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
 .br
  Notes: https://www.quantnet.com/threads/c-multithreading-in-boost.10028/\&.  
 
@@ -43,7 +43,7 @@ Inherited by \fBRCS::CController\fP, \fBRCS::RobotProgram\fP, and \fBRCS::RobotS
 .br
 .RI "\fICleanup function called after \fBAction()\fP loop done\&. \fP"
 .ti -1c
-.RI "virtual void \fBAction\fP ()"
+.RI "virtual int \fBAction\fP ()"
 .br
 .RI "\fIAction override function called every cycle\&. \fP"
 .ti -1c
@@ -126,7 +126,7 @@ Inherited by \fBRCS::CController\fP, \fBRCS::RobotProgram\fP, and \fBRCS::RobotS
 .in -1c
 .SH "Detailed Description"
 .PP 
-\fBThread\fP is an \fBRCS\fP ulapi equivalent for timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
+\fBThread\fP is an \fBRCS\fP ulapi equivalent for a timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
 .br
  Notes: https://www.quantnet.com/threads/c-multithreading-in-boost.10028/\&. 
 .SH "Constructor & Destructor Documentation"
@@ -141,7 +141,7 @@ Constructor of thread, that takes cycle time as input\&.
 Destructor of thread, makes sure thread has stopped\&. 
 .SH "Member Function Documentation"
 .PP 
-.SS "virtual void RCS::Thread::Action ()\fC [inline]\fP, \fC [virtual]\fP"
+.SS "virtual int RCS::Thread::Action ()\fC [inline]\fP, \fC [virtual]\fP"
 
 .PP
 Action override function called every cycle\&. 

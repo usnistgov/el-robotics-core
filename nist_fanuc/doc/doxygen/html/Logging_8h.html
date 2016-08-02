@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CRCL FANUC: /home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Logging.h File Reference</title>
+<title>CRCL FANUC: /usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/Logging.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -50,12 +50,14 @@
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Logging.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;map&gt;</code><br/>
+</div>
 <p><a href="Logging_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -67,6 +69,13 @@ Classes</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:ae7a57789838c6e4cd8b43e6506184419"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8h.html#ae7a57789838c6e4cd8b43e6506184419">LOGONCE</a>&#160;&#160;&#160;static long nLog ## __LINE__ = 0; if ( 0 == nLog ## __LINE__++ )</td></tr>
 <tr class="separator:ae7a57789838c6e4cd8b43e6506184419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb9d4cf8a68efe6b923b0492d21acd5c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8h.html#afb9d4cf8a68efe6b923b0492d21acd5c">LOGNAME</a>(F, L)&#160;&#160;&#160;<a class="el" href="Logging_8h.html#a3097c119d88e2adeb3b87d4ceb745c13">LineName</a>(F, L)</td></tr>
+<tr class="separator:afb9d4cf8a68efe6b923b0492d21acd5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3097c119d88e2adeb3b87d4ceb745c13"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Logging_8h.html#a3097c119d88e2adeb3b87d4ceb745c13">LineName</a> (std::string file, int line)</td></tr>
+<tr class="separator:a3097c119d88e2adeb3b87d4ceb745c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -74,6 +83,32 @@ Variables</h2></td></tr>
 <tr class="separator:aaa8bf44e033d7699525c8083b0ff4c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="afb9d4cf8a68efe6b923b0492d21acd5c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LOGNAME</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">F, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">L&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="Logging_8h.html#a3097c119d88e2adeb3b87d4ceb745c13">LineName</a>(F, L)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ae7a57789838c6e4cd8b43e6506184419"></a>
 <div class="memitem">
 <div class="memproto">
@@ -82,6 +117,41 @@ Variables</h2></td></tr>
           <td class="memname">#define LOGONCE&#160;&#160;&#160;static long nLog ## __LINE__ = 0; if ( 0 == nLog ## __LINE__++ )</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a3097c119d88e2adeb3b87d4ceb745c13"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string LineName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -102,7 +172,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:30 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

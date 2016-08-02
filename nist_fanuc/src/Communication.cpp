@@ -77,3 +77,43 @@ bool CJointWriter::JointTrajectoryWrite(std::vector<sensor_msgs::JointState> joi
     }
     return true;
 }
+
+//------------------------------------------------------------------
+// http://wiki.ros.org/tf/Tutorials/Adding%20a%20frame%20%28C%2B%2B%29
+// http://wiki.ros.org/tf/Overview/Using%20Published%20Transforms
+
+CLinkReader::CLinkReader(ros::NodeHandle &nh): _nh(nh) {
+    _baselink_name="/base_link";
+}
+
+void CLinkReader::Init(std::string baselink_name)
+{
+    _baselink_name=baselink_name;
+}
+
+
+RCS::Pose CLinkReader::GetLinkValue(std::string linkname )
+{
+    tf::StampedTransform transform;
+    RCS::Pose pose;
+    try{
+        _listener.lookupTransform(_baselink_name.c_str(), linkname.c_str(),
+                                 ros::Time(0), transform);
+        pose.setOrigin(transform.getOrigin());
+        pose.setRotation(transform.getRotation());
+#ifdef DEBUGGetLinkValue(
+        std::string str= RCS::DumpPose(pose);
+        std::cout << str.c_str();
+#endif
+    }
+    catch (tf::TransformException ex){
+        ROS_ERROR("%s!!!!!!!!!!!!!!!!!!!!!",ex.what());
+        ros::Duration(1.0).sleep();
+    }
+    return pose;
+}
+
+//transform.setOrigin( tf::Vector3(0.0, 2.0, 0.0) );
+//transform.setRotation( tf::Quaternion(0, 0, 0, 1) );
+//br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "turtle1", "carrot1"));
+

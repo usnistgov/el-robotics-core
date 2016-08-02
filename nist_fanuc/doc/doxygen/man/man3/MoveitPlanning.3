@@ -1,4 +1,4 @@
-.TH "MoveitPlanning" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "MoveitPlanning" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -24,13 +24,13 @@ MoveitPlanning \-
 .RI "bool \fBPlan\fP (\fBJointState\fP curjoints, \fBJointState\fP goaljoints)"
 .br
 .ti -1c
-.RI "bool \fBPlan\fP (urdf::Pose &curpose, urdf::Pose &goalpose)"
+.RI "bool \fBPlan\fP (\fBRCS::Pose\fP &curpose, \fBRCS::Pose\fP &goalpose)"
 .br
 .ti -1c
-.RI "bool \fBPlan\fP (urdf::Pose &pose)"
+.RI "bool \fBPlan\fP (\fBRCS::Pose\fP &pose)"
 .br
 .ti -1c
-.RI "bool \fBPlan\fP (std::vector< urdf::Pose > &waypoints)"
+.RI "bool \fBPlan\fP (std::vector< \fBRCS::Pose\fP > &waypoints)"
 .br
 .ti -1c
 .RI "bool \fBPlan\fP (\fBJointState\fP joints)"
@@ -42,13 +42,16 @@ MoveitPlanning \-
 .RI "bool \fBPlan\fP (geometry_msgs::Pose &pose)"
 .br
 .ti -1c
-.RI "urdf::Pose \fBGetCurrentPose\fP ()"
+.RI "bool \fBPlan\fP (\fBJointState\fP curjoints, std::vector< \fBRCS::Pose\fP > &waypoints, double maxstep=0\&.01)"
+.br
+.ti -1c
+.RI "\fBRCS::Pose\fP \fBGetCurrentPose\fP ()"
 .br
 .ti -1c
 .RI "std::vector< double > \fBGetJointValues\fP ()"
 .br
 .ti -1c
-.RI "urdf::Pose \fBForwardKinematics\fP ()"
+.RI "\fBRCS::Pose\fP \fBForwardKinematics\fP ()"
 .br
 .ti -1c
 .RI "std::vector< double > \fBSetRandomJoints\fP ()"
@@ -66,6 +69,21 @@ MoveitPlanning \-
 .br
 .ti -1c
 .RI "std::vector< std::string > \fBGetJointNames\fP ()"
+.br
+.ti -1c
+.RI "\fBVAR\fP (NumPlanningAttempts, double)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (PlanningTime, double)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (GoalTolerance, double)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (CartesianInterpolationResolution, double)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (CartesianJumpThreshold, double)"
 .br
 .in -1c
 .SS "Public Attributes"
@@ -114,9 +132,9 @@ MoveitPlanning \-
 .PP 
 .SS "void MoveitPlanning::DisplayPlan ()"
 
-.SS "urdf::Pose MoveitPlanning::ForwardKinematics ()"
+.SS "\fBRCS::Pose\fP MoveitPlanning::ForwardKinematics ()"
 
-.SS "urdf::Pose MoveitPlanning::GetCurrentPose ()"
+.SS "\fBRCS::Pose\fP MoveitPlanning::GetCurrentPose ()"
 
 .SS "boost::shared_ptr<moveit::planning_interface::MoveGroup> MoveitPlanning::GetGroup ()\fC [inline]\fP"
 
@@ -128,11 +146,11 @@ MoveitPlanning \-
 
 .SS "bool MoveitPlanning::Plan (\fBJointState\fPcurjoints, \fBJointState\fPgoaljoints)"
 
-.SS "bool MoveitPlanning::Plan (urdf::Pose &curpose, urdf::Pose &goalpose)"
+.SS "bool MoveitPlanning::Plan (\fBRCS::Pose\fP &curpose, \fBRCS::Pose\fP &goalpose)"
 
-.SS "bool MoveitPlanning::Plan (urdf::Pose &pose)"
+.SS "bool MoveitPlanning::Plan (\fBRCS::Pose\fP &pose)"
 
-.SS "bool MoveitPlanning::Plan (std::vector< urdf::Pose > &waypoints)"
+.SS "bool MoveitPlanning::Plan (std::vector< \fBRCS::Pose\fP > &waypoints)"
 
 .SS "bool MoveitPlanning::Plan (\fBJointState\fPjoints)"
 
@@ -140,9 +158,21 @@ MoveitPlanning \-
 
 .SS "bool MoveitPlanning::Plan (geometry_msgs::Pose &pose)"
 
+.SS "bool MoveitPlanning::Plan (\fBJointState\fPcurjoints, std::vector< \fBRCS::Pose\fP > &waypoints, doublemaxstep = \fC0\&.01\fP)"
+
 .SS "void MoveitPlanning::SavePlan ()"
 
 .SS "std::vector< double > MoveitPlanning::SetRandomJoints ()"
+
+.SS "MoveitPlanning::VAR (NumPlanningAttempts, double)"
+
+.SS "MoveitPlanning::VAR (PlanningTime, double)"
+
+.SS "MoveitPlanning::VAR (GoalTolerance, double)"
+
+.SS "MoveitPlanning::VAR (CartesianInterpolationResolution, double)"
+
+.SS "MoveitPlanning::VAR (CartesianJumpThreshold, double)"
 
 .SH "Member Data Documentation"
 .PP 

@@ -257,6 +257,7 @@ class GripperStatusType;
 class JointStatusesType;
 class JointStatusType;
 class ParallelGripperStatusType;
+class PoseStatusType;
 class ThreeFingerGripperStatusType;
 class VacuumGripperStatusType;
 
@@ -280,9 +281,10 @@ class CommandStateEnumType: public ::xml_schema::string
   public:
   enum value
   {
-    Done,
-    Error,
-    Working
+    CRCL_Done,
+    CRCL_Error,
+    CRCL_Working,
+    CRCL_Ready
   };
 
   CommandStateEnumType (value v);
@@ -328,8 +330,8 @@ class CommandStateEnumType: public ::xml_schema::string
   _xsd_CommandStateEnumType_convert () const;
 
   public:
-  static const char* const _xsd_CommandStateEnumType_literals_[3];
-  static const value _xsd_CommandStateEnumType_indexes_[3];
+  static const char* const _xsd_CommandStateEnumType_literals_[4];
+  static const value _xsd_CommandStateEnumType_indexes_[4];
 };
 
 class CommandStatusType: public ::DataThingType
@@ -337,7 +339,7 @@ class CommandStatusType: public ::DataThingType
   public:
   // CommandID
   //
-  typedef ::xml_schema::positive_integer CommandID_type;
+  typedef ::xml_schema::non_negative_integer CommandID_type;
   typedef ::xsd::cxx::tree::traits< CommandID_type, char > CommandID_traits;
 
   const CommandID_type&
@@ -380,6 +382,27 @@ class CommandStatusType: public ::DataThingType
   void
   CommandState (::std::auto_ptr< CommandState_type > p);
 
+  // StateDescription
+  //
+  typedef ::xml_schema::string StateDescription_type;
+  typedef ::xsd::cxx::tree::optional< StateDescription_type > StateDescription_optional;
+  typedef ::xsd::cxx::tree::traits< StateDescription_type, char > StateDescription_traits;
+
+  const StateDescription_optional&
+  StateDescription () const;
+
+  StateDescription_optional&
+  StateDescription ();
+
+  void
+  StateDescription (const StateDescription_type& x);
+
+  void
+  StateDescription (const StateDescription_optional& x);
+
+  void
+  StateDescription (::std::auto_ptr< StateDescription_type > p);
+
   // Constructors.
   //
   CommandStatusType (const CommandID_type&,
@@ -419,6 +442,7 @@ class CommandStatusType: public ::DataThingType
   ::xsd::cxx::tree::one< CommandID_type > CommandID_;
   ::xsd::cxx::tree::one< StatusID_type > StatusID_;
   ::xsd::cxx::tree::one< CommandState_type > CommandState_;
+  StateDescription_optional StateDescription_;
 };
 
 class CRCLStatusType: public ::DataThingType
@@ -462,26 +486,26 @@ class CRCLStatusType: public ::DataThingType
   void
   JointStatuses (::std::auto_ptr< JointStatuses_type > p);
 
-  // Pose
+  // PoseStatus
   //
-  typedef ::PoseType Pose_type;
-  typedef ::xsd::cxx::tree::optional< Pose_type > Pose_optional;
-  typedef ::xsd::cxx::tree::traits< Pose_type, char > Pose_traits;
+  typedef ::PoseStatusType PoseStatus_type;
+  typedef ::xsd::cxx::tree::optional< PoseStatus_type > PoseStatus_optional;
+  typedef ::xsd::cxx::tree::traits< PoseStatus_type, char > PoseStatus_traits;
 
-  const Pose_optional&
-  Pose () const;
+  const PoseStatus_optional&
+  PoseStatus () const;
 
-  Pose_optional&
-  Pose ();
-
-  void
-  Pose (const Pose_type& x);
+  PoseStatus_optional&
+  PoseStatus ();
 
   void
-  Pose (const Pose_optional& x);
+  PoseStatus (const PoseStatus_type& x);
 
   void
-  Pose (::std::auto_ptr< Pose_type > p);
+  PoseStatus (const PoseStatus_optional& x);
+
+  void
+  PoseStatus (::std::auto_ptr< PoseStatus_type > p);
 
   // GripperStatus
   //
@@ -538,7 +562,7 @@ class CRCLStatusType: public ::DataThingType
   protected:
   ::xsd::cxx::tree::one< CommandStatus_type > CommandStatus_;
   JointStatuses_optional JointStatuses_;
-  Pose_optional Pose_;
+  PoseStatus_optional PoseStatus_;
   GripperStatus_optional GripperStatus_;
 };
 
@@ -547,7 +571,7 @@ class GripperStatusType: public ::DataThingType
   public:
   // GripperName
   //
-  typedef ::xml_schema::id GripperName_type;
+  typedef ::xml_schema::nmtoken GripperName_type;
   typedef ::xsd::cxx::tree::traits< GripperName_type, char > GripperName_traits;
 
   const GripperName_type&
@@ -812,6 +836,105 @@ class ParallelGripperStatusType: public ::GripperStatusType
 
   protected:
   ::xsd::cxx::tree::one< Separation_type > Separation_;
+};
+
+class PoseStatusType: public ::DataThingType
+{
+  public:
+  // Pose
+  //
+  typedef ::PoseType Pose_type;
+  typedef ::xsd::cxx::tree::traits< Pose_type, char > Pose_traits;
+
+  const Pose_type&
+  Pose () const;
+
+  Pose_type&
+  Pose ();
+
+  void
+  Pose (const Pose_type& x);
+
+  void
+  Pose (::std::auto_ptr< Pose_type > p);
+
+  // Twist
+  //
+  typedef ::TwistType Twist_type;
+  typedef ::xsd::cxx::tree::optional< Twist_type > Twist_optional;
+  typedef ::xsd::cxx::tree::traits< Twist_type, char > Twist_traits;
+
+  const Twist_optional&
+  Twist () const;
+
+  Twist_optional&
+  Twist ();
+
+  void
+  Twist (const Twist_type& x);
+
+  void
+  Twist (const Twist_optional& x);
+
+  void
+  Twist (::std::auto_ptr< Twist_type > p);
+
+  // Wrench
+  //
+  typedef ::WrenchType Wrench_type;
+  typedef ::xsd::cxx::tree::optional< Wrench_type > Wrench_optional;
+  typedef ::xsd::cxx::tree::traits< Wrench_type, char > Wrench_traits;
+
+  const Wrench_optional&
+  Wrench () const;
+
+  Wrench_optional&
+  Wrench ();
+
+  void
+  Wrench (const Wrench_type& x);
+
+  void
+  Wrench (const Wrench_optional& x);
+
+  void
+  Wrench (::std::auto_ptr< Wrench_type > p);
+
+  // Constructors.
+  //
+  PoseStatusType (const Pose_type&);
+
+  PoseStatusType (::std::auto_ptr< Pose_type >);
+
+  PoseStatusType (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  PoseStatusType (const PoseStatusType& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  virtual PoseStatusType*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  PoseStatusType&
+  operator= (const PoseStatusType& x);
+
+  virtual 
+  ~PoseStatusType ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< Pose_type > Pose_;
+  Twist_optional Twist_;
+  Wrench_optional Wrench_;
 };
 
 class ThreeFingerGripperStatusType: public ::GripperStatusType
@@ -1235,6 +1358,9 @@ operator<< (::xercesc::DOMElement&, const JointStatusType&);
 
 void
 operator<< (::xercesc::DOMElement&, const ParallelGripperStatusType&);
+
+void
+operator<< (::xercesc::DOMElement&, const PoseStatusType&);
 
 void
 operator<< (::xercesc::DOMElement&, const ThreeFingerGripperStatusType&);

@@ -23,6 +23,12 @@
 #include <sstream>
 #include <time.h>
 #include "Logging.h"
+extern ALogger LogFile;
+
+// #ifdef DUMPCANON_STATUSREPLYCRCLJOINTS
+// #ifdef HEAVYDEBUG
+//#ifdef DEBUGJOINTSTATUSCRCLUPDATE
+
 
 // #define DEBUG
 #if defined DEBUG
@@ -35,6 +41,8 @@
 #define strncasecmp(x, y, z)    _strnicmp(x, y, z)
 #else
 #define _strnicmp strncasecmp
+#define S_OK 0
+#define E_FAIL -1
 #endif
 
 #ifndef CLEANSTORE

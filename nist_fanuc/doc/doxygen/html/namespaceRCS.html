@@ -61,23 +61,26 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1ChainRobotModel.html">ChainRobotModel</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CController.html">CController</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> provides an collection for all the relevant controller pieces. The <a class="el" href="structRCS_1_1CController.html" title="The CController provides an collection for all the relevant controller pieces. The CController is the...">CController</a> is the main controller class to collect all the references/pointers to instances in the project. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e.g., kinematics, joint writer, joint reader, etc.)  <a href="structRCS_1_1CController.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> provides a collection for all the relevant controller pieces. The <a class="el" href="structRCS_1_1CController.html" title="The CController provides a collection for all the relevant controller pieces. The CController is the ...">CController</a> is the main controller class to collect all the references/pointers to instances in the project. A global instance of this class, called "Controller", is created and is used throughout the code to reference various instances of control objects (e.g., kinematics, joint writer, joint reader, etc.)  <a href="structRCS_1_1CController.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotStatus.html">RobotStatus</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classRCS_1_1RobotStatus.html" title="The RobotStatus is a thread to updates the status of the robot. The RobotStatus is a separate thread ...">RobotStatus</a> is a thread to updates the status of the robot. The <a class="el" href="classRCS_1_1RobotStatus.html" title="The RobotStatus is a thread to updates the status of the robot. The RobotStatus is a separate thread ...">RobotStatus</a> is a separate thread that updates the robot status. Currently, it uses a JointReader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current pose using the FK routine. It also uses a CrclDelegate pointer reference to update the status reported by CRCL.  <a href="classRCS_1_1RobotStatus.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classRCS_1_1RobotStatus.html" title="The RobotStatus is a thread that reads the status of the robot and updates the world model...">RobotStatus</a> is a thread that reads the status of the robot and updates the world model. The <a class="el" href="classRCS_1_1RobotStatus.html" title="The RobotStatus is a thread that reads the status of the robot and updates the world model...">RobotStatus</a> is a separate thread that reads the robot status using ROS communication mechanisms and updates the controller world model based on these values. Currently, it uses an instance of the class JointReader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current robot pose using the forward kinematics (FK) routine. It also uses a CrclDelegate pointer reference to update the status reported by CRCL.  <a href="classRCS_1_1RobotStatus.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotProgram.html">RobotProgram</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classRCS_1_1RobotProgram.html" title="The RobotProgram is a thread to handle crcl programs. Crcl programs are not in fact legitimate...">RobotProgram</a> is a thread to handle crcl programs. <a class="el" href="namespaceCrcl.html">Crcl</a> programs are not in fact legitimate, however, debugging and verification are assisted by programs. However, program as in the <a class="el" href="namespaceCrcl.html">Crcl</a> XSD specification, so it doesn't hurt to handle. They require special handling as only one command should be done at a time. Uses codesynthesis to parse <a class="el" href="namespaceCrcl.html">Crcl</a> xml into C++ data structures.  <a href="classRCS_1_1RobotProgram.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1CMessageQueue.html">CMessageQueue</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classRCS_1_1CMessageQueue.html" title="The CMessageQueue offers a mutexed front to a stl deque. The queue is a LIFO data structure...">CMessageQueue</a> offers a mutexed front to a stl deque. The queue is a LIFO data structure. Useful for safely sharing data between multiple threads.  <a href="classRCS_1_1CMessageQueue.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classRCS_1_1CMessageQueue.html" title="The CMessageQueue offers a mutexed front to a STL/std deque. The queue is a LIFO data structure...">CMessageQueue</a> offers a mutexed front to a STL/std deque. The queue is a LIFO data structure. Useful for safely sharing data between multiple threads.  <a href="classRCS_1_1CMessageQueue.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html">Thread</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1Thread.html" title="Thread is an RCS ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait fu...">Thread</a> is an <a class="el" href="namespaceRCS.html">RCS</a> ulapi equivalent for timed thread. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time. It keeps track of busy/idle time for diagnostic purposes. <br/>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1Thread.html" title="Thread is an RCS ulapi equivalent for a timed thread. Given a cycle time, the thread provides a wait ...">Thread</a> is an <a class="el" href="namespaceRCS.html">RCS</a> ulapi equivalent for a timed thread. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time. It keeps track of busy/idle time for diagnostic purposes. <br/>
  Notes: <a href="https://www.quantnet.com/threads/c-multithreading-in-boost.10028/">https://www.quantnet.com/threads/c-multithreading-in-boost.10028/</a>.  <a href="classRCS_1_1Thread.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Timer.html">Timer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1Timer.html" title="Timer is a general-purpose timer. The Timer is a general-purpose timer, which can be used for waiting...">Timer</a> is a general-purpose timer. The <a class="el" href="classRCS_1_1Timer.html" title="Timer is a general-purpose timer. The Timer is a general-purpose timer, which can be used for waiting...">Timer</a> is a general-purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer.  <a href="classRCS_1_1Timer.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1Timer.html" title="Timer is a general-purpose timer. The Timer is a general-purpose timer, which can be used for waiting...">Timer</a> is a general-purpose timer. The <a class="el" href="classRCS_1_1Timer.html" title="Timer is a general-purpose timer. The Timer is a general-purpose timer, which can be used for waiting...">Timer</a> is a general-purpose timer, which can be used for waiting until a synchronous time tick, sleep for any period at all, or to obtain a time in system clock ticks from creation of the timer.  <a href="classRCS_1_1Timer.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1IRate.html">IRate</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRCS_1_1IRate.html" title="IRate is an interface class for defining the allowed motion rates. ">IRate</a> is an interface class for defining the allowed motion rates.  <a href="classRCS_1_1IRate.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRCS_1_1CanonCmd.html">CanonCmd</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRCS_1_1CanonCmd.html" title="CanonCmd is the controller command structure. ">CanonCmd</a> is the controller command structure.  <a href="structRCS_1_1CanonCmd.html#details">More...</a><br/></td></tr>
@@ -90,14 +93,14 @@ Classes</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:ae5dd02ab24956844fae02f10de954ad5"><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ae5dd02ab24956844fae02f10de954ad5">RCS_TIMERFUNC</a> )(void *_arg)</td></tr>
 <tr class="separator:ae5dd02ab24956844fae02f10de954ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac02c0fd845140ea93a2a9254b1db6f6"><td class="memItemLeft" align="right" valign="top">typedef urdf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">Pose</a></td></tr>
-<tr class="separator:aac02c0fd845140ea93a2a9254b1db6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afde073114b0dbe5587b2ec83fad48085"><td class="memItemLeft" align="right" valign="top">typedef urdf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#afde073114b0dbe5587b2ec83fad48085">Position</a></td></tr>
-<tr class="separator:afde073114b0dbe5587b2ec83fad48085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae84bcdeffa185f35100e9eca768bd4db"><td class="memItemLeft" align="right" valign="top">typedef urdf::Rotation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ae84bcdeffa185f35100e9eca768bd4db">Rotation</a></td></tr>
-<tr class="separator:ae84bcdeffa185f35100e9eca768bd4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d2e4673086277ee114b9f01ba1664e7"><td class="memItemLeft" align="right" valign="top">typedef urdf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a3d2e4673086277ee114b9f01ba1664e7">Vector3</a></td></tr>
-<tr class="separator:a3d2e4673086277ee114b9f01ba1664e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa07e45d8a50e30064283d2b38087f999"><td class="memItemLeft" align="right" valign="top">typedef tf::Pose&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">Pose</a></td></tr>
+<tr class="separator:aa07e45d8a50e30064283d2b38087f999"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6080060b617affc23ab1d6309fe7c3cd"><td class="memItemLeft" align="right" valign="top">typedef tf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a6080060b617affc23ab1d6309fe7c3cd">Position</a></td></tr>
+<tr class="separator:a6080060b617affc23ab1d6309fe7c3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fd915276fdb632d217c560523c320e0"><td class="memItemLeft" align="right" valign="top">typedef tf::Quaternion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">Rotation</a></td></tr>
+<tr class="separator:a3fd915276fdb632d217c560523c320e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a688a9db9f1e17b76c410c539997d07a7"><td class="memItemLeft" align="right" valign="top">typedef tf::Vector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">Vector3</a></td></tr>
+<tr class="separator:a688a9db9f1e17b76c410c539997d07a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86ac9427c1a3f2ec2b94a74888b2cefd"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a86ac9427c1a3f2ec2b94a74888b2cefd">Length</a></td></tr>
 <tr class="separator:a86ac9427c1a3f2ec2b94a74888b2cefd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20e104cd075c4ca08a073a6261a70a84"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a20e104cd075c4ca08a073a6261a70a84">LinearVelocity</a></td></tr>
@@ -142,7 +145,8 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a45f0039600f4e6b521a58e021609ea22">CANON_SUCCESS</a> = 0, 
 <a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79ae5d8cf70f462c3e4aee8050f308132fb">CANON_STATUSREPLY</a> = 1, 
 <br/>
-&#160;&#160;<a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643">CANON_RUNNING</a>
+&#160;&#160;<a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a5eb43a35f73ab11edc5d5a28b908257e">CANON_MOTION</a> = 2, 
+<a class="el" href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643">CANON_RUNNING</a>
 <br/>
  }</td></tr>
 <tr class="memdesc:a604ddc76f1c860e79ec060339a68dc79"><td class="mdescLeft">&#160;</td><td class="mdescRight">enumeration of return type from <a class="el" href="namespaceCrcl.html">Crcl</a> intepretation. If statusreply, requires status sent to <a class="el" href="namespaceCrcl.html">Crcl</a> client.  <a href="namespaceRCS.html#a604ddc76f1c860e79ec060339a68dc79">More...</a><br/></td></tr>
@@ -163,8 +167,12 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75adda3bf1c656804e5d07912149ceb9760">CANON_SET_MAX_JOINT_SPEED</a>, 
 <a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75af7ae40ad1b0525a4cb8888af76db4acc">CANON_SET_GRIPPER</a>, 
 <br/>
-&#160;&#160;<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d">CANON_STOP_MOTION</a>, 
-<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f">CANON_UNKNOWN</a>
+&#160;&#160;<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75ab3c4fe7af4d06fbd188e53f4825a9425">CANON_SET_TOLERANCE</a>, 
+<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d">CANON_STOP_MOTION</a>, 
+<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a0e32d7c80f9f5b064f660aab9b9392e6">CANON_DO_MOTION</a>, 
+<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75a92eaf4448ef32e4819df8b0eea8469f9">CANON_OTHER</a>, 
+<br/>
+&#160;&#160;<a class="el" href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f">CANON_UNKNOWN</a>
 <br/>
  }</td></tr>
 <tr class="memdesc:a55bbd74afb87a330de1b95af65f4cb75"><td class="mdescLeft">&#160;</td><td class="mdescRight">enumeration of <a class="el" href="namespaceCrcl.html">Crcl</a> commands. Many <a class="el" href="namespaceCrcl.html">Crcl</a> commands are wm parameter setting and require no motion component.  <a href="namespaceRCS.html#a55bbd74afb87a330de1b95af65f4cb75">More...</a><br/></td></tr>
@@ -212,18 +220,26 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a0d81b5ae27814995884c1d25619db28a"><td class="memItemLeft" align="right" valign="top">::CRCLProgramType::MiddleCommand_sequence &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a0d81b5ae27814995884c1d25619db28a">DummyInit</a> ()</td></tr>
 <tr class="separator:a0d81b5ae27814995884c1d25619db28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a35eaff1f2c8ec5520f595d6f3b2d38b3">DumpPose</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="memdesc:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#a35eaff1f2c8ec5520f595d6f3b2d38b3">More...</a><br/></td></tr>
+<tr class="separator:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e911197b35a4857f179af61811d4b0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a6e911197b35a4857f179af61811d4b0a">getRPY</a> (const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> pose, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a1d3228afa3a1d6773954f40c1e519eb9">roll</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a34c057a0378030db67bd6a129f37d938">pitch</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a21cd490f6191f66678f55b4c242a10cf">yaw</a>)</td></tr>
+<tr class="separator:a6e911197b35a4857f179af61811d4b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d588bfecc6b5d8e671ad9c57d18ecdc"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
 <tr class="memitem:a1d588bfecc6b5d8e671ad9c57d18ecdc"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a1d588bfecc6b5d8e671ad9c57d18ecdc">ToNanoseconds</a> (boost::chrono::duration&lt; Rep, Period &gt; d)</td></tr>
 <tr class="separator:a1d588bfecc6b5d8e671ad9c57d18ecdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82f7cfa7edd613a454281ce5f5685b4d"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
 <tr class="memitem:a82f7cfa7edd613a454281ce5f5685b4d"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a82f7cfa7edd613a454281ce5f5685b4d">ToSeconds</a> (boost::chrono::duration&lt; Rep, Period &gt; d)</td></tr>
 <tr class="separator:a82f7cfa7edd613a454281ce5f5685b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac45b18edecf0b0f60b08ca409cbe477a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ac45b18edecf0b0f60b08ca409cbe477a">DumpPose</a> (urdf::Pose &amp;pose)</td></tr>
-<tr class="memdesc:ac45b18edecf0b0f60b08ca409cbe477a"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#ac45b18edecf0b0f60b08ca409cbe477a">More...</a><br/></td></tr>
-<tr class="separator:ac45b18edecf0b0f60b08ca409cbe477a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac04aacea4f1ce25e58ed402586b8ae14"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ac04aacea4f1ce25e58ed402586b8ae14">DumpQuaterion</a> (std::ostream &amp;os, const urdf::Rotation &amp;rot)</td></tr>
-<tr class="memdesc:ac04aacea4f1ce25e58ed402586b8ae14"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std::cout &lt;&lt; DumpQuaterion(urdf::rotation);.  <a href="#ac04aacea4f1ce25e58ed402586b8ae14">More...</a><br/></td></tr>
-<tr class="separator:ac04aacea4f1ce25e58ed402586b8ae14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad467dfc15b94a5e025af3e094ac21860"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ad467dfc15b94a5e025af3e094ac21860">DumpJoints</a> (<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> joints)</td></tr>
+<tr class="memdesc:ad467dfc15b94a5e025af3e094ac21860"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpJoints takes a list of joints and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#ad467dfc15b94a5e025af3e094ac21860">More...</a><br/></td></tr>
+<tr class="separator:ad467dfc15b94a5e025af3e094ac21860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0cfadb4002d5ba5ec3ffdf2c96839e0"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#af0cfadb4002d5ba5ec3ffdf2c96839e0">operator&lt;&lt;</a> (std::ostream &amp;os, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="memdesc:af0cfadb4002d5ba5ec3ffdf2c96839e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#af0cfadb4002d5ba5ec3ffdf2c96839e0">More...</a><br/></td></tr>
+<tr class="separator:af0cfadb4002d5ba5ec3ffdf2c96839e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a994378d2744371f1afac4b59a808fef2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a994378d2744371f1afac4b59a808fef2">DumpQuaterion</a> (std::ostream &amp;os, const <a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a> &amp;rot)</td></tr>
+<tr class="memdesc:a994378d2744371f1afac4b59a808fef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std::cout &lt;&lt; DumpQuaterion(urdf::rotation);.  <a href="#a994378d2744371f1afac4b59a808fef2">More...</a><br/></td></tr>
+<tr class="separator:a994378d2744371f1afac4b59a808fef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -269,24 +285,24 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aac02c0fd845140ea93a2a9254b1db6f6"></a>
+<a class="anchor" id="aa07e45d8a50e30064283d2b38087f999"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef urdf::Pose <a class="el" href="namespaceRCS.html#aac02c0fd845140ea93a2a9254b1db6f6">RCS::Pose</a></td>
+          <td class="memname">typedef tf::Pose <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="afde073114b0dbe5587b2ec83fad48085"></a>
+<a class="anchor" id="a6080060b617affc23ab1d6309fe7c3cd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef urdf::Vector3 <a class="el" href="namespaceRCS.html#afde073114b0dbe5587b2ec83fad48085">RCS::Position</a></td>
+          <td class="memname">typedef tf::Vector3 <a class="el" href="namespaceRCS.html#a6080060b617affc23ab1d6309fe7c3cd">RCS::Position</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -317,24 +333,24 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae84bcdeffa185f35100e9eca768bd4db"></a>
+<a class="anchor" id="a3fd915276fdb632d217c560523c320e0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef urdf::Rotation <a class="el" href="namespaceRCS.html#ae84bcdeffa185f35100e9eca768bd4db">RCS::Rotation</a></td>
+          <td class="memname">typedef tf::Quaternion <a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a3d2e4673086277ee114b9f01ba1664e7"></a>
+<a class="anchor" id="a688a9db9f1e17b76c410c539997d07a7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef urdf::Vector3 <a class="el" href="namespaceRCS.html#a3d2e4673086277ee114b9f01ba1664e7">RCS::Vector3</a></td>
+          <td class="memname">typedef tf::Vector3 <a class="el" href="namespaceRCS.html#a688a9db9f1e17b76c410c539997d07a7">RCS::Vector3</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -428,7 +444,13 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a55bbd74afb87a330de1b95af65f4cb75af7ae40ad1b0525a4cb8888af76db4acc"></a>CANON_SET_GRIPPER</em>&#160;</td><td class="fielddoc">
 </td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a55bbd74afb87a330de1b95af65f4cb75ab3c4fe7af4d06fbd188e53f4825a9425"></a>CANON_SET_TOLERANCE</em>&#160;</td><td class="fielddoc">
+</td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d"></a>CANON_STOP_MOTION</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a55bbd74afb87a330de1b95af65f4cb75a0e32d7c80f9f5b064f660aab9b9392e6"></a>CANON_DO_MOTION</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a55bbd74afb87a330de1b95af65f4cb75a92eaf4448ef32e4819df8b0eea8469f9"></a>CANON_OTHER</em>&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f"></a>CANON_UNKNOWN</em>&#160;</td><td class="fielddoc">
 </td></tr>
@@ -499,6 +521,8 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a604ddc76f1c860e79ec060339a68dc79a45f0039600f4e6b521a58e021609ea22"></a>CANON_SUCCESS</em>&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a604ddc76f1c860e79ec060339a68dc79ae5d8cf70f462c3e4aee8050f308132fb"></a>CANON_STATUSREPLY</em>&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="a604ddc76f1c860e79ec060339a68dc79a5eb43a35f73ab11edc5d5a28b908257e"></a>CANON_MOTION</em>&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643"></a>CANON_RUNNING</em>&#160;</td><td class="fielddoc">
 </td></tr>
@@ -636,7 +660,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac45b18edecf0b0f60b08ca409cbe477a"></a>
+<a class="anchor" id="ad467dfc15b94a5e025af3e094ac21860"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -644,10 +668,10 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string RCS::DumpPose </td>
+          <td class="memname">std::string RCS::DumpJoints </td>
           <td>(</td>
-          <td class="paramtype">urdf::Pose &amp;&#160;</td>
-          <td class="paramname"><em>pose</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&#160;</td>
+          <td class="paramname"><em>joints</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -658,11 +682,29 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>DumpJoints takes a list of joints and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);. </p>
+
+</div>
+</div>
+<a class="anchor" id="a35eaff1f2c8ec5520f595d6f3b2d38b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string RCS::DumpPose </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramname"><em>pose</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p>DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);. </p>
 
 </div>
 </div>
-<a class="anchor" id="ac04aacea4f1ce25e58ed402586b8ae14"></a>
+<a class="anchor" id="a994378d2744371f1afac4b59a808fef2"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -678,7 +720,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const urdf::Rotation &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a> &amp;&#160;</td>
           <td class="paramname"><em>rot</em>&#160;</td>
         </tr>
         <tr>
@@ -695,6 +737,80 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std::cout &lt;&lt; DumpQuaterion(urdf::rotation);. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6e911197b35a4857f179af61811d4b0a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RCS::getRPY </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>roll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>pitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>yaw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af0cfadb4002d5ba5ec3ffdf2c96839e0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; RCS::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);. </p>
 
 </div>
 </div>
@@ -763,7 +879,7 @@ template&lt;class Rep , class Period &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 11 2016 14:35:31 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

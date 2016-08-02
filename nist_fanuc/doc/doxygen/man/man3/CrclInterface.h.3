@@ -1,8 +1,8 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/CrclInterface.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/CrclInterface.h" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/CrclInterface.h \- 
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/CrclInterface.h \- 
 .SH SYNOPSIS
 .br
 .PP
@@ -23,12 +23,15 @@
 .ti -1c
 .RI "class \fBCrcl::CrclDelegateInterface\fP"
 .br
+.RI "\fI\fBCrclDelegateInterface\fP parses \fBCrcl\fP commands and interprets into robot motion\&. https://github.com/usnistgov/crcl/blob/master/doc/Reference.md\&. \fP"
 .ti -1c
 .RI "class \fBCrcl::CrclClientCmdInterface\fP"
 .br
+.RI "\fI\fBCrclClientCmdInterface\fP generates \fBCrcl\fP XML command message from to send to a \fBCrcl\fP server\&. \fP"
 .ti -1c
 .RI "class \fBCrcl::CrclStatusMsgInterface\fP"
 .br
+.RI "\fI\fBCrclStatusMsgInterface\fP parses a \fBCrcl\fP XML status message from a \fBCrcl\fP server\&. \fP"
 .in -1c
 .SS "Namespaces"
 

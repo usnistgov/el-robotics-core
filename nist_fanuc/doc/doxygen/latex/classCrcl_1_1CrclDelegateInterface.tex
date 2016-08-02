@@ -3,6 +3,11 @@
 }
 
 
+\hyperlink{classCrcl_1_1CrclDelegateInterface}{Crcl\-Delegate\-Interface} parses \hyperlink{namespaceCrcl}{Crcl} commands and interprets into robot motion. \href{https://github.com/usnistgov/crcl/blob/master/doc/Reference.md}{\tt https\-://github.\-com/usnistgov/crcl/blob/master/doc/\-Reference.\-md}.  
+
+
+
+
 {\ttfamily \#include $<$Crcl\-Interface.\-h$>$}
 
 \subsection*{Public Member Functions}
@@ -19,71 +24,71 @@ void \hyperlink{classCrcl_1_1CrclDelegateInterface_a0c0209dd04c5e99e13c546b99a67
 \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a7513484f2c0d14332f844bdbae2c0586}{Delegate\-C\-R\-C\-L\-Cmd} (\-::C\-R\-C\-L\-Command\-Type \&crcl\-Command)
 \item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a5e666cfdbbaee53ddead4035cda12399}{Actuate\-Joints} (\hyperlink{namespaceCrcl_af084766e8e2d38a135cc67ef54d9904d}{Crcl\-::\-Actuator\-Joint\-Sequence} joints)
-\item 
+\begin{DoxyCompactList}\small\item\em Actuate the joints of the robot as specified. The joints argument is a list of instances of Actuate\-Joint\-Type. Each joint may appear at most once on the list. If a joint is not on the list, its actuation should be as previously set. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a3c8fc025f6c0eba5609b3e0866810651}{Close\-Tool\-Changer} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Close the tool changer on the robot so that it attaches to an end effector.. The robot must be in an appropriate position with respect to the end effector for the changer mechanism on the robot to attach to the end effector. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a41d9d47da2cb9463fe258903c7c8ed62}{Configure\-Joint\-Reports} (std\-::vector$<$ \hyperlink{structCrcl_1_1JointReport}{Crcl\-::\-Joint\-Report} $>$ \&joint\-Reports)
-\item 
+\begin{DoxyCompactList}\small\item\em Specify how the status of the robot joints should be reported. This may be used only if C\-R\-C\-L status is being reported. The value of Reset\-All is either true or false. Joints is a list of of instances of Configure\-Joint\-Report\-Type. Each joint may appear at most once on the list. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a5c4272b12bfcbd390d3c9baa3a858e73}{Couple} (char $\ast$target\-I\-D)
 \item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0202e19f87f1609889820ce3dc7e2aa3}{Dwell} (double seconds)
-\item 
+\begin{DoxyCompactList}\small\item\em Stay motionless for the given amount of time in seconds. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a401c506a2e16f1498fb28a638f0a816a}{End\-Canon} ()
-\item 
-virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ace91dcb602e1aa5a45bdf8bbcec38391}{Init\-Canon} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Do whatever is necessary to stop executing canonical robot commands. No specific action is required. The robot controller should not execute any canonical robot command except Init\-Canon after executing End\-Canon and should signal an error if it is given one. This command will normally be given when execution of a plan is complete but may also be given if an error is detected, or for any other reason. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a695656a7cdcb0ec121fabeb8847e47f2}{Get\-Status} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Command to retrieve status immediately. This may be used only if C\-R\-C\-L status is being reported. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ace91dcb602e1aa5a45bdf8bbcec38391}{Init\-Canon} ()
+\begin{DoxyCompactList}\small\item\em Do whatever is necessary to get ready to move. All units are set to the default units. This command will normally be given when a plan interpreter opens a plan to be executed. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a24d05f3f6758ff75df04ef4ef6260fae}{Message} (std\-::string message)
-\item 
+\begin{DoxyCompactList}\small\item\em Display the given message on the operator console. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ac04c8af185b4465add0654b47d3b4ce3}{Move\-To} (\hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} endpose, bool b\-Straight)
-\item 
-virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_aa7b40e1070284dc5ca9069eb1ea7026d}{Move\-Through\-To} (std\-::vector$<$ \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} $>$ \&poses, bool b\-Straight)
-\item 
+\begin{DoxyCompactList}\small\item\em Move the controlled point to the given pose, and stop there. The robot must reach the pose within the tolerance established (1) by the tolerance given for the pose, if there is a tolerance in the pose, or if not (2) by the most recently executed instance of Set\-End\-Pose\-Tolerance. The speed and acceleration to use are set either in the pose or by previously executed C\-R\-C\-L commands. \end{DoxyCompactList}\item 
+virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a14b31a646c0601b17783156a32f3bac8}{Move\-Through\-To} (std\-::vector$<$ \hyperlink{namespaceCrcl_acc6c82b52280f4d0e74b82a92400956e}{Crcl\-::\-Pose\-Type} $>$ \&waypoints, bool b\-Straight)
+\begin{DoxyCompactList}\small\item\em Move the controlled point along a trajectory passing near all but the last of the given waypoints (poses), and stop at the last of the given waypoints. The robot must pass each waypoint within the tolerance established \par
+ (1) by the tolerance given for the pose in the waypoint, if there is a tolerance in the waypoint, or if not \par
+ (2) by the most recently executed instance of Set\-Intermediate\-Pose\-Tolerance\-Type (or by Set\-End\-Pose\-Tolerance\-Type for the final waypoint). The speed and acceleration to use are set either in the waypoint or by previously executed C\-R\-C\-L commands. If the value of straight is true, the controlled point must be moved in a straight line between waypoints. If the value of straight is false, the controlled point may be moved along any convenient trajectory between waypoints. In either case, there are no restrictions on the values of X\-Axis and Z\-Axis between waypoints. The number\-Waypoints gives the number of waypoints. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0b78b935f64602c8543dd4cb6a6929ba}{Open\-Tool\-Changer} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Open the tool changer on the robot. If an end effector is attached to the robot when this command is given, executing the command releases the end effector. This command is normally given only after an end effector attached to the robot has been moved into an end effector changer. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a524e770e96afe3fd89fd11d70e56cbe3}{Run\-Program} (std\-::string program\-Text)
-\item 
+\begin{DoxyCompactList}\small\item\em Run a program written in a non-\/\-C\-R\-C\-L language that the robot controller understands.  is the program represented as a string of text. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a723c774e71cac9c51fb8159d06e9ae1a}{Set\-Absolute\-Acceleration} (double acceleration)
 \item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ad26647a78097ff9ee50e1abe285b7dbe}{Set\-Absolute\-Speed} (double speed)
 \item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a08129b3f3681981b1d0e294a88674269}{Set\-Angle\-Units} (std\-::string unit\-Name)
-\item 
+\begin{DoxyCompactList}\small\item\em Set angle units to the named unit. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ae25f975824369ab1b82aa4c1b44c8754}{Set\-Axial\-Speeds} (std\-::vector$<$ double $>$ speeds)
 \item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a3e49a7fb746c451704f6c55720f9caec}{Set\-End\-Effector} (double percent)
-\item 
+\begin{DoxyCompactList}\small\item\em Set the effectivity of the end effector. The setting is a number between zero and one. If an end effector has multiple control modes, the control mode must be set using a Set\-End\-Effector\-Parameters command, so that the meaning of Set\-End\-Effector commands is unambiguous. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a741f72f042107d75f97e225afb49eed0}{Set\-End\-Effector\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} d\-Tolerance)
 \item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a96d2c6e58dbaa65eda19ae857853875b}{Set\-End\-Pose\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance)
-\item 
+\begin{DoxyCompactList}\small\item\em et the tolerance for the position and orientation of the end of the arm (whenever there is no gripper there) or of the gripper (whenever a gripper is on the end of the arm) to the given value. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a6a9e07589fb159c1252f3a1964dab3c5}{Set\-Force\-Units} (std\-::string unit\-Name)
-\item 
+\begin{DoxyCompactList}\small\item\em Set force units to the named unit. After this command is executed, all commands that use force units are in terms of the named force unit. The default force unit is \char`\"{}newton\char`\"{}. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0bf311ad72c05dbdf43eb1d17a2f6458}{Set\-Intermediate\-Pose\-Tolerance} (\hyperlink{namespaceCrcl_ac805071e16341b82d4fa4e12b7f3ac6f}{Crcl\-::\-Pose\-Tolerance\-Type} tolerance)
-\item 
+\begin{DoxyCompactList}\small\item\em Set the tolerance for smooth motion near intermediate points. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a8a3a26ceedee34111d177ecfa31bc978}{Set\-Length\-Units} (std\-::string unit\-Name)
-\item 
+\begin{DoxyCompactList}\small\item\em Set length units to the named unit. After this command is executed, all commands that use length units (for location, tolerance, speed, and acceleration) are in terms of the named length unit. Existing values for speed, position, acceleration, etc. are converted automatically to the equivalent value in new length units. The default length unit is \char`\"{}meter\char`\"{}. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_aa0d4f4101f60374097d50126c35bcc74}{Set\-Motion\-Coordination} (bool b\-Coordinated\-Motion)
-\item 
+\begin{DoxyCompactList}\small\item\em Either require rotational motion and translational motion to be coordinated or allow them to be uncoordinated. Motion is coordinated when rotational motion and translational motion must finish simultaneously in motion commands (including each segment in a multiple segment motion command), except as possibly temporarily overridden in the the motion command. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a961922ae3370ba783a6efd49c60b2615}{Set\-Parameter} (char $\ast$param\-Name, void $\ast$param\-Val)
-\item 
+\begin{DoxyCompactList}\small\item\em Set one or more robot parameters as specified. The meaning of the parameter is not known to C\-R\-C\-L, but the robot controller knows what it means. This command is not to be used to set any parameter that can be set using a C\-R\-C\-L command. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a75b341b2b89b4e2c8994f0f8f9090a8c}{Set\-Relative\-Acceleration} (double percent)
 \item 
-virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ae3862f5c58782fcd5105af10975432d0}{Set\-Relative\-Speed} (double percent)
-\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_afc10167b3d7468331c434b60b7f8f737}{Set\-Rot\-Accel} (double accel)
-\item 
+\begin{DoxyCompactList}\small\item\em Set rotational acceleration to the given setting in current angle units per second per second. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_ab27eaeb82b7b859cf17addcade824829}{Set\-Rot\-Speed} (double speed)
-\item 
+\begin{DoxyCompactList}\small\item\em Set rotational speed to the given setting in current angle units per second. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_addfaf2d1240dcca39c813c1de09f81a1}{Set\-Torque\-Units} (std\-::string unit\-Name)
-\item 
+\begin{DoxyCompactList}\small\item\em Set torque units to the named unit. This tells the robot that all further commands giving torque values will implicitly use the named unit. The default torque unit is \char`\"{}newton\-Meter\char`\"{}. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a897b31164e969c95bc8e0ba516c0aca8}{Set\-Trans\-Accel} (double accel)
-\item 
+\begin{DoxyCompactList}\small\item\em Set translational acceleration to the given setting in current length units per second per second. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a957f09eff572d3175cd045c492f521b6}{Set\-Trans\-Speed} (double speed)
-\item 
+\begin{DoxyCompactList}\small\item\em Set translational speed to the given setting in current length units per second. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_a0f1326fca669d46ea7be5ac08c59f645}{Stop\-Motion} (int condition)
-\item 
+\begin{DoxyCompactList}\small\item\em Stop the robot motion according to the given condition, Immediate, Fast, or Normal. Immediate means the robot's drives are deactivated immediately and the brakes are applied. This may result in the controlled point being off the commanded path when the robot stops. \end{DoxyCompactList}\item 
 virtual \hyperlink{namespaceCrcl_a1ed3b29723118a020251dde9b12733c0}{Crcl\-Return} \hyperlink{classCrcl_1_1CrclDelegateInterface_afcee182e23a8ea376fa1fa829336feb0}{Get\-Tool} (double $\ast$percent)
 \item 
 std\-::string \hyperlink{classCrcl_1_1CrclDelegateInterface_a48005fdb22d24e47fe059a5085a34eed}{Find\-Leading\-Element} (std\-::string xml)
@@ -94,6 +99,9 @@ std\-::string \hyperlink{classCrcl_1_1CrclDelegateInterface_a48005fdb22d24e47fe0
 static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1_1CrclDelegateInterface_a18d6ff1b51227f0424f2611804bed4bd}{crclwm}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+\hyperlink{classCrcl_1_1CrclDelegateInterface}{Crcl\-Delegate\-Interface} parses \hyperlink{namespaceCrcl}{Crcl} commands and interprets into robot motion. \href{https://github.com/usnistgov/crcl/blob/master/doc/Reference.md}{\tt https\-://github.\-com/usnistgov/crcl/blob/master/doc/\-Reference.\-md}. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_ab6dab41e2398ed9a2cd2ac58e4c00ea2}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Crcl\-Delegate\-Interface@{Crcl\-Delegate\-Interface}}
@@ -113,6 +121,18 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{{\bf Crcl\-::\-Actuator\-Joint\-Sequence}}]{joints}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a5e666cfdbbaee53ddead4035cda12399}
+
+
+Actuate the joints of the robot as specified. The joints argument is a list of instances of Actuate\-Joint\-Type. Each joint may appear at most once on the list. If a joint is not on the list, its actuation should be as previously set. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joints} & is codesynthesis C++ representation that contains\-: \par
+ a Joint\-Number that identifies the joint \par
+a Joint\-Position that is the target position for the joint \par
+Joint\-Details that provides either(1) the speed and acceleration to use in getting to the position or (2) the force or torque and rate of change of force or torque to use in getting to the position. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a3c8fc025f6c0eba5609b3e0866810651}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Close\-Tool\-Changer@{Close\-Tool\-Changer}}
 \index{Close\-Tool\-Changer@{Close\-Tool\-Changer}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Close\-Tool\-Changer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Close\-Tool\-Changer (
@@ -120,6 +140,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a3c8fc025f6c0eba5609b3e0866810651}
+
+
+Close the tool changer on the robot so that it attaches to an end effector.. The robot must be in an appropriate position with respect to the end effector for the changer mechanism on the robot to attach to the end effector. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a41d9d47da2cb9463fe258903c7c8ed62}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Configure\-Joint\-Reports@{Configure\-Joint\-Reports}}
 \index{Configure\-Joint\-Reports@{Configure\-Joint\-Reports}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Configure\-Joint\-Reports}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Configure\-Joint\-Reports (
@@ -127,6 +151,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::vector$<$ {\bf Crcl\-::\-Joint\-Report} $>$ \&}]{joint\-Reports}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a41d9d47da2cb9463fe258903c7c8ed62}
+
+
+Specify how the status of the robot joints should be reported. This may be used only if C\-R\-C\-L status is being reported. The value of Reset\-All is either true or false. Joints is a list of of instances of Configure\-Joint\-Report\-Type. Each joint may appear at most once on the list. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a5c4272b12bfcbd390d3c9baa3a858e73}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Couple@{Couple}}
 \index{Couple@{Couple}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Couple}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Couple (
@@ -162,6 +190,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{seconds}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0202e19f87f1609889820ce3dc7e2aa3}
+
+
+Stay motionless for the given amount of time in seconds. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dwell} & time in seconds \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a401c506a2e16f1498fb28a638f0a816a}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!End\-Canon@{End\-Canon}}
 \index{End\-Canon@{End\-Canon}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{End\-Canon}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-End\-Canon (
@@ -169,6 +206,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a401c506a2e16f1498fb28a638f0a816a}
+
+
+Do whatever is necessary to stop executing canonical robot commands. No specific action is required. The robot controller should not execute any canonical robot command except Init\-Canon after executing End\-Canon and should signal an error if it is given one. This command will normally be given when execution of a plan is complete but may also be given if an error is detected, or for any other reason. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a48005fdb22d24e47fe059a5085a34eed}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Find\-Leading\-Element@{Find\-Leading\-Element}}
 \index{Find\-Leading\-Element@{Find\-Leading\-Element}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Find\-Leading\-Element}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Crcl\-Delegate\-Interface\-::\-Find\-Leading\-Element (
@@ -190,6 +231,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a695656a7cdcb0ec121fabeb8847e47f2}
+
+
+Command to retrieve status immediately. This may be used only if C\-R\-C\-L status is being reported. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_afcee182e23a8ea376fa1fa829336feb0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Get\-Tool@{Get\-Tool}}
 \index{Get\-Tool@{Get\-Tool}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Get\-Tool}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Crcl\-Return} Crcl\-::\-Crcl\-Delegate\-Interface\-::\-Get\-Tool (
@@ -204,6 +249,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ace91dcb602e1aa5a45bdf8bbcec38391}
+
+
+Do whatever is necessary to get ready to move. All units are set to the default units. This command will normally be given when a plan interpreter opens a plan to be executed. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a24d05f3f6758ff75df04ef4ef6260fae}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Message@{Message}}
 \index{Message@{Message}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Message (
@@ -211,14 +260,39 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::string}]{message}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a24d05f3f6758ff75df04ef4ef6260fae}
-\hypertarget{classCrcl_1_1CrclDelegateInterface_aa7b40e1070284dc5ca9069eb1ea7026d}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Move\-Through\-To@{Move\-Through\-To}}
+
+
+Display the given message on the operator console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & to display on console \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If there is no operator console, this command has no effect and should be reported as executed without error. 
+\end{DoxyReturn}
+\hypertarget{classCrcl_1_1CrclDelegateInterface_a14b31a646c0601b17783156a32f3bac8}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Move\-Through\-To@{Move\-Through\-To}}
 \index{Move\-Through\-To@{Move\-Through\-To}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Move\-Through\-To}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Move\-Through\-To (
 \begin{DoxyParamCaption}
-\item[{std\-::vector$<$ {\bf Crcl\-::\-Pose\-Type} $>$ \&}]{poses, }
+\item[{std\-::vector$<$ {\bf Crcl\-::\-Pose\-Type} $>$ \&}]{waypoints, }
 \item[{bool}]{b\-Straight}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_aa7b40e1070284dc5ca9069eb1ea7026d}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a14b31a646c0601b17783156a32f3bac8}
+
+
+Move the controlled point along a trajectory passing near all but the last of the given waypoints (poses), and stop at the last of the given waypoints. The robot must pass each waypoint within the tolerance established \par
+ (1) by the tolerance given for the pose in the waypoint, if there is a tolerance in the waypoint, or if not \par
+ (2) by the most recently executed instance of Set\-Intermediate\-Pose\-Tolerance\-Type (or by Set\-End\-Pose\-Tolerance\-Type for the final waypoint). The speed and acceleration to use are set either in the waypoint or by previously executed C\-R\-C\-L commands. If the value of straight is true, the controlled point must be moved in a straight line between waypoints. If the value of straight is false, the controlled point may be moved along any convenient trajectory between waypoints. In either case, there are no restrictions on the values of X\-Axis and Z\-Axis between waypoints. The number\-Waypoints gives the number of waypoints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em waypoints} & list of poses to move thru \\
+\hline
+{\em b\-Straight} & if the value of straight is true, the controlled point must be moved in a straight line. If the value of straight is false, the controlled point may be moved along any convenient trajectory. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_ac04c8af185b4465add0654b47d3b4ce3}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Move\-To@{Move\-To}}
 \index{Move\-To@{Move\-To}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Move\-To}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Move\-To (
@@ -227,6 +301,17 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{bool}]{b\-Straight}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ac04c8af185b4465add0654b47d3b4ce3}
+
+
+Move the controlled point to the given pose, and stop there. The robot must reach the pose within the tolerance established (1) by the tolerance given for the pose, if there is a tolerance in the pose, or if not (2) by the most recently executed instance of Set\-End\-Pose\-Tolerance. The speed and acceleration to use are set either in the pose or by previously executed C\-R\-C\-L commands. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b\-Straight} & if the value of straight is true, the controlled point must be moved in a straight line. If the value of straight is false, the controlled point may be moved along any convenient trajectory. \\
+\hline
+{\em endpose} & may include settings for speed, acceleration, and tolerance. Any such settings apply only while the command is being executed, after which the settings revert to what they were. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a0b78b935f64602c8543dd4cb6a6929ba}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Open\-Tool\-Changer@{Open\-Tool\-Changer}}
 \index{Open\-Tool\-Changer@{Open\-Tool\-Changer}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Open\-Tool\-Changer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Open\-Tool\-Changer (
@@ -234,6 +319,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 {}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0b78b935f64602c8543dd4cb6a6929ba}
+
+
+Open the tool changer on the robot. If an end effector is attached to the robot when this command is given, executing the command releases the end effector. This command is normally given only after an end effector attached to the robot has been moved into an end effector changer. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a524e770e96afe3fd89fd11d70e56cbe3}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Run\-Program@{Run\-Program}}
 \index{Run\-Program@{Run\-Program}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Run\-Program}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Run\-Program (
@@ -241,6 +330,10 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::string}]{program\-Text}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a524e770e96afe3fd89fd11d70e56cbe3}
+
+
+Run a program written in a non-\/\-C\-R\-C\-L language that the robot controller understands.  is the program represented as a string of text. 
+
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a723c774e71cac9c51fb8159d06e9ae1a}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Absolute\-Acceleration@{Set\-Absolute\-Acceleration}}
 \index{Set\-Absolute\-Acceleration@{Set\-Absolute\-Acceleration}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Absolute\-Acceleration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Absolute\-Acceleration (
@@ -262,6 +355,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::string}]{unit\-Name}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a08129b3f3681981b1d0e294a88674269}
+
+
+Set angle units to the named unit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit\-Name} & is the unit name must be either \char`\"{}degree\char`\"{} or \char`\"{}radian\char`\"{}. After this command is executed, all commands that use angle units (for orientation or orientation tolerance) are in terms of the named angle unit. Existing values for orientation are converted automatically to the equivalent value in new angle units. The default angle unit is \char`\"{}radian\char`\"{}. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_ae25f975824369ab1b82aa4c1b44c8754}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Axial\-Speeds@{Set\-Axial\-Speeds}}
 \index{Set\-Axial\-Speeds@{Set\-Axial\-Speeds}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Axial\-Speeds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Axial\-Speeds (
@@ -276,7 +378,16 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{percent}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a3e49a7fb746c451704f6c55720f9caec}
-\hypertarget{classCrcl_1_1CrclDelegateInterface_a741f72f042107d75f97e225afb49eed0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}}
+
+
+Set the effectivity of the end effector. The setting is a number between zero and one. If an end effector has multiple control modes, the control mode must be set using a Set\-End\-Effector\-Parameters command, so that the meaning of Set\-End\-Effector commands is unambiguous. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em percent} & -\/ for end effectors that have a continuously variable setting, the setting means a fraction of maximum openness, force, torque, power, etc.\\
+\hline
+\end{DoxyParams}
+For end effectors that have only two choices (powered or unpowered, open or closed, on or off), a positive setting value means powered, open, or on, while a zero setting value means unpowered, closed, or off. \hypertarget{classCrcl_1_1CrclDelegateInterface_a741f72f042107d75f97e225afb49eed0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}}
 \index{Set\-End\-Effector\-Tolerance@{Set\-End\-Effector\-Tolerance}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-End\-Effector\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-End\-Effector\-Tolerance (
 \begin{DoxyParamCaption}
@@ -290,6 +401,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{tolerance}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a96d2c6e58dbaa65eda19ae857853875b}
+
+
+et the tolerance for the position and orientation of the end of the arm (whenever there is no gripper there) or of the gripper (whenever a gripper is on the end of the arm) to the given value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tolerance} & is the tolerance argument specifies both position tolerance in length units and orientation tolerance in angle units. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a6a9e07589fb159c1252f3a1964dab3c5}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Force\-Units@{Set\-Force\-Units}}
 \index{Set\-Force\-Units@{Set\-Force\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Force\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Force\-Units (
@@ -297,6 +417,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::string}]{unit\-Name}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a6a9e07589fb159c1252f3a1964dab3c5}
+
+
+Set force units to the named unit. After this command is executed, all commands that use force units are in terms of the named force unit. The default force unit is \char`\"{}newton\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit\-Name} & must be one of \char`\"{}newton\char`\"{}, \char`\"{}pound\char`\"{}, or \char`\"{}ounce\char`\"{}. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a0bf311ad72c05dbdf43eb1d17a2f6458}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Intermediate\-Pose\-Tolerance@{Set\-Intermediate\-Pose\-Tolerance}}
 \index{Set\-Intermediate\-Pose\-Tolerance@{Set\-Intermediate\-Pose\-Tolerance}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Intermediate\-Pose\-Tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Intermediate\-Pose\-Tolerance (
@@ -304,6 +433,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{{\bf Crcl\-::\-Pose\-Tolerance\-Type}}]{tolerance}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0bf311ad72c05dbdf43eb1d17a2f6458}
+
+
+Set the tolerance for smooth motion near intermediate points. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tolerance} & argument specifies both position tolerance in length units and orientation tolerance in angle units. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a8a3a26ceedee34111d177ecfa31bc978}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Length\-Units@{Set\-Length\-Units}}
 \index{Set\-Length\-Units@{Set\-Length\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Length\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Length\-Units (
@@ -311,6 +449,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::string}]{unit\-Name}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a8a3a26ceedee34111d177ecfa31bc978}
+
+
+Set length units to the named unit. After this command is executed, all commands that use length units (for location, tolerance, speed, and acceleration) are in terms of the named length unit. Existing values for speed, position, acceleration, etc. are converted automatically to the equivalent value in new length units. The default length unit is \char`\"{}meter\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit\-Name} & must be one of \char`\"{}inch\char`\"{}, \char`\"{}mm\char`\"{} or \char`\"{}meter\char`\"{}. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_aa0d4f4101f60374097d50126c35bcc74}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Motion\-Coordination@{Set\-Motion\-Coordination}}
 \index{Set\-Motion\-Coordination@{Set\-Motion\-Coordination}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Motion\-Coordination}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Motion\-Coordination (
@@ -318,6 +465,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{bool}]{b\-Coordinated\-Motion}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_aa0d4f4101f60374097d50126c35bcc74}
+
+
+Either require rotational motion and translational motion to be coordinated or allow them to be uncoordinated. Motion is coordinated when rotational motion and translational motion must finish simultaneously in motion commands (including each segment in a multiple segment motion command), except as possibly temporarily overridden in the the motion command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b\-Coordinated\-Motion} & is the coordinated parameter is a boolean value. True means require coordinated motion. False means allow uncoordinated motion. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a961922ae3370ba783a6efd49c60b2615}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Parameter@{Set\-Parameter}}
 \index{Set\-Parameter@{Set\-Parameter}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Parameter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Parameter (
@@ -326,6 +482,17 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{void $\ast$}]{param\-Val}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a961922ae3370ba783a6efd49c60b2615}
+
+
+Set one or more robot parameters as specified. The meaning of the parameter is not known to C\-R\-C\-L, but the robot controller knows what it means. This command is not to be used to set any parameter that can be set using a C\-R\-C\-L command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em param\-Name} & Each specified parameter has a name that is a string \\
+\hline
+{\em a} & value that is a string. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a75b341b2b89b4e2c8994f0f8f9090a8c}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Relative\-Acceleration@{Set\-Relative\-Acceleration}}
 \index{Set\-Relative\-Acceleration@{Set\-Relative\-Acceleration}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Relative\-Acceleration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Relative\-Acceleration (
@@ -333,13 +500,6 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{percent}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a75b341b2b89b4e2c8994f0f8f9090a8c}
-\hypertarget{classCrcl_1_1CrclDelegateInterface_ae3862f5c58782fcd5105af10975432d0}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Relative\-Speed@{Set\-Relative\-Speed}}
-\index{Set\-Relative\-Speed@{Set\-Relative\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
-\subsubsection[{Set\-Relative\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Relative\-Speed (
-\begin{DoxyParamCaption}
-\item[{double}]{percent}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ae3862f5c58782fcd5105af10975432d0}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_afc10167b3d7468331c434b60b7f8f737}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Rot\-Accel@{Set\-Rot\-Accel}}
 \index{Set\-Rot\-Accel@{Set\-Rot\-Accel}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Rot\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Rot\-Accel (
@@ -347,6 +507,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{accel}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_afc10167b3d7468331c434b60b7f8f737}
+
+
+Set rotational acceleration to the given setting in current angle units per second per second. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em accel} & is either an absolute value or a fraction of the maximum rotational acceleration. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_ab27eaeb82b7b859cf17addcade824829}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Rot\-Speed@{Set\-Rot\-Speed}}
 \index{Set\-Rot\-Speed@{Set\-Rot\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Rot\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Rot\-Speed (
@@ -354,6 +523,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{speed}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_ab27eaeb82b7b859cf17addcade824829}
+
+
+Set rotational speed to the given setting in current angle units per second. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & is may be either an absolute value or a fraction of the maximum rotational speed. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_addfaf2d1240dcca39c813c1de09f81a1}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Torque\-Units@{Set\-Torque\-Units}}
 \index{Set\-Torque\-Units@{Set\-Torque\-Units}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Torque\-Units}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Torque\-Units (
@@ -361,6 +539,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{std\-::string}]{unit\-Name}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_addfaf2d1240dcca39c813c1de09f81a1}
+
+
+Set torque units to the named unit. This tells the robot that all further commands giving torque values will implicitly use the named unit. The default torque unit is \char`\"{}newton\-Meter\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unit\-Name} & must be one of \char`\"{}newton\-Meter\char`\"{}, or \char`\"{}foot\-Pound\char`\"{}. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a897b31164e969c95bc8e0ba516c0aca8}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Trans\-Accel@{Set\-Trans\-Accel}}
 \index{Set\-Trans\-Accel@{Set\-Trans\-Accel}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Trans\-Accel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Trans\-Accel (
@@ -368,6 +555,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{accel}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a897b31164e969c95bc8e0ba516c0aca8}
+
+
+Set translational acceleration to the given setting in current length units per second per second. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em accel} & may be either an absolute value or a fraction of the maximum translational acceleration. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a957f09eff572d3175cd045c492f521b6}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Set\-Trans\-Speed@{Set\-Trans\-Speed}}
 \index{Set\-Trans\-Speed@{Set\-Trans\-Speed}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Set\-Trans\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Set\-Trans\-Speed (
@@ -375,6 +571,15 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{double}]{speed}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a957f09eff572d3175cd045c492f521b6}
+
+
+Set translational speed to the given setting in current length units per second. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & may be either an absolute value or a fraction of the maximum translational speed. \\
+\hline
+\end{DoxyParams}
 \hypertarget{classCrcl_1_1CrclDelegateInterface_a0f1326fca669d46ea7be5ac08c59f645}{\index{Crcl\-::\-Crcl\-Delegate\-Interface@{Crcl\-::\-Crcl\-Delegate\-Interface}!Stop\-Motion@{Stop\-Motion}}
 \index{Stop\-Motion@{Stop\-Motion}!Crcl::CrclDelegateInterface@{Crcl\-::\-Crcl\-Delegate\-Interface}}
 \subsubsection[{Stop\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Crcl\-Return} Crcl\-Delegate\-Interface\-::\-Stop\-Motion (
@@ -382,6 +587,17 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 \item[{int}]{condition}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classCrcl_1_1CrclDelegateInterface_a0f1326fca669d46ea7be5ac08c59f645}
+
+
+Stop the robot motion according to the given condition, Immediate, Fast, or Normal. Immediate means the robot's drives are deactivated immediately and the brakes are applied. This may result in the controlled point being off the commanded path when the robot stops. 
+
+Fast means the robot and any external axes are brought to a fast, controlled stop. The drives are deactivated after one second, and the brakes are applied. The controlled point must be kept on the on the commanded path as the robot stops.
+
+Normal means the robot and any external drives are stopped using a normal braking ramp. The drives are not deactivated, and the brakes are not applied. The controlled point must be kept on the on the commanded path as the robot stops. 
+\begin{DoxyParams}{Parameters}
+{\em condition} & is either Immediate, Fast, or Normal \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Member Data Documentation}
@@ -392,5 +608,5 @@ static \hyperlink{structCrcl_1_1CrclStatus}{Crcl\-Status} \hyperlink{classCrcl_1
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{CrclInterface_8h}{Crcl\-Interface.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{CrclInterface_8cpp}{Crcl\-Interface.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{CrclInterface_8h}{Crcl\-Interface.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{CrclInterface_8cpp}{Crcl\-Interface.\-cpp}\end{DoxyCompactItemize}

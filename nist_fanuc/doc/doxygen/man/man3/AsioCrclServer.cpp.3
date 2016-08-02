@@ -1,8 +1,11 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/src/AsioCrclServer.cpp" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/AsioCrclServer.cpp" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/michalos/catkin_ws/src/nist_fanuc/src/AsioCrclServer.cpp \- 
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/AsioCrclServer.cpp \- 
+.PP
+The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&.  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -19,13 +22,6 @@
 \fC#include 'Controller\&.h'\fP
 .br
 
-.SS "Macros"
-
-.in +1c
-.ti -1c
-.RI "#define \fBS_OK\fP   0"
-.br
-.in -1c
 .SS "Variables"
 
 .in +1c
@@ -33,9 +29,10 @@
 .RI "boost::asio::io_service \fBmyios\fP"
 .br
 .in -1c
-.SH "Macro Definition Documentation"
+.SH "Detailed Description"
 .PP 
-.SS "#define S_OK   0"
+The \fBCAsioCrclSession\fP provides an boost asio session ( which listens for each connected client)\&. 
+
 
 .SH "Variable Documentation"
 .PP 

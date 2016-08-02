@@ -1,0 +1,208 @@
+\hypertarget{classRCS_1_1IRate}{\section{R\-C\-S\-:\-:I\-Rate Class Reference}
+\label{classRCS_1_1IRate}\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}}
+}
+
+
+\hyperlink{classRCS_1_1IRate}{I\-Rate} is an interface class for defining the allowed motion rates.  
+
+
+
+
+{\ttfamily \#include $<$R\-C\-S.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRCS_1_1IRate_a4b97dc61d1a56d724388597b846d460d}{I\-Rate} ()
+\item 
+\hyperlink{classRCS_1_1IRate_a747c44ccc87f3bf67f41a550e65427ac}{I\-Rate} (double maximum\-\_\-velocity, double maximum\-\_\-accel, double cycle\-Time)
+\item 
+void \hyperlink{classRCS_1_1IRate_ac1be2fc9a2504d899351aec2b1eba292}{Set\-Current\-Motion} (double final\-\_\-velocity, double current\-\_\-feedrate, double current\-\_\-velocity)
+\item 
+\hyperlink{classRCS_1_1IRate_ad0ca5499d9841abc508181139e44d266}{N\-V\-A\-R} (Final\-Velocity, double, \-\_\-final\-\_\-velocity)
+\item 
+\hyperlink{classRCS_1_1IRate_a20721ff591cfb9cb4deecad878112347}{N\-V\-A\-R} (Current\-Feedrate, double, \-\_\-current\-\_\-feedrate)
+\item 
+\hyperlink{classRCS_1_1IRate_ad6a70ec516f6837ab4ba40ee21a2d640}{N\-V\-A\-R} (Current\-Velocity, double, \-\_\-current\-\_\-velocity)
+\item 
+\hyperlink{classRCS_1_1IRate_a42d0df4efb1dd51ed77ff49a08bc6e63}{N\-V\-A\-R} (Maximum\-Velocity, double, \-\_\-maximum\-\_\-velocity)
+\item 
+\hyperlink{classRCS_1_1IRate_ac744911b4ec40f584b24af0ede9eab9e}{N\-V\-A\-R} (Maximum\-Accel, double, \-\_\-maximum\-\_\-accel)
+\item 
+\hyperlink{classRCS_1_1IRate_a3973b5ffabc9847644238069893e92ae}{V\-A\-R} (Max\-Join\-Velocity, double)
+\item 
+\hyperlink{classRCS_1_1IRate_a0acd6974dfc47c1f11b2fe5abe823235}{V\-A\-R} (Max\-Joint\-Accel, double)
+\item 
+\hyperlink{classRCS_1_1IRate_ae637d8d93769168434d67bc6971df343}{V\-A\-R} (Joint\-Max\-Limit, std\-::vector$<$ double $>$)
+\item 
+\hyperlink{classRCS_1_1IRate_a702e8b9a2d3d6f1c60240d6179e8ed17}{V\-A\-R} (Joint\-Min\-Limit, std\-::vector$<$ double $>$)
+\item 
+\hyperlink{classRCS_1_1IRate_ab62d7d8cab1b4cc52f8b5fe9f552f661}{V\-A\-R} (Joint\-Vel\-Limit, std\-::vector$<$ double $>$)
+\item 
+\hyperlink{classRCS_1_1IRate_af5dbd66ac13def8ab6c5211715d6f480}{V\-A\-R} (Joint\-Acc\-Limit, std\-::vector$<$ double $>$)
+\item 
+\hyperlink{classRCS_1_1IRate_ac76bd2dad2dbbb7d5eb3c9fc62268e7d}{N\-V\-A\-R} (Cycle\-Time, double, \-\_\-cycle\-Time)
+\item 
+\hyperlink{classRCS_1_1IRate_ab3a49ecf0a0d182984250c176740b226}{N\-V\-A\-R} (Current\-Accel, double, \-\_\-current\-\_\-accel)
+\item 
+\hyperlink{classRCS_1_1IRate_af4a469eded68e987ceacff571288d488}{N\-V\-A\-R} (Ms\-Flag, \hyperlink{namespaceRCS_a452a9217023e577031dcdf7e533b2ead}{R\-C\-S\-::\-Canon\-Acc\-Profile}, \-\_\-msflag)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classRCS_1_1IRate}{I\-Rate} is an interface class for defining the allowed motion rates. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRCS_1_1IRate_a4b97dc61d1a56d724388597b846d460d}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!I\-Rate@{I\-Rate}}
+\index{I\-Rate@{I\-Rate}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{I\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-I\-Rate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1IRate_a4b97dc61d1a56d724388597b846d460d}
+\hypertarget{classRCS_1_1IRate_a747c44ccc87f3bf67f41a550e65427ac}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!I\-Rate@{I\-Rate}}
+\index{I\-Rate@{I\-Rate}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{I\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-I\-Rate (
+\begin{DoxyParamCaption}
+\item[{double}]{maximum\-\_\-velocity, }
+\item[{double}]{maximum\-\_\-accel, }
+\item[{double}]{cycle\-Time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1IRate_a747c44ccc87f3bf67f41a550e65427ac}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRCS_1_1IRate_ad0ca5499d9841abc508181139e44d266}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Final\-Velocity}]{, }
+\item[{double}]{, }
+\item[{\-\_\-final\-\_\-velocity}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ad0ca5499d9841abc508181139e44d266}
+\hypertarget{classRCS_1_1IRate_a20721ff591cfb9cb4deecad878112347}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Current\-Feedrate}]{, }
+\item[{double}]{, }
+\item[{\-\_\-current\-\_\-feedrate}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_a20721ff591cfb9cb4deecad878112347}
+\hypertarget{classRCS_1_1IRate_ad6a70ec516f6837ab4ba40ee21a2d640}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Current\-Velocity}]{, }
+\item[{double}]{, }
+\item[{\-\_\-current\-\_\-velocity}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ad6a70ec516f6837ab4ba40ee21a2d640}
+\hypertarget{classRCS_1_1IRate_a42d0df4efb1dd51ed77ff49a08bc6e63}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Maximum\-Velocity}]{, }
+\item[{double}]{, }
+\item[{\-\_\-maximum\-\_\-velocity}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_a42d0df4efb1dd51ed77ff49a08bc6e63}
+\hypertarget{classRCS_1_1IRate_ac744911b4ec40f584b24af0ede9eab9e}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Maximum\-Accel}]{, }
+\item[{double}]{, }
+\item[{\-\_\-maximum\-\_\-accel}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ac744911b4ec40f584b24af0ede9eab9e}
+\hypertarget{classRCS_1_1IRate_ac76bd2dad2dbbb7d5eb3c9fc62268e7d}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Cycle\-Time}]{, }
+\item[{double}]{, }
+\item[{\-\_\-cycle\-Time}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ac76bd2dad2dbbb7d5eb3c9fc62268e7d}
+\hypertarget{classRCS_1_1IRate_ab3a49ecf0a0d182984250c176740b226}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Current\-Accel}]{, }
+\item[{double}]{, }
+\item[{\-\_\-current\-\_\-accel}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ab3a49ecf0a0d182984250c176740b226}
+\hypertarget{classRCS_1_1IRate_af4a469eded68e987ceacff571288d488}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!N\-V\-A\-R@{N\-V\-A\-R}}
+\index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{N\-V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-N\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Ms\-Flag}]{, }
+\item[{{\bf R\-C\-S\-::\-Canon\-Acc\-Profile}}]{, }
+\item[{\-\_\-msflag}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_af4a469eded68e987ceacff571288d488}
+\hypertarget{classRCS_1_1IRate_ac1be2fc9a2504d899351aec2b1eba292}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!Set\-Current\-Motion@{Set\-Current\-Motion}}
+\index{Set\-Current\-Motion@{Set\-Current\-Motion}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{Set\-Current\-Motion}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-I\-Rate\-::\-Set\-Current\-Motion (
+\begin{DoxyParamCaption}
+\item[{double}]{final\-\_\-velocity, }
+\item[{double}]{current\-\_\-feedrate, }
+\item[{double}]{current\-\_\-velocity}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classRCS_1_1IRate_ac1be2fc9a2504d899351aec2b1eba292}
+\hypertarget{classRCS_1_1IRate_a3973b5ffabc9847644238069893e92ae}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Max\-Join\-Velocity}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_a3973b5ffabc9847644238069893e92ae}
+\hypertarget{classRCS_1_1IRate_a0acd6974dfc47c1f11b2fe5abe823235}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Max\-Joint\-Accel}]{, }
+\item[{double}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_a0acd6974dfc47c1f11b2fe5abe823235}
+\hypertarget{classRCS_1_1IRate_ae637d8d93769168434d67bc6971df343}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Joint\-Max\-Limit}]{, }
+\item[{std\-::vector$<$ double $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ae637d8d93769168434d67bc6971df343}
+\hypertarget{classRCS_1_1IRate_a702e8b9a2d3d6f1c60240d6179e8ed17}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Joint\-Min\-Limit}]{, }
+\item[{std\-::vector$<$ double $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_a702e8b9a2d3d6f1c60240d6179e8ed17}
+\hypertarget{classRCS_1_1IRate_ab62d7d8cab1b4cc52f8b5fe9f552f661}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Joint\-Vel\-Limit}]{, }
+\item[{std\-::vector$<$ double $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_ab62d7d8cab1b4cc52f8b5fe9f552f661}
+\hypertarget{classRCS_1_1IRate_af5dbd66ac13def8ab6c5211715d6f480}{\index{R\-C\-S\-::\-I\-Rate@{R\-C\-S\-::\-I\-Rate}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::IRate@{R\-C\-S\-::\-I\-Rate}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-I\-Rate\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Joint\-Acc\-Limit}]{, }
+\item[{std\-::vector$<$ double $>$}]{}
+\end{DoxyParamCaption}
+)}}\label{classRCS_1_1IRate_af5dbd66ac13def8ab6c5211715d6f480}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCS_8h}{R\-C\-S.\-h}\end{DoxyCompactItemize}

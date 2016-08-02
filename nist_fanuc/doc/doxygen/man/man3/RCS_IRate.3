@@ -1,0 +1,113 @@
+.TH "RCS::IRate" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RCS::IRate \- 
+.PP
+\fBIRate\fP is an interface class for defining the allowed motion rates\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RCS\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBIRate\fP ()"
+.br
+.ti -1c
+.RI "\fBIRate\fP (double maximum_velocity, double maximum_accel, double cycleTime)"
+.br
+.ti -1c
+.RI "void \fBSetCurrentMotion\fP (double final_velocity, double current_feedrate, double current_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (FinalVelocity, double, _final_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CurrentFeedrate, double, _current_feedrate)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CurrentVelocity, double, _current_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (MaximumVelocity, double, _maximum_velocity)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (MaximumAccel, double, _maximum_accel)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (MaxJoinVelocity, double)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (MaxJointAccel, double)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (JointMaxLimit, std::vector< double >)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (JointMinLimit, std::vector< double >)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (JointVelLimit, std::vector< double >)"
+.br
+.ti -1c
+.RI "\fBVAR\fP (JointAccLimit, std::vector< double >)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CycleTime, double, _cycleTime)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (CurrentAccel, double, _current_accel)"
+.br
+.ti -1c
+.RI "\fBNVAR\fP (MsFlag, \fBRCS::CanonAccProfile\fP, _msflag)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBIRate\fP is an interface class for defining the allowed motion rates\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RCS::IRate::IRate ()\fC [inline]\fP"
+
+.SS "RCS::IRate::IRate (doublemaximum_velocity, doublemaximum_accel, doublecycleTime)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "RCS::IRate::NVAR (FinalVelocity, double, _final_velocity)"
+
+.SS "RCS::IRate::NVAR (CurrentFeedrate, double, _current_feedrate)"
+
+.SS "RCS::IRate::NVAR (CurrentVelocity, double, _current_velocity)"
+
+.SS "RCS::IRate::NVAR (MaximumVelocity, double, _maximum_velocity)"
+
+.SS "RCS::IRate::NVAR (MaximumAccel, double, _maximum_accel)"
+
+.SS "RCS::IRate::NVAR (CycleTime, double, _cycleTime)"
+
+.SS "RCS::IRate::NVAR (CurrentAccel, double, _current_accel)"
+
+.SS "RCS::IRate::NVAR (MsFlag, \fBRCS::CanonAccProfile\fP, _msflag)"
+
+.SS "void RCS::IRate::SetCurrentMotion (doublefinal_velocity, doublecurrent_feedrate, doublecurrent_velocity)\fC [inline]\fP"
+
+.SS "RCS::IRate::VAR (MaxJoinVelocity, double)"
+
+.SS "RCS::IRate::VAR (MaxJointAccel, double)"
+
+.SS "RCS::IRate::VAR (JointMaxLimit, std::vector< double >)"
+
+.SS "RCS::IRate::VAR (JointMinLimit, std::vector< double >)"
+
+.SS "RCS::IRate::VAR (JointVelLimit, std::vector< double >)"
+
+.SS "RCS::IRate::VAR (JointAccLimit, std::vector< double >)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

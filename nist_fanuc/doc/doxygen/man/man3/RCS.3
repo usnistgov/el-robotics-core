@@ -1,4 +1,4 @@
-.TH "RCS" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,11 +18,11 @@ RCS \-
 .ti -1c
 .RI "struct \fBCController\fP"
 .br
-.RI "\fIThe \fBCController\fP provides an collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance, call Controller, is created that is used through out the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) \fP"
+.RI "\fIThe \fBCController\fP provides a collection for all the relevant controller pieces\&. The \fBCController\fP is the main controller class to collect all the references/pointers to instances in the project\&. A global instance of this class, called 'Controller', is created and is used throughout the code to reference various instances of control objects (e\&.g\&., kinematics, joint writer, joint reader, etc\&.) \fP"
 .ti -1c
 .RI "class \fBRobotStatus\fP"
 .br
-.RI "\fIThe \fBRobotStatus\fP is a thread to updates the status of the robot\&. The \fBRobotStatus\fP is a separate thread that updates the robot status\&. Currently, it uses a JointReader to read joint values from the controller\&. It uses a Kinematics pointer reference to compute the current pose using the FK routine\&. It also uses a CrclDelegate pointer reference to update the status reported by CRCL\&. \fP"
+.RI "\fIThe \fBRobotStatus\fP is a thread that reads the status of the robot and updates the world model\&. The \fBRobotStatus\fP is a separate thread that reads the robot status using ROS communication mechanisms and updates the controller world model based on these values\&. Currently, it uses an instance of the class JointReader to read joint values from the controller\&. It uses a Kinematics pointer reference to compute the current robot pose using the forward kinematics (FK) routine\&. It also uses a CrclDelegate pointer reference to update the status reported by CRCL\&. \fP"
 .ti -1c
 .RI "class \fBRobotProgram\fP"
 .br
@@ -30,17 +30,21 @@ RCS \-
 .ti -1c
 .RI "class \fBCMessageQueue\fP"
 .br
-.RI "\fIThe \fBCMessageQueue\fP offers a mutexed front to a stl deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&. \fP"
+.RI "\fIThe \fBCMessageQueue\fP offers a mutexed front to a STL/std deque\&. The queue is a LIFO data structure\&. Useful for safely sharing data between multiple threads\&. \fP"
 .ti -1c
 .RI "class \fBThread\fP"
 .br
-.RI "\fI\fBThread\fP is an \fBRCS\fP ulapi equivalent for timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
+.RI "\fI\fBThread\fP is an \fBRCS\fP ulapi equivalent for a timed thread\&. Given a cycle time, the thread provides a wait function to sleep to exactly the amount of the thread cycle time\&. It keeps track of busy/idle time for diagnostic purposes\&. 
 .br
  Notes: https://www.quantnet.com/threads/c-multithreading-in-boost.10028/\&. \fP"
 .ti -1c
 .RI "class \fBTimer\fP"
 .br
-.RI "\fI\fBTimer\fP is a general-purpose timer\&. The \fBTimer\fP is a general-purpose timer, which can be used for waiting until a synchronous time tick, slept on for any period at all, or to obtain a time in system clock ticks from creation of the timer\&. \fP"
+.RI "\fI\fBTimer\fP is a general-purpose timer\&. The \fBTimer\fP is a general-purpose timer, which can be used for waiting until a synchronous time tick, sleep for any period at all, or to obtain a time in system clock ticks from creation of the timer\&. \fP"
+.ti -1c
+.RI "class \fBIRate\fP"
+.br
+.RI "\fI\fBIRate\fP is an interface class for defining the allowed motion rates\&. \fP"
 .ti -1c
 .RI "struct \fBCanonCmd\fP"
 .br
@@ -57,16 +61,16 @@ RCS \-
 .RI "typedef int(* \fBRCS_TIMERFUNC\fP )(void *_arg)"
 .br
 .ti -1c
-.RI "typedef urdf::Pose \fBPose\fP"
+.RI "typedef tf::Pose \fBPose\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Vector3 \fBPosition\fP"
+.RI "typedef tf::Vector3 \fBPosition\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Rotation \fBRotation\fP"
+.RI "typedef tf::Quaternion \fBRotation\fP"
 .br
 .ti -1c
-.RI "typedef urdf::Vector3 \fBVector3\fP"
+.RI "typedef tf::Vector3 \fBVector3\fP"
 .br
 .ti -1c
 .RI "typedef double \fBLength\fP"
@@ -105,11 +109,11 @@ RCS \-
 .br
 .RI "\fIenumeration of torque units\&. \fP"
 .ti -1c
-.RI "enum \fBCanonReturn\fP { \fBCANON_REJECT\fP = -2, \fBCANON_FAILURE\fP = -1, \fBCANON_SUCCESS\fP = 0, \fBCANON_STATUSREPLY\fP = 1, \fBCANON_RUNNING\fP }"
+.RI "enum \fBCanonReturn\fP { \fBCANON_REJECT\fP = -2, \fBCANON_FAILURE\fP = -1, \fBCANON_SUCCESS\fP = 0, \fBCANON_STATUSREPLY\fP = 1, \fBCANON_MOTION\fP = 2, \fBCANON_RUNNING\fP }"
 .br
 .RI "\fIenumeration of return type from \fBCrcl\fP intepretation\&. If statusreply, requires status sent to \fBCrcl\fP client\&. \fP"
 .ti -1c
-.RI "enum \fBCanonCmdType\fP { \fBCANON_NOOP\fP = 0, \fBCANON_DWELL\fP, \fBCANON_END_CANON\fP, \fBCANON_INIT_CANON\fP, \fBCANON_MOVE_JOINT\fP, \fBCANON_MOVE_TO\fP, \fBCANON_MOVE_THRU\fP, \fBCANON_SET_MAX_CART_ACC\fP, \fBCANON_SET_MAX_CART_SPEED\fP, \fBCANON_SET_MAX_JOINT_ACC\fP, \fBCANON_SET_MAX_JOINT_SPEED\fP, \fBCANON_SET_GRIPPER\fP, \fBCANON_STOP_MOTION\fP, \fBCANON_UNKNOWN\fP }"
+.RI "enum \fBCanonCmdType\fP { \fBCANON_NOOP\fP = 0, \fBCANON_DWELL\fP, \fBCANON_END_CANON\fP, \fBCANON_INIT_CANON\fP, \fBCANON_MOVE_JOINT\fP, \fBCANON_MOVE_TO\fP, \fBCANON_MOVE_THRU\fP, \fBCANON_SET_MAX_CART_ACC\fP, \fBCANON_SET_MAX_CART_SPEED\fP, \fBCANON_SET_MAX_JOINT_ACC\fP, \fBCANON_SET_MAX_JOINT_SPEED\fP, \fBCANON_SET_GRIPPER\fP, \fBCANON_SET_TOLERANCE\fP, \fBCANON_STOP_MOTION\fP, \fBCANON_DO_MOTION\fP, \fBCANON_OTHER\fP, \fBCANON_UNKNOWN\fP }"
 .br
 .RI "\fIenumeration of \fBCrcl\fP commands\&. Many \fBCrcl\fP commands are wm parameter setting and require no motion component\&. \fP"
 .ti -1c
@@ -136,17 +140,28 @@ RCS \-
 .RI "::CRCLProgramType::MiddleCommand_sequence & \fBDummyInit\fP ()"
 .br
 .ti -1c
+.RI "std::string \fBDumpPose\fP (\fBRCS::Pose\fP &pose)"
+.br
+.RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
+.RI "void \fBgetRPY\fP (const \fBRCS::Pose\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.ti -1c
 .RI "template<class Rep , class Period > double \fBToNanoseconds\fP (boost::chrono::duration< Rep, Period > d)"
 .br
 .ti -1c
 .RI "template<class Rep , class Period > double \fBToSeconds\fP (boost::chrono::duration< Rep, Period > d)"
 .br
 .ti -1c
-.RI "std::string \fBDumpPose\fP (urdf::Pose &pose)"
+.RI "std::string \fBDumpJoints\fP (\fBJointState\fP joints)"
+.br
+.RI "\fIDumpJoints takes a list of joints and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, \fBRCS::Pose\fP &pose)"
 .br
 .RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
 .ti -1c
-.RI "std::string \fBDumpQuaterion\fP (std::ostream &os, const urdf::Rotation &rot)"
+.RI "std::string \fBDumpQuaterion\fP (std::ostream &os, const \fBRCS::Rotation\fP &rot)"
 .br
 .RI "\fIDumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. \fP"
 .in -1c
@@ -168,17 +183,17 @@ RCS \-
 
 .SS "typedef double \fBRCS::LinearVelocity\fP"
 
-.SS "typedef urdf::Pose \fBRCS::Pose\fP"
+.SS "typedef tf::Pose \fBRCS::Pose\fP"
 
-.SS "typedef urdf::Vector3 \fBRCS::Position\fP"
+.SS "typedef tf::Vector3 \fBRCS::Position\fP"
 
 .SS "typedef int( * RCS::RCS_TIMERFUNC)(void *_arg)"
 
 .SS "typedef std::vector<double> \fBRCS::robotAxes\fP"
 
-.SS "typedef urdf::Rotation \fBRCS::Rotation\fP"
+.SS "typedef tf::Quaternion \fBRCS::Rotation\fP"
 
-.SS "typedef urdf::Vector3 \fBRCS::Vector3\fP"
+.SS "typedef tf::Vector3 \fBRCS::Vector3\fP"
 
 .SH "Enumeration Type Documentation"
 .PP 
@@ -246,7 +261,13 @@ enumeration of \fBCrcl\fP commands\&. Many \fBCrcl\fP commands are wm parameter 
 .TP
 \fB\fICANON_SET_GRIPPER \fP\fP
 .TP
+\fB\fICANON_SET_TOLERANCE \fP\fP
+.TP
 \fB\fICANON_STOP_MOTION \fP\fP
+.TP
+\fB\fICANON_DO_MOTION \fP\fP
+.TP
+\fB\fICANON_OTHER \fP\fP
 .TP
 \fB\fICANON_UNKNOWN \fP\fP
 .SS "enum \fBRCS::CanonForceUnit\fP"
@@ -290,6 +311,8 @@ enumeration of return type from \fBCrcl\fP intepretation\&. If statusreply, requ
 \fB\fICANON_SUCCESS \fP\fP
 .TP
 \fB\fICANON_STATUSREPLY \fP\fP
+.TP
+\fB\fICANON_MOTION \fP\fP
 .TP
 \fB\fICANON_RUNNING \fP\fP
 .SS "enum \fBRCS::CanonStatusType\fP"
@@ -365,14 +388,24 @@ enumeration of trajector pose points\&.
 .PP 
 .SS "::CRCLProgramType::MiddleCommand_sequence& RCS::DummyInit ()"
 
-.SS "std::string RCS::DumpPose (urdf::Pose &pose)\fC [inline]\fP"
+.SS "std::string RCS::DumpJoints (\fBJointState\fPjoints)\fC [inline]\fP"
+
+.PP
+DumpJoints takes a list of joints and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
+.SS "std::string RCS::DumpPose (\fBRCS::Pose\fP &pose)"
 
 .PP
 DumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
-.SS "std::string RCS::DumpQuaterion (std::ostream &os, const urdf::Rotation &rot)\fC [inline]\fP"
+.SS "std::string RCS::DumpQuaterion (std::ostream &os, const \fBRCS::Rotation\fP &rot)\fC [inline]\fP"
 
 .PP
 DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates\&. Can be used as std::cout << DumpQuaterion(urdf::rotation);\&. 
+.SS "void RCS::getRPY (const \fBRCS::Pose\fPpose, double &roll, double &pitch, double &yaw)"
+
+.SS "std::ostream& RCS::operator<< (std::ostream &os, \fBRCS::Pose\fP &pose)\fC [inline]\fP"
+
+.PP
+DumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. 
 .SS "template<class Rep , class Period > double RCS::ToNanoseconds (boost::chrono::duration< Rep, Period >d)"
 
 .SS "template<class Rep , class Period > double RCS::ToSeconds (boost::chrono::duration< Rep, Period >d)"

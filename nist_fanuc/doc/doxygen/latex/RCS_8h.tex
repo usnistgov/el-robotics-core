@@ -1,19 +1,18 @@
-\hypertarget{RCS_8h}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.h File Reference}
-\label{RCS_8h}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.\-h@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.\-h}}
+\hypertarget{RCS_8h}{\section{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.h File Reference}
+\label{RCS_8h}\index{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.\-h@{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\-R\-C\-S.\-h}}
 }
 {\ttfamily \#include $<$math.\-h$>$}\\*
 {\ttfamily \#include $<$moveit/robot\-\_\-model\-\_\-loader/robot\-\_\-model\-\_\-loader.\-h$>$}\\*
 {\ttfamily \#include $<$moveit/robot\-\_\-model/robot\-\_\-model.\-h$>$}\\*
-{\ttfamily \#include \char`\"{}/usr/include/urdf\-\_\-model/model.\-h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}/usr/include/urdf\-\_\-model/joint.\-h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}/usr/include/urdf\-\_\-model/link.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$tf/transform\-\_\-datatypes.\-h$>$}\\*
 {\ttfamily \#include \char`\"{}/opt/ros/indigo/include/sensor\-\_\-msgs/\-Joint\-State.\-h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}urdf\-\_\-model/rosmath.\-h\char`\"{}}\\*
 {\ttfamily \#include $<$stdarg.\-h$>$}\\*
 {\ttfamily \#include \char`\"{}Globals.\-h\char`\"{}}\\*
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
+class \hyperlink{classRCS_1_1IRate}{R\-C\-S\-::\-I\-Rate}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classRCS_1_1IRate}{I\-Rate} is an interface class for defining the allowed motion rates. \end{DoxyCompactList}\item 
 struct \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd}
 \begin{DoxyCompactList}\small\item\em \hyperlink{structRCS_1_1CanonCmd}{Canon\-Cmd} is the controller command structure. \end{DoxyCompactList}\item 
 struct \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model}
@@ -32,23 +31,28 @@ struct \hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model
 \item 
 \#define \hyperlink{RCS_8h_a002b2f4894492820fe708b1b7e7c5e70}{E\-P\-S\-I\-L\-O\-N}~1\-E-\/04
 \item 
-\#define \hyperlink{RCS_8h_a0a7c6276c97aae145096af0f75c1fccd}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}~0.\-010
-\item 
 \#define \hyperlink{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}~0.\-10
 \item 
-\#define \hyperlink{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}~20.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\#define \hyperlink{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}~200.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
 \item 
-\#define \hyperlink{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}~200.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\#define \hyperlink{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}~2000.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
 \item 
-\#define \hyperlink{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}~20.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\#define \hyperlink{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}~200.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
 \item 
-\#define \hyperlink{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}~150.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\#define \hyperlink{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}~2000.\-0/\hyperlink{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}
+\item 
+\#define \hyperlink{RCS_8h_afdb5a6cfe5d482d5392535414934ab19}{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}
+\item 
+\#define \hyperlink{RCS_8h_a1746386da1f047ffdc313f06a6a01c7d}{Deg2\-Rad}(Ang)~( (double) ( Ang $\ast$ M\-\_\-\-P\-I / 180.\-0 ) )
+\item 
+\#define \hyperlink{RCS_8h_ac537143ba31a17c03653c8a73637d2b5}{Rad2\-Deg}(Ang)~( (double) ( Ang $\ast$ 180.\-0 / M\-\_\-\-P\-I ) )
+\item 
+\#define \hyperlink{RCS_8h_ae2840348cfb348f1452aa08417076b95}{M\-M2\-Meter}(d)~( (double) ( d / 1000.\-00 ) )
+\item 
+\#define \hyperlink{RCS_8h_acf2d8e758b52de05580d30a91802ce48}{Meter2\-M\-M}(d)~( (double) ( d $\ast$ 1000.\-00 ) )
 \end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
-\item 
-typedef boost\-::shared\-\_\-ptr\\*
-$<$ urdf\-::\-Model\-Interface $>$ \hyperlink{RCS_8h_a20fcacb5362f459b2122712e88613342}{Model\-Interface\-Shared\-Ptr}
 \item 
 typedef \\*
 sensor\-\_\-msgs\-::\-Joint\-State\-\_\-\\*
@@ -57,13 +61,13 @@ $<$ std\-::allocator$<$ void $>$ $>$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c961
 typedef boost\-::shared\-\_\-ptr\\*
 $<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{RCS_8h_aa7d06b998b3d2c430de97ea9d1397730}{Joint\-State\-Shared\-Ptr}
 \item 
-typedef urdf\-::\-Pose \hyperlink{namespaceRCS_aac02c0fd845140ea93a2a9254b1db6f6}{R\-C\-S\-::\-Pose}
+typedef tf\-::\-Pose \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose}
 \item 
-typedef urdf\-::\-Vector3 \hyperlink{namespaceRCS_afde073114b0dbe5587b2ec83fad48085}{R\-C\-S\-::\-Position}
+typedef tf\-::\-Vector3 \hyperlink{namespaceRCS_a6080060b617affc23ab1d6309fe7c3cd}{R\-C\-S\-::\-Position}
 \item 
-typedef urdf\-::\-Rotation \hyperlink{namespaceRCS_ae84bcdeffa185f35100e9eca768bd4db}{R\-C\-S\-::\-Rotation}
+typedef tf\-::\-Quaternion \hyperlink{namespaceRCS_a3fd915276fdb632d217c560523c320e0}{R\-C\-S\-::\-Rotation}
 \item 
-typedef urdf\-::\-Vector3 \hyperlink{namespaceRCS_a3d2e4673086277ee114b9f01ba1664e7}{R\-C\-S\-::\-Vector3}
+typedef tf\-::\-Vector3 \hyperlink{namespaceRCS_a688a9db9f1e17b76c410c539997d07a7}{R\-C\-S\-::\-Vector3}
 \item 
 typedef double \hyperlink{namespaceRCS_a86ac9427c1a3f2ec2b94a74888b2cefd}{R\-C\-S\-::\-Length}
 \item 
@@ -104,6 +108,7 @@ enum \hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79}{R\-C\-S\-::\-Can
 \hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79a45f0039600f4e6b521a58e021609ea22}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-U\-C\-C\-E\-S\-S} = 0, 
 \hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79ae5d8cf70f462c3e4aee8050f308132fb}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-T\-A\-T\-U\-S\-R\-E\-P\-L\-Y} = 1, 
 \\*
+\hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79a5eb43a35f73ab11edc5d5a28b908257e}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-M\-O\-T\-I\-O\-N} = 2, 
 \hyperlink{namespaceRCS_a604ddc76f1c860e79ec060339a68dc79a01dce2ee696426c95a68ffe191ccd643}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-R\-U\-N\-N\-I\-N\-G}
  \}
 \begin{DoxyCompactList}\small\item\em enumeration of return type from \hyperlink{namespaceCrcl}{Crcl} intepretation. If statusreply, requires status sent to \hyperlink{namespaceCrcl}{Crcl} client. \end{DoxyCompactList}\item 
@@ -123,7 +128,11 @@ enum \hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75}{R\-C\-S\-::\-Can
 \hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75adda3bf1c656804e5d07912149ceb9760}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-M\-A\-X\-\_\-\-J\-O\-I\-N\-T\-\_\-\-S\-P\-E\-E\-D}, 
 \hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75af7ae40ad1b0525a4cb8888af76db4acc}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-G\-R\-I\-P\-P\-E\-R}, 
 \\*
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75ab3c4fe7af4d06fbd188e53f4825a9425}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-E\-T\-\_\-\-T\-O\-L\-E\-R\-A\-N\-C\-E}, 
 \hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a44fe36cdba5ffcfed81e2fd1eb795c2d}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-S\-T\-O\-P\-\_\-\-M\-O\-T\-I\-O\-N}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a0e32d7c80f9f5b064f660aab9b9392e6}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-D\-O\-\_\-\-M\-O\-T\-I\-O\-N}, 
+\hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75a92eaf4448ef32e4819df8b0eea8469f9}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-O\-T\-H\-E\-R}, 
+\\*
 \hyperlink{namespaceRCS_a55bbd74afb87a330de1b95af65f4cb75aa3f496c02395826be6f0b84974fff57f}{R\-C\-S\-::\-C\-A\-N\-O\-N\-\_\-\-U\-N\-K\-N\-O\-W\-N}
  \}
 \begin{DoxyCompactList}\small\item\em enumeration of \hyperlink{namespaceCrcl}{Crcl} commands. Many \hyperlink{namespaceCrcl}{Crcl} commands are wm parameter setting and require no motion component. \end{DoxyCompactList}\item 
@@ -162,18 +171,19 @@ enum \hyperlink{namespaceRCS_a0e720341c250145b8a2bbf6a1afa777d}{R\-C\-S\-::\-Can
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-std\-::string \hyperlink{namespaceRCS_ac45b18edecf0b0f60b08ca409cbe477a}{R\-C\-S\-::\-Dump\-Pose} (urdf\-::\-Pose \&pose)
+void \hyperlink{RCS_8h_a37ebbdda6b81fc9b7d355e372c2a0f50}{sincos} (double x, double $\ast$sx, double $\ast$cx)
+\item 
+void \hyperlink{namespaceRCS_a6e911197b35a4857f179af61811d4b0a}{R\-C\-S\-::get\-R\-P\-Y} (const \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} pose, double \&\hyperlink{SanityCheckTests_8cpp_a1d3228afa3a1d6773954f40c1e519eb9}{roll}, double \&\hyperlink{SanityCheckTests_8cpp_a34c057a0378030db67bd6a129f37d938}{pitch}, double \&\hyperlink{SanityCheckTests_8cpp_a21cd490f6191f66678f55b4c242a10cf}{yaw})
+\item 
+std\-::string \hyperlink{namespaceRCS_ad467dfc15b94a5e025af3e094ac21860}{R\-C\-S\-::\-Dump\-Joints} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} joints)
+\begin{DoxyCompactList}\small\item\em Dump\-Joints takes a list of joints and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceRCS_a35eaff1f2c8ec5520f595d6f3b2d38b3}{R\-C\-S\-::\-Dump\-Pose} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
 \begin{DoxyCompactList}\small\item\em Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
-std\-::string \hyperlink{namespaceRCS_ac04aacea4f1ce25e58ed402586b8ae14}{R\-C\-S\-::\-Dump\-Quaterion} (std\-::ostream \&os, const urdf\-::\-Rotation \&rot)
+std\-::ostream \& \hyperlink{namespaceRCS_af0cfadb4002d5ba5ec3ffdf2c96839e0}{R\-C\-S\-::operator$<$$<$} (std\-::ostream \&os, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose)
+\begin{DoxyCompactList}\small\item\em Dump\-Pose takes a urdf pose and generates a string describing pose. Can be used as std\-::cout $<$$<$ Dump\-Pose(pose);. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{namespaceRCS_a994378d2744371f1afac4b59a808fef2}{R\-C\-S\-::\-Dump\-Quaterion} (std\-::ostream \&os, const \hyperlink{namespaceRCS_a3fd915276fdb632d217c560523c320e0}{R\-C\-S\-::\-Rotation} \&rot)
 \begin{DoxyCompactList}\small\item\em Dump\-Quaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std\-::cout $<$$<$ Dump\-Quaterion(urdf\-::rotation);. \end{DoxyCompactList}\item 
 std\-::ostream \& \hyperlink{RCS_8h_a8e885cace21a754e8307a7579f304705}{operator$<$$<$} (std\-::ostream \&os, const \hyperlink{structRCS_1_1CanonCmd}{R\-C\-S\-::\-Canon\-Cmd} \&cc)
-\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\hyperlink{RCS_8h_a20fcacb5362f459b2122712e88613342}{Model\-Interface\-Shared\-Ptr} \\*
-typedef boost\-::shared\-\_\-ptr\\*
-$<$ urdf\-::\-Joint $>$ \hyperlink{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{Joint\-Shared\-Ptr}
 \end{DoxyCompactItemize}
 
 
@@ -183,28 +193,56 @@ $<$ urdf\-::\-Joint $>$ \hyperlink{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{Joi
 \subsubsection[{\-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define \-\_\-\-U\-S\-E\-\_\-\-M\-A\-T\-H\-\_\-\-D\-E\-F\-I\-N\-E\-S}}\label{RCS_8h_a525335710b53cb064ca56b936120431e}
 \hypertarget{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}}
 \index{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L~20.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L~200.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_ac8e76d474c3edeacd2a96bbc493727ad}
 \hypertarget{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}}
 \index{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L~200.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}
-\hypertarget{RCS_8h_a0a7c6276c97aae145096af0f75c1fccd}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}}
-\index{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-Y\-C\-L\-E~0.\-010}}\label{RCS_8h_a0a7c6276c97aae145096af0f75c1fccd}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-A\-R\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L~2000.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_a7e303fc2bac264dbbcd41b319c3a6da2}
 \hypertarget{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}}
 \index{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L~20.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-A\-C\-C\-E\-L~200.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_abdf31cb88c108973847cd4a7dc6e29d0}
 \hypertarget{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}}
 \index{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L@{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L~150.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}
+\subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-J\-O\-I\-N\-T\-\_\-\-M\-A\-X\-\_\-\-V\-E\-L~2000.\-0/{\bf L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}}\label{RCS_8h_a03bcf5099a65e0df6266e7d7c6fdbddb}
 \hypertarget{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}}
 \index{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E@{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}!RCS.h@{R\-C\-S.\-h}}
 \subsubsection[{D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-A\-U\-L\-T\-\_\-\-L\-O\-O\-P\-\_\-\-C\-Y\-C\-L\-E~0.\-10}}\label{RCS_8h_a226eb3a426e9df46b88c4ba34f217203}
+\hypertarget{RCS_8h_a1746386da1f047ffdc313f06a6a01c7d}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Deg2\-Rad@{Deg2\-Rad}}
+\index{Deg2\-Rad@{Deg2\-Rad}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Deg2\-Rad}]{\setlength{\rightskip}{0pt plus 5cm}\#define Deg2\-Rad(
+\begin{DoxyParamCaption}
+\item[{}]{Ang}
+\end{DoxyParamCaption}
+)~( (double) ( Ang $\ast$ M\-\_\-\-P\-I / 180.\-0 ) )}}\label{RCS_8h_a1746386da1f047ffdc313f06a6a01c7d}
 \hypertarget{RCS_8h_a002b2f4894492820fe708b1b7e7c5e70}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!E\-P\-S\-I\-L\-O\-N@{E\-P\-S\-I\-L\-O\-N}}
 \index{E\-P\-S\-I\-L\-O\-N@{E\-P\-S\-I\-L\-O\-N}!RCS.h@{R\-C\-S.\-h}}
 \subsubsection[{E\-P\-S\-I\-L\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\-P\-S\-I\-L\-O\-N~1\-E-\/04}}\label{RCS_8h_a002b2f4894492820fe708b1b7e7c5e70}
+\hypertarget{RCS_8h_afdb5a6cfe5d482d5392535414934ab19}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S@{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}}
+\index{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S@{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\-A\-V\-E\-\_\-\-S\-I\-N\-C\-O\-S}}\label{RCS_8h_afdb5a6cfe5d482d5392535414934ab19}
 \hypertarget{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S@{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}}
 \index{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S@{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}!RCS.h@{R\-C\-S.\-h}}
 \subsubsection[{L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-E\-N\-G\-T\-H\-U\-N\-I\-T\-S~1000}}\label{RCS_8h_a35efd5e1ef8d97af31ef3ac62bc2903b}
+\hypertarget{RCS_8h_acf2d8e758b52de05580d30a91802ce48}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Meter2\-M\-M@{Meter2\-M\-M}}
+\index{Meter2\-M\-M@{Meter2\-M\-M}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Meter2\-M\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define Meter2\-M\-M(
+\begin{DoxyParamCaption}
+\item[{}]{d}
+\end{DoxyParamCaption}
+)~( (double) ( d $\ast$ 1000.\-00 ) )}}\label{RCS_8h_acf2d8e758b52de05580d30a91802ce48}
+\hypertarget{RCS_8h_ae2840348cfb348f1452aa08417076b95}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!M\-M2\-Meter@{M\-M2\-Meter}}
+\index{M\-M2\-Meter@{M\-M2\-Meter}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{M\-M2\-Meter}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-M2\-Meter(
+\begin{DoxyParamCaption}
+\item[{}]{d}
+\end{DoxyParamCaption}
+)~( (double) ( d / 1000.\-00 ) )}}\label{RCS_8h_ae2840348cfb348f1452aa08417076b95}
+\hypertarget{RCS_8h_ac537143ba31a17c03653c8a73637d2b5}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Rad2\-Deg@{Rad2\-Deg}}
+\index{Rad2\-Deg@{Rad2\-Deg}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{Rad2\-Deg}]{\setlength{\rightskip}{0pt plus 5cm}\#define Rad2\-Deg(
+\begin{DoxyParamCaption}
+\item[{}]{Ang}
+\end{DoxyParamCaption}
+)~( (double) ( Ang $\ast$ 180.\-0 / M\-\_\-\-P\-I ) )}}\label{RCS_8h_ac537143ba31a17c03653c8a73637d2b5}
 
 
 \subsection{Typedef Documentation}
@@ -214,9 +252,6 @@ $<$ urdf\-::\-Joint $>$ \hyperlink{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{Joi
 \hypertarget{RCS_8h_aa7d06b998b3d2c430de97ea9d1397730}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Joint\-State\-Shared\-Ptr@{Joint\-State\-Shared\-Ptr}}
 \index{Joint\-State\-Shared\-Ptr@{Joint\-State\-Shared\-Ptr}!RCS.h@{R\-C\-S.\-h}}
 \subsubsection[{Joint\-State\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::shared\-\_\-ptr$<${\bf Joint\-State}$>$ {\bf Joint\-State\-Shared\-Ptr}}}\label{RCS_8h_aa7d06b998b3d2c430de97ea9d1397730}
-\hypertarget{RCS_8h_a20fcacb5362f459b2122712e88613342}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Model\-Interface\-Shared\-Ptr@{Model\-Interface\-Shared\-Ptr}}
-\index{Model\-Interface\-Shared\-Ptr@{Model\-Interface\-Shared\-Ptr}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{Model\-Interface\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::shared\-\_\-ptr$<$urdf\-::\-Model\-Interface$>$ {\bf Model\-Interface\-Shared\-Ptr}}}\label{RCS_8h_a20fcacb5362f459b2122712e88613342}
 
 
 \subsection{Function Documentation}
@@ -228,9 +263,12 @@ $<$ urdf\-::\-Joint $>$ \hyperlink{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{Joi
 \item[{const {\bf R\-C\-S\-::\-Canon\-Cmd} \&}]{cc}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{RCS_8h_a8e885cace21a754e8307a7579f304705}
-
-
-\subsection{Variable Documentation}
-\hypertarget{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!Joint\-Shared\-Ptr@{Joint\-Shared\-Ptr}}
-\index{Joint\-Shared\-Ptr@{Joint\-Shared\-Ptr}!RCS.h@{R\-C\-S.\-h}}
-\subsubsection[{Joint\-Shared\-Ptr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Model\-Interface\-Shared\-Ptr} typedef boost\-::shared\-\_\-ptr$<$urdf\-::\-Joint$>$ Joint\-Shared\-Ptr}}\label{RCS_8h_a8fe921d97607b0020024f470e8bd4b7a}
+\hypertarget{RCS_8h_a37ebbdda6b81fc9b7d355e372c2a0f50}{\index{R\-C\-S.\-h@{R\-C\-S.\-h}!sincos@{sincos}}
+\index{sincos@{sincos}!RCS.h@{R\-C\-S.\-h}}
+\subsubsection[{sincos}]{\setlength{\rightskip}{0pt plus 5cm}void sincos (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{double $\ast$}]{sx, }
+\item[{double $\ast$}]{cx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{RCS_8h_a37ebbdda6b81fc9b7d355e372c2a0f50}

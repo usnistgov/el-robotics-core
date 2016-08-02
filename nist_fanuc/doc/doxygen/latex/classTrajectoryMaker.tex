@@ -17,40 +17,40 @@
 \begin{DoxyCompactList}\small\item\em constuctor. \end{DoxyCompactList}\item 
 std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classTrajectoryMaker_a5ec57242aa15a328e9aaaa200465901f}{Get\-Jts\-Plan} ()
 \begin{DoxyCompactList}\small\item\em Get\-Jts\-Plan returns vector of generated joint state trajectories. \end{DoxyCompactList}\item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{classTrajectoryMaker_a09bfdcef8912f678e71acc697a27fc22}{Get\-Poses\-Plan} ()
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{classTrajectoryMaker_a073ea34d7bcbcd0a579dec4f8673701b}{Get\-Poses\-Plan} ()
 \begin{DoxyCompactList}\small\item\em Get\-Poses\-Plan returns vector of generated pose trajectories. \end{DoxyCompactList}\item 
-void \hyperlink{classTrajectoryMaker_ad752eac0a5705cab6620f5c9dad49654}{set\-Rates} (\hyperlink{classIRate}{I\-Rate} rates)
+void \hyperlink{classTrajectoryMaker_ad752eac0a5705cab6620f5c9dad49654}{set\-Rates} (\hyperlink{classRCS_1_1IRate}{I\-Rate} rates)
 \begin{DoxyCompactList}\small\item\em set\-Rates defines the rate to use when generating trajectory. \end{DoxyCompactList}\item 
 bool \hyperlink{classTrajectoryMaker_aa107c5ae3573addb3bd93fa75814b4ab}{Plan} (\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} curjoints, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} goaljoints)
 \begin{DoxyCompactList}\small\item\em plan a joint trajectory based on current and goal joint states. Assumes rate already set. \end{DoxyCompactList}\item 
-bool \hyperlink{classTrajectoryMaker_a13d043e95456481ff6640ce849f9dc3c}{Plan} (urdf\-::\-Pose \&curpose, urdf\-::\-Pose \&goalpose)
+bool \hyperlink{classTrajectoryMaker_aee9a536ad21dbd5fb872a494bb65363c}{Plan} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&curpose, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&goalpose)
 \begin{DoxyCompactList}\small\item\em plan a cartesian trajectory based on current and goal pose states. Assumes rate already set. \end{DoxyCompactList}\item 
-bool \hyperlink{classTrajectoryMaker_a864abb96bb5c6e72cd3bd94f955cfd9e}{Plan} (std\-::vector$<$ urdf\-::\-Pose $>$ \&waypoints)
+bool \hyperlink{classTrajectoryMaker_ad1b0030b7b7ae5ac1c17cbc9d70057c0}{Plan} (std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \&waypoints)
 \begin{DoxyCompactList}\small\item\em plan a cartesian trajectory given a vector of waypoint poses. Assumes rate already set. \end{DoxyCompactList}\item 
 std\-::vector$<$ double $>$ \hyperlink{classTrajectoryMaker_aef3a8579c6f39bb357e41b9006229a2a}{make\-Position\-Vector} (std\-::vector$<$ double $>$ ramp, double start, double end)
 \begin{DoxyCompactList}\small\item\em make\-Position\-Vector generates a vector of from start to end point. \end{DoxyCompactList}\item 
-bool \hyperlink{classTrajectoryMaker_a6866c32dff71e077280ea82f6f8f9e16}{make\-Joint\-Position\-Trajectory} (\hyperlink{classIRate}{I\-Rate} rates, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \&curjoints, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \&goaljoints)
+bool \hyperlink{classTrajectoryMaker_a6866c32dff71e077280ea82f6f8f9e16}{make\-Joint\-Position\-Trajectory} (\hyperlink{classRCS_1_1IRate}{I\-Rate} rates, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \&curjoints, \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \&goaljoints)
 \begin{DoxyCompactList}\small\item\em make\-Joint\-Position\-Trajectory constructs a joint trajectory based on current and goal joint states given a rate profile. \end{DoxyCompactList}\item 
-bool \hyperlink{classTrajectoryMaker_a0de61ca56c1cf276adc4efe1be1f3672}{make\-Joint\-Position\-Trajectory} (\hyperlink{classIRate}{I\-Rate} rates, std\-::vector$<$ double $>$ \&curjoints, std\-::vector$<$ double $>$ \&goaljoints)
+bool \hyperlink{classTrajectoryMaker_a0de61ca56c1cf276adc4efe1be1f3672}{make\-Joint\-Position\-Trajectory} (\hyperlink{classRCS_1_1IRate}{I\-Rate} rates, std\-::vector$<$ double $>$ \&curjoints, std\-::vector$<$ double $>$ \&goaljoints)
 \begin{DoxyCompactList}\small\item\em make\-Joint\-Position\-Trajectory constructs a joint trajectory based on current and goal joint states given a rate profile. \end{DoxyCompactList}\item 
 std\-::vector$<$ double $>$ \hyperlink{classTrajectoryMaker_a4fab7f6ee775ec1cdd8685a2b068cd27}{make\-Stop\-Joint\-Trajectory} (double starting\-Velocity, double final\-Velocity, double max\-Acc, double cycle\-Time, double current)
 \begin{DoxyCompactList}\small\item\em make\-Stop\-Joint\-Trajectory constructs a stopping trajectory based on current velocity. \end{DoxyCompactList}\item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{classTrajectoryMaker_a70ee83146af8b44642b18111843071a9}{make\-Cartesian\-Trajectory} (\hyperlink{classIRate}{I\-Rate} rates, urdf\-::\-Pose \-\_\-cur\-Pos, urdf\-::\-Pose \-\_\-goal\-Pos)
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{classTrajectoryMaker_a3f3d2d193d487311213d1fc9c09aade4}{make\-Cartesian\-Trajectory} (\hyperlink{classRCS_1_1IRate}{I\-Rate} rates, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \-\_\-cur\-Pos, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \-\_\-goal\-Pos)
 \begin{DoxyCompactList}\small\item\em make\-Cartesian\-Trajectory plans a cartesian trajectory based on current and goal pose states for the given rate profile. \end{DoxyCompactList}\item 
-\hyperlink{classIRate}{I\-Rate} \& \hyperlink{classTrajectoryMaker_a6fc72a7ec77f674fcee7afea3441fa02}{Rates} ()
+\hyperlink{classRCS_1_1IRate}{I\-Rate} \& \hyperlink{classTrajectoryMaker_a6fc72a7ec77f674fcee7afea3441fa02}{Rates} ()
 \begin{DoxyCompactList}\small\item\em Reference to rates data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classTrajectoryMaker_a59aedc924ba9fe197779bdd7c53ae97d}{update\-Joint\-Commands} (std\-::vector$<$ double $>$ \&curjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&displacements)
 \item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{classTrajectoryMaker_a84f493a10a49376b0447139bd6aa7a1c}{make\-Trajectory} (\hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} $\ast$parameters, urdf\-::\-Pose goal, urdf\-::\-Pose current)
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{classTrajectoryMaker_a1d847a506d83927b677f7c123bebdf08}{make\-Trajectory} (\hyperlink{structRCS_1_1CanonWorldModel}{R\-C\-S\-::\-Canon\-World\-Model} $\ast$parameters, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} goal, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} current)
 \item 
 std\-::vector$<$ double $>$ \hyperlink{classTrajectoryMaker_a370d90dc48e1c3c864d669769ba38992}{make\-Joint\-Values} (double current, std\-::vector$<$ double $>$ displacements)
 \item 
 std\-::vector$<$ double $>$ \hyperlink{classTrajectoryMaker_aaf2b93827e39641e71c62cf7eb07623a}{make\-Joint\-Trajectory} (double current, double goal)
 \item 
-void \hyperlink{classTrajectoryMaker_a367e99ca3603eecbb2b601b699cf4c82}{set\-Current} (urdf\-::\-Pose current)
+void \hyperlink{classTrajectoryMaker_aab45409e8775089ebd2eeb8c8bbb8b53}{set\-Current} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} current)
 \item 
 std\-::vector$<$ double $>$ \hyperlink{classTrajectoryMaker_ace8cc94b4579d784f19590c3bda77366}{make\-Position\-Ramp} (double max\-Vel, double max\-Accel, double cycletime)
 \item 
@@ -61,9 +61,9 @@ double \hyperlink{classTrajectoryMaker_a192ba138d9d818e58c0f6e9806f407d8}{make\-
 std\-::vector$<$ boost\-::tuple\\*
 $<$ double, double, double $>$ $>$ \hyperlink{classTrajectoryMaker_ac62b743efeb6bf7e0cb63d13423ca352}{make\-Tuple\-Ramp} (double max\-Velocity, double max\-Acc, double cycle\-Time)
 \item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{classTrajectoryMaker_aa6f2007f0074a68be1244e8f8cd23a1d}{make\-Cartesian\-Trajectory} (double final\-\_\-velocity, double current\-\_\-feedrate, double current\-\_\-velocity, double maximum\-\_\-accel, double cycle\-Time, urdf\-::\-Pose \-\_\-cur\-Pos, urdf\-::\-Pose \-\_\-goal\-Pos)
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{classTrajectoryMaker_af2ea2006f19cbec06917b426bbc79f5e}{make\-Cartesian\-Trajectory} (double final\-\_\-velocity, double current\-\_\-feedrate, double current\-\_\-velocity, double maximum\-\_\-accel, double cycle\-Time, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \-\_\-cur\-Pos, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \-\_\-goal\-Pos)
 \item 
-double \hyperlink{classTrajectoryMaker_aea9aa1a51fb96fde67df0605bc957e56}{run\-Trapezoidal\-Cycle} (\hyperlink{classIRate}{I\-Rate} \&trans, double distance\-\_\-to\-\_\-go)
+double \hyperlink{classTrajectoryMaker_aea9aa1a51fb96fde67df0605bc957e56}{run\-Trapezoidal\-Cycle} (\hyperlink{classRCS_1_1IRate}{I\-Rate} \&trans, double distance\-\_\-to\-\_\-go)
 \item 
 double \hyperlink{classTrajectoryMaker_a61c38d95ba95a3cd0c53f712a7744323}{make\-N\-Ramp} (int N, double max\-Velocity, double max\-Acc, double cycle\-Time, std\-::vector$<$ double $>$ \&acclramp)
 \end{DoxyCompactItemize}
@@ -73,7 +73,7 @@ double \hyperlink{classTrajectoryMaker_a61c38d95ba95a3cd0c53f712a7744323}{make\-
 \hyperlink{classTrajectoryMaker}{Trajectory\-Maker} generates simple trapezoidal velocities. Will accept non-\/zero final velocity. 
 
 \begin{DoxyAuthor}{Author}
-Stephen Balakirsky, G\-T\-R\-I 
+based on work by Stephen Balakirsky, G\-T\-R\-I 
 \end{DoxyAuthor}
 \begin{DoxyDate}{Date}
 July 30, 2014 
@@ -112,13 +112,13 @@ Get\-Jts\-Plan returns vector of generated joint state trajectories.
 \begin{DoxyReturn}{Returns}
 returns vector of joint state 
 \end{DoxyReturn}
-\hypertarget{classTrajectoryMaker_a09bfdcef8912f678e71acc697a27fc22}{\index{Trajectory\-Maker@{Trajectory\-Maker}!Get\-Poses\-Plan@{Get\-Poses\-Plan}}
+\hypertarget{classTrajectoryMaker_a073ea34d7bcbcd0a579dec4f8673701b}{\index{Trajectory\-Maker@{Trajectory\-Maker}!Get\-Poses\-Plan@{Get\-Poses\-Plan}}
 \index{Get\-Poses\-Plan@{Get\-Poses\-Plan}!TrajectoryMaker@{Trajectory\-Maker}}
-\subsubsection[{Get\-Poses\-Plan}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ urdf\-::\-Pose $>$ Trajectory\-Maker\-::\-Get\-Poses\-Plan (
+\subsubsection[{Get\-Poses\-Plan}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ Trajectory\-Maker\-::\-Get\-Poses\-Plan (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classTrajectoryMaker_a09bfdcef8912f678e71acc697a27fc22}
+)}}\label{classTrajectoryMaker_a073ea34d7bcbcd0a579dec4f8673701b}
 
 
 Get\-Poses\-Plan returns vector of generated pose trajectories. 
@@ -138,15 +138,15 @@ returns vector of poses
 \item[{std\-::vector$<$ double $>$ \&}]{accl\-Ramp}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_a192ba138d9d818e58c0f6e9806f407d8}
-max accel is computed by parameters-\/$>$get\-Max\-Accel(movetype) $\ast$ parameters-\/$>$get\-Cycle\-Time(); \hypertarget{classTrajectoryMaker_a70ee83146af8b44642b18111843071a9}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Cartesian\-Trajectory@{make\-Cartesian\-Trajectory}}
+max accel is computed by parameters-\/$>$get\-Max\-Accel(movetype) $\ast$ parameters-\/$>$get\-Cycle\-Time(); \hypertarget{classTrajectoryMaker_a3f3d2d193d487311213d1fc9c09aade4}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Cartesian\-Trajectory@{make\-Cartesian\-Trajectory}}
 \index{make\-Cartesian\-Trajectory@{make\-Cartesian\-Trajectory}!TrajectoryMaker@{Trajectory\-Maker}}
-\subsubsection[{make\-Cartesian\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ urdf\-::\-Pose $>$ Trajectory\-Maker\-::make\-Cartesian\-Trajectory (
+\subsubsection[{make\-Cartesian\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ Trajectory\-Maker\-::make\-Cartesian\-Trajectory (
 \begin{DoxyParamCaption}
 \item[{{\bf I\-Rate}}]{rates, }
-\item[{urdf\-::\-Pose}]{\-\_\-cur\-Pos, }
-\item[{urdf\-::\-Pose}]{\-\_\-goal\-Pos}
+\item[{{\bf R\-C\-S\-::\-Pose}}]{\-\_\-cur\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose}}]{\-\_\-goal\-Pos}
 \end{DoxyParamCaption}
-)}}\label{classTrajectoryMaker_a70ee83146af8b44642b18111843071a9}
+)}}\label{classTrajectoryMaker_a3f3d2d193d487311213d1fc9c09aade4}
 
 
 make\-Cartesian\-Trajectory plans a cartesian trajectory based on current and goal pose states for the given rate profile. 
@@ -163,19 +163,19 @@ make\-Cartesian\-Trajectory plans a cartesian trajectory based on current and go
 \begin{DoxyReturn}{Returns}
 vector of generated cartesian poses trajectory from start to goal. 
 \end{DoxyReturn}
-\hypertarget{classTrajectoryMaker_aa6f2007f0074a68be1244e8f8cd23a1d}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Cartesian\-Trajectory@{make\-Cartesian\-Trajectory}}
+\hypertarget{classTrajectoryMaker_af2ea2006f19cbec06917b426bbc79f5e}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Cartesian\-Trajectory@{make\-Cartesian\-Trajectory}}
 \index{make\-Cartesian\-Trajectory@{make\-Cartesian\-Trajectory}!TrajectoryMaker@{Trajectory\-Maker}}
-\subsubsection[{make\-Cartesian\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ urdf\-::\-Pose $>$ Trajectory\-Maker\-::make\-Cartesian\-Trajectory (
+\subsubsection[{make\-Cartesian\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ Trajectory\-Maker\-::make\-Cartesian\-Trajectory (
 \begin{DoxyParamCaption}
 \item[{double}]{final\-\_\-velocity, }
 \item[{double}]{current\-\_\-feedrate, }
 \item[{double}]{current\-\_\-velocity, }
 \item[{double}]{maximum\-\_\-accel, }
 \item[{double}]{cycle\-Time, }
-\item[{urdf\-::\-Pose}]{\-\_\-cur\-Pos, }
-\item[{urdf\-::\-Pose}]{\-\_\-goal\-Pos}
+\item[{{\bf R\-C\-S\-::\-Pose}}]{\-\_\-cur\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose}}]{\-\_\-goal\-Pos}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_aa6f2007f0074a68be1244e8f8cd23a1d}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_af2ea2006f19cbec06917b426bbc79f5e}
 \hypertarget{classTrajectoryMaker_a6fb1afa338679f6251c5c557d985a41e}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Decl\-Ramp@{make\-Decl\-Ramp}}
 \index{make\-Decl\-Ramp@{make\-Decl\-Ramp}!TrajectoryMaker@{Trajectory\-Maker}}
 \subsubsection[{make\-Decl\-Ramp}]{\setlength{\rightskip}{0pt plus 5cm}double Trajectory\-Maker\-::make\-Decl\-Ramp (
@@ -343,15 +343,15 @@ make\-Stop\-Joint\-Trajectory constructs a stopping trajectory based on current 
 \begin{DoxyReturn}{Returns}
 vector of offset distances from current position to stop. 
 \end{DoxyReturn}
-\hypertarget{classTrajectoryMaker_a84f493a10a49376b0447139bd6aa7a1c}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Trajectory@{make\-Trajectory}}
+\hypertarget{classTrajectoryMaker_a1d847a506d83927b677f7c123bebdf08}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Trajectory@{make\-Trajectory}}
 \index{make\-Trajectory@{make\-Trajectory}!TrajectoryMaker@{Trajectory\-Maker}}
-\subsubsection[{make\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$urdf\-::\-Pose$>$ Trajectory\-Maker\-::make\-Trajectory (
+\subsubsection[{make\-Trajectory}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf R\-C\-S\-::\-Pose}$>$ Trajectory\-Maker\-::make\-Trajectory (
 \begin{DoxyParamCaption}
 \item[{{\bf R\-C\-S\-::\-Canon\-World\-Model} $\ast$}]{parameters, }
-\item[{urdf\-::\-Pose}]{goal, }
-\item[{urdf\-::\-Pose}]{current}
+\item[{{\bf R\-C\-S\-::\-Pose}}]{goal, }
+\item[{{\bf R\-C\-S\-::\-Pose}}]{current}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_a84f493a10a49376b0447139bd6aa7a1c}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_a1d847a506d83927b677f7c123bebdf08}
 \hypertarget{classTrajectoryMaker_ac62b743efeb6bf7e0cb63d13423ca352}{\index{Trajectory\-Maker@{Trajectory\-Maker}!make\-Tuple\-Ramp@{make\-Tuple\-Ramp}}
 \index{make\-Tuple\-Ramp@{make\-Tuple\-Ramp}!TrajectoryMaker@{Trajectory\-Maker}}
 \subsubsection[{make\-Tuple\-Ramp}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ boost\-::tuple$<$ double, double, double $>$ $>$ Trajectory\-Maker\-::make\-Tuple\-Ramp (
@@ -383,14 +383,14 @@ plan a joint trajectory based on current and goal joint states. Assumes rate alr
 \begin{DoxyReturn}{Returns}
 true if successful joint state trajectory was generated. 
 \end{DoxyReturn}
-\hypertarget{classTrajectoryMaker_a13d043e95456481ff6640ce849f9dc3c}{\index{Trajectory\-Maker@{Trajectory\-Maker}!Plan@{Plan}}
+\hypertarget{classTrajectoryMaker_aee9a536ad21dbd5fb872a494bb65363c}{\index{Trajectory\-Maker@{Trajectory\-Maker}!Plan@{Plan}}
 \index{Plan@{Plan}!TrajectoryMaker@{Trajectory\-Maker}}
 \subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Trajectory\-Maker\-::\-Plan (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{curpose, }
-\item[{urdf\-::\-Pose \&}]{goalpose}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{curpose, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{goalpose}
 \end{DoxyParamCaption}
-)}}\label{classTrajectoryMaker_a13d043e95456481ff6640ce849f9dc3c}
+)}}\label{classTrajectoryMaker_aee9a536ad21dbd5fb872a494bb65363c}
 
 
 plan a cartesian trajectory based on current and goal pose states. Assumes rate already set. 
@@ -405,13 +405,13 @@ plan a cartesian trajectory based on current and goal pose states. Assumes rate 
 \begin{DoxyReturn}{Returns}
 true if successful cartesian trajectory was generated. 
 \end{DoxyReturn}
-\hypertarget{classTrajectoryMaker_a864abb96bb5c6e72cd3bd94f955cfd9e}{\index{Trajectory\-Maker@{Trajectory\-Maker}!Plan@{Plan}}
+\hypertarget{classTrajectoryMaker_ad1b0030b7b7ae5ac1c17cbc9d70057c0}{\index{Trajectory\-Maker@{Trajectory\-Maker}!Plan@{Plan}}
 \index{Plan@{Plan}!TrajectoryMaker@{Trajectory\-Maker}}
 \subsubsection[{Plan}]{\setlength{\rightskip}{0pt plus 5cm}bool Trajectory\-Maker\-::\-Plan (
 \begin{DoxyParamCaption}
-\item[{std\-::vector$<$ urdf\-::\-Pose $>$ \&}]{waypoints}
+\item[{std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ \&}]{waypoints}
 \end{DoxyParamCaption}
-)}}\label{classTrajectoryMaker_a864abb96bb5c6e72cd3bd94f955cfd9e}
+)}}\label{classTrajectoryMaker_ad1b0030b7b7ae5ac1c17cbc9d70057c0}
 
 
 plan a cartesian trajectory given a vector of waypoint poses. Assumes rate already set. 
@@ -443,13 +443,13 @@ Reference to rates data structure.
 \item[{double}]{distance\-\_\-to\-\_\-go}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_aea9aa1a51fb96fde67df0605bc957e56}
-\hypertarget{classTrajectoryMaker_a367e99ca3603eecbb2b601b699cf4c82}{\index{Trajectory\-Maker@{Trajectory\-Maker}!set\-Current@{set\-Current}}
+\hypertarget{classTrajectoryMaker_aab45409e8775089ebd2eeb8c8bbb8b53}{\index{Trajectory\-Maker@{Trajectory\-Maker}!set\-Current@{set\-Current}}
 \index{set\-Current@{set\-Current}!TrajectoryMaker@{Trajectory\-Maker}}
 \subsubsection[{set\-Current}]{\setlength{\rightskip}{0pt plus 5cm}void Trajectory\-Maker\-::set\-Current (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose}]{pose\-In}
+\item[{{\bf R\-C\-S\-::\-Pose}}]{pose\-In}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_a367e99ca3603eecbb2b601b699cf4c82}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTrajectoryMaker_aab45409e8775089ebd2eeb8c8bbb8b53}
 Set the current position.
 
 Set the current location from the input pose \hypertarget{classTrajectoryMaker_ad752eac0a5705cab6620f5c9dad49654}{\index{Trajectory\-Maker@{Trajectory\-Maker}!set\-Rates@{set\-Rates}}
@@ -465,7 +465,7 @@ set\-Rates defines the rate to use when generating trajectory.
 
 
 \begin{DoxyParams}{Parameters}
-{\em rates} & contains the \hyperlink{classIRate}{I\-Rate} definition. \\
+{\em rates} & contains the I\-Rate definition. \\
 \hline
 \end{DoxyParams}
 \hypertarget{classTrajectoryMaker_a59aedc924ba9fe197779bdd7c53ae97d}{\index{Trajectory\-Maker@{Trajectory\-Maker}!update\-Joint\-Commands@{update\-Joint\-Commands}}
@@ -480,5 +480,5 @@ set\-Rates defines the rate to use when generating trajectory.
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{trajectoryMaker_8h}{trajectory\-Maker.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{trajectoryMaker_8cpp}{trajectory\-Maker.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{trajectoryMaker_8h}{trajectory\-Maker.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{trajectoryMaker_8cpp}{trajectory\-Maker.\-cpp}\end{DoxyCompactItemize}

@@ -1,4 +1,4 @@
-.TH "RCS::CanonWorldModel" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CanonWorldModel" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -36,9 +36,6 @@ RCS::CanonWorldModel \-
 .RI "\fBCanonStatusType\fP \fBecho_status\fP"
 .br
 .ti -1c
-.RI "\fBModelInterfaceSharedPtr\fP \fBrobot_model\fP"
-.br
-.ti -1c
 .RI "double \fBmaxTransAccel\fP"
 .br
 .ti -1c
@@ -66,7 +63,7 @@ RCS::CanonWorldModel \-
 .RI "\fBJointState\fP \fBcurrentjoints\fP"
 .br
 .ti -1c
-.RI "urdf::Pose \fBcurrentpose\fP"
+.RI "\fBRCS::Pose\fP \fBcurrentpose\fP"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -92,7 +89,7 @@ Cycletime of the world model\&. /fixme what is this\&.
 cycle time 
 .SS "\fBJointState\fP RCS::CanonWorldModel::currentjoints"
 current joint state 
-.SS "urdf::Pose RCS::CanonWorldModel::currentpose"
+.SS "\fBRCS::Pose\fP RCS::CanonWorldModel::currentpose"
 current robot pose 
 .SS "\fBCanonCmdType\fP RCS::CanonWorldModel::echo_cmd"
 copy of current command type 
@@ -112,8 +109,6 @@ max rotational velocity
 max translation acceleration 
 .SS "double RCS::CanonWorldModel::maxTransVel"
 max translation velocity 
-.SS "\fBModelInterfaceSharedPtr\fP RCS::CanonWorldModel::robot_model"
-pointer to robot model 
 
 .SH "Author"
 .PP 

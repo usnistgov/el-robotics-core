@@ -14,6 +14,11 @@
 #include <map>
 #include <iostream>
 CGlobals Globals;
+ALogger LogFile;
+void DebugBreak() {
+    assert(0);
+}
+
 static std::string  LeftTrim (std::string  str)
 {
     size_t startpos = str.find_first_not_of(" \t\r\n");

@@ -1,0 +1,768 @@
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/Archive/eigenmath.h" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/Archive/eigenmath.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <Eigen/Dense>\fP
+.br
+\fC#include <moveit/robot_model_loader/robot_model_loader\&.h>\fP
+.br
+\fC#include <moveit/robot_model/robot_model\&.h>\fP
+.br
+\fC#include <sensor_msgs/JointState\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBROSMATRIX\fP"
+.br
+.ti -1c
+.RI "#define \fBCLOSESMALL\fP"
+.br
+.ti -1c
+.RI "#define \fBHAVE_SINCOS\fP"
+.br
+.ti -1c
+.RI "#define \fBDeg2Rad\fP(Ang)   ( (double) ( Ang * M_PI / 180\&.0 ) )"
+.br
+.ti -1c
+.RI "#define \fBRad2Deg\fP(Ang)   ( (double) ( Ang * 180\&.0 / M_PI ) )"
+.br
+.ti -1c
+.RI "#define \fBMM2Meter\fP(d)   ( (double) ( d / 1000\&.00 ) )"
+.br
+.ti -1c
+.RI "#define \fBMeter2MM\fP(d)   ( (double) ( d * 1000\&.00 ) )"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef boost::array< double, 12 > \fBRosMatrix\fP"
+.br
+.ti -1c
+.RI "typedef Eigen::Matrix< double, 
+.br
+Eigen::Dynamic, Eigen::Dynamic, 
+.br
+Eigen::RowMajor > \fBMatrixEXd\fP"
+.br
+.ti -1c
+.RI "typedef Eigen::VectorXd \fBEJointVector\fP"
+.br
+.ti -1c
+.RI "typedef Eigen::VectorXd \fBEigenPose\fP"
+.br
+.ti -1c
+.RI "typedef Eigen::Vector3d \fBEigenPosition\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBCLOSE\fP (double x, double y)"
+.br
+.ti -1c
+.RI "bool \fBSMALL\fP (double x)"
+.br
+.ti -1c
+.RI "void \fBsincos\fP (double x, double *sx, double *cx)"
+.br
+.ti -1c
+.RI "\fBEJointVector\fP \fBToRadians\fP (\fBEJointVector\fP joints)"
+.br
+.RI "\fIToRadians converts an eigne vector of joints in degrees to radian values\&. \fP"
+.ti -1c
+.RI "Eigen::VectorXd \fBConvertJoints\fP (std::vector< double > v)"
+.br
+.RI "\fIConvertJoints converts std vector of double into an eigen vector \&. \fP"
+.ti -1c
+.RI "std::vector< double > \fBConvertJoints\fP (Eigen::VectorXd ev)"
+.br
+.RI "\fIConvertJoints converts eigen vector into a std vector of double into an\&. \fP"
+.ti -1c
+.RI "Eigen::VectorXd \fBConvertPose\fP (urdf::Pose p)"
+.br
+.RI "\fIConvertPose converts urdf pose into an eigen vectorXd pose representation\&. \fP"
+.ti -1c
+.RI "Eigen::VectorXd \fBConvertPosition\fP (urdf::Vector3 p)"
+.br
+.RI "\fIConvertPosition converts urdf vector3D position into an eigen vectorXd position representation\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpEMatrix\fP (const Eigen::Matrix< double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor > &m)"
+.br
+.RI "\fIDumpEMatrix creates a string of the eigen matrix representation\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpEPosition\fP (const \fBEigenPosition\fP &v)"
+.br
+.RI "\fIDumpEPosition creates a string of the eigen position vector representation\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpEPose\fP (const \fBEigenPose\fP &p)"
+.br
+.RI "\fIDumpEPose creates a string of the eigen pose representation\&. \fP"
+.ti -1c
+.RI "std::string \fBDumpEJoints\fP (const \fBEJointVector\fP &joints)"
+.br
+.RI "\fIDumpEJoints creates a string of the eigen joint representation in degrees\&. \fP"
+.ti -1c
+.RI "bool \fBEQuatIsNorm\fP (Eigen::Quaterniond &q1)"
+.br
+.RI "\fIEQuatIsNorm determines if Eigen quaterion is normalized\&. \fP"
+.ti -1c
+.RI "Eigen::Quaterniond \fBEPose2Quat\fP (\fBEigenPose\fP p)"
+.br
+.RI "\fIEPose2Quat converts rotation element of an Eigen pose into an Eigen quaterion\&. \fP"
+.ti -1c
+.RI "Eigen::Quaterniond \fBEQuatFromRpy\fP (double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.RI "\fIEQuatFromRpy return Eigen quaterion from roll, pitch and yaw angles given in radians\&. \fP"
+.ti -1c
+.RI "void \fBEQuatToRpy\fP (const Eigen::Quaterniond &q1, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
+.br
+.RI "\fIEQuatToRpy return roll, pitch and yaw angles given in radians from Eigen quaterion\&. \fP"
+.ti -1c
+.RI "Eigen::Quaterniond \fBCreateQuaterian\fP (double \fBroll\fP, double \fBpitch\fP, double \fByaw\fP)"
+.br
+.RI "\fICreateQuaterian from roll, pitch and yaw angles given in radians\&. \fP"
+.ti -1c
+.RI "Eigen::VectorXd \fBEErrPosesAxisAngle\fP (\fBEigenPose\fP current, \fBEigenPose\fP goal)"
+.br
+.RI "\fIEErrPosesAxisAngle computes the error vector from two Eigen poses\&. \fP"
+.ti -1c
+.RI "\fBEigenPose\fP \fBECreatePose\fP (\fBEigenPosition\fP pos, Eigen::Quaterniond &q)"
+.br
+.RI "\fIECreatePose creates an Eigen pose from a Eigen position vector and an Eigen quaterion\&. \fP"
+.ti -1c
+.RI "\fBEigenPose\fP \fBEMatrix2Pose\fP (\fBMatrixEXd\fP &m)"
+.br
+.RI "\fIEMatrix2Pose converts Eigen 4x4 matrix into an eigen pose\&. \fP"
+.ti -1c
+.RI "\fBEigenPose\fP \fBEPoseAddQuat\fP (\fBEigenPose\fP p, Eigen::Quaterniond &q)"
+.br
+.RI "\fIEPoseAddQuat stores an Eigen quaterion into a Eigen pose\&. \fP"
+.ti -1c
+.RI "\fBEigenPose\fP \fBEPoseInv\fP (const \fBEigenPose\fP &p1)"
+.br
+.RI "\fIEPoseInv computes the inverse of an Eigen Pose\&. \fP"
+.ti -1c
+.RI "\fBEigenPose\fP \fBEPoseMult\fP (const \fBEigenPose\fP &p0, const \fBEigenPose\fP &p1)"
+.br
+.ti -1c
+.RI "\fBEigenPosition\fP \fBECreatePosition\fP (\fBEigenPose\fP pose)"
+.br
+.RI "\fIECreatePosition extracts and returns the translation element from an Eigen pose\&. \fP"
+.ti -1c
+.RI "\fBEigenPosition\fP \fBEPoseMult\fP (const \fBEigenPose\fP &p, const \fBEigenPosition\fP &v)"
+.br
+.RI "\fIEPoseMult multiplies an Eigen pose by an Eigen position vector\&. \fP"
+.ti -1c
+.RI "\fBEigenPosition\fP \fBEQuatCartMult\fP (Eigen::Quaterniond &q1, const \fBEigenPosition\fP v2)"
+.br
+.RI "\fIEQuatCartMult multiplies an Eigen quaterion by a Eigen position\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBRos2Eigen\fP (\fBRosMatrix\fP m)"
+.br
+.RI "\fIRos2Eigen converts 3x4 matrix (boost array) into an eigen matrix\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBCreate4x4IdentityMatrix\fP ()"
+.br
+.RI "\fICreate4x4IdentityMatrix creates an Eigen MatrixEXd identity matrix\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBCreateMatrix\fP (const double angle, Eigen::Vector3d axis)"
+.br
+.RI "\fICreateMatrix creates an Eigen MatrixEXd 4x4 matrix from an axis angle representation\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBCreateMatrix\fP (const \fBEigenPosition\fP translation)"
+.br
+.RI "\fICreateMatrix creates an Eigen MatrixEXd matrix with translation defined\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBEPose2Matrix\fP (\fBEigenPose\fP &p)"
+.br
+.RI "\fIEPose2Matrix converts an Eigen pose into an Eigen 4x4 matrix\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBEQuat2Matrix\fP (Eigen::Quaterniond &q)"
+.br
+.RI "\fIEQuat2Matrix converts an Eigen quaterion into an Eigen 4x4 matrix\&. \fP"
+.ti -1c
+.RI "\fBMatrixEXd\fP \fBPseudoInvertJacobian\fP (const \fBMatrixEXd\fP &a)"
+.br
+.RI "\fIPseudoInvertJacobian attempts does a pseudo invert of a Eigen MatrixEXd matrix if not a square matrix\&. \fP"
+.ti -1c
+.RI "Eigen::Affine3d \fBurdfPose2Affine3d\fP (const urdf::Pose &pose)"
+.br
+.RI "\fIurdfPose2Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose \fP"
+.ti -1c
+.RI "urdf::Pose \fBaffine3d2UrdfPose\fP (const Eigen::Affine3d &pose)"
+.br
+.RI "\fIaffine3d2UrdfPose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose \fP"
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const std::vector< Eigen::Vector3d > &v)"
+.br
+.ti -1c
+.RI "Eigen::Quaterniond \fBEMatrix2Quaterion\fP (\fBMatrixEXd\fP &m)"
+.br
+.RI "\fIEMatrix2Quaterion converts Eigen 4x4 matrix into an eigen quaterion\&. \fP"
+.ti -1c
+.RI "\fBEigenPose\fP \fBEPoseMult\fP (\fBEigenPose\fP &p0, \fBEigenPose\fP &p1)"
+.br
+.RI "\fIEPoseMult multiplies two Eigen poses\&. \fP"
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CLOSESMALL"
+
+.SS "#define Deg2Rad(Ang)   ( (double) ( Ang * M_PI / 180\&.0 ) )"
+
+.SS "#define HAVE_SINCOS"
+
+.SS "#define Meter2MM(d)   ( (double) ( d * 1000\&.00 ) )"
+
+.SS "#define MM2Meter(d)   ( (double) ( d / 1000\&.00 ) )"
+
+.SS "#define Rad2Deg(Ang)   ( (double) ( Ang * 180\&.0 / M_PI ) )"
+
+.SS "#define ROSMATRIX"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef Eigen::VectorXd \fBEigenPose\fP"
+
+.SS "typedef Eigen::Vector3d \fBEigenPosition\fP"
+
+.SS "typedef Eigen::VectorXd \fBEJointVector\fP"
+
+.SS "typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> \fBMatrixEXd\fP"
+
+.SS "typedef boost::array<double, 12> \fBRosMatrix\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "urdf::Pose affine3d2UrdfPose (const Eigen::Affine3d &pose)\fC [inline]\fP"
+
+.PP
+affine3d2UrdfPose converts an Eigen affine 4x4 matrix o represent the pose into a urdf pose vparam pose eigen Affine3d pose 
+.PP
+\fBReturns:\fP
+.RS 4
+urdf pose with position and rotation\&. 
+.RE
+.PP
+
+.SS "bool CLOSE (doublex, doubley)\fC [inline]\fP"
+
+.SS "Eigen::VectorXd ConvertJoints (std::vector< double >v)\fC [inline]\fP"
+
+.PP
+ConvertJoints converts std vector of double into an eigen vector \&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIv\fP is vector of doubles 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the equivalent size_t n element eigen vectorXd \&. 
+.RE
+.PP
+
+.SS "std::vector< double > ConvertJoints (Eigen::VectorXdev)\fC [inline]\fP"
+
+.PP
+ConvertJoints converts eigen vector into a std vector of double into an\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIthe\fP n element eigen vectorXd \&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+v is vector of doubles 
+.RE
+.PP
+
+.SS "Eigen::VectorXd ConvertPose (urdf::Posep)\fC [inline]\fP"
+
+.PP
+ConvertPose converts urdf pose into an eigen vectorXd pose representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP is the urdf pose\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen vectorXd representing pose with translation and quaterion elements 
+.RE
+.PP
+
+.SS "Eigen::VectorXd ConvertPosition (urdf::Vector3p)\fC [inline]\fP"
+
+.PP
+ConvertPosition converts urdf vector3D position into an eigen vectorXd position representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP is the urdf position\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen vectorXd representing position with translation elements 
+.RE
+.PP
+
+.SS "\fBMatrixEXd\fP Create4x4IdentityMatrix ()\fC [inline]\fP"
+
+.PP
+Create4x4IdentityMatrix creates an Eigen MatrixEXd identity matrix\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen MatrixEXd identity matrix\&. 
+.RE
+.PP
+
+.SS "\fBMatrixEXd\fP CreateMatrix (const doubleangle, Eigen::Vector3daxis)\fC [inline]\fP"
+
+.PP
+CreateMatrix creates an Eigen MatrixEXd 4x4 matrix from an axis angle representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIangle\fP in radians 
+.br
+\fIunit\fP vector of direction given in Eigen position vector3d 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen MatrixEXd matrix\&. 
+.RE
+.PP
+
+.SS "\fBMatrixEXd\fP CreateMatrix (const \fBEigenPosition\fPtranslation)\fC [inline]\fP"
+
+.PP
+CreateMatrix creates an Eigen MatrixEXd matrix with translation defined\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItranslation\fP Eigen position vector3d 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen MatrixEXd matrix\&. 
+.RE
+.PP
+
+.SS "Eigen::Quaterniond CreateQuaterian (doubleroll, doublepitch, doubleyaw)\fC [inline]\fP"
+
+.PP
+CreateQuaterian from roll, pitch and yaw angles given in radians\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIroll\fP pitch yaw are angles\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+rotation as defined by Eigen quaterion\&. 
+.RE
+.PP
+
+.SS "std::string DumpEJoints (const \fBEJointVector\fP &joints)\fC [inline]\fP"
+
+.PP
+DumpEJoints creates a string of the eigen joint representation in degrees\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjoints\fP is the n element eigen vectorXd of joint values\&. 
+.RE
+.PP
+
+.SS "std::string DumpEMatrix (const Eigen::Matrix< double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor > &m)\fC [inline]\fP"
+
+.PP
+DumpEMatrix creates a string of the eigen matrix representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP is the eigen matrix\&. 
+.RE
+.PP
+
+.SS "std::string DumpEPose (const \fBEigenPose\fP &p)\fC [inline]\fP"
+
+.PP
+DumpEPose creates a string of the eigen pose representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP is the 7 element eigen vectorXd\&. 
+.RE
+.PP
+
+.SS "std::string DumpEPosition (const \fBEigenPosition\fP &v)\fC [inline]\fP"
+
+.PP
+DumpEPosition creates a string of the eigen position vector representation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIv\fP is the 3 element eigen vector3d\&. 
+.RE
+.PP
+
+.SS "\fBEigenPose\fP ECreatePose (\fBEigenPosition\fPpos, Eigen::Quaterniond &q)\fC [inline]\fP"
+
+.PP
+ECreatePose creates an Eigen pose from a Eigen position vector and an Eigen quaterion\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpos\fP is Eigendd vector containing translation 
+.br
+\fIq\fP Eigen quaterion describing rotation 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.RE
+.PP
+
+.SS "\fBEigenPosition\fP ECreatePosition (\fBEigenPose\fPpose)\fC [inline]\fP"
+
+.PP
+ECreatePosition extracts and returns the translation element from an Eigen pose\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpose\fP Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen vector3D describing tranlsation 
+.RE
+.PP
+
+.SS "Eigen::VectorXd EErrPosesAxisAngle (\fBEigenPose\fPcurrent, \fBEigenPose\fPgoal)\fC [inline]\fP"
+
+.PP
+EErrPosesAxisAngle computes the error vector from two Eigen poses\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrent\fP pose which is a 7D VectorXd as translation and quaterion elements 
+.br
+\fIgoal\fP pose which is a 7D VectorXd as translation and quaterion elements 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen vector of difference between vectors 
+.RE
+.PP
+
+.SS "\fBEigenPose\fP EMatrix2Pose (\fBMatrixEXd\fP &m)\fC [inline]\fP"
+
+.PP
+EMatrix2Pose converts Eigen 4x4 matrix into an eigen pose\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP is eigen 4x4 Matrix containing rotation and translation\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen vectorXd containing rotation and translation 
+.RE
+.PP
+
+.SS "Eigen::Quaterniond EMatrix2Quaterion (\fBMatrixEXd\fP &m)\fC [inline]\fP"
+
+.PP
+EMatrix2Quaterion converts Eigen 4x4 matrix into an eigen quaterion\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP is eigen 4x4 Matrix containing rotation and translation\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen Quaterniond containing rotation 
+.RE
+.PP
+
+.SS "\fBMatrixEXd\fP EPose2Matrix (\fBEigenPose\fP &p)\fC [inline]\fP"
+
+.PP
+EPose2Matrix converts an Eigen pose into an Eigen 4x4 matrix\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP EigenXd vector representing pose, as translation and quaterion elements 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen MatrixEXd 4x4 matrix\&. 
+.RE
+.PP
+
+.SS "Eigen::Quaterniond EPose2Quat (\fBEigenPose\fPp)\fC [inline]\fP"
+
+.PP
+EPose2Quat converts rotation element of an Eigen pose into an Eigen quaterion\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpose\fP is EigenXd vectorcontaining translation and quaterion elements 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen quaterion \&. 
+.RE
+.PP
+
+.SS "\fBEigenPose\fP EPoseAddQuat (\fBEigenPose\fPp, Eigen::Quaterniond &q)\fC [inline]\fP"
+
+.PP
+EPoseAddQuat stores an Eigen quaterion into a Eigen pose\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP EigenXd vector representing pose, as translation and quaterion elements 
+.br
+\fIq\fP Eigen quaterion 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen pose which is a 7D VectorXd\&. 
+.RE
+.PP
+
+.SS "\fBEigenPose\fP EPoseInv (const \fBEigenPose\fP &p1)\fC [inline]\fP"
+
+.PP
+EPoseInv computes the inverse of an Eigen Pose\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp1\fP Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+inverted Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.RE
+.PP
+
+.SS "\fBEigenPose\fP EPoseMult (const \fBEigenPose\fP &p0, const \fBEigenPose\fP &p1)"
+
+.SS "\fBEigenPosition\fP EPoseMult (const \fBEigenPose\fP &p, const \fBEigenPosition\fP &v)\fC [inline]\fP"
+
+.PP
+EPoseMult multiplies an Eigen pose by an Eigen position vector\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP ispose which is a 7D VectorXd as translation and quaterion elements\&. 
+.br
+\fIv\fP Eigen vector3D describing tranlsation 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.RE
+.PP
+
+.SS "\fBEigenPose\fP EPoseMult (\fBEigenPose\fP &p0, \fBEigenPose\fP &p1)\fC [inline]\fP"
+
+.PP
+EPoseMult multiplies two Eigen poses\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp0\fP Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.br
+\fIp1\fP Eigen pose which is a 7D VectorXd as translation and quaterion elements\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+multiply result as Eigen pose which is a 7D VectorXd as translation and quaterion elements 
+.RE
+.PP
+
+.SS "\fBMatrixEXd\fP EQuat2Matrix (Eigen::Quaterniond &q)\fC [inline]\fP"
+
+.PP
+EQuat2Matrix converts an Eigen quaterion into an Eigen 4x4 matrix\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIq\fP Eigen quaterion 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen MatrixEXd 4x4 matrix\&. 
+.RE
+.PP
+
+.SS "\fBEigenPosition\fP EQuatCartMult (Eigen::Quaterniond &q1, const \fBEigenPosition\fPv2)\fC [inline]\fP"
+
+.PP
+EQuatCartMult multiplies an Eigen quaterion by a Eigen position\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIq1\fP Eigen quaterion\&. 
+.br
+\fIq1\fP Eigen position vector3d\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Eigen position vector3d 
+.RE
+.PP
+
+.SS "Eigen::Quaterniond EQuatFromRpy (double &roll, double &pitch, double &yaw)\fC [inline]\fP"
+
+.PP
+EQuatFromRpy return Eigen quaterion from roll, pitch and yaw angles given in radians\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIroll\fP pitch yaw are angles\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+rotation as defined by Eigen quaterion\&. 
+.RE
+.PP
+
+.SS "bool EQuatIsNorm (Eigen::Quaterniond &q1)\fC [inline]\fP"
+
+.PP
+EQuatIsNorm determines if Eigen quaterion is normalized\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIq1\fP Eigen quaterion\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true if normalized 
+.RE
+.PP
+
+.SS "void EQuatToRpy (const Eigen::Quaterniond &q1, double &roll, double &pitch, double &yaw)\fC [inline]\fP"
+
+.PP
+EQuatToRpy return roll, pitch and yaw angles given in radians from Eigen quaterion\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIroll\fP pitch yaw references will be filled with equivalent angles in radians\&. 
+.br
+\fIrotation\fP as defined by Eigen quaterion\&. 
+.RE
+.PP
+
+.SS "std::ostream& operator<< (std::ostream &os, const std::vector< Eigen::Vector3d > &v)\fC [inline]\fP"
+
+.SS "\fBMatrixEXd\fP PseudoInvertJacobian (const \fBMatrixEXd\fP &a)\fC [inline]\fP"
+
+.PP
+PseudoInvertJacobian attempts does a pseudo invert of a Eigen MatrixEXd matrix if not a square matrix\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP Eigen MatrixEXd matrix 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+pseudo inverted Eigen MatrixEXd matrix\&. 
+.RE
+.PP
+
+.SS "Eigen::Matrix< double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor > Ros2Eigen (\fBRosMatrix\fPm)\fC [inline]\fP"
+
+.PP
+Ros2Eigen converts 3x4 matrix (boost array) into an eigen matrix\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP is the boost array equivalent to 3x4 matrix\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen 4x4 Matrix containing rotation and translation 
+.RE
+.PP
+
+.SS "void sincos (doublex, double *sx, double *cx)\fC [inline]\fP"
+
+.SS "bool SMALL (doublex)\fC [inline]\fP"
+
+.SS "\fBEJointVector\fP ToRadians (\fBEJointVector\fPjoints)\fC [inline]\fP"
+
+.PP
+ToRadians converts an eigne vector of joints in degrees to radian values\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIjoints\fP is the n element eigen vectorXd of joint values in degrees\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+n element eigen vectorXd of joint values in radians\&. 
+.RE
+.PP
+
+.SS "Eigen::Affine3d urdfPose2Affine3d (const urdf::Pose &pose)\fC [inline]\fP"
+
+.PP
+urdfPose2Affine3d converts urdf pose into an Eigen affine 4x4 matrix o represent the pose 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpose\fP is the urdf pose with position and rotation\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+eigen Affine3d pose 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for CRCL FANUC from the source code\&.

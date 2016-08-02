@@ -3,7 +3,7 @@
 }
 
 
-The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a thread to updates the status of the robot. The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a separate thread that updates the robot status. Currently, it uses a Joint\-Reader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current pose using the F\-K routine. It also uses a Crcl\-Delegate pointer reference to update the status reported by C\-R\-C\-L.  
+The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a thread that reads the status of the robot and updates the world model. The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a separate thread that reads the robot status using R\-O\-S communication mechanisms and updates the controller world model based on these values. Currently, it uses an instance of the class Joint\-Reader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current robot pose using the forward kinematics (F\-K) routine. It also uses a Crcl\-Delegate pointer reference to update the status reported by C\-R\-C\-L.  
 
 
 
@@ -27,7 +27,7 @@ Inheritance diagram for R\-C\-S\-:\-:Robot\-Status\-:\begin{figure}[H]
 \item 
 \hyperlink{classRCS_1_1RobotStatus_abdcfb3be4ed2558ca3e5c745dc669340}{V\-A\-R} (\hyperlink{SanityCheckTests_8cpp_ac2d60ae645ce73be6021c92b37789e7c}{Kinematics}, boost\-::shared\-\_\-ptr$<$ \hyperlink{classIKinematics}{I\-Kinematics} $>$)
 \item 
-virtual void \hyperlink{classRCS_1_1RobotStatus_a7b8484b6d7ad5ae10e41a5d327efc658}{Action} ()
+virtual int \hyperlink{classRCS_1_1RobotStatus_ac71a3ac33bfdf37a96dc5a0bf1ce7133}{Action} ()
 \begin{DoxyCompactList}\small\item\em Action is the main loop in the \hyperlink{namespaceRCS}{R\-C\-S} thread timing. Get latest robot joint readings. Use forward kinematics to get current pose. Then, updates the C\-R\-C\-L world model with the latest readings.  Should it keep track of the command id also -\/ in theory only one C\-R\-Cl command at a time. \end{DoxyCompactList}\item 
 bool \hyperlink{classRCS_1_1RobotStatus_aad11542a68b43feb8c327abafbd94344}{Verify} ()
 \begin{DoxyCompactList}\small\item\em method to determine if the instance is valid, i.\-e., has all reference pointers. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -35,7 +35,7 @@ bool \hyperlink{classRCS_1_1RobotStatus_aad11542a68b43feb8c327abafbd94344}{Verif
 
 
 \subsection{Detailed Description}
-The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a thread to updates the status of the robot. The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a separate thread that updates the robot status. Currently, it uses a Joint\-Reader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current pose using the F\-K routine. It also uses a Crcl\-Delegate pointer reference to update the status reported by C\-R\-C\-L. 
+The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a thread that reads the status of the robot and updates the world model. The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a separate thread that reads the robot status using R\-O\-S communication mechanisms and updates the controller world model based on these values. Currently, it uses an instance of the class Joint\-Reader to read joint values from the controller. It uses a Kinematics pointer reference to compute the current robot pose using the forward kinematics (F\-K) routine. It also uses a Crcl\-Delegate pointer reference to update the status reported by C\-R\-C\-L. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classRCS_1_1RobotStatus_a3a4edecf6814bd37db609104517983a1}{\index{R\-C\-S\-::\-Robot\-Status@{R\-C\-S\-::\-Robot\-Status}!Robot\-Status@{Robot\-Status}}
@@ -57,20 +57,20 @@ The \hyperlink{classRCS_1_1RobotStatus}{Robot\-Status} is a thread to updates th
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classRCS_1_1RobotStatus_a7b8484b6d7ad5ae10e41a5d327efc658}{\index{R\-C\-S\-::\-Robot\-Status@{R\-C\-S\-::\-Robot\-Status}!Action@{Action}}
+\hypertarget{classRCS_1_1RobotStatus_ac71a3ac33bfdf37a96dc5a0bf1ce7133}{\index{R\-C\-S\-::\-Robot\-Status@{R\-C\-S\-::\-Robot\-Status}!Action@{Action}}
 \index{Action@{Action}!RCS::RobotStatus@{R\-C\-S\-::\-Robot\-Status}}
-\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}void R\-C\-S\-::\-Robot\-Status\-::\-Action (
+\subsubsection[{Action}]{\setlength{\rightskip}{0pt plus 5cm}int R\-C\-S\-::\-Robot\-Status\-::\-Action (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotStatus_a7b8484b6d7ad5ae10e41a5d327efc658}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classRCS_1_1RobotStatus_ac71a3ac33bfdf37a96dc5a0bf1ce7133}
 
 
 Action is the main loop in the \hyperlink{namespaceRCS}{R\-C\-S} thread timing. Get latest robot joint readings. Use forward kinematics to get current pose. Then, updates the C\-R\-C\-L world model with the latest readings.  Should it keep track of the command id also -\/ in theory only one C\-R\-Cl command at a time. 
 
 
 
-Reimplemented from \hyperlink{classRCS_1_1Thread_a327655d2626c51ea61bcc233a94dc78e}{R\-C\-S\-::\-Thread}.
+Reimplemented from \hyperlink{classRCS_1_1Thread_a78aec7128f4fbf5d6859ceb09f9f9ae1}{R\-C\-S\-::\-Thread}.
 
 \hypertarget{classRCS_1_1RobotStatus_aed67d1057ff99ebe1221aa9fdc3c9e04}{\index{R\-C\-S\-::\-Robot\-Status@{R\-C\-S\-::\-Robot\-Status}!N\-V\-A\-R@{N\-V\-A\-R}}
 \index{N\-V\-A\-R@{N\-V\-A\-R}!RCS::RobotStatus@{R\-C\-S\-::\-Robot\-Status}}
@@ -115,5 +115,5 @@ boolean to signify whether component is valid.
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Controller_8h}{Controller.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{Controller_8cpp}{Controller.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Controller_8h}{Controller.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{Controller_8cpp}{Controller.\-cpp}\end{DoxyCompactItemize}

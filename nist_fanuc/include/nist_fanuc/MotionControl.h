@@ -36,7 +36,7 @@ public:
 	* \param dIncrement  translation amount from [0..1]
 	* \return pose containing lerped pose translation.
 	*/
-    urdf::Pose computeTranslation(urdf::Pose & _curPos, urdf::Pose & _goalPos, double dIncrement);
+    RCS::Pose computeTranslation(RCS::Pose & _curPos, RCS::Pose & _goalPos, double dIncrement);
 
 	/*!
 	* \brief Compute  waypoints between current and goal poses with assigned distance between poses.
@@ -46,7 +46,7 @@ public:
 	* \param bAddStart  boolean to determine if starting pose is included in waypoints
 	* \return vector of waypoint poses with gap distance between poses.
 	*/
-    std::vector<urdf::Pose> computeWaypoints(urdf::Pose & _curPos, urdf::Pose & _goalPos, double dGap = 0.001, bool bAddStart = false);
+    std::vector<RCS::Pose> computeWaypoints(RCS::Pose & _curPos, RCS::Pose & _goalPos, double dGap = 0.001, bool bAddStart = false);
 
 	/*!
 	* \brief computeCoorindatedWaypoints returns a vector of straightline waypoints between current and goal poses at a given distance.
@@ -73,6 +73,6 @@ public:
     static double epsilon; /**< allowable difference length in equality between two numbers */
 
     int computeIncrements(std::vector<double> & _curJts, std::vector<double> & _goalJts, double gap = 0.001); // 0.001=mm
-    int computeIncrements(urdf::Pose & _curPos, urdf::Pose & _goalPos, double dGap = 0.001);
+    int computeIncrements(RCS::Pose & _curPos, RCS::Pose & _goalPos, double dGap = 0.001);
 
 };

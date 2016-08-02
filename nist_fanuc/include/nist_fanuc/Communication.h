@@ -17,6 +17,11 @@
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <control_msgs/JointTrajectoryControllerState.h>
 #include <control_msgs/QueryTrajectoryState.h>
+#include <tf/tf.h>
+#include <tf/transform_broadcaster.h>
+#include <tf/transform_listener.h>
+
+#include "RCS.h"
 
 /**
  * \brief  The CJointReader is a thread to  accept joint update callbacks from ROS.
@@ -105,6 +110,42 @@ public:
     std::vector<std::string> jointnames; /**< ros requries joint names for each joint update  */
     static boost::mutex _writer_mutex; /**< for mutexed writing access to joint values */
     ros::NodeHandle &_nh; /**< reference pointer to ROS node handle */
+};
+
+/**
+ * \brief  The CLinkReader is a class that use the tf package from ROS to return latest pose of a link.
+ * Uses tf to find the latest time and base_link and the desired link have changed.
+ * With the latest time it returns translation and orientation (quat) of the link.
+ * tf keeps track of a tree of coordinate frames. This tree changes over time,
+ * and tf stores a time snapshot for every transform (for up to 10 seconds by default).
+ */
+
+class CLinkReader {
+public:
+    /*!
+     * \brief CLinkReader constructor that requires a ROS node handle.
+     * \param nh  ros node handle so joint reader can tell roscore we are subscribing to joint_state topic.
+     */
+    CLinkReader(ros::NodeHandle &nh);
+
+
+    /*!
+     * \brief Init sets up robot (assume 1 for now) with a base link name.
+     */
+    void Init(std::string baselink_name="/base_link");
+
+
+    /*!
+     * \brief GetJointValues sets up subscriber to joint_state topic messages.
+     * \returns a std vector of double containing joint positions
+     */
+    RCS::Pose GetLinkValue(std::string linkname="/tool0");
+
+    ////////////////////////////////////////////////////////////////////
+     ros::NodeHandle &_nh; /**< reference pointer to ROS node handle */
+     std::string _baselink_name;
+     tf::TransformListener _listener;
+
 };
 
 #endif	/* COMMUNICATION_H */

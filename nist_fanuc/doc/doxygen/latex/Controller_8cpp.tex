@@ -1,15 +1,14 @@
-\hypertarget{Controller_8cpp}{\section{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Controller.cpp File Reference}
-\label{Controller_8cpp}\index{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Controller.\-cpp@{/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\-Controller.\-cpp}}
+\hypertarget{Controller_8cpp}{\section{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Controller.cpp File Reference}
+\label{Controller_8cpp}\index{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Controller.\-cpp@{/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\-Controller.\-cpp}}
 }
 {\ttfamily \#include \char`\"{}Controller.\-h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}urdf\-\_\-model/rosmath.\-h\char`\"{}}\\*
 {\ttfamily \#include $<$boost/exception/all.\-hpp$>$}\\*
-{\ttfamily \#include $<$boost/asio.\-hpp$>$}\\*
 {\ttfamily \#include $<$boost/thread.\-hpp$>$}\\*
 {\ttfamily \#include $<$strstream$>$}\\*
 {\ttfamily \#include $<$iostream$>$}\\*
-{\ttfamily \#include \char`\"{}urdf\-\_\-model/eigenmath.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}urdf\-\_\-model/rosmath.\-h\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}Crcl\-Interface.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Rviz\-Marker.\-h\char`\"{}}\\*
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -20,12 +19,10 @@
 \item 
 \#define \hyperlink{Controller_8cpp_a5ebdbdce56348e79bc296dba8e572a1f}{B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B}
 \item 
-\#define \hyperlink{Controller_8cpp_a14bc2dfa42241600d567369cd25ddc70}{S\-\_\-\-O\-K}~0
+\#define \hyperlink{Controller_8cpp_af6f8d76542b32826e691797ad6667f94}{M\-A\-R\-K\-E\-R\-S}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-void \hyperlink{Controller_8cpp_aedac882e1f21e19ef4a15ef77cd22a3a}{Debug\-Break} ()
 \item 
 \-::C\-R\-C\-L\-Program\-Type\-::\-Middle\-Command\-\_\-sequence \& \hyperlink{namespaceRCS_a0d81b5ae27814995884c1d25619db28a}{R\-C\-S\-::\-Dummy\-Init} ()
 \end{DoxyCompactItemize}
@@ -44,20 +41,10 @@ boost\-::mutex \hyperlink{namespaceRCS_a021572a9d03c82d96029e82ea5691d60}{R\-C\-
 \hypertarget{Controller_8cpp_a5ebdbdce56348e79bc296dba8e572a1f}{\index{Controller.\-cpp@{Controller.\-cpp}!B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B@{B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B}}
 \index{B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B@{B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B}!Controller.cpp@{Controller.\-cpp}}
 \subsubsection[{B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-O\-O\-S\-T\-\_\-\-A\-L\-L\-\_\-\-N\-O\-\_\-\-L\-I\-B}}\label{Controller_8cpp_a5ebdbdce56348e79bc296dba8e572a1f}
-\hypertarget{Controller_8cpp_a14bc2dfa42241600d567369cd25ddc70}{\index{Controller.\-cpp@{Controller.\-cpp}!S\-\_\-\-O\-K@{S\-\_\-\-O\-K}}
-\index{S\-\_\-\-O\-K@{S\-\_\-\-O\-K}!Controller.cpp@{Controller.\-cpp}}
-\subsubsection[{S\-\_\-\-O\-K}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-\_\-\-O\-K~0}}\label{Controller_8cpp_a14bc2dfa42241600d567369cd25ddc70}
+\hypertarget{Controller_8cpp_af6f8d76542b32826e691797ad6667f94}{\index{Controller.\-cpp@{Controller.\-cpp}!M\-A\-R\-K\-E\-R\-S@{M\-A\-R\-K\-E\-R\-S}}
+\index{M\-A\-R\-K\-E\-R\-S@{M\-A\-R\-K\-E\-R\-S}!Controller.cpp@{Controller.\-cpp}}
+\subsubsection[{M\-A\-R\-K\-E\-R\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-A\-R\-K\-E\-R\-S}}\label{Controller_8cpp_af6f8d76542b32826e691797ad6667f94}
 
-
-\subsection{Function Documentation}
-\hypertarget{Controller_8cpp_aedac882e1f21e19ef4a15ef77cd22a3a}{\index{Controller.\-cpp@{Controller.\-cpp}!Debug\-Break@{Debug\-Break}}
-\index{Debug\-Break@{Debug\-Break}!Controller.cpp@{Controller.\-cpp}}
-\subsubsection[{Debug\-Break}]{\setlength{\rightskip}{0pt plus 5cm}void Debug\-Break (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}}\label{Controller_8cpp_aedac882e1f21e19ef4a15ef77cd22a3a}
-global definition of windows Debug\-Break equivalent. 
 
 \subsection{Variable Documentation}
 \hypertarget{Controller_8cpp_aaa8bf44e033d7699525c8083b0ff4c72}{\index{Controller.\-cpp@{Controller.\-cpp}!Logger@{Logger}}

@@ -1,4 +1,4 @@
-.TH "TrajectoryMaker" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "TrajectoryMaker" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,7 +23,7 @@ TrajectoryMaker \-
 .br
 .RI "\fIGetJtsPlan returns vector of generated joint state trajectories\&. \fP"
 .ti -1c
-.RI "std::vector< urdf::Pose > \fBGetPosesPlan\fP ()"
+.RI "std::vector< \fBRCS::Pose\fP > \fBGetPosesPlan\fP ()"
 .br
 .RI "\fIGetPosesPlan returns vector of generated pose trajectories\&. \fP"
 .ti -1c
@@ -35,11 +35,11 @@ TrajectoryMaker \-
 .br
 .RI "\fIplan a joint trajectory based on current and goal joint states\&. Assumes rate already set\&. \fP"
 .ti -1c
-.RI "bool \fBPlan\fP (urdf::Pose &curpose, urdf::Pose &goalpose)"
+.RI "bool \fBPlan\fP (\fBRCS::Pose\fP &curpose, \fBRCS::Pose\fP &goalpose)"
 .br
 .RI "\fIplan a cartesian trajectory based on current and goal pose states\&. Assumes rate already set\&. \fP"
 .ti -1c
-.RI "bool \fBPlan\fP (std::vector< urdf::Pose > &waypoints)"
+.RI "bool \fBPlan\fP (std::vector< \fBRCS::Pose\fP > &waypoints)"
 .br
 .RI "\fIplan a cartesian trajectory given a vector of waypoint poses\&. Assumes rate already set\&. \fP"
 .ti -1c
@@ -59,7 +59,7 @@ TrajectoryMaker \-
 .br
 .RI "\fImakeStopJointTrajectory constructs a stopping trajectory based on current velocity\&. \fP"
 .ti -1c
-.RI "std::vector< urdf::Pose > \fBmakeCartesianTrajectory\fP (\fBIRate\fP rates, urdf::Pose _curPos, urdf::Pose _goalPos)"
+.RI "std::vector< \fBRCS::Pose\fP > \fBmakeCartesianTrajectory\fP (\fBIRate\fP rates, \fBRCS::Pose\fP _curPos, \fBRCS::Pose\fP _goalPos)"
 .br
 .RI "\fImakeCartesianTrajectory plans a cartesian trajectory based on current and goal pose states for the given rate profile\&. \fP"
 .ti -1c
@@ -74,7 +74,7 @@ TrajectoryMaker \-
 .RI "void \fBupdateJointCommands\fP (std::vector< double > &curjoints, std::vector< std::vector< double > > &displacements)"
 .br
 .ti -1c
-.RI "std::vector< urdf::Pose > \fBmakeTrajectory\fP (\fBRCS::CanonWorldModel\fP *parameters, urdf::Pose goal, urdf::Pose current)"
+.RI "std::vector< \fBRCS::Pose\fP > \fBmakeTrajectory\fP (\fBRCS::CanonWorldModel\fP *parameters, \fBRCS::Pose\fP goal, \fBRCS::Pose\fP current)"
 .br
 .ti -1c
 .RI "std::vector< double > \fBmakeJointValues\fP (double current, std::vector< double > displacements)"
@@ -83,7 +83,7 @@ TrajectoryMaker \-
 .RI "std::vector< double > \fBmakeJointTrajectory\fP (double current, double goal)"
 .br
 .ti -1c
-.RI "void \fBsetCurrent\fP (urdf::Pose current)"
+.RI "void \fBsetCurrent\fP (\fBRCS::Pose\fP current)"
 .br
 .ti -1c
 .RI "std::vector< double > \fBmakePositionRamp\fP (double maxVel, double maxAccel, double cycletime)"
@@ -100,7 +100,7 @@ TrajectoryMaker \-
 < double, double, double > > \fBmakeTupleRamp\fP (double maxVelocity, double maxAcc, double cycleTime)"
 .br
 .ti -1c
-.RI "std::vector< urdf::Pose > \fBmakeCartesianTrajectory\fP (double final_velocity, double current_feedrate, double current_velocity, double maximum_accel, double cycleTime, urdf::Pose _curPos, urdf::Pose _goalPos)"
+.RI "std::vector< \fBRCS::Pose\fP > \fBmakeCartesianTrajectory\fP (double final_velocity, double current_feedrate, double current_velocity, double maximum_accel, double cycleTime, \fBRCS::Pose\fP _curPos, \fBRCS::Pose\fP _goalPos)"
 .br
 .ti -1c
 .RI "double \fBrunTrapezoidalCycle\fP (\fBIRate\fP &trans, double distance_to_go)"
@@ -117,7 +117,7 @@ TrajectoryMaker \-
 .PP
 \fBAuthor:\fP
 .RS 4
-Stephen Balakirsky, GTRI 
+based on work by Stephen Balakirsky, GTRI 
 .RE
 .PP
 \fBDate:\fP
@@ -150,7 +150,7 @@ returns vector of joint state
 .RE
 .PP
 
-.SS "std::vector< urdf::Pose > TrajectoryMaker::GetPosesPlan ()"
+.SS "std::vector< \fBRCS::Pose\fP > TrajectoryMaker::GetPosesPlan ()"
 
 .PP
 GetPosesPlan returns vector of generated pose trajectories\&. 
@@ -163,7 +163,7 @@ returns vector of poses
 
 .SS "double TrajectoryMaker::makeAcclRamp (doublestartingVelocity, doublefinalVelocity, doublemaxVelocity, doublemaxAcc, doublecycleTime, std::vector< double > &acclRamp)\fC [protected]\fP"
 max accel is computed by parameters->getMaxAccel(movetype) * parameters->getCycleTime(); 
-.SS "std::vector< urdf::Pose > TrajectoryMaker::makeCartesianTrajectory (\fBIRate\fPrates, urdf::Pose_curPos, urdf::Pose_goalPos)"
+.SS "std::vector< \fBRCS::Pose\fP > TrajectoryMaker::makeCartesianTrajectory (\fBIRate\fPrates, \fBRCS::Pose\fP_curPos, \fBRCS::Pose\fP_goalPos)"
 
 .PP
 makeCartesianTrajectory plans a cartesian trajectory based on current and goal pose states for the given rate profile\&. 
@@ -183,7 +183,7 @@ vector of generated cartesian poses trajectory from start to goal\&.
 .RE
 .PP
 
-.SS "std::vector< urdf::Pose > TrajectoryMaker::makeCartesianTrajectory (doublefinal_velocity, doublecurrent_feedrate, doublecurrent_velocity, doublemaximum_accel, doublecycleTime, urdf::Pose_curPos, urdf::Pose_goalPos)\fC [protected]\fP"
+.SS "std::vector< \fBRCS::Pose\fP > TrajectoryMaker::makeCartesianTrajectory (doublefinal_velocity, doublecurrent_feedrate, doublecurrent_velocity, doublemaximum_accel, doublecycleTime, \fBRCS::Pose\fP_curPos, \fBRCS::Pose\fP_goalPos)\fC [protected]\fP"
 
 .SS "double TrajectoryMaker::makeDeclRamp (doublestartingVelocity, doublefinalVelocity, doublemaxAcc, doublecycleTime, std::vector< double > &declRamp)\fC [protected]\fP"
 max accel is computed by parameters->getMaxAccel(movetype) * parameters->getCycleTime(); 
@@ -295,7 +295,7 @@ vector of offset distances from current position to stop\&.
 .RE
 .PP
 
-.SS "std::vector<urdf::Pose> TrajectoryMaker::makeTrajectory (\fBRCS::CanonWorldModel\fP *parameters, urdf::Posegoal, urdf::Posecurrent)\fC [protected]\fP"
+.SS "std::vector<\fBRCS::Pose\fP> TrajectoryMaker::makeTrajectory (\fBRCS::CanonWorldModel\fP *parameters, \fBRCS::Pose\fPgoal, \fBRCS::Pose\fPcurrent)\fC [protected]\fP"
 
 .SS "std::vector< boost::tuple< double, double, double > > TrajectoryMaker::makeTupleRamp (doublemaxVelocity, doublemaxAcc, doublecycleTime)\fC [protected]\fP"
 
@@ -317,7 +317,7 @@ true if successful joint state trajectory was generated\&.
 .RE
 .PP
 
-.SS "bool TrajectoryMaker::Plan (urdf::Pose &curpose, urdf::Pose &goalpose)"
+.SS "bool TrajectoryMaker::Plan (\fBRCS::Pose\fP &curpose, \fBRCS::Pose\fP &goalpose)"
 
 .PP
 plan a cartesian trajectory based on current and goal pose states\&. Assumes rate already set\&. 
@@ -335,7 +335,7 @@ true if successful cartesian trajectory was generated\&.
 .RE
 .PP
 
-.SS "bool TrajectoryMaker::Plan (std::vector< urdf::Pose > &waypoints)"
+.SS "bool TrajectoryMaker::Plan (std::vector< \fBRCS::Pose\fP > &waypoints)"
 
 .PP
 plan a cartesian trajectory given a vector of waypoint poses\&. Assumes rate already set\&. 
@@ -357,7 +357,7 @@ true if successful cartesian trajectory was generated\&.
 Reference to rates data structure\&. 
 .SS "double TrajectoryMaker::runTrapezoidalCycle (\fBIRate\fP &trans, doubledistance_to_go)\fC [protected]\fP"
 
-.SS "void TrajectoryMaker::setCurrent (urdf::PoseposeIn)\fC [protected]\fP"
+.SS "void TrajectoryMaker::setCurrent (\fBRCS::Pose\fPposeIn)\fC [protected]\fP"
 Set the current position\&.
 .PP
 Set the current location from the input pose 
@@ -368,7 +368,7 @@ setRates defines the rate to use when generating trajectory\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIrates\fP contains the \fBIRate\fP definition\&. 
+\fIrates\fP contains the IRate definition\&. 
 .RE
 .PP
 

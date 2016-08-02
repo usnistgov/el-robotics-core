@@ -347,6 +347,10 @@ ZAxis (::std::auto_ptr< ZAxis_type > x)
 }
 
 
+// PositiveDecimalType
+// 
+
+
 // TorqueUnitEnumType
 // 
 
@@ -389,6 +393,58 @@ operator= (value v)
   ::xml_schema::nmtoken (_xsd_TorqueUnitEnumType_literals_[v]);
 
   return *this;
+}
+
+
+// TwistType
+// 
+
+const TwistType::LinearVelocity_type& TwistType::
+LinearVelocity () const
+{
+  return this->LinearVelocity_.get ();
+}
+
+TwistType::LinearVelocity_type& TwistType::
+LinearVelocity ()
+{
+  return this->LinearVelocity_.get ();
+}
+
+void TwistType::
+LinearVelocity (const LinearVelocity_type& x)
+{
+  this->LinearVelocity_.set (x);
+}
+
+void TwistType::
+LinearVelocity (::std::auto_ptr< LinearVelocity_type > x)
+{
+  this->LinearVelocity_.set (x);
+}
+
+const TwistType::AngularVelocity_type& TwistType::
+AngularVelocity () const
+{
+  return this->AngularVelocity_.get ();
+}
+
+TwistType::AngularVelocity_type& TwistType::
+AngularVelocity ()
+{
+  return this->AngularVelocity_.get ();
+}
+
+void TwistType::
+AngularVelocity (const AngularVelocity_type& x)
+{
+  this->AngularVelocity_.set (x);
+}
+
+void TwistType::
+AngularVelocity (::std::auto_ptr< AngularVelocity_type > x)
+{
+  this->AngularVelocity_.set (x);
 }
 
 
@@ -447,6 +503,58 @@ void VectorType::
 K (const K_type& x)
 {
   this->K_.set (x);
+}
+
+
+// WrenchType
+// 
+
+const WrenchType::Force_type& WrenchType::
+Force () const
+{
+  return this->Force_.get ();
+}
+
+WrenchType::Force_type& WrenchType::
+Force ()
+{
+  return this->Force_.get ();
+}
+
+void WrenchType::
+Force (const Force_type& x)
+{
+  this->Force_.set (x);
+}
+
+void WrenchType::
+Force (::std::auto_ptr< Force_type > x)
+{
+  this->Force_.set (x);
+}
+
+const WrenchType::Moment_type& WrenchType::
+Moment () const
+{
+  return this->Moment_.get ();
+}
+
+WrenchType::Moment_type& WrenchType::
+Moment ()
+{
+  return this->Moment_.get ();
+}
+
+void WrenchType::
+Moment (const Moment_type& x)
+{
+  this->Moment_.set (x);
+}
+
+void WrenchType::
+Moment (::std::auto_ptr< Moment_type > x)
+{
+  this->Moment_.set (x);
 }
 
 
@@ -1206,6 +1314,66 @@ _xsd_PoseType_type_factory_init (
   "PoseType",
   "");
 
+// PositiveDecimalType
+//
+
+PositiveDecimalType::
+PositiveDecimalType (const ::xml_schema::decimal& _xsd_decimal_base)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal > (_xsd_decimal_base)
+{
+}
+
+PositiveDecimalType::
+PositiveDecimalType (const PositiveDecimalType& x,
+                     ::xml_schema::flags f,
+                     ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal > (x, f, c)
+{
+}
+
+PositiveDecimalType::
+PositiveDecimalType (const ::xercesc::DOMElement& e,
+                     ::xml_schema::flags f,
+                     ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal > (e, f, c)
+{
+}
+
+PositiveDecimalType::
+PositiveDecimalType (const ::xercesc::DOMAttr& a,
+                     ::xml_schema::flags f,
+                     ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal > (a, f, c)
+{
+}
+
+PositiveDecimalType::
+PositiveDecimalType (const ::std::string& s,
+                     const ::xercesc::DOMElement* e,
+                     ::xml_schema::flags f,
+                     ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal > (s, e, f, c)
+{
+}
+
+PositiveDecimalType* PositiveDecimalType::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class PositiveDecimalType (*this, f, c);
+}
+
+PositiveDecimalType::
+~PositiveDecimalType ()
+{
+}
+
+static
+const ::xsd::cxx::tree::type_factory_initializer< 0, char, PositiveDecimalType >
+_xsd_PositiveDecimalType_type_factory_init (
+  "PositiveDecimalType",
+  "");
+
 // TorqueUnitEnumType
 //
 
@@ -1280,6 +1448,169 @@ static
 const ::xsd::cxx::tree::type_factory_initializer< 0, char, TorqueUnitEnumType >
 _xsd_TorqueUnitEnumType_type_factory_init (
   "TorqueUnitEnumType",
+  "");
+
+// TwistType
+//
+
+TwistType::
+TwistType (const LinearVelocity_type& LinearVelocity,
+           const AngularVelocity_type& AngularVelocity)
+: ::DataThingType (),
+  LinearVelocity_ (LinearVelocity, this),
+  AngularVelocity_ (AngularVelocity, this)
+{
+}
+
+TwistType::
+TwistType (::std::auto_ptr< LinearVelocity_type > LinearVelocity,
+           ::std::auto_ptr< AngularVelocity_type > AngularVelocity)
+: ::DataThingType (),
+  LinearVelocity_ (LinearVelocity, this),
+  AngularVelocity_ (AngularVelocity, this)
+{
+}
+
+TwistType::
+TwistType (const TwistType& x,
+           ::xml_schema::flags f,
+           ::xml_schema::container* c)
+: ::DataThingType (x, f, c),
+  LinearVelocity_ (x.LinearVelocity_, f, this),
+  AngularVelocity_ (x.AngularVelocity_, f, this)
+{
+}
+
+TwistType::
+TwistType (const ::xercesc::DOMElement& e,
+           ::xml_schema::flags f,
+           ::xml_schema::container* c)
+: ::DataThingType (e, f | ::xml_schema::flags::base, c),
+  LinearVelocity_ (this),
+  AngularVelocity_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false, false);
+    this->parse (p, f);
+  }
+}
+
+void TwistType::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  this->::DataThingType::parse (p, f);
+
+  for (; p.more_content (); p.next_content (false))
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // LinearVelocity
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "LinearVelocity",
+          "",
+          &::xsd::cxx::tree::factory_impl< LinearVelocity_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!LinearVelocity_.present ())
+        {
+          ::std::auto_ptr< LinearVelocity_type > r (
+            dynamic_cast< LinearVelocity_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->LinearVelocity_.set (r);
+          continue;
+        }
+      }
+    }
+
+    // AngularVelocity
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "AngularVelocity",
+          "",
+          &::xsd::cxx::tree::factory_impl< AngularVelocity_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!AngularVelocity_.present ())
+        {
+          ::std::auto_ptr< AngularVelocity_type > r (
+            dynamic_cast< AngularVelocity_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->AngularVelocity_.set (r);
+          continue;
+        }
+      }
+    }
+
+    break;
+  }
+
+  if (!LinearVelocity_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "LinearVelocity",
+      "");
+  }
+
+  if (!AngularVelocity_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "AngularVelocity",
+      "");
+  }
+}
+
+TwistType* TwistType::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class TwistType (*this, f, c);
+}
+
+TwistType& TwistType::
+operator= (const TwistType& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::DataThingType& > (*this) = x;
+    this->LinearVelocity_ = x.LinearVelocity_;
+    this->AngularVelocity_ = x.AngularVelocity_;
+  }
+
+  return *this;
+}
+
+TwistType::
+~TwistType ()
+{
+}
+
+static
+const ::xsd::cxx::tree::type_factory_initializer< 0, char, TwistType >
+_xsd_TwistType_type_factory_init (
+  "TwistType",
   "");
 
 // VectorType
@@ -1423,6 +1754,169 @@ static
 const ::xsd::cxx::tree::type_factory_initializer< 0, char, VectorType >
 _xsd_VectorType_type_factory_init (
   "VectorType",
+  "");
+
+// WrenchType
+//
+
+WrenchType::
+WrenchType (const Force_type& Force,
+            const Moment_type& Moment)
+: ::DataThingType (),
+  Force_ (Force, this),
+  Moment_ (Moment, this)
+{
+}
+
+WrenchType::
+WrenchType (::std::auto_ptr< Force_type > Force,
+            ::std::auto_ptr< Moment_type > Moment)
+: ::DataThingType (),
+  Force_ (Force, this),
+  Moment_ (Moment, this)
+{
+}
+
+WrenchType::
+WrenchType (const WrenchType& x,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::DataThingType (x, f, c),
+  Force_ (x.Force_, f, this),
+  Moment_ (x.Moment_, f, this)
+{
+}
+
+WrenchType::
+WrenchType (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::DataThingType (e, f | ::xml_schema::flags::base, c),
+  Force_ (this),
+  Moment_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false, false);
+    this->parse (p, f);
+  }
+}
+
+void WrenchType::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  this->::DataThingType::parse (p, f);
+
+  for (; p.more_content (); p.next_content (false))
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // Force
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "Force",
+          "",
+          &::xsd::cxx::tree::factory_impl< Force_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!Force_.present ())
+        {
+          ::std::auto_ptr< Force_type > r (
+            dynamic_cast< Force_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->Force_.set (r);
+          continue;
+        }
+      }
+    }
+
+    // Moment
+    //
+    {
+      ::std::auto_ptr< ::xsd::cxx::tree::type > tmp (
+        ::xsd::cxx::tree::type_factory_map_instance< 0, char > ().create (
+          "Moment",
+          "",
+          &::xsd::cxx::tree::factory_impl< Moment_type >,
+          false, true, i, n, f, this));
+
+      if (tmp.get () != 0)
+      {
+        if (!Moment_.present ())
+        {
+          ::std::auto_ptr< Moment_type > r (
+            dynamic_cast< Moment_type* > (tmp.get ()));
+
+          if (r.get ())
+            tmp.release ();
+          else
+            throw ::xsd::cxx::tree::not_derived< char > ();
+
+          this->Moment_.set (r);
+          continue;
+        }
+      }
+    }
+
+    break;
+  }
+
+  if (!Force_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "Force",
+      "");
+  }
+
+  if (!Moment_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "Moment",
+      "");
+  }
+}
+
+WrenchType* WrenchType::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class WrenchType (*this, f, c);
+}
+
+WrenchType& WrenchType::
+operator= (const WrenchType& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::DataThingType& > (*this) = x;
+    this->Force_ = x.Force_;
+    this->Moment_ = x.Moment_;
+  }
+
+  return *this;
+}
+
+WrenchType::
+~WrenchType ()
+{
+}
+
+static
+const ::xsd::cxx::tree::type_factory_initializer< 0, char, WrenchType >
+_xsd_WrenchType_type_factory_init (
+  "WrenchType",
   "");
 
 #include <istream>
@@ -1714,6 +2208,32 @@ _xsd_PoseType_type_serializer_init (
 
 
 void
+operator<< (::xercesc::DOMElement& e, const PositiveDecimalType& i)
+{
+  e << static_cast< const ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal >& > (i);
+}
+
+void
+operator<< (::xercesc::DOMAttr& a, const PositiveDecimalType& i)
+{
+  a << static_cast< const ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal >& > (i);
+}
+
+void
+operator<< (::xml_schema::list_stream& l,
+            const PositiveDecimalType& i)
+{
+  l << static_cast< const ::xsd::cxx::tree::fundamental_base< ::xml_schema::decimal, char, ::xml_schema::simple_type, ::xsd::cxx::tree::schema_type::decimal >& > (i);
+}
+
+static
+const ::xsd::cxx::tree::type_serializer_initializer< 0, char, PositiveDecimalType >
+_xsd_PositiveDecimalType_type_serializer_init (
+  "PositiveDecimalType",
+  "");
+
+
+void
 operator<< (::xercesc::DOMElement& e, const TorqueUnitEnumType& i)
 {
   e << static_cast< const ::xml_schema::nmtoken& > (i);
@@ -1736,6 +2256,65 @@ static
 const ::xsd::cxx::tree::type_serializer_initializer< 0, char, TorqueUnitEnumType >
 _xsd_TorqueUnitEnumType_type_serializer_init (
   "TorqueUnitEnumType",
+  "");
+
+
+void
+operator<< (::xercesc::DOMElement& e, const TwistType& i)
+{
+  e << static_cast< const ::DataThingType& > (i);
+
+  // LinearVelocity
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    const TwistType::LinearVelocity_type& x (i.LinearVelocity ());
+    if (typeid (TwistType::LinearVelocity_type) == typeid (x))
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "LinearVelocity",
+          e));
+
+      s << x;
+    }
+    else
+      tsm.serialize (
+        "LinearVelocity",
+        "",
+        false, true, e, x);
+  }
+
+  // AngularVelocity
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    const TwistType::AngularVelocity_type& x (i.AngularVelocity ());
+    if (typeid (TwistType::AngularVelocity_type) == typeid (x))
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "AngularVelocity",
+          e));
+
+      s << x;
+    }
+    else
+      tsm.serialize (
+        "AngularVelocity",
+        "",
+        false, true, e, x);
+  }
+}
+
+static
+const ::xsd::cxx::tree::type_serializer_initializer< 0, char, TwistType >
+_xsd_TwistType_type_serializer_init (
+  "TwistType",
   "");
 
 
@@ -1782,6 +2361,65 @@ static
 const ::xsd::cxx::tree::type_serializer_initializer< 0, char, VectorType >
 _xsd_VectorType_type_serializer_init (
   "VectorType",
+  "");
+
+
+void
+operator<< (::xercesc::DOMElement& e, const WrenchType& i)
+{
+  e << static_cast< const ::DataThingType& > (i);
+
+  // Force
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    const WrenchType::Force_type& x (i.Force ());
+    if (typeid (WrenchType::Force_type) == typeid (x))
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "Force",
+          e));
+
+      s << x;
+    }
+    else
+      tsm.serialize (
+        "Force",
+        "",
+        false, true, e, x);
+  }
+
+  // Moment
+  //
+  {
+    ::xsd::cxx::tree::type_serializer_map< char >& tsm (
+      ::xsd::cxx::tree::type_serializer_map_instance< 0, char > ());
+
+    const WrenchType::Moment_type& x (i.Moment ());
+    if (typeid (WrenchType::Moment_type) == typeid (x))
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "Moment",
+          e));
+
+      s << x;
+    }
+    else
+      tsm.serialize (
+        "Moment",
+        "",
+        false, true, e, x);
+  }
+}
+
+static
+const ::xsd::cxx::tree::type_serializer_initializer< 0, char, WrenchType >
+_xsd_WrenchType_type_serializer_init (
+  "WrenchType",
   "");
 
 

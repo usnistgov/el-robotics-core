@@ -1,8 +1,8 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Globals.h" 3 "Fri Mar 11 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/Globals.h" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/Globals.h \- 
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/Globals.h \- 
 .SH SYNOPSIS
 .br
 .PP
@@ -47,6 +47,12 @@
 .RI "#define \fB_strnicmp\fP   strncasecmp"
 .br
 .ti -1c
+.RI "#define \fBS_OK\fP   0"
+.br
+.ti -1c
+.RI "#define \fBE_FAIL\fP   -1"
+.br
+.ti -1c
 .RI "#define \fBCLEANSTORE\fP(Y, X, Z)"
 .br
 .ti -1c
@@ -79,6 +85,9 @@
 
 .in +1c
 .ti -1c
+.RI "\fBALogger\fP \fBLogFile\fP"
+.br
+.ti -1c
 .RI "\fBCGlobals\fP \fBGlobals\fP"
 .br
 .in -1c
@@ -93,6 +102,8 @@
 try{ Y = X; }           \
     catch ( \&.\&.\&. ) { Y = Z; }
 .fi
+.SS "#define E_FAIL   -1"
+
 .SS "#define FOREACH(it, v)   for(typeof((v)\&.begin()) it = (v)\&.begin(); it != (v)\&.end(); it++)"
 
 .SS "#define IfDebug(arg)"
@@ -104,6 +115,8 @@ try{ Y = X; }           \
 protected: Y Z;       \
 public: Y & X( ) { return Z; }
 .fi
+.SS "#define S_OK   0"
+
 .SS "#define VALIDSTORE(Y, X)"
 \fBValue:\fP
 .PP
@@ -130,6 +143,8 @@ global definition of windows DebugBreak equivalent\&.
 .PP 
 .SS "\fBCGlobals\fP Globals"
 global definition of globals 
+.SS "\fBALogger\fP LogFile"
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for CRCL FANUC from the source code\&.

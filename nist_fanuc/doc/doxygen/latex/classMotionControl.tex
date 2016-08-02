@@ -15,9 +15,9 @@
 \item 
 bool \hyperlink{classMotionControl_a7d4bdb16c10626850dac271d30428f71}{execute\-Trajectory} (const trajectory\-\_\-msgs\-::\-Joint\-Trajectory \&trajectory, const std\-::string \&trajectory\-\_\-ns)
 \begin{DoxyCompactList}\small\item\em execute\-Trajectory will send a traject to ros to execute \end{DoxyCompactList}\item 
-urdf\-::\-Pose \hyperlink{classMotionControl_a046ca7499b1bd4e6badf680584ae714d}{compute\-Translation} (urdf\-::\-Pose \&\-\_\-cur\-Pos, urdf\-::\-Pose \&\-\_\-goal\-Pos, double d\-Increment)
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{classMotionControl_a9d242a51b301d7c87c16f579e0d9347e}{compute\-Translation} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&\-\_\-cur\-Pos, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&\-\_\-goal\-Pos, double d\-Increment)
 \begin{DoxyCompactList}\small\item\em Return linear interpolation (lerp) between current and goal translation. \end{DoxyCompactList}\item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{classMotionControl_a06d93063a4a65f581cf0368faddeb246}{compute\-Waypoints} (urdf\-::\-Pose \&\-\_\-cur\-Pos, urdf\-::\-Pose \&\-\_\-goal\-Pos, double d\-Gap=0.\-001, bool b\-Add\-Start=false)
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{classMotionControl_a40113f305b3accd4d28fa976151aa954}{compute\-Waypoints} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&\-\_\-cur\-Pos, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&\-\_\-goal\-Pos, double d\-Gap=0.\-001, bool b\-Add\-Start=false)
 \begin{DoxyCompactList}\small\item\em Compute waypoints between current and goal poses with assigned distance between poses. \end{DoxyCompactList}\item 
 std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} $>$ \hyperlink{classMotionControl_aebf1d77a70bbf6817f0899a98173b87d}{compute\-Coorindated\-Waypoints} (std\-::vector$<$ double $>$ \&\-\_\-cur\-Jts, std\-::vector$<$ double $>$ \&\-\_\-goal\-Jts, double d\-Gap=0.\-001, bool b\-Add\-Start=false)
 \begin{DoxyCompactList}\small\item\em compute\-Coorindated\-Waypoints returns a vector of straightline waypoints between current and goal poses at a given distance. Joints arrive a destination at the same time within the trajectory. \end{DoxyCompactList}\item 
@@ -25,7 +25,7 @@ std\-::vector$<$ \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-Sta
 \begin{DoxyCompactList}\small\item\em compute\-Uncoorindated\-Waypoints returns a vector of waypoints between current and goal poses at a given distance. Joints arrive a destination at various times in the trajectory. \end{DoxyCompactList}\item 
 int \hyperlink{classMotionControl_ac065f800e86df7a771aae2aa4271aaa3}{compute\-Increments} (std\-::vector$<$ double $>$ \&\-\_\-cur\-Jts, std\-::vector$<$ double $>$ \&\-\_\-goal\-Jts, double gap=0.\-001)
 \item 
-int \hyperlink{classMotionControl_ad484a4d0524c9c4aa57c1762768aec05}{compute\-Increments} (urdf\-::\-Pose \&\-\_\-cur\-Pos, urdf\-::\-Pose \&\-\_\-goal\-Pos, double d\-Gap=0.\-001)
+int \hyperlink{classMotionControl_a1dbb240abf15324af65904bfba39bd41}{compute\-Increments} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&\-\_\-cur\-Pos, \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&\-\_\-goal\-Pos, double d\-Gap=0.\-001)
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -105,24 +105,24 @@ vector of straighline waypoint poses with gap distance between poses.
 \item[{double}]{gap = {\ttfamily 0.001}}
 \end{DoxyParamCaption}
 )}}\label{classMotionControl_ac065f800e86df7a771aae2aa4271aaa3}
-\hypertarget{classMotionControl_ad484a4d0524c9c4aa57c1762768aec05}{\index{Motion\-Control@{Motion\-Control}!compute\-Increments@{compute\-Increments}}
+\hypertarget{classMotionControl_a1dbb240abf15324af65904bfba39bd41}{\index{Motion\-Control@{Motion\-Control}!compute\-Increments@{compute\-Increments}}
 \index{compute\-Increments@{compute\-Increments}!MotionControl@{Motion\-Control}}
 \subsubsection[{compute\-Increments}]{\setlength{\rightskip}{0pt plus 5cm}int Motion\-Control\-::compute\-Increments (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{\-\_\-cur\-Pos, }
-\item[{urdf\-::\-Pose \&}]{\-\_\-goal\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{\-\_\-cur\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{\-\_\-goal\-Pos, }
 \item[{double}]{d\-Gap = {\ttfamily 0.001}}
 \end{DoxyParamCaption}
-)}}\label{classMotionControl_ad484a4d0524c9c4aa57c1762768aec05}
-\hypertarget{classMotionControl_a046ca7499b1bd4e6badf680584ae714d}{\index{Motion\-Control@{Motion\-Control}!compute\-Translation@{compute\-Translation}}
+)}}\label{classMotionControl_a1dbb240abf15324af65904bfba39bd41}
+\hypertarget{classMotionControl_a9d242a51b301d7c87c16f579e0d9347e}{\index{Motion\-Control@{Motion\-Control}!compute\-Translation@{compute\-Translation}}
 \index{compute\-Translation@{compute\-Translation}!MotionControl@{Motion\-Control}}
-\subsubsection[{compute\-Translation}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose Motion\-Control\-::compute\-Translation (
+\subsubsection[{compute\-Translation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} Motion\-Control\-::compute\-Translation (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{\-\_\-cur\-Pos, }
-\item[{urdf\-::\-Pose \&}]{\-\_\-goal\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{\-\_\-cur\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{\-\_\-goal\-Pos, }
 \item[{double}]{d\-Increment}
 \end{DoxyParamCaption}
-)}}\label{classMotionControl_a046ca7499b1bd4e6badf680584ae714d}
+)}}\label{classMotionControl_a9d242a51b301d7c87c16f579e0d9347e}
 
 
 Return linear interpolation (lerp) between current and goal translation. 
@@ -167,16 +167,16 @@ compute\-Uncoorindated\-Waypoints returns a vector of waypoints between current 
 \begin{DoxyReturn}{Returns}
 vector of straighline waypoint poses with gap distance between poses. 
 \end{DoxyReturn}
-\hypertarget{classMotionControl_a06d93063a4a65f581cf0368faddeb246}{\index{Motion\-Control@{Motion\-Control}!compute\-Waypoints@{compute\-Waypoints}}
+\hypertarget{classMotionControl_a40113f305b3accd4d28fa976151aa954}{\index{Motion\-Control@{Motion\-Control}!compute\-Waypoints@{compute\-Waypoints}}
 \index{compute\-Waypoints@{compute\-Waypoints}!MotionControl@{Motion\-Control}}
-\subsubsection[{compute\-Waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ urdf\-::\-Pose $>$ Motion\-Control\-::compute\-Waypoints (
+\subsubsection[{compute\-Waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf R\-C\-S\-::\-Pose} $>$ Motion\-Control\-::compute\-Waypoints (
 \begin{DoxyParamCaption}
-\item[{urdf\-::\-Pose \&}]{\-\_\-cur\-Pos, }
-\item[{urdf\-::\-Pose \&}]{\-\_\-goal\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{\-\_\-cur\-Pos, }
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{\-\_\-goal\-Pos, }
 \item[{double}]{d\-Gap = {\ttfamily 0.001}, }
 \item[{bool}]{b\-Add\-Start = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{classMotionControl_a06d93063a4a65f581cf0368faddeb246}
+)}}\label{classMotionControl_a40113f305b3accd4d28fa976151aa954}
 
 
 Compute waypoints between current and goal poses with assigned distance between poses. 
@@ -227,5 +227,5 @@ allowable difference length in equality between two numbers
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{MotionControl_8h}{Motion\-Control.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{MotionControl_8cpp}{Motion\-Control.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{MotionControl_8h}{Motion\-Control.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{MotionControl_8cpp}{Motion\-Control.\-cpp}\end{DoxyCompactItemize}

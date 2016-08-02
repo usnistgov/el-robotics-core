@@ -22,6 +22,10 @@ void \hyperlink{structRCS_1_1CanonCmd_acc6132ab423f9349c970785d9f06d542}{Init} (
 \hyperlink{structRCS_1_1CanonCmd_a052f3e27333e03886a95a7844e92b71c}{V\-A\-R} (Parent\-Command\-I\-D, unsigned long long)
 \item 
 \hyperlink{structRCS_1_1CanonCmd_a38899ecf42f1c5ca2921508dea054e3e}{V\-A\-R} (Status\-I\-D, unsigned long long)
+\item 
+\hyperlink{structRCS_1_1CanonCmd_aefa3700ebd88b157b3975c39d69b0edf}{V\-A\-R} (Rates, \hyperlink{classRCS_1_1IRate}{I\-Rate})
+\item 
+bool \hyperlink{structRCS_1_1CanonCmd_ab316e8d36adcebbe7b315cb1ed5fe86b}{Is\-Motion\-Cmd} ()
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -62,16 +66,18 @@ std\-::vector$<$ int $>$ \hyperlink{structRCS_1_1CanonCmd_a1fb8395cab4ebddddafd3
 \item 
 \hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \hyperlink{structRCS_1_1CanonCmd_aca799c5c818f28f0d9f4797b325b03de}{joints}
 \item 
-urdf\-::\-Pose \hyperlink{structRCS_1_1CanonCmd_a6a2fbf785ca8d96d520a2d3260bc6746}{pose}
+\hyperlink{RCS_8h_aa4adb93a26caa4dacba9c9614e283245}{Joint\-State} \hyperlink{structRCS_1_1CanonCmd_a577caa222abd73e6490108c7aecbc61c}{seed}
 \item 
-urdf\-::\-Pose \hyperlink{structRCS_1_1CanonCmd_ac63c0ceb70f14cc186a098e2a49d0095}{tolerance}
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_adc27ad3ae01d7aab1c9c92f08df82fc1}{pose}
 \item 
-std\-::vector$<$ urdf\-::\-Pose $>$ \hyperlink{structRCS_1_1CanonCmd_a331711f225f615e8efeaa8cc4b050147}{waypoints}
+\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \hyperlink{structRCS_1_1CanonCmd_a0ae62df775329f52054c5cb25d0845a9}{tolerance}
+\item 
+std\-::vector$<$ \hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} $>$ \hyperlink{structRCS_1_1CanonCmd_a1f7fdffabe34bcb3f0afd42f60040648}{waypoints}
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-static unsigned long long \hyperlink{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b27df76113010}{\-\_\-cmdid} =0
+static unsigned long long \hyperlink{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b27df76113010}{\-\_\-cmdid} = 0
 \end{DoxyCompactItemize}
 
 
@@ -100,6 +106,13 @@ static unsigned long long \hyperlink{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b
 {}
 \end{DoxyParamCaption}
 )}}\label{structRCS_1_1CanonCmd_acc6132ab423f9349c970785d9f06d542}
+\hypertarget{structRCS_1_1CanonCmd_ab316e8d36adcebbe7b315cb1ed5fe86b}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!Is\-Motion\-Cmd@{Is\-Motion\-Cmd}}
+\index{Is\-Motion\-Cmd@{Is\-Motion\-Cmd}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
+\subsubsection[{Is\-Motion\-Cmd}]{\setlength{\rightskip}{0pt plus 5cm}bool R\-C\-S\-::\-Canon\-Cmd\-::\-Is\-Motion\-Cmd (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CanonCmd_ab316e8d36adcebbe7b315cb1ed5fe86b}
 \hypertarget{structRCS_1_1CanonCmd_a493a750837dc6e140e218f4d800faf72}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!V\-A\-R@{V\-A\-R}}
 \index{V\-A\-R@{V\-A\-R}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Canon\-Cmd\-::\-V\-A\-R (
@@ -124,12 +137,20 @@ static unsigned long long \hyperlink{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b
 \item[{unsigned long}]{long}
 \end{DoxyParamCaption}
 )}}\label{structRCS_1_1CanonCmd_a38899ecf42f1c5ca2921508dea054e3e}
+\hypertarget{structRCS_1_1CanonCmd_aefa3700ebd88b157b3975c39d69b0edf}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!V\-A\-R@{V\-A\-R}}
+\index{V\-A\-R@{V\-A\-R}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
+\subsubsection[{V\-A\-R}]{\setlength{\rightskip}{0pt plus 5cm}R\-C\-S\-::\-Canon\-Cmd\-::\-V\-A\-R (
+\begin{DoxyParamCaption}
+\item[{Rates}]{, }
+\item[{{\bf I\-Rate}}]{}
+\end{DoxyParamCaption}
+)}}\label{structRCS_1_1CanonCmd_aefa3700ebd88b157b3975c39d69b0edf}
 
 
 \subsection{Member Data Documentation}
 \hypertarget{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b27df76113010}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!\-\_\-cmdid@{\-\_\-cmdid}}
 \index{\-\_\-cmdid@{\-\_\-cmdid}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
-\subsubsection[{\-\_\-cmdid}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long R\-C\-S\-::\-Canon\-Cmd\-::\-\_\-cmdid =0\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b27df76113010}
+\subsubsection[{\-\_\-cmdid}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long R\-C\-S\-::\-Canon\-Cmd\-::\-\_\-cmdid = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{structRCS_1_1CanonCmd_ae719b5ae5d58e75b652b27df76113010}
 \hypertarget{structRCS_1_1CanonCmd_ac31a9f71e4cbf531255df37780deed05}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!abs\-Joint\-Acc@{abs\-Joint\-Acc}}
 \index{abs\-Joint\-Acc@{abs\-Joint\-Acc}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{abs\-Joint\-Acc}]{\setlength{\rightskip}{0pt plus 5cm}double R\-C\-S\-::\-Canon\-Cmd\-::abs\-Joint\-Acc}}\label{structRCS_1_1CanonCmd_ac31a9f71e4cbf531255df37780deed05}
@@ -172,10 +193,13 @@ gripper position 0 to 1 \hypertarget{structRCS_1_1CanonCmd_a1fb8395cab4ebddddafd
 vector of joint numbers used by command \hypertarget{structRCS_1_1CanonCmd_aca799c5c818f28f0d9f4797b325b03de}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!joints@{joints}}
 \index{joints@{joints}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{joints}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-State} R\-C\-S\-::\-Canon\-Cmd\-::joints}}\label{structRCS_1_1CanonCmd_aca799c5c818f28f0d9f4797b325b03de}
-commanded joint state \hypertarget{structRCS_1_1CanonCmd_a6a2fbf785ca8d96d520a2d3260bc6746}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!pose@{pose}}
+commanded joint state \hypertarget{structRCS_1_1CanonCmd_adc27ad3ae01d7aab1c9c92f08df82fc1}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!pose@{pose}}
 \index{pose@{pose}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
-\subsubsection[{pose}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose R\-C\-S\-::\-Canon\-Cmd\-::pose}}\label{structRCS_1_1CanonCmd_a6a2fbf785ca8d96d520a2d3260bc6746}
-commanded pose state \hypertarget{structRCS_1_1CanonCmd_aa31954bd04399469490123786ee17496}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!speed@{speed}}
+\subsubsection[{pose}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} R\-C\-S\-::\-Canon\-Cmd\-::pose}}\label{structRCS_1_1CanonCmd_adc27ad3ae01d7aab1c9c92f08df82fc1}
+commanded pose state \hypertarget{structRCS_1_1CanonCmd_a577caa222abd73e6490108c7aecbc61c}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!seed@{seed}}
+\index{seed@{seed}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
+\subsubsection[{seed}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joint\-State} R\-C\-S\-::\-Canon\-Cmd\-::seed}}\label{structRCS_1_1CanonCmd_a577caa222abd73e6490108c7aecbc61c}
+near pose joint state \hypertarget{structRCS_1_1CanonCmd_aa31954bd04399469490123786ee17496}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!speed@{speed}}
 \index{speed@{speed}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ R\-C\-S\-::\-Canon\-Cmd\-::speed}}\label{structRCS_1_1CanonCmd_aa31954bd04399469490123786ee17496}
 vector of joint velocities \hypertarget{structRCS_1_1CanonCmd_a8ad6bd631d2cf99c00ec267791680236}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!status@{status}}
@@ -184,18 +208,18 @@ vector of joint velocities \hypertarget{structRCS_1_1CanonCmd_a8ad6bd631d2cf99c0
 status type \hypertarget{structRCS_1_1CanonCmd_a22bc418b884c7afabf0a2d3538f74cad}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!stoptype@{stoptype}}
 \index{stoptype@{stoptype}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{stoptype}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Canon\-Stop\-Motion\-Type} R\-C\-S\-::\-Canon\-Cmd\-::stoptype}}\label{structRCS_1_1CanonCmd_a22bc418b884c7afabf0a2d3538f74cad}
-stop trajectory choice \hypertarget{structRCS_1_1CanonCmd_ac63c0ceb70f14cc186a098e2a49d0095}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!tolerance@{tolerance}}
+stop trajectory choice \hypertarget{structRCS_1_1CanonCmd_a0ae62df775329f52054c5cb25d0845a9}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!tolerance@{tolerance}}
 \index{tolerance@{tolerance}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
-\subsubsection[{tolerance}]{\setlength{\rightskip}{0pt plus 5cm}urdf\-::\-Pose R\-C\-S\-::\-Canon\-Cmd\-::tolerance}}\label{structRCS_1_1CanonCmd_ac63c0ceb70f14cc186a098e2a49d0095}
+\subsubsection[{tolerance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf R\-C\-S\-::\-Pose} R\-C\-S\-::\-Canon\-Cmd\-::tolerance}}\label{structRCS_1_1CanonCmd_a0ae62df775329f52054c5cb25d0845a9}
 commanded tolerance \hypertarget{structRCS_1_1CanonCmd_abf1d51c90a3f1b4c5796292c53cbde01}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!type@{type}}
 \index{type@{type}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
 \subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Traj\-Point\-Type} R\-C\-S\-::\-Canon\-Cmd\-::type}}\label{structRCS_1_1CanonCmd_abf1d51c90a3f1b4c5796292c53cbde01}
-trajectory points type \hypertarget{structRCS_1_1CanonCmd_a331711f225f615e8efeaa8cc4b050147}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!waypoints@{waypoints}}
+trajectory points type \hypertarget{structRCS_1_1CanonCmd_a1f7fdffabe34bcb3f0afd42f60040648}{\index{R\-C\-S\-::\-Canon\-Cmd@{R\-C\-S\-::\-Canon\-Cmd}!waypoints@{waypoints}}
 \index{waypoints@{waypoints}!RCS::CanonCmd@{R\-C\-S\-::\-Canon\-Cmd}}
-\subsubsection[{waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$urdf\-::\-Pose$>$ R\-C\-S\-::\-Canon\-Cmd\-::waypoints}}\label{structRCS_1_1CanonCmd_a331711f225f615e8efeaa8cc4b050147}
+\subsubsection[{waypoints}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf R\-C\-S\-::\-Pose}$>$ R\-C\-S\-::\-Canon\-Cmd\-::waypoints}}\label{structRCS_1_1CanonCmd_a1f7fdffabe34bcb3f0afd42f60040648}
 commanded cartesian waypoints in trajectory 
 
 The documentation for this struct was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCS_8h}{R\-C\-S.\-h}\item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/src/\hyperlink{RCS_8cpp}{R\-C\-S.\-cpp}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RCS_8h}{R\-C\-S.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{RCS_8cpp}{R\-C\-S.\-cpp}\end{DoxyCompactItemize}

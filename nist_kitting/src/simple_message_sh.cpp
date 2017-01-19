@@ -174,16 +174,14 @@ static void state_client_thread_code(state_client_thread_args *args)
 
 static void print_help(void)
 {
-  /*
-  if (0 == *ptr);
-  if ('?' == *ptr);
-  if ('c' == *ptr);
-  if ('j' == *ptr);
-  if ('q' == *ptr);
-  if ('v' == *ptr);
-  if ('w' == *ptr);
-  if (7 != sscanf(ptr, "%f %f %f %f %f %f %f"));
-  */
+  printf("?       - print this help message\n");
+  printf("<ENTER> - print status\n");
+  printf("c       - set Cartesian mode\n");
+  printf("j       - set joint mode\n");
+  printf("q       - quit\n");
+  printf("v <#>   - set Cartesian or joint speed to <#>\n");
+  printf("w <#>   - set Cartesian angular speed to <#>\n");
+  printf("<#> ... - set the Cartesian or joint values to <#> series\n");
   return;
 }
 

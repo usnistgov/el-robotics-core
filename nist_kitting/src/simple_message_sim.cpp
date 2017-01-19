@@ -401,24 +401,24 @@ int main(int argc, char *argv[])
   enum {INBUF_LEN = 1024};
   char inbuf[INBUF_LEN];
 
-  opterr = 0;
+  ulapi_opterr = 0;
   while (true) {
-    option = getopt(argc, argv, ":m:s:t:d?");
+    option = ulapi_getopt(argc, argv, ":m:s:t:d?");
     if (option == -1) break;
 
     switch (option) {
     case 'm':
-      ival = atoi(optarg);
+      ival = atoi(ulapi_optarg);
       message_port = ival;
       break;
 
     case 's':
-      ival = atoi(optarg);
+      ival = atoi(ulapi_optarg);
       state_port = ival;
       break;
 
     case 't':
-      dval = atof(optarg);
+      dval = atof(ulapi_optarg);
       period = dval;
       break;
 
@@ -432,12 +432,12 @@ int main(int argc, char *argv[])
       break;
 
     case ':':
-      fprintf(stderr, "missing value for -%c\n", optopt);
+      fprintf(stderr, "missing value for -%c\n", ulapi_optopt);
       return 1;
       break;
 
     default:
-      fprintf (stderr, "unrecognized option -%c\n", optopt);
+      fprintf (stderr, "unrecognized option -%c\n", ulapi_optopt);
       return 1;
       break;
     } // switch (option)

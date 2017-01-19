@@ -84,7 +84,6 @@ int main(int argc, char **argv)
   const char *node_name = "gomotion_node";
   sensor_msgs::JointState joint_state;
 
-
   if (ULAPI_OK != ulapi_init()) {
     return 1;
   } 
@@ -116,10 +115,7 @@ int main(int argc, char **argv)
       break;
     }
   }
-  if (ulapi_optind < argc) {
-    fprintf(stderr, "extra non-option characters: %s\n", argv[ulapi_optind]);
-    return 1;
-  }
+  // everything else goes as args to ROS
 
   if (0 != ini_load(inifile_name, &traj_shm_key, &traj_cycle_time)) {
     return 1;

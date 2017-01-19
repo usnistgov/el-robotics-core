@@ -1,0 +1,17 @@
+<launch>
+
+<!--
+    Run as, e.g., 
+
+    roslaunch gomotion_ros gomotion_ros.launch inifile:=gomotion.ini debug:=-d
+-->
+
+<arg name="robot_description" default="robot.urdf" />
+<arg name="inifile" default="gomotion.ini" />
+<arg name="debug" default="" />
+
+<param name="robot_description" textfile="$(arg robot_description)" />
+
+<node pkg="gomotion_ros" name="gomotion_ros" type="gomotion_ros" args="-i $(arg inifile) $(arg debug)" output="screen" required="true"/>
+
+</launch>

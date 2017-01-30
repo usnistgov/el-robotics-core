@@ -10,19 +10,23 @@
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
 
-#include <sstream>
+#define NODE_NAME "gomotion_ros"
 
 static int debug = 0;
 
 #define MIN_CYCLE_TIME 1.0e-3
 #define CONNECT_WAIT_TIME 3.0
 
-static int ini_load(char *inifile_name, int *traj_shm_key, double *traj_cycle_time)
+#define JOINT_NAME_LEN 32
+
+static int ini_load(char *inifile_name, int *traj_shm_key, double *traj_cycle_time, char servo_name[SERVO_NUM][JOINT_NAME_LEN])
 {
   FILE *fp;
   const char *section;
   const char *key;
   const char *inistring;
+  char servo_section[INIFILE_MAX_LINELEN];
+  int t;
 
   if (NULL == (fp = fopen(inifile_name, "r"))) {
     fprintf(stderr, "can't open %s\n", inifile_name);
@@ -61,6 +65,21 @@ static int ini_load(char *inifile_name, int *traj_shm_key, double *traj_cycle_ti
     return 1;
   }
 
+  for (t = 0; t < SERVO_NUM; t++) {
+    snprintf(servo_section, sizeof(servo_section), "SERVO_%d", t+1);
+    servo_section[sizeof(servo_section)-1] = 0;
+    section = servo_section;
+
+    key = "NAME";
+    inistring = ini_find(fp, key, section);
+    if (NULL == inistring) {
+      servo_name[t][0] = 0;
+    } else {
+      strncpy(servo_name[t], inistring, sizeof(servo_name[t]));
+    }
+    servo_name[t][sizeof(servo_name[t])-1] = 0;
+  }
+
   fclose(fp);
   return 0;
 }
@@ -72,6 +91,7 @@ int main(int argc, char **argv)
   char inifile_name[BUFFERLEN] = "gomotion.ini";
   int traj_shm_key = 1;
   double traj_cycle_time = 1;
+  char joint_name[SERVO_NUM][JOINT_NAME_LEN];
   void *traj_shm = NULL;
   traj_comm_struct *traj_comm_ptr;
   traj_stat_struct pp_traj_stat[2], *traj_stat_ptr, *traj_stat_test, *traj_stat_tmp;
@@ -81,7 +101,7 @@ int main(int argc, char **argv)
   int heartbeat;
   int ros_argc;
   char **ros_argv;
-  const char *node_name = "gomotion_node";
+  const char *node_name = NODE_NAME;
   sensor_msgs::JointState joint_state;
 
   if (ULAPI_OK != ulapi_init()) {
@@ -117,7 +137,7 @@ int main(int argc, char **argv)
   }
   // everything else goes as args to ROS
 
-  if (0 != ini_load(inifile_name, &traj_shm_key, &traj_cycle_time)) {
+  if (0 != ini_load(inifile_name, &traj_shm_key, &traj_cycle_time, joint_name)) {
     return 1;
   }
 
@@ -164,16 +184,14 @@ int main(int argc, char **argv)
   ros::init(ros_argc, ros_argv, node_name);
 
   ros::NodeHandle n;
-  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>("gomotion_ros/joint_states", 1);
+  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>(std::string(NODE_NAME) + std::string("/joint_states"), 1);
 
   ros::Rate loop_rate(1.0 / traj_cycle_time);
 
   joint_state.name.resize(SERVO_NUM);
   joint_state.position.resize(SERVO_NUM);
   for (int t = 0; t < SERVO_NUM; t++) {
-    std::ostringstream ss;
-    ss << "joint_" << t+1;
-    joint_state.name[t] = ss.str();
+    joint_state.name[t] = joint_name[t];
     joint_state.position[t] = t;
   }
 

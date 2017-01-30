@@ -1,0 +1,22 @@
+<launch>
+
+<arg name="inifile" default="gomotion.ini" />
+<arg name="debug" default="" />
+<arg name="robot_description" default="robot.urdf" />
+
+<param name="robot_description" textfile="$(arg robot_description)" />
+
+<!-- node pkg="gomotion_ros" name="gomotion_ros" type="gomotion_ros" args="-i $(arg inifile) $(arg debug)" output="screen" required="true" -->
+
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <!-- show joint slider GUI -->
+      <param name="/use_gui" value="true" />
+      <!-- how to put in a rosparam -->
+      <rosparam param="/source_list">[gomotion_ros/joint_states]</rosparam>
+</node>
+
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+<node name="rviz" pkg="rviz" type="rviz" args="-d rviz.rviz" required="true" />
+
+</launch>

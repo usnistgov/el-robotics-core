@@ -164,7 +164,7 @@ int main(int argc, char **argv)
   ros::init(ros_argc, ros_argv, node_name);
 
   ros::NodeHandle n;
-  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>("gomotion_joint_state", 1);
+  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>("gomotion_ros/joint_states", 1);
 
   ros::Rate loop_rate(1.0 / traj_cycle_time);
 
@@ -172,7 +172,7 @@ int main(int argc, char **argv)
   joint_state.position.resize(SERVO_NUM);
   for (int t = 0; t < SERVO_NUM; t++) {
     std::ostringstream ss;
-    ss << "joint_" << t;
+    ss << "joint_" << t+1;
     joint_state.name[t] = ss.str();
     joint_state.position[t] = t;
   }

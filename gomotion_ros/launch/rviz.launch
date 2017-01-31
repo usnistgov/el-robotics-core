@@ -1,22 +1,27 @@
 <launch>
 
+<arg name="ns" default="gomotion_ros" />
+
 <arg name="inifile" default="gomotion.ini" />
-<arg name="debug" default="" />
 <arg name="robot_description" default="robot.urdf" />
+<arg name="source_list" default="[joint_states]" />
+
+<group ns="$(arg ns)">
 
 <param name="robot_description" textfile="$(arg robot_description)" />
 
-<!-- node pkg="gomotion_ros" name="gomotion_ros" type="gomotion_ros" args="-i $(arg inifile) $(arg debug)" output="screen" required="true" -->
-
-<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
       <!-- show joint slider GUI -->
-      <param name="/use_gui" value="true" />
-      <!-- how to put in a rosparam -->
-      <rosparam param="/source_list">[gomotion_ros/joint_states]</rosparam>
+      <param name="use_gui" value="false" />
+      <!-- source_list is a list so set it via rosparam not param -->
+      <rosparam param="source_list" subst_value="true">$(arg source_list)</rosparam>
 </node>
 
-<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+<node if="true" pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher">
+</node>
 
-<node name="rviz" pkg="rviz" type="rviz" args="-d rviz.rviz" required="true" />
+<node if="true" pkg="rviz" type="rviz" name="rviz" args="-d rviz.rviz" required="true" />
+
+</group>
 
 </launch>

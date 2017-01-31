@@ -180,11 +180,10 @@ int main(int argc, char **argv)
 
   ros_argc = argc - optind;
   ros_argv = &argv[optind];
-
   ros::init(ros_argc, ros_argv, node_name);
 
   ros::NodeHandle n;
-  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>(std::string(NODE_NAME) + std::string("/joint_states"), 1);
+  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>(std::string("joint_states"), 1);
 
   ros::Rate loop_rate(1.0 / traj_cycle_time);
 

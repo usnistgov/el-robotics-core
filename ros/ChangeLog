@@ -1,0 +1,14 @@
+2017-05-12  John L Michaloski  <michalos@woodsy.el.nist.gov>
+
+	* Ran planning visualization: this will test KDL plugin
+          (working on it)
+	* Ran visualization simulation: THIS WORKED
+          Compile
+	  source ./devel/setup.bash
+	  roslaunch fanuc_lrmate200id_support  test_lrmate200id.launch
+	* Modified kinematics plugin to use kdl instead of ikfast until we can  use ikfast builder:
+	 rosed <myrobot_namefanuc_lrmate200id_moveit_config/config/kinematics.yaml
+         kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+        (was fanuc_lrmate200id_manipulator_kinematics/IKFastKinematicsPlugin)
+	* modified  ./fanuc_ws/src/fanuc_lrmate200id_support/urdf/lrmate200id_macro.xacro  so that fanuc pedastel to  is now (0,0,0)
+ 

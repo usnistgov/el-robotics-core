@@ -1,11 +1,17 @@
 2017-05-12  John L Michaloski  <michalos@woodsy.el.nist.gov>
 
-	* Ran planning visualization: this will test KDL plugin
-          (working on it)
-	* Ran visualization simulation: THIS WORKED
+	* Ran planning visualization
+         roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch
+	launched ok but collisions occur frequently need to change collision in urdf
+	Changed for base_link:
+	      <collision>
+        	<origin xyz="0 0 -0.165" rpy="0 0 0"/>
+
+	* Ran visualization simulation:
           Compile
 	  source ./devel/setup.bash
 	  roslaunch fanuc_lrmate200id_support  test_lrmate200id.launch
+	THIS WORKED
 	* Modified kinematics plugin to use kdl instead of ikfast until we can  use ikfast builder:
 	 rosed <myrobot_namefanuc_lrmate200id_moveit_config/config/kinematics.yaml
          kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin

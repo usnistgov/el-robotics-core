@@ -1,0 +1,105 @@
+Q\-T is a cross-\/platform application framework that is widely used for developing application software that can be run on various software and hardware platforms, while still being a native application with the capabilities and speed thereof.
+
+It was desired to use the Qt Creator I\-D\-E to edit and debug R\-O\-S packages. After a couple days of missteps the following worked for me.
+
+As a novice to Ubuntu and C\-Make, I suggest to first read this web site, which offers a good background tutorial, on Makfiles, make, cmake and catkin\-: \href{http://jbohren.com/articles/gentle-catkin-intro/}{\tt http\-://jbohren.\-com/articles/gentle-\/catkin-\/intro/}
+
+\subsection*{Installing Q\-T Creator }
+
+sudo apt-\/get install qtcreator This works. It is best to use from command line. Not sure if this loads the S\-D\-K and development libraries for Q\-T. But first wanted to test Qt Creator.
+
+\subsection*{Python catkin tools }
+
+One of the first of many insights to using Qt Creator with R\-O\-S was to use the Python based catkin tools instead of catkin\-\_\-make. This web site offers a thorough background on the Python catkin tools\-: \href{http://catkin-tools.readthedocs.org/en/latest/index.html}{\tt http\-://catkin-\/tools.\-readthedocs.\-org/en/latest/index.\-html}.
+
+Briefly, these steps were followed to get the python catkin tools to work\-:
+
+1) Installed python catkin tools\-: \begin{DoxyVerb}sudo apt-get install python-catkin-tools
+\end{DoxyVerb}
+
+
+Note, if you have symbolic links you must manually cd to the actual directory, don't use any symlinks to get there\-: \begin{DoxyVerb}cd /usr/local/michalos
+\end{DoxyVerb}
+
+
+2) Reinitialize the catkin workspace with the new python catkin tools\-: \begin{DoxyVerb}catkin clean --all
+catkin init
+qtcreator
+\end{DoxyVerb}
+
+
+3) Open an individual the new python catkin\-\_\-tools, there is no longer a top level make file for the whole workspace. Instead, open each package as an individual project in Qt\-Creator. The trick is to set the build folder to ws/build/your\-\_\-package instead of ws/build as before.
+
+\subsection*{Q\-T Creator use with R\-O\-S }
+
+From {\ttfamily \href{http://myzharbot.robot-home.it/blog/software/myzharbot-ros/qtcreator-ros}{\tt http\-://myzharbot.\-robot-\/home.\-it/blog/software/myzharbot-\/ros/qtcreator-\/ros}}/ and {\ttfamily \href{http://www.ciencia-explicada.com/2014/12/ros-how-to-develop-catkin-packages-from-an-ide.html}{\tt http\-://www.\-ciencia-\/explicada.\-com/2014/12/ros-\/how-\/to-\/develop-\/catkin-\/packages-\/from-\/an-\/ide.\-html}}
+
+In C\-Make\-Lists.\-txt add\-: \begin{DoxyVerb}set(ROS_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
+\end{DoxyVerb}
+
+
+Invoke qtcreator from a terminal in which you have already setup the R\-O\-S environment (normally via .bashrc)\-: \begin{DoxyVerb}qtcreator
+\end{DoxyVerb}
+
+
+Select the menu\-: {\ttfamily File -\/$>$ \char`\"{}\-Open File or project…\char`\"{}} then pick {\ttfamily $\sim$/catkin\-\_\-ws/src/your package/\-C\-Make\-Lists.\-txt} and set the build dir to {\ttfamily $\sim$/catkin\-\_\-ws/build/your package/} (where $\sim$ stands for your home directory or in my case I used /usr/local/michalos and symbolic links to the actual src directories). Press Configure.
+
+Select the tab {\ttfamily Projects -\/$>$ Build Settings} and add these C\-Make arguments (I hard coded the directory paths)\-: \begin{DoxyVerb}-DCMAKE_BUILD_TYPE=Debug \
+           -DCMAKE_INSTALL_PREFIX=/usr/local/michalos/nistfanuc_ws/install \
+           -DCATKIN_DEVEL_PREFIX=/usr/local/michalos/nistfanuc_ws/devel
+\end{DoxyVerb}
+
+
+This way it works for either all packages or an individual package.
+
+\subsection*{Using Python catkin tools and debugging R\-O\-S package in Q\-T Creator }
+
+From {\ttfamily \href{http://answers.ros.org/question/67244/qtcreator-with-catkin/}{\tt http\-://answers.\-ros.\-org/question/67244/qtcreator-\/with-\/catkin/}} the answer can be summarized to\-:
+
+
+\begin{DoxyEnumerate}
+\item compile the node/package that you want to compile in debug mode Either\-: \begin{DoxyVerb}        a. add "`set(CMAKE_BUILD_TYPE Debug)`" to your CMakeLists.txt
+
+        b. add `-DCMAKE_BUILD_TYPE=Debug` to the Build arguments
+\end{DoxyVerb}
+
+\item start your roscore and everything else as usual, except for the node you want to debug (in my case I started the rviz gui).
+\item start qtcreator with \char`\"{}sudo\char`\"{} (remember to source correctly your catkin workspace)
+\item in qtcreator start the debugging mode for the rosnode by going to \char`\"{}\-Debug\char`\"{}-\/$>$\char`\"{}\-Start Debugging\char`\"{}-\/$>$\char`\"{}\-Attach to unstarted Application...\char`\"{}, look for your compiled node, it should be in\-: \char`\"{}`\$\{\-C\-A\-T\-K\-I\-N\-\_\-\-W\-O\-R\-K\-S\-P\-A\-C\-E\-\_\-\-F\-O\-L\-D\-E\-R\}\char`\"{}/devel/lib/package\-\_\-name/node\-\_\-name`\char`\"{} and click \char`\"{}Start Watching".
+\item Debug\-: a) Either start in the debugger or
+
+b) start the node in a terminal either with rosrun or roslaunch Note\-: you need to run qtcreator with \char`\"{}sudo\char`\"{}, otherwise you get a \char`\"{}ptrace operation not allowed\char`\"{} problem. Note2\-: if you try to run qtcreator as a normal user afterwards, you will have problems accessing some of the Qt configuration files of your home folder, run these commands to get this back to normal\-: \begin{DoxyVerb}sudo chown -R ${USER}:${USER} .qt
+sudo chown -R ${USER}:${USER} .config/
+\end{DoxyVerb}
+
+\end{DoxyEnumerate}
+
+Hey, there is another post in R\-O\-S Answers addressing how to debug a rosnode in Qtcreator\-: \href{http://answers.ros.org/question/34966..}{\tt http\-://answers.\-ros.\-org/question/34966..}.
+
+\subsection*{See R\-O\-S header files in Qt Project }
+
+R\-O\-S proposes the following code addition to C\-Makefile (see {\ttfamily \href{http://wiki.ros.org/IDEs}{\tt http\-://wiki.\-ros.\-org/\-I\-D\-Es}}) \begin{DoxyVerb}           #Add all files in subdirectories of the project in
+           # a dummy_target so qtcreator have access to all files
+           FILE(GLOB children ${CMAKE_SOURCE_DIR}/*)
+           FOREACH(child ${children})
+             IF(IS_DIRECTORY ${child})
+               file(GLOB_RECURSE dir_files "${child}/*")
+               LIST(APPEND extra_files ${dir_files})
+             ENDIF()
+           ENDFOREACH()
+           add_custom_target(dummy_${PROJECT_NAME} SOURCES ${extra_files})
+\end{DoxyVerb}
+
+
+Another solution (unused) is an answer \begin{DoxyVerb}http://answers.ros.org/question/56685/is-there-any-way-to-get-qt-creator-to-show-all-of-a-projects-subdirectories/
+\end{DoxyVerb}
+
+
+to the question \char`\"{}\-I've got many header files $\ast$.\-h and $\ast$.\-hxx which are included in several $\ast$.\-cpp files but do not show up in the project tree on qtcreator, is there any way of telling qtcreator that those files do belong to the project?\char`\"{}
+
+The answer is do include header files in C\-Make\-Lists.\-txt similar to the following\-: set( M\-Y\-\_\-\-S\-R\-C\-S include/version.\-h include/idcache.\-h src/json.\-cpp include/json.\-h src/diskinfo.\-cpp include/diskinfo.\-h src/exif.\-cpp include/exif.\-h include/networkmanager.\-h include/networkmanager\-\_\-p.\-h )
+
+\subsection*{Catkin\-\_\-make use with Q\-T }
+
+\href{http://answers.ros.org/question/67244/qtcreator-with-catkin/}{\tt http\-://answers.\-ros.\-org/question/67244/qtcreator-\/with-\/catkin/} 

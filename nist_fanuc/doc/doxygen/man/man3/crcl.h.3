@@ -1,8 +1,8 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/crcl.h" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h \- 
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/crcl.h \- 
 .SH SYNOPSIS
 .br
 .PP
@@ -64,7 +64,7 @@
 
 .in +1c
 .ti -1c
-.RI "enum \fBCrcl::CRCLCmdStatus\fP { \fBCrcl::CRCL_DONE\fP = 0, \fBCrcl::CRCL_WORKING\fP, \fBCrcl::CRCL_ERROR\fP }"
+.RI "enum \fBCrcl::CRCLCmdStatus\fP { \fBCrcl::CRCL_Done\fP = 0, \fBCrcl::CRCL_Error\fP, \fBCrcl::CRCL_Working\fP, \fBCrcl::CRCL_Ready\fP }"
 .br
 .ti -1c
 .RI "enum \fBCrcl::CrclReturn\fP { \fBCrcl::CANON_REJECT\fP = -2, \fBCrcl::CANON_FAILURE\fP = -1, \fBCrcl::CANON_SUCCESS\fP = 0, \fBCrcl::CANON_STATUSREPLY\fP = 1, \fBCrcl::CANON_MOTION\fP = 2, \fBCrcl::CANON_RUNNING\fP, \fBCrcl::CANON_NOT_IMPLEMENTED\fP }"
@@ -106,11 +106,26 @@
 .br
 .RI "\fIGet roll,pitch,yaw orientation from codesynthesis \fBCrcl\fP pose\&. \fP"
 .ti -1c
-.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
+.RI "std::string \fBCrcl::DumpPosition\fP (\fBCrcl::PoseType\fP pose, std::string separator=',')"
 .br
 .RI "\fIDump contents of codesynthesis \fBCrcl\fP pose\&. \fP"
 .ti -1c
+.RI "std::string \fBCrcl::DumpRotationAsCrcl\fP (\fBRCS::Pose\fP rcspose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpRotationAsCrcl\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpPose\fP (\fBCrcl::PoseType\fP pose, std::string separator)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpStatusReply\fP (CrclStatus *wm)"
+.br
+.ti -1c
 .RI "std::string \fBCrcl::DumpCrclCommand\fP (::CRCLCommandType &crclCommand)"
+.br
+.ti -1c
+.RI "std::string \fBCrcl::DumpCrclJoints\fP (\fBCrcl::JointStatusSequence\fP jin)"
 .br
 .ti -1c
 .RI "\fBCrcl::PoseType\fP \fBCrcl::PoseHome\fP ()"

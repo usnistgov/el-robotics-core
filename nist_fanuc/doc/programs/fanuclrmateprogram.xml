@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CRCLProgram
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../xmlSchemas/CRCLProgramInstance.xsd">
+  <InitCanon>
+    <CommandID>10</CommandID>
+   </InitCanon>
+   <MiddleCommand xsi:type="ActuateJointsType">
+     <Name>ActuateJoints1</Name>
+     <CommandID>20</CommandID>
+   <ActuateJoint>
+      <JointNumber>1</JointNumber>
+      <JointPosition>9.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>10.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+   <ActuateJoint>
+      <JointNumber>2</JointNumber>
+      <JointPosition>10.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>3.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+   <ActuateJoint>
+      <JointNumber>3</JointNumber>
+      <JointPosition>10.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>3.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+   <ActuateJoint>
+      <JointNumber>4</JointNumber>
+      <JointPosition>10.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>3.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+   <ActuateJoint>
+      <JointNumber>5</JointNumber>
+      <JointPosition>10.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>3.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+   <ActuateJoint>
+      <JointNumber>6</JointNumber>
+      <JointPosition>10.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>3.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+  </MiddleCommand>
+  <MiddleCommand xsi:type="DwellType">
+    <Name>DwellType1</Name>
+    <CommandID>30</CommandID>
+     <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+   <MiddleCommand xsi:type="ActuateJointsType">
+     <Name>ActuateJoints2</Name>
+     <CommandID>40</CommandID>
+   <ActuateJoint>
+      <JointNumber>1</JointNumber>
+      <JointPosition>-30.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>6.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="DwellType">
+    <Name>DwellType2</Name>
+    <CommandID>50</CommandID>
+     <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+   <MiddleCommand xsi:type="ActuateJointsType">
+     <Name>ActuateJoints3</Name>
+     <CommandID>60</CommandID>
+   <ActuateJoint>
+      <JointNumber>1</JointNumber>
+      <JointPosition>30.0</JointPosition>
+      <JointDetails xsi:type="JointSpeedAccelType">
+        <JointSpeed>12.0</JointSpeed>
+        <JointAccel>11</JointAccel>
+      </JointDetails>
+    </ActuateJoint>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="DwellType">
+    <Name>DwellType3</Name>
+    <CommandID>70</CommandID>
+     <DwellTime>5.0</DwellTime>
+  </MiddleCommand>
+ <MiddleCommand xsi:type="MoveToType">
+    <CommandID>80</CommandID>
+    <MoveStraight>true</MoveStraight>
+    <EndPosition>
+      <Point>
+        <X>0.465</X> <Y>0</Y> <Z>0.695</Z>
+      </Point>
+      <XAxis>
+        <I>0</I> <J>0</J> <K>1</K>
+      </XAxis>
+      <ZAxis>
+        <I>1</I> <J>0</J> <K>0</K>
+      </ZAxis>
+    </EndPosition>
+  </MiddleCommand>
+  <EndCanon>
+    <CommandID>15</CommandID>
+  </EndCanon>
+
+</CRCLProgram>

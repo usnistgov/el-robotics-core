@@ -1,8 +1,8 @@
-.TH "/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/RCS.h" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/RCS.h" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/RCS.h \- 
+/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/RCS.h \- 
 .SH SYNOPSIS
 .br
 .PP
@@ -57,22 +57,19 @@
 .RI "#define \fBEPSILON\fP   1E-04"
 .br
 .ti -1c
-.RI "#define \fBDEFAULT_CYCLE\fP   0\&.010"
-.br
-.ti -1c
 .RI "#define \fBDEFAULT_LOOP_CYCLE\fP   0\&.10"
 .br
 .ti -1c
-.RI "#define \fBDEFAULT_CART_MAX_ACCEL\fP   20\&.0/\fBLENGTHUNITS\fP"
+.RI "#define \fBDEFAULT_CART_MAX_ACCEL\fP   200\&.0/\fBLENGTHUNITS\fP"
 .br
 .ti -1c
-.RI "#define \fBDEFAULT_CART_MAX_VEL\fP   200\&.0/\fBLENGTHUNITS\fP"
+.RI "#define \fBDEFAULT_CART_MAX_VEL\fP   2000\&.0/\fBLENGTHUNITS\fP"
 .br
 .ti -1c
-.RI "#define \fBDEFAULT_JOINT_MAX_ACCEL\fP   20\&.0/\fBLENGTHUNITS\fP"
+.RI "#define \fBDEFAULT_JOINT_MAX_ACCEL\fP   200\&.0/\fBLENGTHUNITS\fP"
 .br
 .ti -1c
-.RI "#define \fBDEFAULT_JOINT_MAX_VEL\fP   150\&.0/\fBLENGTHUNITS\fP"
+.RI "#define \fBDEFAULT_JOINT_MAX_VEL\fP   2000\&.0/\fBLENGTHUNITS\fP"
 .br
 .ti -1c
 .RI "#define \fBHAVE_SINCOS\fP"
@@ -188,7 +185,15 @@ sensor_msgs::JointState_
 .RI "void \fBRCS::getRPY\fP (const \fBRCS::Pose\fP pose, double &\fBroll\fP, double &\fBpitch\fP, double &\fByaw\fP)"
 .br
 .ti -1c
+.RI "std::string \fBRCS::DumpJoints\fP (\fBJointState\fP joints)"
+.br
+.RI "\fIDumpJoints takes a list of joints and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
 .RI "std::string \fBRCS::DumpPose\fP (\fBRCS::Pose\fP &pose)"
+.br
+.RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
+.ti -1c
+.RI "std::ostream & \fBRCS::operator<<\fP (std::ostream &os, \fBRCS::Pose\fP &pose)"
 .br
 .RI "\fIDumpPose takes a urdf pose and generates a string describing pose\&. Can be used as std::cout << DumpPose(pose);\&. \fP"
 .ti -1c
@@ -203,15 +208,13 @@ sensor_msgs::JointState_
 .PP 
 .SS "#define _USE_MATH_DEFINES"
 
-.SS "#define DEFAULT_CART_MAX_ACCEL   20\&.0/\fBLENGTHUNITS\fP"
+.SS "#define DEFAULT_CART_MAX_ACCEL   200\&.0/\fBLENGTHUNITS\fP"
 
-.SS "#define DEFAULT_CART_MAX_VEL   200\&.0/\fBLENGTHUNITS\fP"
+.SS "#define DEFAULT_CART_MAX_VEL   2000\&.0/\fBLENGTHUNITS\fP"
 
-.SS "#define DEFAULT_CYCLE   0\&.010"
+.SS "#define DEFAULT_JOINT_MAX_ACCEL   200\&.0/\fBLENGTHUNITS\fP"
 
-.SS "#define DEFAULT_JOINT_MAX_ACCEL   20\&.0/\fBLENGTHUNITS\fP"
-
-.SS "#define DEFAULT_JOINT_MAX_VEL   150\&.0/\fBLENGTHUNITS\fP"
+.SS "#define DEFAULT_JOINT_MAX_VEL   2000\&.0/\fBLENGTHUNITS\fP"
 
 .SS "#define DEFAULT_LOOP_CYCLE   0\&.10"
 

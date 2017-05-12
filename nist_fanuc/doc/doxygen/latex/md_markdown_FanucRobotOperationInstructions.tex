@@ -1,0 +1,76 @@
+\subsection*{Powerup\-: }
+
+
+\begin{DoxyEnumerate}
+\item Turn on power on front of controller (keyed)
+\item If auto mode, make sure teach pendant upper left corner knob is {\bfseries O\-F\-F}
+\item If in fault-\/ hold deadman switch halfway, Hold \mbox{[}{\bfseries Shift}\mbox{]}, press \mbox{[}{\bfseries Reset}\mbox{]} key
+\item reset to local mode {\ttfamily Menu -\/$>$ \mbox{[}32\mbox{]} Remote/\-Local/... \mbox{[}F4\mbox{]} Local \mbox{[}Enter\mbox{]}}
+\item Start R\-O\-S programs {\ttfamily \mbox{[}Teach\mbox{]}\mbox{[}Select\mbox{]} =$>$ scroll down to R\-O\-S, number 39 hit \mbox{[}Enter\mbox{]}} (starts 2 programs)
+\item Cycle start {\ttfamily Green Auto button on front controller panel, press/release, green Light should go on}.
+\end{DoxyEnumerate}
+
+\subsection*{Powerdown\-: }
+
+
+\begin{DoxyEnumerate}
+\item Kill R\-O\-S programs -\/ D\-O T\-W\-I\-C\-E -\/ 2 programs running {\ttfamily \mbox{[}F\-C\-N\-T\mbox{]} -\/$>$ 1 -\/$>$ \mbox{[}E\-N\-T\-E\-R\mbox{]}} {\ttfamily \mbox{[}F\-C\-N\-T\mbox{]} -\/$>$ 1 -\/$>$ \mbox{[}E\-N\-T\-E\-R\mbox{]}}
+\end{DoxyEnumerate}
+
+\subsection*{Fault Recovery }
+
+If fanuc controller faulted, you have to manually reset the joint(s) to a \char`\"{}safe\char`\"{} position\-:
+
+
+\begin{DoxyEnumerate}
+\item Turn controller box to teach pendant from auto
+\item hold deadman switch half-\/on, \mbox{[}{\bfseries S\-H\-I\-F\-T}\mbox{]} Hold, hit \mbox{[}{\bfseries Reset}\mbox{]}
+\item Now move robot -\/ +/-\/ joint key or xyz key
+\item Note to increase traversal-\/ feedoverride in green xx\% field in upper right corner
+\end{DoxyEnumerate}
+
+\subsection*{Run R\-O\-S Fanuc demo }
+
+\begin{DoxyVerb}roslaunch fanuc_lrmate200id_moveit_config  moveit_planning_execution.launch 
+    sim:=false   robot_ip:=129.6.78.111
+\end{DoxyVerb}
+
+
+\subsection*{Run R\-V\-I\-Z roslaunch with Fanuc L\-R\-Mate 200id }
+
+{\bfseries F\-I\-X\-M\-E} \begin{DoxyVerb}#!/bin/bash
+source .../catkin_ws/devel/setup.bash
+roslaunch nist_fanuc lrmate200id_sim.launch
+
+sleep 100
+\end{DoxyVerb}
+
+
+\subsection*{Launch file\-: }
+
+\begin{DoxyVerb}<?xml version="1.0"?>
+<launch>
+
+  <arg name="sim" default="true" />
+
+  <include file="$(find fanuc_lrmate200id_moveit_config)/launch/moveit_planning_execution.launch">
+    <arg name="sim" value="$(arg sim)"/>
+  </include>
+
+</launch>
+\end{DoxyVerb}
+
+
+\subsection*{Fanuc R\-O\-S installation tutorial -\/ I }
+
+Web stop \#1\-: \begin{DoxyVerb}            http://wiki.ros.org/fanuc?distro=indigo
+\end{DoxyVerb}
+
+
+\subsection*{Fanuc R\-O\-S installation tutorial -\/ I\-I }
+
+Web stop \#2\-: \begin{DoxyVerb}            http://wiki.ros.org/fanuc/Tutorials/hydro/Installation
+\end{DoxyVerb}
+
+
+The “\-Next” link at the bottom takes you to the next in the series. 

@@ -1,4 +1,4 @@
-.TH "RCS::RobotStatus" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::RobotStatus" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -30,7 +30,7 @@ Inherits \fBRCS::Thread\fP\&.
 .RI "\fBVAR\fP (\fBKinematics\fP, boost::shared_ptr< \fBIKinematics\fP >)"
 .br
 .ti -1c
-.RI "virtual void \fBAction\fP ()"
+.RI "virtual int \fBAction\fP ()"
 .br
 .RI "\fIAction is the main loop in the \fBRCS\fP thread timing\&. Get latest robot joint readings\&. Use forward kinematics to get current pose\&. Then, updates the CRCL world model with the latest readings\&.  Should it keep track of the command id also - in theory only one CRCl command at a time\&. \fP"
 .ti -1c
@@ -57,7 +57,7 @@ The \fBRobotStatus\fP is a thread that reads the status of the robot and updates
 
 .SH "Member Function Documentation"
 .PP 
-.SS "void RCS::RobotStatus::Action ()\fC [virtual]\fP"
+.SS "int RCS::RobotStatus::Action ()\fC [virtual]\fP"
 
 .PP
 Action is the main loop in the \fBRCS\fP thread timing\&. Get latest robot joint readings\&. Use forward kinematics to get current pose\&. Then, updates the CRCL world model with the latest readings\&.  Should it keep track of the command id also - in theory only one CRCl command at a time\&. 

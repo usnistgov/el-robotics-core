@@ -1,4 +1,4 @@
-.TH "DummyKinematics" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "DummyKinematics" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -40,6 +40,10 @@ Inherits \fBIKinematics\fP\&.
 .RI "virtual std::vector< double > \fBNearestJoints\fP (std::vector< double > oldjoints, std::vector< std::vector< double > > &newjoints)"
 .br
 .RI "\fINearestJoints finds the joint set that is closest to the old joints\&. \fP"
+.ti -1c
+.RI "virtual bool \fBIsSingular\fP (\fBRCS::Pose\fP &pose, double threshold)"
+.br
+.RI "\fIReturns true if the determinant of the jacobian is near zero\&. \&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -112,6 +116,21 @@ IK performs the inverse kinematics using the Cartesian pose provided\&.
 \fBReturns:\fP
 .RS 4
 vector of all robot joint values in doubles\&. 
+.RE
+.PP
+
+.PP
+Implements \fBIKinematics\fP\&.
+.SS "virtual bool DummyKinematics::IsSingular (\fBRCS::Pose\fP &pose, doublethreshold)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the determinant of the jacobian is near zero\&. \&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgroupname\fP name of chained joints in robot model\&. 
+.br
+\fIeelinkname\fP name of end effector joint in robot model\&. 
 .RE
 .PP
 

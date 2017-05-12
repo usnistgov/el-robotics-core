@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>CRCL FANUC: /home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/crcl.h File Reference</title>
+<title>CRCL FANUC: /usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/crcl.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -99,9 +99,10 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a5433cc9af1949d6f1305896f70a25eb2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2">Crcl::CRCLCmdStatus</a> { <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2af072d9ec71f5cad174c9d48edc63cfda">Crcl::CRCL_DONE</a> = 0, 
-<a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2a7917015bd7568bad9b62b9a544fcc6a7">Crcl::CRCL_WORKING</a>, 
-<a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2a0e13ed6a4f24390d9e36dacec72abaa8">Crcl::CRCL_ERROR</a>
+<tr class="memitem:a5433cc9af1949d6f1305896f70a25eb2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2">Crcl::CRCLCmdStatus</a> { <a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2a9ea47a762991d75df7a42371b5cca334">Crcl::CRCL_Done</a> = 0, 
+<a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2aa4b171b9476a14e5f618445ea9bf0eef">Crcl::CRCL_Error</a>, 
+<a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2ad556078682b7d707f43b0d124b034b98">Crcl::CRCL_Working</a>, 
+<a class="el" href="namespaceCrcl.html#a5433cc9af1949d6f1305896f70a25eb2aaab13fab6143bf57d4c1b34eba7becff">Crcl::CRCL_Ready</a>
  }</td></tr>
 <tr class="separator:a5433cc9af1949d6f1305896f70a25eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ed3b29723118a020251dde9b12733c0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1ed3b29723118a020251dde9b12733c0">Crcl::CrclReturn</a> { <br/>
@@ -143,11 +144,21 @@ Functions</h2></td></tr>
 <tr class="memitem:a394a527b4609a6d5b444f30bb9384f1a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a394a527b4609a6d5b444f30bb9384f1a">Crcl::GetPoseToRPY</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> &amp;pose, double &amp;dRoll, double &amp;dPitch, double &amp;dYaw)</td></tr>
 <tr class="memdesc:a394a527b4609a6d5b444f30bb9384f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get roll,pitch,yaw orientation from codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a394a527b4609a6d5b444f30bb9384f1a">More...</a><br/></td></tr>
 <tr class="separator:a394a527b4609a6d5b444f30bb9384f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30019a860966a9cdaa1564cc95787de4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a30019a860966a9cdaa1564cc95787de4">Crcl::DumpPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator=&quot;,&quot;)</td></tr>
-<tr class="memdesc:a30019a860966a9cdaa1564cc95787de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump contents of codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a30019a860966a9cdaa1564cc95787de4">More...</a><br/></td></tr>
-<tr class="separator:a30019a860966a9cdaa1564cc95787de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ffbb8bbe0b97bcd6fc145b52eba1c6e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a7ffbb8bbe0b97bcd6fc145b52eba1c6e">Crcl::DumpPosition</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator=&quot;,&quot;)</td></tr>
+<tr class="memdesc:a7ffbb8bbe0b97bcd6fc145b52eba1c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump contents of codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose.  <a href="#a7ffbb8bbe0b97bcd6fc145b52eba1c6e">More...</a><br/></td></tr>
+<tr class="separator:a7ffbb8bbe0b97bcd6fc145b52eba1c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a710c3a8bdd5a36fc1df3996f005544ec"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a710c3a8bdd5a36fc1df3996f005544ec">Crcl::DumpRotationAsCrcl</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> rcspose, std::string separator)</td></tr>
+<tr class="separator:a710c3a8bdd5a36fc1df3996f005544ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1cb883f1831e5f4be05f3d111545fd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a6f1cb883f1831e5f4be05f3d111545fd">Crcl::DumpRotationAsCrcl</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator)</td></tr>
+<tr class="separator:a6f1cb883f1831e5f4be05f3d111545fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a666314177998417d741895bb491783bd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a666314177998417d741895bb491783bd">Crcl::DumpPose</a> (<a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a> pose, std::string separator)</td></tr>
+<tr class="separator:a666314177998417d741895bb491783bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7bfef1ba7b0d1fa2ea0033ef391d254"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#af7bfef1ba7b0d1fa2ea0033ef391d254">Crcl::DumpStatusReply</a> (CrclStatus *wm)</td></tr>
+<tr class="separator:af7bfef1ba7b0d1fa2ea0033ef391d254"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1726015b66be8193fcd10bc157661a3d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a1726015b66be8193fcd10bc157661a3d">Crcl::DumpCrclCommand</a> (::CRCLCommandType &amp;crclCommand)</td></tr>
 <tr class="separator:a1726015b66be8193fcd10bc157661a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac02e068ed5b8f6f152cff928e554a653"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#ac02e068ed5b8f6f152cff928e554a653">Crcl::DumpCrclJoints</a> (<a class="el" href="namespaceCrcl.html#a8e2d423195eeffb85b45b63f595f2825">Crcl::JointStatusSequence</a> jin)</td></tr>
+<tr class="separator:ac02e068ed5b8f6f152cff928e554a653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9036e140bcf2156b7995085f36d75f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceCrcl.html#acc6c82b52280f4d0e74b82a92400956e">Crcl::PoseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCrcl.html#a5e9036e140bcf2156b7995085f36d75f">Crcl::PoseHome</a> ()</td></tr>
 <tr class="memdesc:a5e9036e140bcf2156b7995085f36d75f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose that is necessary for all codesynthesis <a class="el" href="namespaceCrcl.html">Crcl</a> pose constructors.  <a href="#a5e9036e140bcf2156b7995085f36d75f">More...</a><br/></td></tr>
 <tr class="separator:a5e9036e140bcf2156b7995085f36d75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,7 +198,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -27,7 +27,7 @@
 
 #include "urdf_model/rosmath.h"
 #include "CrclInterface.h"
-
+#include "RvizMarker.h"
 
 // No namespace declarations
 //////////////////////////////////
@@ -56,7 +56,7 @@ namespace RCS {
 
 #endif
     RCS::CController Controller(DEFAULT_LOOP_CYCLE);
-
+    std::vector<std::string>  RCS::CController::links;
     RCS::CanonWorldModel CController::wm;
     RCS::CanonWorldModel CController::status;
     RCS::CanonWorldModel CController::laststatus;
@@ -77,6 +77,7 @@ namespace RCS {
     CController::CController(double cycletime) : RCS::Thread(cycletime) {
         eJointMotionPlanner = NOPLANNER;
         eCartesianMotionPlanner = NOPLANNER;
+
     }
 
     CController::~CController(void) {
@@ -129,9 +130,9 @@ namespace RCS {
 
     RCS::Pose CController::GetLastCommandedPose() {
         JointState lastjoints = GetLastJointState();
-        return RCS::Controller.Kinematics()->FK(lastjoints.position);
+        return EEPoseReader()->GetLinkValue(RCS::Controller.links.back());
+        //return RCS::Controller.Kinematics()->FK(lastjoints.position);
     }
-
     int CController::Action() {
         try {
             boost::mutex::scoped_lock lock(cncmutex);
@@ -151,7 +152,22 @@ namespace RCS {
                 Crcl::CrclReturn ret = crclinterface->DelegateCRCLCmd(crclcmd);
 
                 if (ret == Crcl::CANON_STATUSREPLY) {
+#ifdef DUMPCANON_STATUSREPLYCRCLJOINTS
+                    std::cout <<  Crcl::DumpCrclJoints(crclinterface->crclwm._CurrentJoints).c_str();
+#endif
+                    // Dump status to log file if different than last time.
+                    std::string s = DumpStatusReply(&crclinterface->crclwm);
+                    std::string uniqueid = LOGNAME( __FILE__,__LINE__);
+                    if(LogFile.properties[uniqueid]!=s)
+                    {
+                         LogFile.LogFormatMessage(s.c_str());
+                    }
+                    LogFile.properties[uniqueid] = s;
+                   
+                    
+                        
                     std::string sStatus = Crcl::CrclClientCmdInterface().GetStatusReply(&crclinterface->crclwm);
+                    // Should create zip and save reply to folder, with commands
                     _pSession->SyncWrite(sStatus);
                 }
             }
@@ -185,6 +201,13 @@ namespace RCS {
                 } else {
                     //Controller.trajectory_writer->JointTrajectoryWrite(newcc.joints);
                     Controller.JointWriter()->JointTrajectoryPositionWrite(_newcc.joints);
+#define MARKERS
+#ifdef MARKERS
+                    //RCS::Pose goalpose = Kinematics()->FK(_newcc.joints.position);
+                    RCS::Pose goalpose = EEPoseReader()->GetLinkValue(RCS::Controller.links.back());
+                    std::cout << "Marker Pose " << DumpPose(goalpose).c_str();
+                    RvizMarker()->Send(goalpose);
+#endif
                 }
             }
 
@@ -289,7 +312,12 @@ namespace RCS {
                 assert(cjoints.position.size() != 0);
                 RCS::Controller.status.currentjoints = cjoints;
                 // Use forward kinematics to get current pose
-                RCS::Controller.status.currentpose = Kinematics()->FK(cjoints.position);
+                //RCS::Controller.status.currentpose = Kinematics()->FK(cjoints.position);
+                RCS::Controller.status.currentpose = RCS::Controller.EEPoseReader()->GetLinkValue(RCS::Controller.links.back());
+#ifdef DEBUGCONTROLLERTOOL0POSE
+                std::string str= RCS::DumpPose(RCS::Controller.status.currentpose);
+                std::cout << str.c_str();
+#endif
 #if 0
                 if (--i < 0) {
                     std::cout << "Current Joints " << VectorDump<double>(cjoints.position).c_str();

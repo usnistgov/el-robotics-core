@@ -15,6 +15,15 @@
 #define LOGONCE    static long nLog ## __LINE__ = 0; if ( 0 == nLog ## __LINE__++ )
 #endif
 
+inline std::string LineName(std::string file, int line)
+{ 
+    char buffer[32];
+    sprintf(buffer,"%d", line);
+    return file+buffer;
+}
+#define LOGNAME(F,L) LineName(F, L)
+#include <map>
+
 class ALogger
 {
 public:
@@ -24,7 +33,7 @@ public:
         DebugLevel( ) = 0;
         this->filename.clear( );
     }
-
+    std::map<std::string, std::string> properties;
     void Close ( )
     {
         this->filename.clear( );
@@ -51,6 +60,15 @@ public:
 
     int LogMessage (std::string msg, int level = -1)
     {
+        static char * levels[] = {"[FATAL]","[ERROR]","[WARNING]","[INFO]","[DEBUG]","[STATUS]"};
+        char * mylevel;
+        if(level<0)
+            mylevel="[STATUS]";
+        else if(level>=4)
+            mylevel="[DEBUG]";
+        else
+            mylevel=levels[level];
+        
         if ( level > DebugLevel( ) )
         {
             return level;
@@ -71,11 +89,20 @@ public:
         {
             DebugFile << Timestamp( );
         }
+        DebugFile << mylevel << " " ;
         DebugFile << msg;
         DebugFile.flush( );
         return level;
     }
 
+    unsigned int LogFormatMessage(const char *fmt, ...) {
+        va_list argptr;
+
+        va_start(argptr, fmt);
+        std::string str = FormatString(fmt, argptr);
+        va_end(argptr);
+        return LogMessage(str);
+    }
     static inline std::string StrFormat (const char *fmt, ...)
     {
         va_list argptr;
@@ -108,12 +135,17 @@ public:
         ltime = time(NULL);
         Tm    = localtime(&ltime);
         std::string stime = StrFormat("%4d-%02d-%0dT%02d:%02d:%02d",
-            Tm->tm_year, Tm->tm_mon, Tm->tm_mday, Tm->tm_hour, Tm->tm_min, Tm->tm_sec);
 #ifndef  _WINDOWS
-		// Add milliseconds to end of time
+                                      Tm->tm_year+1900,Tm->tm_mon+1,
+#else
+                                      Tm->tm_year, Tm->tm_mon,
+#endif
+                                      Tm->tm_mday, Tm->tm_hour, Tm->tm_min, Tm->tm_sec);
+#ifndef  _WINDOWS
+        // Add milliseconds to end of time
         struct timeval detail_time;
         gettimeofday(&detail_time, NULL);
-        stime += StrFormat(":%04d", detail_time.tv_usec / 1000);
+        stime += StrFormat(":%04d ", detail_time.tv_usec / 1000);
 #endif
         return stime;
     }
@@ -145,7 +177,7 @@ public:
 
     int Status (std::string msg)
     {
-        return LogMessage(msg, 5);
+        return LogMessage(msg, -1);
     }
 
     int & DebugLevel ( )
@@ -167,7 +199,7 @@ public:
         return DebugFile;
     }
 
-// private:
+    // private:
     int           _debuglevel;
     bool          _bTimestamp;
     std::ofstream DebugFile;

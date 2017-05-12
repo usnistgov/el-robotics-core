@@ -81,10 +81,66 @@ ${Boost_LIBRARIES}
 <pre class="fragment">tar --bzip2 -xvf xsd-4.0.0-x86_64-linux-gnu.tar.bz2 (dash-dash bzip2, dash-xvf)
 </pre><p>It will create a directory xsd-4.0.0-x86_64-linux-gnu.</p>
 <p>Make a symbolic link: </p>
-<pre class="fragment">ln -s &lt;path/to/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd</pre> </div></div><!-- contents -->
+<pre class="fragment">ln -s &lt;path/to/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd
+</pre><p>e.g., ln -s /usr/local/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd</p>
+<h2>4) Optionally - download netbeans </h2>
+<p><a href="https://netbeans.org/downloads/">https://netbeans.org/downloads/</a></p>
+<p>cd to the directory where you downloaded netbeans: </p>
+<pre class="fragment">./netbeans-8.1-cpp-linux-x64.sh
+</pre><h2>5) Setup ROS workspace </h2>
+<pre class="fragment">$ source /opt/ros/indigo/setup.bash
+</pre><p>Let's create a catkin workspace: </p>
+<pre class="fragment">$ mkdir -p /home/local/michalos/catkin_ws/src
+$ cd /home/local/michalos/catkin_ws/src
+$ catkin_init_workspace
+</pre><p>Now you can add your packages to the ROS catkin workspace. For those packages you cloned from GITHUB, you will need to symbolically link the package directory to the github local directory)) </p>
+<pre class="fragment">$ mkdir -p /usr/local/github/ros-industrial
+$ cd /usr/local/github/ros-industrial
+$ git clone https://github.com/ros-industrial/fanuc_experimental.git
+$ cd /home/local/michalos/catkin_ws/src
+$ ln -s  /usr/local/github/ros-industrial/fanuc_experimental fanuc_experimental
+</pre><p>And do for descartes, nist_fanuc, etc.</p>
+<h2>6) Compile ROS packages </h2>
+<pre class="fragment">$ cd /home/local/michalos/catkin_ws
+$ catkin_make -DCMAKE_BUILD_TYPE=Debug
+</pre><h2>7) Run ROS Simulator </h2>
+<pre class="fragment">$ cd /usr/local/michalos/
+$ cd nistfanuc_ws/
+$ source devel/setup.bash
+$roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch sim:=true 
+</pre><h2>8) Install Java 1.08 from Oracle for Java CRCL Tool </h2>
+<p>To build java crcl tool one needs: </p>
+<pre class="fragment">JDK 1.8+ (http://www.oracle.com/technetwork/java/javase/downloads/index.html) and
+maven 3.0.5+ (https://maven.apache.org/download.cgi)
+</pre><p>Install maven: $ sudo apt-get install maven</p>
+<p>Use the command: </p>
+<pre class="fragment">mvn package
+</pre><p>If you see this message at the beginning, bummer: </p>
+<pre class="fragment">Warning: JAVA_HOME environment variable is not set. 
+</pre><p>You can check /usr/lib/jvm to see if a 1.8 Java Virtual Machine has been installed. If so, skip the installation step.</p>
+<p>So you do not have Java installed. These are instructions for the less than sudo installers. Note, you need the Oracle Java JDK 1.8 version, not the 1.7 version of Ubuntu!!!</p>
+<p>Download, unzip and copy to /usr/local/jdk1.8.0_77 or whatever is the latest 1.8 version.</p>
+<p>Change you will need to change .bashrc to set the PATH to know where the jdk is installed: </p>
+<pre class="fragment">for dir in /usr/local/jdk1.8.0_77/bin /usr/lib/jvm/java-[6,7,8]-*/bin /usr/local/jdk*/bin /usr/local/jdk*/bin ; do
+  if [ -x $dir/java ] ; then
+    javadir=$dir
+  fi
+done
+if [ x"$javadir" = x ] ; then javadir=/usr/bin ; fi
+
+# platform-specific environment vars
+
+THISPLAT=`uname -s` ; export THISPLAT
+
+case $THISPLAT in
+    Linux)
+    PATH=$javadir:
+</pre><p>And make sure you source the .bashrc before you attempt run.sh in java crcl. The voodoo worked for me.</p>
+<h2>9) Install doxygen for documentation generation </h2>
+<pre class="fragment">$ sudo apt-get install doxygen</pre> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

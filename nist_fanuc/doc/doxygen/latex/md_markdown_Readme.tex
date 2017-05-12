@@ -1302,7 +1302,18 @@ michalos@rufous:~/github/usnistgov/el-robotics-core$
 \end{DoxyVerb}
 
 
-Did not add nist\-\_\-fanuc\-: 526 git add nist\-\_\-fanuc 527 git commit . 528 git push origin master
+Did not add nist\-\_\-fanuc\-: \begin{DoxyVerb}git add nist_fanuc
+git commit .
+git push origin master
+\end{DoxyVerb}
+
+
+Adding doxygen files and committing with message without using vim\-: \begin{DoxyVerb}git add .
+git status
+git commit -m "add doxygen files"
+git push origin master
+\end{DoxyVerb}
+
 
 \subsection*{git remote changes and incorporate into local repository }
 
@@ -1325,4 +1336,115 @@ michalos@rufous:~/github/usnistgov/el-robotics-core$
 
 1) Install sudo apt-\/get install ros-\/indigo-\/rosdoc-\/lite 2) Run rosdoc-\/lite cd src/nist\-\_\-fanuc rosdoc\-\_\-lite ../nist\-\_\-fanuc 3) Output in doc 4) cd doc/html then double click index.\-html
 
-Problems with exclude, so hard coded doxygen .... 
+Problems with exclude, so hard coded doxygen ....
+
+\subsection*{Catching the Signal $^\wedge$\-C }
+
+This signal interrupt handling worked as long as there were no background threads... \begin{DoxyVerb}void signal_callback_handler(int signum) {
+    /* NOTE some versions of UNIX will reset signal to default
+    after each call. So for portability reset signal each time 
+    RCS::Controller.bMainLoop = false;
+    std::cout << "you have pressed ctrl-c \n";
+    signal(SIGINT, signal_callback_handler); /*  
+
+}
+main() 
+{
+    struct sigaction sigIntHandler;
+
+    sigIntHandler.sa_handler = signal_callback_handler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+
+    sigaction(SIGINT, &sigIntHandler, NULL);
+
+    while(RCS::Controller.bMainLoop)
+    {
+        Globals.Sleep(1000);
+    }
+    return 0;
+\end{DoxyVerb}
+
+
+Yikes! From \href{http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown}{\tt http\-://wiki.\-ros.\-org/roscpp/\-Overview/\-Initialization\%20and\%20\-Shutdown}
+
+By default roscpp also installs a S\-I\-G\-I\-N\-T handler which will detect Ctrl-\/\-C and automatically shutdown for you. J roscpp/\-Overview/\-Initialization and Shutdown -\/ R\-O\-S Wiki wiki.\-ros.\-org Initialization. There are two levels of initialization for a roscpp Node\-: Initializing the node through a call to one of the ros\-::init() functions.
+
+By default roscpp also installs a S\-I\-G\-I\-N\-T handler which will detect Ctrl-\/\-C and automatically shutdown for you.
+
+Testing for Shutdown
+
+There are two methods to check for various states of shutdown. The most common is ros\-::ok(). Once ros\-::ok()returns false, the node has finished shutting down. A common use of ros\-::ok()\-: Toggle line numbers \begin{DoxyVerb}   1 while (ros::ok())
+   2 {
+   3   ...
+   4 }
+\end{DoxyVerb}
+
+
+If you want to write your own sigint handler instead of using R\-O\-S\-: \begin{DoxyVerb}static bool bMainLoop=true;
+void mySigintHandler(int sig)
+{
+  // Do some custom action.
+  // For example, publish a stop message to some other nodes.
+   std::cout << "Received Cntl c" << std::flush;
+  // All the default sigint handler does is call shutdown()
+  bMainLoop=false;
+
+}
+main() { ...
+ros::init(argc, argv, "nist_fanuc", ros::init_options::NoSigintHandler);
+signal(SIGINT, mySigintHandler);
+\end{DoxyVerb}
+
+
+\subsection*{test crcl math code }
+
+1) Add /src folder, 2) Create testcrclmath.\-cpp file\-: \begin{DoxyVerb}#include <gtest/gtest.h>
+
+TEST(TestSuite, testCase1) {
+    ASSERT_EQ(1, 1) << "Vectors 1 and 1 not equal";
+}
+
+int main(int argc, char ** argv) {
+
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+\end{DoxyVerb}
+ 3) Modify C\-Make\-Lists.\-txt (catkin will handle rest of stuff) catkin\-\_\-add\-\_\-gtest(crclmathunittest test/crclmathtest.\-cpp)
+
+4) Run individual gtest in package catkin\-\_\-make run\-\_\-tests\-\_\-nist\-\_\-fanuc
+
+\subsection*{tf include locatino }
+
+/opt/ros/indigo/include/tf/\-Linear\-Math
+
+\subsection*{Backup all of home directory }
+
+cp -\/r /home/michalos/$\ast$ \char`\"{}/media/michalos/\-Free\-Agent Go\-Flex Drive/\-Work\-Backup\char`\"{}
+
+\subsection*{Install python pip -\/ risky }
+
+sudo apt-\/get install python-\/pip
+
+michalos\-:$\sim$/catkin\-\_\-ws/src/nist\-\_\-fanuc/nodes\$ pip install mathutils Downloading/unpacking mathutils Downloading mathutils-\/2.\-76.\-tar.\-gz (190k\-B)\-: 190k\-B downloaded Running setup.\-py (path\-:/tmp/pip\-\_\-build\-\_\-michalos/mathutils/setup.py) egg\-\_\-info for package mathutils Sorry, Python 2 are not supported Cleaning up... No files/directories in /tmp/pip\-\_\-build\-\_\-michalos/mathutils/pip-\/egg-\/info (from P\-K\-G-\/\-I\-N\-F\-O) Storing debug log for failure in /home/michalos/.pip/pip.\-log michalos\-:$\sim$/catkin\-\_\-ws/src/nist\-\_\-fanuc/nodes\$
+
+\subsection*{python socket }
+
+tcp 591 0 localhost\-:64444 localhost\-:46638 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 1 0 localhost\-:64444 localhost\-:46670 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 0 0 localhost\-:64444 localhost\-:46842 E\-S\-T\-A\-B\-L\-I\-S\-H\-E\-D tcp 0 0 localhost\-:46842 localhost\-:64444 E\-S\-T\-A\-B\-L\-I\-S\-H\-E\-D tcp 1 0 localhost\-:64444 localhost\-:46637 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 627 0 localhost\-:64444 localhost\-:46671 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 3481 0 localhost\-:64444 localhost\-:46633 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 628 0 localhost\-:64444 localhost\-:46664 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T
+
+After $^\wedge$\-C python socket program michalos\-:$\sim$/catkin\-\_\-ws/src/nist\-\_\-fanuc/nodes\$ netstat$\vert$ grep 64444 tcp 591 0 localhost\-:64444 localhost\-:46638 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 1 0 localhost\-:64444 localhost\-:46670 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 1 0 localhost\-:64444 localhost\-:46842 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 0 0 localhost\-:46842 localhost\-:64444 F\-I\-N\-\_\-\-W\-A\-I\-T2 tcp 1 0 localhost\-:64444 localhost\-:46637 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 627 0 localhost\-:64444 localhost\-:46671 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 3481 0 localhost\-:64444 localhost\-:46633 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T tcp 628 0 localhost\-:64444 localhost\-:46664 C\-L\-O\-S\-E\-\_\-\-W\-A\-I\-T
+
+\subsection*{Netbeans Debugging\-Exception\-Breakpoint }
+
+Exception Breakpoints
+
+It's often useful to stop execution of an application when an exception occurs, and inspect the state of the app in debugger. It is very simple to do\-: setup an exception breakpoint and just run the application via debugger (or attach to an running application).
+
+To setup an exception breakpoint\-: Go to menu Debug $\vert$ New Breakpoint (Ctrl+\-Shift+\-F8). In the New Breakpoint dialog select the Exception breakpoint type from the combobox. Enter the exception to track (fully qualified class name). You can modify the other properties too. Typically you want to watch for some general exception superclass, e.\-g. java.\-lang.\-Exception, or exceptions that do not have to be handled, e.\-g. java.\-lang.\-Assertion\-Error, or java.\-lang.\-Runtime\-Exception. In a bigger application you may want to narrow the scope of classes to watch for exceptions only from your classes, not to stop on exceptions from J\-D\-K internals or other code. You can set a match or exclude class filter in the Filter on Classes Throwing the Exception option of the breakpoint dialog.
+
+To turn off breakpoint\-: Select menu Window / Debugging / Breakpoints (or press Alt + Shift + 5), then right-\/click in the Breakpoints window and select Delete All.
+
+\subsection*{Movegroup died ... }
+
+\mbox{[}move\-\_\-group-\/5\mbox{]} process has died \mbox{[}pid 4186, exit code -\/11, cmd /opt/ros/indigo/lib/moveit\-\_\-ros\-\_\-move\-\_\-group/move\-\_\-group \-\_\-\-\_\-name\-:=move\-\_\-group \-\_\-\-\_\-log\-:=/home/michalos/.ros/log/6e9469f8-\/f05e-\/11e5-\/9a07-\/ecf4bb31ca6d/move\-\_\-group-\/5.\-log\mbox{]}. log file\-: /home/michalos/.ros/log/6e9469f8-\/f05e-\/11e5-\/9a07-\/ecf4bb31ca6d/move\-\_\-group-\/5$\ast$.log 

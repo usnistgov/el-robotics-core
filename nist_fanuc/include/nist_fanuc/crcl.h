@@ -31,6 +31,9 @@
 
 
 namespace Crcl {
+    struct CrclStatus;
+    struct GripperStatus;
+    struct JointReport;
 
     enum CRCLCmdStatus {
         CRCL_Done = 0,
@@ -129,9 +132,13 @@ namespace Crcl {
      * \return   string with Crcl pose contents.
      */
     //std::string DumpCrclPose(Crcl::PoseType pose, std::string separator=",");
+    std::string DumpPosition(Crcl::PoseType pose, std::string separator = ",");
+    std::string DumpRotationAsCrcl(RCS::Pose rcspose, std::string separator= ",");
+    std::string DumpRotationAsCrcl(Crcl::PoseType crclpose, std::string separator = ",");
     std::string DumpPose(Crcl::PoseType pose, std::string separator = ",");
-
+    std::string DumpStatusReply(Crcl::CrclStatus *wm);
     std::string DumpCrclCommand(::CRCLCommandType & crclCommand);
+    std::string DumpCrclJoints(Crcl::JointStatusSequence);
 
     /*!
      * \brief Create codesynthesis Crcl pose that is necessary for all codesynthesis Crcl pose constructors.

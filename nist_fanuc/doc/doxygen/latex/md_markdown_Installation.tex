@@ -61,5 +61,101 @@ It will be saved into /usr/local/downloads, but you can save it anywhere. Then c
 
 It will create a directory xsd-\/4.\-0.\-0-\/x86\-\_\-64-\/linux-\/gnu.
 
-Make a symbolic link\-: \begin{DoxyVerb}ln -s <path/to/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd\end{DoxyVerb}
+Make a symbolic link\-: \begin{DoxyVerb}ln -s <path/to/xsd-4.0.0-x86_64-linux-gnu/libxsd/xsd /usr/local/include/xsd
+\end{DoxyVerb}
+
+
+e.\-g., ln -\/s /usr/local/xsd-\/4.0.\-0-\/x86\-\_\-64-\/linux-\/gnu/libxsd/xsd /usr/local/include/xsd
+
+\subsection*{4) Optionally -\/ download netbeans }
+
+\href{https://netbeans.org/downloads/}{\tt https\-://netbeans.\-org/downloads/}
+
+cd to the directory where you downloaded netbeans\-: \begin{DoxyVerb}./netbeans-8.1-cpp-linux-x64.sh
+\end{DoxyVerb}
+
+
+\subsection*{5) Setup R\-O\-S workspace }
+
+\begin{DoxyVerb}$ source /opt/ros/indigo/setup.bash
+\end{DoxyVerb}
+
+
+Let's create a catkin workspace\-: \begin{DoxyVerb}$ mkdir -p /home/local/michalos/catkin_ws/src
+$ cd /home/local/michalos/catkin_ws/src
+$ catkin_init_workspace
+\end{DoxyVerb}
+
+
+Now you can add your packages to the R\-O\-S catkin workspace. For those packages you cloned from G\-I\-T\-H\-U\-B, you will need to symbolically link the package directory to the github local directory)) \begin{DoxyVerb}$ mkdir -p /usr/local/github/ros-industrial
+$ cd /usr/local/github/ros-industrial
+$ git clone https://github.com/ros-industrial/fanuc_experimental.git
+$ cd /home/local/michalos/catkin_ws/src
+$ ln -s  /usr/local/github/ros-industrial/fanuc_experimental fanuc_experimental
+\end{DoxyVerb}
+
+
+And do for descartes, nist\-\_\-fanuc, etc.
+
+\subsection*{6) Compile R\-O\-S packages }
+
+\begin{DoxyVerb}$ cd /home/local/michalos/catkin_ws
+$ catkin_make -DCMAKE_BUILD_TYPE=Debug
+\end{DoxyVerb}
+
+
+\subsection*{7) Run R\-O\-S Simulator }
+
+\begin{DoxyVerb}$ cd /usr/local/michalos/
+$ cd nistfanuc_ws/
+$ source devel/setup.bash
+$roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch sim:=true 
+\end{DoxyVerb}
+
+
+\subsection*{8) Install Java 1.\-08 from Oracle for Java C\-R\-C\-L Tool }
+
+To build java crcl tool one needs\-: \begin{DoxyVerb}JDK 1.8+ (http://www.oracle.com/technetwork/java/javase/downloads/index.html) and
+maven 3.0.5+ (https://maven.apache.org/download.cgi)
+\end{DoxyVerb}
+
+
+Install maven\-: \$ sudo apt-\/get install maven
+
+Use the command\-: \begin{DoxyVerb}mvn package
+\end{DoxyVerb}
+
+
+If you see this message at the beginning, bummer\-: \begin{DoxyVerb}Warning: JAVA_HOME environment variable is not set. 
+\end{DoxyVerb}
+
+
+You can check /usr/lib/jvm to see if a 1.\-8 Java Virtual Machine has been installed. If so, skip the installation step.
+
+So you do not have Java installed. These are instructions for the less than sudo installers. Note, you need the Oracle Java J\-D\-K 1.\-8 version, not the 1.\-7 version of Ubuntu!!!
+
+Download, unzip and copy to /usr/local/jdk1.8.\-0\-\_\-77 or whatever is the latest 1.\-8 version.
+
+Change you will need to change .bashrc to set the P\-A\-T\-H to know where the jdk is installed\-: \begin{DoxyVerb}for dir in /usr/local/jdk1.8.0_77/bin /usr/lib/jvm/java-[6,7,8]-*/bin /usr/local/jdk*/bin /usr/local/jdk*/bin ; do
+  if [ -x $dir/java ] ; then
+    javadir=$dir
+  fi
+done
+if [ x"$javadir" = x ] ; then javadir=/usr/bin ; fi
+
+# platform-specific environment vars
+
+THISPLAT=`uname -s` ; export THISPLAT
+
+case $THISPLAT in
+    Linux)
+    PATH=$javadir:
+\end{DoxyVerb}
+
+
+And make sure you source the .bashrc before you attempt run.\-sh in java crcl. The voodoo worked for me.
+
+\subsection*{9) Install doxygen for documentation generation }
+
+\begin{DoxyVerb}$ sudo apt-get install doxygen\end{DoxyVerb}
  

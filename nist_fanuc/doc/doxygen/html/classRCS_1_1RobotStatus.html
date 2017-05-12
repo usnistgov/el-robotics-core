@@ -82,9 +82,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abd9c969c564c66c5dd4ae92699172742"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdcfb3be4ed2558ca3e5c745dc669340"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotStatus.html#abdcfb3be4ed2558ca3e5c745dc669340">VAR</a> (<a class="el" href="SanityCheckTests_8cpp.html#ac2d60ae645ce73be6021c92b37789e7c">Kinematics</a>, boost::shared_ptr&lt; <a class="el" href="classIKinematics.html">IKinematics</a> &gt;)</td></tr>
 <tr class="separator:abdcfb3be4ed2558ca3e5c745dc669340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b8484b6d7ad5ae10e41a5d327efc658"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotStatus.html#a7b8484b6d7ad5ae10e41a5d327efc658">Action</a> ()</td></tr>
-<tr class="memdesc:a7b8484b6d7ad5ae10e41a5d327efc658"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action is the main loop in the <a class="el" href="namespaceRCS.html">RCS</a> thread timing. Get latest robot joint readings. Use forward kinematics to get current pose. Then, updates the CRCL world model with the latest readings.  Should it keep track of the command id also - in theory only one CRCl command at a time.  <a href="#a7b8484b6d7ad5ae10e41a5d327efc658">More...</a><br/></td></tr>
-<tr class="separator:a7b8484b6d7ad5ae10e41a5d327efc658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac71a3ac33bfdf37a96dc5a0bf1ce7133"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotStatus.html#ac71a3ac33bfdf37a96dc5a0bf1ce7133">Action</a> ()</td></tr>
+<tr class="memdesc:ac71a3ac33bfdf37a96dc5a0bf1ce7133"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action is the main loop in the <a class="el" href="namespaceRCS.html">RCS</a> thread timing. Get latest robot joint readings. Use forward kinematics to get current pose. Then, updates the CRCL world model with the latest readings.  Should it keep track of the command id also - in theory only one CRCl command at a time.  <a href="#ac71a3ac33bfdf37a96dc5a0bf1ce7133">More...</a><br/></td></tr>
+<tr class="separator:ac71a3ac33bfdf37a96dc5a0bf1ce7133"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad11542a68b43feb8c327abafbd94344"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1RobotStatus.html#aad11542a68b43feb8c327abafbd94344">Verify</a> ()</td></tr>
 <tr class="memdesc:aad11542a68b43feb8c327abafbd94344"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to determine if the instance is valid, i.e., has all reference pointers.  <a href="#aad11542a68b43feb8c327abafbd94344">More...</a><br/></td></tr>
 <tr class="separator:aad11542a68b43feb8c327abafbd94344"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,13 +102,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5f7209d2edfa23588f6adc74bbfb8f07 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uses boost thread join routine.  <a href="#a5f7209d2edfa23588f6adc74bbfb8f07">More...</a><br/></td></tr>
 <tr class="separator:a5f7209d2edfa23588f6adc74bbfb8f07 inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53ee19c04d064c9a23f0909cf9a4b2cc inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a53ee19c04d064c9a23f0909cf9a4b2cc">Init</a> ()</td></tr>
-<tr class="memdesc:a53ee19c04d064c9a23f0909cf9a4b2cc inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init function called before <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e" title="Action override function called every cycle. ">Action()</a> loop.  <a href="#a53ee19c04d064c9a23f0909cf9a4b2cc">More...</a><br/></td></tr>
+<tr class="memdesc:a53ee19c04d064c9a23f0909cf9a4b2cc inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init function called before <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1" title="Action override function called every cycle. ">Action()</a> loop.  <a href="#a53ee19c04d064c9a23f0909cf9a4b2cc">More...</a><br/></td></tr>
 <tr class="separator:a53ee19c04d064c9a23f0909cf9a4b2cc inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a8b932e4130f18d9747407fe70a87332a">Cleanup</a> ()</td></tr>
-<tr class="memdesc:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup function called after <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e" title="Action override function called every cycle. ">Action()</a> loop done.  <a href="#a8b932e4130f18d9747407fe70a87332a">More...</a><br/></td></tr>
+<tr class="memdesc:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanup function called after <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1" title="Action override function called every cycle. ">Action()</a> loop done.  <a href="#a8b932e4130f18d9747407fe70a87332a">More...</a><br/></td></tr>
 <tr class="separator:a8b932e4130f18d9747407fe70a87332a inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#a86b50ec69dd0baeda270b115d72c1c15">Start</a> ()</td></tr>
-<tr class="memdesc:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start starts the thread which call <a class="el" href="classRCS_1_1Thread.html#a53ee19c04d064c9a23f0909cf9a4b2cc" title="Init function called before Action() loop. ">Init()</a>, and then does <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e" title="Action override function called every cycle. ">Action()</a> loop.  <a href="#a86b50ec69dd0baeda270b115d72c1c15">More...</a><br/></td></tr>
+<tr class="memdesc:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start starts the thread which call <a class="el" href="classRCS_1_1Thread.html#a53ee19c04d064c9a23f0909cf9a4b2cc" title="Init function called before Action() loop. ">Init()</a>, and then does <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1" title="Action override function called every cycle. ">Action()</a> loop.  <a href="#a86b50ec69dd0baeda270b115d72c1c15">More...</a><br/></td></tr>
 <tr class="separator:a86b50ec69dd0baeda270b115d72c1c15 inherit pub_methods_classRCS_1_1Thread"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0c4a68567ab695f4b7daf755ab874d6 inherit pub_methods_classRCS_1_1Thread"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRCS_1_1Thread.html#ae0c4a68567ab695f4b7daf755ab874d6">Stop</a> (bool bWait=false)</td></tr>
 <tr class="memdesc:ae0c4a68567ab695f4b7daf755ab874d6 inherit pub_methods_classRCS_1_1Thread"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop stops the thread loop.  <a href="#ae0c4a68567ab695f4b7daf755ab874d6">More...</a><br/></td></tr>
@@ -191,7 +191,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a7b8484b6d7ad5ae10e41a5d327efc658"></a>
+<a class="anchor" id="ac71a3ac33bfdf37a96dc5a0bf1ce7133"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -199,7 +199,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void RCS::RobotStatus::Action </td>
+          <td class="memname">int RCS::RobotStatus::Action </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -214,7 +214,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Action is the main loop in the <a class="el" href="namespaceRCS.html">RCS</a> thread timing. Get latest robot joint readings. Use forward kinematics to get current pose. Then, updates the CRCL world model with the latest readings.  Should it keep track of the command id also - in theory only one CRCl command at a time. </p>
 
-<p>Reimplemented from <a class="el" href="classRCS_1_1Thread.html#a327655d2626c51ea61bcc233a94dc78e">RCS::Thread</a>.</p>
+<p>Reimplemented from <a class="el" href="classRCS_1_1Thread.html#a78aec7128f4fbf5d6859ceb09f9f9ae1">RCS::Thread</a>.</p>
 
 </div>
 </div>
@@ -329,13 +329,13 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="Controller_8h_source.html">Controller.h</a></li>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="Controller_8cpp.html">Controller.cpp</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="Controller_8h_source.html">Controller.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/<a class="el" href="Controller_8cpp.html">Controller.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

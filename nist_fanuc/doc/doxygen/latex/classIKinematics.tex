@@ -32,7 +32,9 @@ virtual size\-\_\-t \hyperlink{classIKinematics_aeb53bb4b2a1e70a79d5d724e5eb82c1
 virtual std\-::vector$<$ double $>$ \hyperlink{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{Nearest\-Joints} (std\-::vector$<$ double $>$ oldjoints, std\-::vector$<$ std\-::vector$<$ double $>$ $>$ \&newjoints)=0
 \begin{DoxyCompactList}\small\item\em Nearest\-Joints finds the joint set that is closest to the old joints. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classIKinematics_a1407620d6cf7f26e61a64af42d570b8f}{Init} (std\-::string groupname, std\-::string eelinkname)
-\begin{DoxyCompactList}\small\item\em Init is necessary for R\-O\-S to initialize it kinematics using robot model . \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Init is necessary for R\-O\-S to initialize it kinematics using robot model . \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classIKinematics_a60505b46ea856c60abc3d85cc984c5d1}{Is\-Singular} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} \&pose, double threshold)=0
+\begin{DoxyCompactList}\small\item\em Returns true if the determinant of the jacobian is near zero. . \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -155,6 +157,29 @@ Init is necessary for R\-O\-S to initialize it kinematics using robot model .
 
 Reimplemented in \hyperlink{classMoveitKinematics_a3d0a3d9eadca26b5a24dd9904fee6e91}{Moveit\-Kinematics}, and \hyperlink{classRosKinematics_a307da5d4456621c4cc2dce412be30db3}{Ros\-Kinematics}.
 
+\hypertarget{classIKinematics_a60505b46ea856c60abc3d85cc984c5d1}{\index{I\-Kinematics@{I\-Kinematics}!Is\-Singular@{Is\-Singular}}
+\index{Is\-Singular@{Is\-Singular}!IKinematics@{I\-Kinematics}}
+\subsubsection[{Is\-Singular}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool I\-Kinematics\-::\-Is\-Singular (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose} \&}]{pose, }
+\item[{double}]{threshold}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classIKinematics_a60505b46ea856c60abc3d85cc984c5d1}
+
+
+Returns true if the determinant of the jacobian is near zero. . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em groupname} & name of chained joints in robot model. \\
+\hline
+{\em eelinkname} & name of end effector joint in robot model. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classMoveitKinematics_a4b8520158eba774aefc8894febe6e1d7}{Moveit\-Kinematics}, \hyperlink{classRosKinematics_aba5780a92ef59b3b27eb204b68989588}{Ros\-Kinematics}, and \hyperlink{classDummyKinematics_a1390a55863f2dd914dc37299c7c452f0}{Dummy\-Kinematics}.
+
 \hypertarget{classIKinematics_ab74b70ed6ecc53adfc36505b8dd1fef4}{\index{I\-Kinematics@{I\-Kinematics}!Nearest\-Joints@{Nearest\-Joints}}
 \index{Nearest\-Joints@{Nearest\-Joints}!IKinematics@{I\-Kinematics}}
 \subsubsection[{Nearest\-Joints}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::vector$<$double$>$ I\-Kinematics\-::\-Nearest\-Joints (
@@ -205,4 +230,4 @@ Implemented in \hyperlink{classMoveitKinematics_aee274ed4deddecb36191f8711c4b7c2
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/michalos/catkin\-\_\-ws/src/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\end{DoxyCompactItemize}
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{Kinematics_8h}{Kinematics.\-h}\end{DoxyCompactItemize}

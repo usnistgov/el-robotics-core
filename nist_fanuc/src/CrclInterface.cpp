@@ -628,7 +628,8 @@ std::string CrclClientCmdInterface::StopMotion(int condition) // 0=Immediate, Fa
 // CrclDelegateInterface - handles CRCL command
 
 CrclReturn CrclDelegateInterface::ActuateJoints(Crcl::ActuatorJointSequence joints) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::ActuateJoints\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::ActuateJoints\n"));
+    std::string strcmd="";
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_JOINT;
     cc.ParentCommandID() = crclwm.CommandID();
@@ -658,9 +659,12 @@ CrclReturn CrclDelegateInterface::ActuateJoints(Crcl::ActuatorJointSequence join
             double pos = joints[i].JointPosition() * crclwm._angleConversion;
             cc.joints.position.push_back(pos);
             cc.joints.velocity.push_back(speed); //  need conversion of velocity?
-            cc.joints.effort.push_back(accel); //   need conversion of acc?
+            cc.joints.effort.push_back(accel); //   need conversion of acc?Format()
+            strcmd+=Globals.StrFormat(",%6.4f",pos);
         }
     }
+    LogFile.LogFormatMessage("ActuateJoints In=%s\n", strcmd.c_str());
+    LogFile.LogFormatMessage("ActuateJoints Rcs=%s\n", RCS::DumpJoints(cc.joints).c_str());
 
     RCS::Controller.cmds.AddMsgQueue(cc);
 
@@ -668,7 +672,7 @@ CrclReturn CrclDelegateInterface::ActuateJoints(Crcl::ActuatorJointSequence join
 }
 
 CrclReturn CrclDelegateInterface::CloseToolChanger() {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::CloseToolChanger\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::CloseToolChanger\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_SET_GRIPPER;
 	cc.ParentCommandID() =  crclwm.CommandID();
@@ -678,20 +682,20 @@ CrclReturn CrclDelegateInterface::CloseToolChanger() {
 }
 
 CrclReturn CrclDelegateInterface::ConfigureJointReports(std::vector<Crcl::JointReport> & jointReports) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::ConfigureJointReports\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::ConfigureJointReports\n"));
     crclwm._vJointReport.clear();
     crclwm._vJointReport.insert(crclwm._vJointReport.begin(), jointReports.begin(), jointReports.end());
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::Couple(char *targetID) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::Couple\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::Couple\n"));
 
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::Dwell(double seconds) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::Dwell=%5.2f\n", seconds));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::Dwell=%5.2f\n", seconds));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_DWELL;
     cc.ParentCommandID() = crclwm.CommandID();
@@ -701,13 +705,13 @@ CrclReturn CrclDelegateInterface::Dwell(double seconds) {
 }
 
 CrclReturn CrclDelegateInterface::EndCanon() {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::EndCanon\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::EndCanon\n"));
     //signal(SIG_INT);
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::GetStatus() {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::GetStatus\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::GetStatus\n"));
     std::cout << "GetStatus\n";
     crclwm.Update(_nCommandNum);
 
@@ -719,7 +723,7 @@ CrclReturn CrclDelegateInterface::GetStatus() {
 }
 
 CrclReturn CrclDelegateInterface::InitCanon() {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::InitCanon\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::InitCanon\n"));
     crclwm.Update(_nCommandNum);
     crclwm.Update(Crcl::CommandStateEnum("CRCL_Done"));
     Crcl::JointStatusSequence jstat(CrclStatus().JointsHome());
@@ -733,13 +737,13 @@ CrclReturn CrclDelegateInterface::InitCanon() {
 }
 
 CrclReturn CrclDelegateInterface::Message(std::string message) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::Message=%s\n",message.c_str()));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::Message=%s\n",message.c_str()));
 
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::MoveTo(Crcl::PoseType endpose, bool bStraight) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::MoveTo\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::MoveTo\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_TO;
     cc.ParentCommandID() = crclwm.CommandID();
@@ -755,7 +759,7 @@ CrclReturn CrclDelegateInterface::MoveTo(Crcl::PoseType endpose, bool bStraight)
 }
 
 CrclReturn CrclDelegateInterface::MoveThroughTo(std::vector<Crcl::PoseType> & poses, bool bStraight) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::MoveThroughTo\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::MoveThroughTo\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_MOVE_THRU;
 	cc.ParentCommandID() =  crclwm.CommandID();
@@ -774,7 +778,7 @@ CrclReturn CrclDelegateInterface::MoveThroughTo(std::vector<Crcl::PoseType> & po
 }
 
 CrclReturn CrclDelegateInterface::OpenToolChanger() {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::OpenToolChanger\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::OpenToolChanger\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_SET_GRIPPER;
     cc.gripperPos = 1.0;
@@ -783,25 +787,25 @@ CrclReturn CrclDelegateInterface::OpenToolChanger() {
 }
 
 CrclReturn CrclDelegateInterface::RunProgram(std::string programText) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::RunProgram=%s\n", programText.c_str()));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::RunProgram=%s\n", programText.c_str()));
 
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetAbsoluteAcceleration(double acceleration) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetAbsoluteAcceleration=%5.2f\n", acceleration));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetAbsoluteAcceleration=%5.2f\n", acceleration));
 
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetAbsoluteSpeed(double speed) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetAbsoluteSpeed=%5.2f\n", speed));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetAbsoluteSpeed=%5.2f\n", speed));
 
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetAngleUnits(std::string unitName) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetAngleUnits=A%s\n", unitName.c_str()));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetAngleUnits=%s\n", unitName.c_str()));
 
     if (strncasecmp(unitName.c_str(), "RADIAN", unitName.size())==0) {
         crclwm._angleUnit = RCS::RADIAN;
@@ -816,7 +820,7 @@ CrclReturn CrclDelegateInterface::SetAngleUnits(std::string unitName) {
 }
 
 CrclReturn CrclDelegateInterface::SetAxialSpeeds(std::vector<double> speeds) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::SetAxialSpeeds\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetAxialSpeeds\n"));
     crclwm._speeds.clear();
     copy(speeds.begin(), speeds.end(), std::back_inserter(crclwm._speeds));
 
@@ -830,7 +834,7 @@ CrclReturn CrclDelegateInterface::SetAxialSpeeds(std::vector<double> speeds) {
 }
 
 CrclReturn CrclDelegateInterface::SetEndPoseTolerance(Crcl::PoseToleranceType tolerance) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::SetEndPoseTolerance\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetEndPoseTolerance\n"));
     crclwm._endPoseTolerance = tolerance;
 
     // PoseToleranceType::XPointTolerance_optional x(tolerancepose.XPointTolerance());
@@ -846,7 +850,7 @@ CrclReturn CrclDelegateInterface::SetEndPoseTolerance(Crcl::PoseToleranceType to
     cc.tolerance.position.z = *tolerance.ZPointTolerance();
 
 
-    // These need to be combined into quaterion, and then compared to final pose for error quaterion
+    // These need to be combined into quaternion, and then compared to final pose for error quaternion
     tolerance.XAxisTolerance();
     tolerance.ZAxisTolerance();
 #endif
@@ -855,7 +859,7 @@ CrclReturn CrclDelegateInterface::SetEndPoseTolerance(Crcl::PoseToleranceType to
 }
 
 CrclReturn CrclDelegateInterface::SetForceUnits(std::string unitName) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetForceUnits=%s\n",unitName.c_str()));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetForceUnits=%s\n",unitName.c_str()));
 
     if (strncasecmp(unitName.c_str(), "newton", unitName.size())==0) {
         crclwm._forceUnit = RCS::NEWTON;
@@ -874,13 +878,13 @@ CrclReturn CrclDelegateInterface::SetForceUnits(std::string unitName) {
 }
 
 CrclReturn CrclDelegateInterface::SetIntermediatePoseTolerance(Crcl::PoseToleranceType tolerance) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::SetIntermediatePoseTolerance\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetIntermediatePoseTolerance\n"));
     crclwm._intermediatePoseTolerance = tolerance;
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetLengthUnits(std::string unitName) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetLengthUnits=%s\n", unitName.c_str()));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetLengthUnits=%s\n", unitName.c_str()));
 
     if (strncasecmp(unitName.c_str(), "METER", unitName.size())==0) {
         crclwm._lengthUnit = RCS::METER;
@@ -898,24 +902,24 @@ CrclReturn CrclDelegateInterface::SetLengthUnits(std::string unitName) {
 }
 
 CrclReturn CrclDelegateInterface::SetMotionCoordination(bool bCoordinatedMotion) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetMotionCoordination=%d\n",bCoordinatedMotion));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetMotionCoordination=%d\n",bCoordinatedMotion));
     crclwm._bCoordinatedMotion = true;
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetParameter(char *paramName, void *paramVal) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::SetParameter\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetParameter\n"));
 
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetRelativeAcceleration(double percent) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetRelativeAcceleration=%5.2f\n", percent));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetRelativeAcceleration=%5.2f\n", percent));
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetEndEffector(double percent) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetEndEffector=%5.2f\n", percent));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetEndEffector=%5.2f\n", percent));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_SET_GRIPPER;
 	cc.ParentCommandID() =  crclwm.CommandID();
@@ -925,13 +929,13 @@ CrclReturn CrclDelegateInterface::SetEndEffector(double percent) {
 }
 
 CrclReturn CrclDelegateInterface::SetEndEffectorTolerance(Crcl::PoseToleranceType dTolerance) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetEndEffectorTolerance\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetEndEffectorTolerance\n"));
     crclwm._gripperPoseTolerance = dTolerance;
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::StopMotion(int condition) {
-    IfDebug(Globals.DebugMessage("CrclDelegateInterface::StopMotion\n"));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::StopMotion\n"));
     RCS::CanonCmd cc;
     cc.cmd = RCS::CANON_STOP_MOTION;
     cc.stoptype = (RCS::CanonStopMotionType) condition;
@@ -940,17 +944,17 @@ CrclReturn CrclDelegateInterface::StopMotion(int condition) {
 }
 
 CrclReturn CrclDelegateInterface::SetRotAccel(double accel) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetRotAccel=%5.2f\n", accel));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetRotAccel=%5.2f\n", accel));
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetRotSpeed(double speed) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetRotSpeed=%5.2f\n", speed));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetRotSpeed=%5.2f\n", speed));
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetTorqueUnits(std::string unitName) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetTorqueUnits=%s\n", unitName.c_str()));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetTorqueUnits=%s\n", unitName.c_str()));
 
     //   newtonMeter,   footPound
     // 1.35581794833 × F * lbf-ft = F * N⋅m
@@ -967,12 +971,12 @@ CrclReturn CrclDelegateInterface::SetTorqueUnits(std::string unitName) {
 }
 
 CrclReturn CrclDelegateInterface::SetTransAccel(double accel) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetTransAccel=%5.2f\n",accel));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetTransAccel=%5.2f\n",accel));
     return CANON_SUCCESS;
 }
 
 CrclReturn CrclDelegateInterface::SetTransSpeed(double speed) {
-    IfDebug(Globals.DebugStrFormat("CrclDelegateInterface::SetTransSpeed=%5.2f\n",speed));
+    IfDebug(LogFile.LogFormatMessage("CrclDelegateInterface::SetTransSpeed=%5.2f\n",speed));
     crclwm.Rates().CurrentFeedrate()=speed;
     return CANON_SUCCESS;
 }

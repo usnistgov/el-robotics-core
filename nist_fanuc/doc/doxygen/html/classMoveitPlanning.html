@@ -78,6 +78,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a535856f4f406cb7d2f89c0bd03618109"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e53ee15cf0ac2f605422534963d78e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#ac0e53ee15cf0ac2f605422534963d78e">Plan</a> (geometry_msgs::Pose &amp;pose)</td></tr>
 <tr class="separator:ac0e53ee15cf0ac2f605422534963d78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89a6cc30c32514b8382f1a31868a32d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#a89a6cc30c32514b8382f1a31868a32d4">Plan</a> (<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> curjoints, std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; &amp;waypoints, double maxstep=0.01)</td></tr>
+<tr class="separator:a89a6cc30c32514b8382f1a31868a32d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44786615bc6798f29575d5846078c881"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#a44786615bc6798f29575d5846078c881">GetCurrentPose</a> ()</td></tr>
 <tr class="separator:a44786615bc6798f29575d5846078c881"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ad173a662340daf91ab2ddde44e0946"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#a4ad173a662340daf91ab2ddde44e0946">GetJointValues</a> ()</td></tr>
@@ -95,6 +97,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae8754bf6b519a2fc6ada11a44989479b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26149b824c249979b28fcb46d4909668"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#a26149b824c249979b28fcb46d4909668">GetJointNames</a> ()</td></tr>
 <tr class="separator:a26149b824c249979b28fcb46d4909668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16acdb968a79729866f33aa51035aa17"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#a16acdb968a79729866f33aa51035aa17">VAR</a> (NumPlanningAttempts, double)</td></tr>
+<tr class="separator:a16acdb968a79729866f33aa51035aa17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab89c04762fec4567601f1f9e3518d9b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#ab89c04762fec4567601f1f9e3518d9b7">VAR</a> (PlanningTime, double)</td></tr>
+<tr class="separator:ab89c04762fec4567601f1f9e3518d9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad373c539d0caa8defff124c0bdfafebf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#ad373c539d0caa8defff124c0bdfafebf">VAR</a> (GoalTolerance, double)</td></tr>
+<tr class="separator:ad373c539d0caa8defff124c0bdfafebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3ff47e0cb727e46074122505a2b1e0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#ad3ff47e0cb727e46074122505a2b1e0a">VAR</a> (CartesianInterpolationResolution, double)</td></tr>
+<tr class="separator:ad3ff47e0cb727e46074122505a2b1e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebedee2a63d3a034b784acc6bb46d55f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoveitPlanning.html#aebedee2a63d3a034b784acc6bb46d55f">VAR</a> (CartesianJumpThreshold, double)</td></tr>
+<tr class="separator:aebedee2a63d3a034b784acc6bb46d55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -406,6 +418,38 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a89a6cc30c32514b8382f1a31868a32d4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MoveitPlanning::Plan </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&#160;</td>
+          <td class="paramname"><em>curjoints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>waypoints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxstep</em> = <code>0.01</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a99ae8ab8c7047f95d114701f1f3f2a49"></a>
 <div class="memitem">
 <div class="memproto">
@@ -430,6 +474,136 @@ Public Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a16acdb968a79729866f33aa51035aa17"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MoveitPlanning::VAR </td>
+          <td>(</td>
+          <td class="paramtype">NumPlanningAttempts&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab89c04762fec4567601f1f9e3518d9b7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MoveitPlanning::VAR </td>
+          <td>(</td>
+          <td class="paramtype">PlanningTime&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad373c539d0caa8defff124c0bdfafebf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MoveitPlanning::VAR </td>
+          <td>(</td>
+          <td class="paramtype">GoalTolerance&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad3ff47e0cb727e46074122505a2b1e0a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MoveitPlanning::VAR </td>
+          <td>(</td>
+          <td class="paramtype">CartesianInterpolationResolution&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aebedee2a63d3a034b784acc6bb46d55f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MoveitPlanning::VAR </td>
+          <td>(</td>
+          <td class="paramtype">CartesianJumpThreshold&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -558,13 +732,13 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="moveit_8h_source.html">moveit.h</a></li>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/src/<a class="el" href="moveit_8cpp.html">moveit.cpp</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="moveit_8h_source.html">moveit.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/src/<a class="el" href="moveit_8cpp.html">moveit.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:55 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,0 +1,77 @@
+This page describes some insights/tips into using Netbeans with R\-O\-S and catkin\-\_\-make.
+
+\subsection*{Using Netbeans I\-D\-E to Debug R\-O\-S executable }
+
+After Compiling Fanuc Demo with Debug Information, Use netbeans to create binary C++ project and read binary file to debug (for example found at $\ast$/home/michalos/catkin\-\_\-ws/devel/lib/nist\-\_\-fanuc/nist\-\_\-fanuc$\ast$)
+
+\section*{Running Netbeans without Environment setup properly }
+
+Unfortunately, you need to source $\sim$/catkin\-\_\-ws/devel/setup.bash to set up Unix shell enironment variables properly. Since it was not obvious how to run a bash shell before debugging the executable, it was decided a different approach must be used. (running a bash script with gdb was attempted). Instead environment variables were hard coded into the nist\-\_\-fanuc program, with the use of the posix function \char`\"{}setenv\char`\"{} to set the environment variables (not perfect, but close enough between addition of new R\-O\-S packages).
+
+To make it work, I did \begin{DoxyVerb}> env | grep indigo
+\end{DoxyVerb}
+
+
+to find all the related R\-O\-S environment variables. From \href{http://answers.ros.org/question/123581/rosrun-cannot-find-my-executable/}{\tt http\-://answers.\-ros.\-org/question/123581/rosrun-\/cannot-\/find-\/my-\/executable/} found\-: \begin{DoxyVerb}catkin_find uses the environment variable CMAKE_PREFIX_PATH to find catkin workspaces.
+\end{DoxyVerb}
+
+
+These workspaces in turn are used in rosrun. R\-O\-S\-\_\-\-P\-A\-C\-K\-A\-G\-E\-\_\-\-P\-A\-T\-H is no longer enough.
+
+This works, no claims of robustness. The following code was placed at the beginning of the \hyperlink{nist__fanuc_8cpp}{nist\-\_\-fanuc.\-cpp} to set up the environment variables before connecting to the roscore (master). (This assumes that all the basic rviz, robot model, etc. has been launched.) In the code\-: \begin{DoxyVerb}static void SetupRos(std::string  envname, std::string envval, int overwrite=1)
+{
+        setenv( envname.c_str(),envval.c_str(),1 );
+}
+
+       // Setup up environment for netbeans that allows ros utilities to work...
+        SetupRos("ROS_MASTER_URI", "http://localhost:11311");
+        SetupRos("ROS_DISTRO", "indigo");
+        SetupRos("ROS_ROOT", "/opt/ros/indigo/share/ros");
+        SetupRos("ROS_ETC_DIR", "/opt/ros/indigo/etc/ros");
+        SetupRos("ROS_PACKAGE_PATH", "/home/michalos/catkin_ws/src:/opt/ros/indigo/share:/opt/ros/indigo/stacks");
+        SetupRos("ROS_TEST_RESULTS_DIR", "/home/michalos/catkin_ws/build/test_results");
+        SetupRos("ROS_ETC_DIR", "/opt/ros/indigo/etc/ros");
+        SetupRos("OSLISP_PACKAGE_DIRECTORIES", "/home/michalos/catkin_ws/devel/share/common-lisp");
+        SetupRos("PYTHONPATH", "/home/michalos/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/indigo/lib/python2.7/dist-packages");
+        SetupRos("CMAKE_PREFIX_PATH", "/home/michalos/catkin_ws/devel:/opt/ros/indigo");
+        SetupRos("PATH", "/home/michalos/catkin_ws/devel/bin:/opt/ros/indigo/bin:/home/michalos/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+        SetupRos("PKG_CONFIG_PATH", "/home/michalos/catkin_ws/devel/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/indigo/lib/x86_64-linux-gnu/pkgconfig:/home/michalos/catkin_ws/devel/lib/pkgconfig:/opt/ros/indigo/lib/pkgconfig");
+\end{DoxyVerb}
+
+
+This does not improve the performance of Netbeans.(Often hogging up to 1\-G! per executable.)
+
+I could rant/rave about Java, but won't. Better than nothing -\/ must be patient as often it takes time to reload the executable.
+
+\subsection*{Turn off auto paren completion in Netbeans -\/ really annoying }
+
+\begin{DoxyVerb}Tools->Options
+Editor->Code Completion
+\end{DoxyVerb}
+
+
+\subsection*{tf include location }
+
+/opt/ros/indigo/include/tf/\-Linear\-Math
+
+\subsection*{Netbeans Turn on/off Exception Breakpoints }
+
+\subsubsection*{To turn on breakpoint\-:}
+
+It's often useful to stop execution of an application when an exception occurs, and inspect the state of the app in debugger. It is very simple to do\-: setup an exception breakpoint and just run the application via debugger (or attach to an running application).
+
+To setup an exception breakpoint\-: \begin{DoxyVerb}Go to menu Debug | New Breakpoint (Ctrl+Shift+F8).
+\end{DoxyVerb}
+
+
+In the New Breakpoint dialog select the Exception breakpoint type from the combobox.
+
+Enter the exception to track (fully qualified class name). You can modify the other properties too.
+
+Typically you want to watch for some general exception superclass, e.\-g. java.\-lang.\-Exception, or exceptions that do not have to be handled, e.\-g. java.\-lang.\-Assertion\-Error, or java.\-lang.\-Runtime\-Exception.
+
+In a bigger application you may want to narrow the scope of classes to watch for exceptions only from your classes, not to stop on exceptions from J\-D\-K internals or other code. You can set a match or exclude class filter in the Filter on Classes Throwing the Exception option of the breakpoint dialog.
+
+\subsubsection*{To turn off breakpoint\-:}
+
+Select menu Window / Debugging / Breakpoints (or press Alt + Shift + 5), then right-\/click in the Breakpoints window and select Delete All. 

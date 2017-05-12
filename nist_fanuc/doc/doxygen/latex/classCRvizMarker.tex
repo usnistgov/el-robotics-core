@@ -1,0 +1,180 @@
+\hypertarget{classCRvizMarker}{\section{C\-Rviz\-Marker Class Reference}
+\label{classCRvizMarker}\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}}
+}
+
+
+The \hyperlink{classCRvizMarker}{C\-Rviz\-Marker} provides a C++ class to send markers to rviz. Note you must manually add the rviz subscribe to marker messages. Read here for explanation \href{http://answers.ros.org/question/11135/plotting-a-markerarray-of-spheres-with-rviz/}{\tt http\-://answers.\-ros.\-org/question/11135/plotting-\/a-\/markerarray-\/of-\/spheres-\/with-\/rviz/}.  
+
+
+
+
+{\ttfamily \#include $<$Rviz\-Marker.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCRvizMarker_ab1733ac291c06bcf40d58f63415a358a}{C\-Rviz\-Marker} (ros\-::\-Node\-Handle \&nh)
+\begin{DoxyCompactList}\small\item\em Constructor for \char`\"{}\-Marker\char`\"{} which sets default marker values... \end{DoxyCompactList}\item 
+void \hyperlink{classCRvizMarker_a06a5319e1eecb94204c59a7d05e3da27}{Init} ()
+\begin{DoxyCompactList}\small\item\em Initialization routine which subsribes to the \char`\"{}\-Marker\char`\"{} topic.. \end{DoxyCompactList}\item 
+int \hyperlink{classCRvizMarker_a877d45842547db1ab1fea545e778d2b1}{Send} (\hyperlink{namespaceRCS_aa07e45d8a50e30064283d2b38087f999}{R\-C\-S\-::\-Pose} p)
+\begin{DoxyCompactList}\small\item\em Publish a visualization marker message to the Marker topic. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{classCRvizMarker_ac94e0f85f53d5d434e26546294d51869}{Set\-Shape} (uint32\-\_\-t \hyperlink{classCRvizMarker_ac71ec52d586b80a1f1fd7889871557c7}{shape})
+\begin{DoxyCompactList}\small\item\em Set the marker to be displayed. \end{DoxyCompactList}\item 
+void \hyperlink{classCRvizMarker_a8bf342bf1758f484ac9a6caf0fb3c86a}{Set\-Color} (double \hyperlink{classCRvizMarker_af9fab360283313338e57876dfd4f7053}{r}, double \hyperlink{classCRvizMarker_ad57f170c6e6757617c990c255c28ad3c}{g}, double \hyperlink{classCRvizMarker_aef6cbf7b2feda8b072863547c9c0719d}{b}, double \hyperlink{classCRvizMarker_a93c527fccbe4672668b497d5b4976704}{a})
+\begin{DoxyCompactList}\small\item\em Set the color of the maker to be displayed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Publisher \hyperlink{classCRvizMarker_a5cc00e270e464a0c3be4a73ebd9f5aaa}{marker\-\_\-pub}
+\item 
+ros\-::\-Node\-Handle \& \hyperlink{classCRvizMarker_ab77f5a091387abda51f1d523ac4657f9}{n}
+\item 
+uint32\-\_\-t \hyperlink{classCRvizMarker_ac71ec52d586b80a1f1fd7889871557c7}{shape}
+\item 
+int \hyperlink{classCRvizMarker_adc420093c48e69c28b80ccc0181faab5}{\-\_\-id}
+\item 
+double \hyperlink{classCRvizMarker_ac023151b88d7a4c06cee4c33a5f8d06d}{scalex}
+\item 
+double \hyperlink{classCRvizMarker_a9a20dee09e81974042c0fb7bb3ff1384}{scaley}
+\item 
+double \hyperlink{classCRvizMarker_ad1c888f2a832cbc9447cd830bb04ae56}{scalez}
+\item 
+double \hyperlink{classCRvizMarker_af9fab360283313338e57876dfd4f7053}{r}
+\item 
+double \hyperlink{classCRvizMarker_ad57f170c6e6757617c990c255c28ad3c}{g}
+\item 
+double \hyperlink{classCRvizMarker_aef6cbf7b2feda8b072863547c9c0719d}{b}
+\item 
+double \hyperlink{classCRvizMarker_a93c527fccbe4672668b497d5b4976704}{a}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classCRvizMarker}{C\-Rviz\-Marker} provides a C++ class to send markers to rviz. Note you must manually add the rviz subscribe to marker messages. Read here for explanation \href{http://answers.ros.org/question/11135/plotting-a-markerarray-of-spheres-with-rviz/}{\tt http\-://answers.\-ros.\-org/question/11135/plotting-\/a-\/markerarray-\/of-\/spheres-\/with-\/rviz/}. 
+
+In the R\-O\-S Electric version of rviz (the latest version), Marker is a proper display type. To show the data from the program you posted, in rviz do\-: Click the \char`\"{}\-Add\char`\"{} button in the \char`\"{}\-Displays\char`\"{} area. Choose \char`\"{}\-Marker\char`\"{} in the type list. Click \char`\"{}\-O\-K\char`\"{}
+
+If it doesn't show immediately (it hung for me the first time), do\-:
+
+Click on the \char`\"{}\-Marker Array Topic\char`\"{} line in the new display entry. This should make an elipsis (\char`\"{}...\char`\"{}) button appear. Click the \char`\"{}...\char`\"{} button. A dialog with currently-\/published Marker\-Array topics should appear. Click on \char`\"{}visualization\-\_\-marker\-\_\-array\char`\"{} (or whatever you have named it). Click \char`\"{}\-O\-K\char`\"{} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCRvizMarker_ab1733ac291c06bcf40d58f63415a358a}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!C\-Rviz\-Marker@{C\-Rviz\-Marker}}
+\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{C\-Rviz\-Marker}]{\setlength{\rightskip}{0pt plus 5cm}C\-Rviz\-Marker\-::\-C\-Rviz\-Marker (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh}
+\end{DoxyParamCaption}
+)}}\label{classCRvizMarker_ab1733ac291c06bcf40d58f63415a358a}
+
+
+Constructor for \char`\"{}\-Marker\char`\"{} which sets default marker values... 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCRvizMarker_a06a5319e1eecb94204c59a7d05e3da27}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!Init@{Init}}
+\index{Init@{Init}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Rviz\-Marker\-::\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCRvizMarker_a06a5319e1eecb94204c59a7d05e3da27}
+
+
+Initialization routine which subsribes to the \char`\"{}\-Marker\char`\"{} topic.. 
+
+\hypertarget{classCRvizMarker_a877d45842547db1ab1fea545e778d2b1}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!Send@{Send}}
+\index{Send@{Send}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{Send}]{\setlength{\rightskip}{0pt plus 5cm}int C\-Rviz\-Marker\-::\-Send (
+\begin{DoxyParamCaption}
+\item[{{\bf R\-C\-S\-::\-Pose}}]{p}
+\end{DoxyParamCaption}
+)}}\label{classCRvizMarker_a877d45842547db1ab1fea545e778d2b1}
+
+
+Publish a visualization marker message to the Marker topic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pose} & p is where the marker is to be placed relative to the base link. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCRvizMarker_a8bf342bf1758f484ac9a6caf0fb3c86a}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!Set\-Color@{Set\-Color}}
+\index{Set\-Color@{Set\-Color}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{Set\-Color}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Rviz\-Marker\-::\-Set\-Color (
+\begin{DoxyParamCaption}
+\item[{double}]{r, }
+\item[{double}]{g, }
+\item[{double}]{b, }
+\item[{double}]{a}
+\end{DoxyParamCaption}
+)}}\label{classCRvizMarker_a8bf342bf1758f484ac9a6caf0fb3c86a}
+
+
+Set the color of the maker to be displayed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em red,green.} & blue and alpha are the values used herein. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCRvizMarker_ac94e0f85f53d5d434e26546294d51869}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!Set\-Shape@{Set\-Shape}}
+\index{Set\-Shape@{Set\-Shape}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{Set\-Shape}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t C\-Rviz\-Marker\-::\-Set\-Shape (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{shape}
+\end{DoxyParamCaption}
+)}}\label{classCRvizMarker_ac94e0f85f53d5d434e26546294d51869}
+
+
+Set the marker to be displayed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & is the enumeration of the marker type. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCRvizMarker_adc420093c48e69c28b80ccc0181faab5}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!\-\_\-id@{\-\_\-id}}
+\index{\-\_\-id@{\-\_\-id}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int C\-Rviz\-Marker\-::\-\_\-id}}\label{classCRvizMarker_adc420093c48e69c28b80ccc0181faab5}
+\hypertarget{classCRvizMarker_a93c527fccbe4672668b497d5b4976704}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!a@{a}}
+\index{a@{a}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{a}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::a}}\label{classCRvizMarker_a93c527fccbe4672668b497d5b4976704}
+\hypertarget{classCRvizMarker_aef6cbf7b2feda8b072863547c9c0719d}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!b@{b}}
+\index{b@{b}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{b}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::b}}\label{classCRvizMarker_aef6cbf7b2feda8b072863547c9c0719d}
+\hypertarget{classCRvizMarker_ad57f170c6e6757617c990c255c28ad3c}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!g@{g}}
+\index{g@{g}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{g}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::g}}\label{classCRvizMarker_ad57f170c6e6757617c990c255c28ad3c}
+\hypertarget{classCRvizMarker_a5cc00e270e464a0c3be4a73ebd9f5aaa}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!marker\-\_\-pub@{marker\-\_\-pub}}
+\index{marker\-\_\-pub@{marker\-\_\-pub}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{marker\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher C\-Rviz\-Marker\-::marker\-\_\-pub}}\label{classCRvizMarker_a5cc00e270e464a0c3be4a73ebd9f5aaa}
+\hypertarget{classCRvizMarker_ab77f5a091387abda51f1d523ac4657f9}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!n@{n}}
+\index{n@{n}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{n}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle\& C\-Rviz\-Marker\-::n}}\label{classCRvizMarker_ab77f5a091387abda51f1d523ac4657f9}
+\hypertarget{classCRvizMarker_af9fab360283313338e57876dfd4f7053}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!r@{r}}
+\index{r@{r}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{r}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::r}}\label{classCRvizMarker_af9fab360283313338e57876dfd4f7053}
+\hypertarget{classCRvizMarker_ac023151b88d7a4c06cee4c33a5f8d06d}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!scalex@{scalex}}
+\index{scalex@{scalex}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{scalex}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::scalex}}\label{classCRvizMarker_ac023151b88d7a4c06cee4c33a5f8d06d}
+\hypertarget{classCRvizMarker_a9a20dee09e81974042c0fb7bb3ff1384}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!scaley@{scaley}}
+\index{scaley@{scaley}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{scaley}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::scaley}}\label{classCRvizMarker_a9a20dee09e81974042c0fb7bb3ff1384}
+\hypertarget{classCRvizMarker_ad1c888f2a832cbc9447cd830bb04ae56}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!scalez@{scalez}}
+\index{scalez@{scalez}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{scalez}]{\setlength{\rightskip}{0pt plus 5cm}double C\-Rviz\-Marker\-::scalez}}\label{classCRvizMarker_ad1c888f2a832cbc9447cd830bb04ae56}
+\hypertarget{classCRvizMarker_ac71ec52d586b80a1f1fd7889871557c7}{\index{C\-Rviz\-Marker@{C\-Rviz\-Marker}!shape@{shape}}
+\index{shape@{shape}!CRvizMarker@{C\-Rviz\-Marker}}
+\subsubsection[{shape}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t C\-Rviz\-Marker\-::shape}}\label{classCRvizMarker_ac71ec52d586b80a1f1fd7889871557c7}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/include/nist\-\_\-fanuc/\hyperlink{RvizMarker_8h}{Rviz\-Marker.\-h}\item 
+/usr/local/michalos/github/usnistgov/el-\/robotics-\/core/nist\-\_\-fanuc/src/\hyperlink{RvizMarker_8cpp}{Rviz\-Marker.\-cpp}\end{DoxyCompactItemize}

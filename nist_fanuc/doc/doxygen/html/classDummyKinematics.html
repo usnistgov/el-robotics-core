@@ -87,6 +87,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5069cce91772b48d105065f12f6e15bc"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDummyKinematics.html#a5069cce91772b48d105065f12f6e15bc">NearestJoints</a> (std::vector&lt; double &gt; oldjoints, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;newjoints)</td></tr>
 <tr class="memdesc:a5069cce91772b48d105065f12f6e15bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">NearestJoints finds the joint set that is closest to the old joints.  <a href="#a5069cce91772b48d105065f12f6e15bc">More...</a><br/></td></tr>
 <tr class="separator:a5069cce91772b48d105065f12f6e15bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1390a55863f2dd914dc37299c7c452f0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDummyKinematics.html#a1390a55863f2dd914dc37299c7c452f0">IsSingular</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose, double threshold)</td></tr>
+<tr class="memdesc:a1390a55863f2dd914dc37299c7c452f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the determinant of the jacobian is near zero. .  <a href="#a1390a55863f2dd914dc37299c7c452f0">More...</a><br/></td></tr>
+<tr class="separator:a1390a55863f2dd914dc37299c7c452f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classIKinematics"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classIKinematics')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classIKinematics.html">IKinematics</a></td></tr>
 <tr class="memitem:a1407620d6cf7f26e61a64af42d570b8f inherit pub_methods_classIKinematics"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIKinematics.html#a1407620d6cf7f26e61a64af42d570b8f">Init</a> (std::string groupname, std::string eelinkname)</td></tr>
 <tr class="memdesc:a1407620d6cf7f26e61a64af42d570b8f inherit pub_methods_classIKinematics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init is necessary for ROS to initialize it kinematics using robot model .  <a href="#a1407620d6cf7f26e61a64af42d570b8f">More...</a><br/></td></tr>
@@ -250,6 +253,51 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1390a55863f2dd914dc37299c7c452f0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool DummyKinematics::IsSingular </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if the determinant of the jacobian is near zero. . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">groupname</td><td>name of chained joints in robot model. </td></tr>
+    <tr><td class="paramname">eelinkname</td><td>name of end effector joint in robot model. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classIKinematics.html#a60505b46ea856c60abc3d85cc984c5d1">IKinematics</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a5069cce91772b48d105065f12f6e15bc"></a>
 <div class="memitem">
 <div class="memproto">
@@ -331,12 +379,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/michalos/catkin_ws/src/nist_fanuc/include/nist_fanuc/<a class="el" href="Kinematics_8h_source.html">Kinematics.h</a></li>
+<li>/usr/local/michalos/github/usnistgov/el-robotics-core/nist_fanuc/include/nist_fanuc/<a class="el" href="Kinematics_8h_source.html">Kinematics.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:55 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,4 +1,4 @@
-.TH "RCS::CController" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "RCS::CController" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -44,7 +44,7 @@ Inherits \fBRCS::Thread\fP\&.
 .br
 .RI "\fIVerifies that all the pointer references in the controller have been instantiated (i\&.e\&., not null)\&. \fP"
 .ti -1c
-.RI "virtual void \fBAction\fP ()"
+.RI "virtual int \fBAction\fP ()"
 .br
 .RI "\fICyclic loop for the controller\&. Reads \fBCrcl\fP input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages\&. \fP"
 .ti -1c
@@ -75,7 +75,12 @@ Inherits \fBRCS::Thread\fP\&.
 .RI "\fBVAR\fP (MoveitPlanner, boost::shared_ptr< \fBMoveitPlanning\fP >)"
 .br
 .ti -1c
-.RI "void \fBSetKinematics\fP (boost::shared_ptr< \fBIKinematics\fP > k)"
+.RI "\fBVAR\fP (RvizMarker, boost::shared_ptr< \fBCRvizMarker\fP >) VAR(EEPoseReader"
+.br
+.ti -1c
+.RI "boost::shared_ptr< CLinkReader >
+.br
+ void \fBSetKinematics\fP (boost::shared_ptr< \fBIKinematics\fP > k)"
 .br
 .RI "\fIRoutine to set the kinematics reference pointer\&. Uses the interface class \fBIKinematics\fP, but can have any implementation instance\&. \fP"
 .ti -1c
@@ -104,6 +109,9 @@ Inherits \fBRCS::Thread\fP\&.
 .br
 .ti -1c
 .RI "std::string \fBlastlogstatus\fP"
+.br
+.ti -1c
+.RI "std::string \fB_eeName\fP"
 .br
 .ti -1c
 .RI "\fBMotionPlannerEnum\fP \fBeCartesianMotionPlanner\fP"
@@ -225,7 +233,7 @@ The \fBCController\fP provides a collection for all the relevant controller piec
 
 .SH "Member Function Documentation"
 .PP 
-.SS "void RCS::CController::Action ()\fC [virtual]\fP"
+.SS "int RCS::CController::Action ()\fC [virtual]\fP"
 
 .PP
 Cyclic loop for the controller\&. Reads \fBCrcl\fP input mexsage queue, interprets into canon cmds if any, reads canon cmds queue, interprets into robot command messages\&. 
@@ -261,7 +269,7 @@ Reimplemented from \fBRCS::Thread\fP\&.
 last canon command interpreted 
 .SS "RCS::CController::NVAR (LastCC, \fBRCS::CanonCmd\fP, _lastcc)"
 
-.SS "void RCS::CController::SetKinematics (boost::shared_ptr< \fBIKinematics\fP >k)\fC [inline]\fP"
+.SS "boost::shared_ptr<CLinkReader> void RCS::CController::SetKinematics (boost::shared_ptr< \fBIKinematics\fP >k)\fC [inline]\fP"
 
 .PP
 Routine to set the kinematics reference pointer\&. Uses the interface class \fBIKinematics\fP, but can have any implementation instance\&. 
@@ -272,6 +280,8 @@ Routine to set the kinematics reference pointer\&. Uses the interface class \fBI
 .SS "RCS::CController::VAR (JointWriter, boost::shared_ptr< \fBCJointWriter\fP >)"
 
 .SS "RCS::CController::VAR (MoveitPlanner, boost::shared_ptr< \fBMoveitPlanning\fP >)"
+
+.SS "RCS::CController::VAR (RvizMarker, boost::shared_ptr< \fBCRvizMarker\fP >)"
 
 .SS "bool RCS::CController::Verify ()"
 
@@ -285,6 +295,8 @@ Verifies that all the pointer references in the controller have been instantiate
 level of debugging, 0 least, 5 most 
 .SS "unsigned long RCS::CController::_debugtype = (unsigned long) \fBRPY\fP\fC [static]\fP"
 output crcl xz rotation or roll,pitch, yaw 
+.SS "std::string RCS::CController::_eeName"
+
 .SS "\fBRCSInterpreter\fP RCS::CController::_interpreter"
 interprets canon commands into robot commands current new canon command to interpret 
 .SS "size_t RCS::CController::_NumJoints\fC [static]\fP"

@@ -220,6 +220,9 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a0d81b5ae27814995884c1d25619db28a"><td class="memItemLeft" align="right" valign="top">::CRCLProgramType::MiddleCommand_sequence &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a0d81b5ae27814995884c1d25619db28a">DummyInit</a> ()</td></tr>
 <tr class="separator:a0d81b5ae27814995884c1d25619db28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a35eaff1f2c8ec5520f595d6f3b2d38b3">DumpPose</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="memdesc:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#a35eaff1f2c8ec5520f595d6f3b2d38b3">More...</a><br/></td></tr>
+<tr class="separator:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e911197b35a4857f179af61811d4b0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a6e911197b35a4857f179af61811d4b0a">getRPY</a> (const <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> pose, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a1d3228afa3a1d6773954f40c1e519eb9">roll</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a34c057a0378030db67bd6a129f37d938">pitch</a>, double &amp;<a class="el" href="SanityCheckTests_8cpp.html#a21cd490f6191f66678f55b4c242a10cf">yaw</a>)</td></tr>
 <tr class="separator:a6e911197b35a4857f179af61811d4b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d588bfecc6b5d8e671ad9c57d18ecdc"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
@@ -228,9 +231,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a82f7cfa7edd613a454281ce5f5685b4d"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
 <tr class="memitem:a82f7cfa7edd613a454281ce5f5685b4d"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a82f7cfa7edd613a454281ce5f5685b4d">ToSeconds</a> (boost::chrono::duration&lt; Rep, Period &gt; d)</td></tr>
 <tr class="separator:a82f7cfa7edd613a454281ce5f5685b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a35eaff1f2c8ec5520f595d6f3b2d38b3">DumpPose</a> (<a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
-<tr class="memdesc:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#a35eaff1f2c8ec5520f595d6f3b2d38b3">More...</a><br/></td></tr>
-<tr class="separator:a35eaff1f2c8ec5520f595d6f3b2d38b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad467dfc15b94a5e025af3e094ac21860"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#ad467dfc15b94a5e025af3e094ac21860">DumpJoints</a> (<a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a> joints)</td></tr>
+<tr class="memdesc:ad467dfc15b94a5e025af3e094ac21860"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpJoints takes a list of joints and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#ad467dfc15b94a5e025af3e094ac21860">More...</a><br/></td></tr>
+<tr class="separator:ad467dfc15b94a5e025af3e094ac21860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0cfadb4002d5ba5ec3ffdf2c96839e0"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#af0cfadb4002d5ba5ec3ffdf2c96839e0">operator&lt;&lt;</a> (std::ostream &amp;os, <a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;pose)</td></tr>
+<tr class="memdesc:af0cfadb4002d5ba5ec3ffdf2c96839e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);.  <a href="#af0cfadb4002d5ba5ec3ffdf2c96839e0">More...</a><br/></td></tr>
+<tr class="separator:af0cfadb4002d5ba5ec3ffdf2c96839e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a994378d2744371f1afac4b59a808fef2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRCS.html#a994378d2744371f1afac4b59a808fef2">DumpQuaterion</a> (std::ostream &amp;os, const <a class="el" href="namespaceRCS.html#a3fd915276fdb632d217c560523c320e0">RCS::Rotation</a> &amp;rot)</td></tr>
 <tr class="memdesc:a994378d2744371f1afac4b59a808fef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">DumpQuaterion takes a urdf quaterion and generates a string describing x,y,z,w coordinates. Can be used as std::cout &lt;&lt; DumpQuaterion(urdf::rotation);.  <a href="#a994378d2744371f1afac4b59a808fef2">More...</a><br/></td></tr>
 <tr class="separator:a994378d2744371f1afac4b59a808fef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -654,12 +660,35 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a35eaff1f2c8ec5520f595d6f3b2d38b3"></a>
+<a class="anchor" id="ad467dfc15b94a5e025af3e094ac21860"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string RCS::DumpJoints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="RCS_8h.html#aa4adb93a26caa4dacba9c9614e283245">JointState</a>&#160;</td>
+          <td class="paramname"><em>joints</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>DumpJoints takes a list of joints and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);. </p>
+
+</div>
+</div>
+<a class="anchor" id="a35eaff1f2c8ec5520f595d6f3b2d38b3"></a>
+<div class="memitem">
+<div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">std::string RCS::DumpPose </td>
@@ -669,11 +698,6 @@ Variables</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);. </p>
@@ -754,6 +778,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af0cfadb4002d5ba5ec3ffdf2c96839e0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; RCS::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceRCS.html#aa07e45d8a50e30064283d2b38087f999">RCS::Pose</a> &amp;&#160;</td>
+          <td class="paramname"><em>pose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>DumpPose takes a urdf pose and generates a string describing pose. Can be used as std::cout &lt;&lt; DumpPose(pose);. </p>
+
+</div>
+</div>
 <a class="anchor" id="a1d588bfecc6b5d8e671ad9c57d18ecdc"></a>
 <div class="memitem">
 <div class="memproto">
@@ -819,7 +879,7 @@ template&lt;class Rep , class Period &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2016 13:04:56 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 14 2016 13:18:54 for CRCL FANUC by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

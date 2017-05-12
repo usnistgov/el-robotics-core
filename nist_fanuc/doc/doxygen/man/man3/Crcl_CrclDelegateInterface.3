@@ -1,4 +1,4 @@
-.TH "Crcl::CrclDelegateInterface" 3 "Fri Mar 18 2016" "CRCL FANUC" \" -*- nroff -*-
+.TH "Crcl::CrclDelegateInterface" 3 "Thu Apr 14 2016" "CRCL FANUC" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -130,9 +130,6 @@ Crcl::CrclDelegateInterface \-
 .RI "\fISet one or more robot parameters as specified\&. The meaning of the parameter is not known to CRCL, but the robot controller knows what it means\&. This command is not to be used to set any parameter that can be set using a CRCL command\&. \fP"
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetRelativeAcceleration\fP (double percent)"
-.br
-.ti -1c
-.RI "virtual \fBCrclReturn\fP \fBSetRelativeSpeed\fP (double percent)"
 .br
 .ti -1c
 .RI "virtual \fBCrclReturn\fP \fBSetRotAccel\fP (double accel)"
@@ -396,8 +393,6 @@ Set one or more robot parameters as specified\&. The meaning of the parameter is
 .PP
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetRelativeAcceleration (doublepercent)\fC [virtual]\fP"
-
-.SS "\fBCrclReturn\fP CrclDelegateInterface::SetRelativeSpeed (doublepercent)\fC [virtual]\fP"
 
 .SS "\fBCrclReturn\fP CrclDelegateInterface::SetRotAccel (doubleaccel)\fC [virtual]\fP"
 

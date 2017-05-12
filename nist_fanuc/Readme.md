@@ -1816,3 +1816,15 @@ Movegroup died ...
 [move_group-5] process has died [pid 4186, exit code -11, cmd /opt/ros/indigo/lib/moveit_ros_move_group/move_group __name:=move_group __log:=/home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5.log].
 log file: /home/michalos/.ros/log/6e9469f8-f05e-11e5-9a07-ecf4bb31ca6d/move_group-5*.log
 
+
+netbeans reinstall
+------------------------
+https://netbeans.org/downloads/start.html?platform=linux&lang=en&option=cpp&bits=x64
+
+michalos@daemon:~> javac -version
+javac 1.8.0_77
+
+
+
+
+

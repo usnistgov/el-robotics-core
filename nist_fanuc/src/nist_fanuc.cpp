@@ -67,6 +67,7 @@ int main(int argc, char** argv) {
         
         // SetupRosEnvironment - needs to go before ROS!
         
+        SetupRosEnvironment("");
         // Initialize ROS
         ros::init(argc, argv, "nist_fanuc");
         ros::NodeHandle nh;
@@ -87,7 +88,7 @@ int main(int argc, char** argv) {
         Globals.WriteFile(Globals.ExeDirectory + "rosconfig.txt", params);
         path = ros::package::getPath("nist_fanuc");
         Globals._appproperties["nist_fanuc"] = path;
-#if 1
+#if 0
         // This sets up the `env` so that ROS can run - has too many hardwired dependencies
         SetupRosEnvironment(path);
 #endif

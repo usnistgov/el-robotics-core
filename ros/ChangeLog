@@ -1,3 +1,17 @@
+2017-05-16  John L Michaloski  <michalos@woodsy.el.nist.gov>
+
+	* The fanuc rviz moveit was kind of choppy probably due to KDL
+	being too slow an IK solver. TrakIK is speeded up
+	KDL. Unfortunately, ikfast is compiled to a URDF configuration,
+	and until we figure out which URDF matches the real robot
+	position/offset its really wrong.
+
+	Does trac ik plug in work? Improve performance?
+	Does rosi joint state publisher work?
+	What is URDF for actual fanuc robot?  Offset? Pedastel?
+	Can we generate new ikfast files from CORRECT urdf?
+
+	
 2017-05-12  John L Michaloski  <michalos@woodsy.el.nist.gov>
 
 	* Ran planning visualization

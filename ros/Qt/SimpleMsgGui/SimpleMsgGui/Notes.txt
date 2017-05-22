@@ -1,0 +1,239 @@
+
+
+joint_limits:
+  joint_1:
+    has_velocity_limits: true
+    max_velocity: 7.85
+    has_acceleration_limits: true
+    max_acceleration: 1.57
+  joint_2:
+    has_velocity_limits: true
+    max_velocity: 6.63
+    has_acceleration_limits: true
+    max_acceleration: 1.326
+  joint_3:
+    has_velocity_limits: true
+    max_velocity: 9.08
+    has_acceleration_limits: true
+    max_acceleration: 1.816
+  joint_4:
+    has_velocity_limits: true
+    max_velocity: 9.6
+    has_acceleration_limits: true
+    max_acceleration: 1.92
+  joint_5:
+    has_velocity_limits: true
+    max_velocity: 9.51
+    has_acceleration_limits: true
+    max_acceleration: 1.902
+  joint_6:
+    has_velocity_limits: true
+    max_velocity: 17.45
+    has_acceleration_limits: true
+    max_acceleration: 3.49
+
+Fri 05/12/17 08:02:50 PM
+Removed
+#if 0
+    QByteArray byteArray=socket->read(size);
+    // appears to be a header in socket read - length of buffer
+    memcpy(buffer, byteArray.data()+4, byteArray.size()-4);
+    //qDebug("byteArray\n");
+    //qDebug(  NIST::HexDump(byteArray.data(), 64, 20).c_str());
+    //qDebug("buffer\n");
+    //qDebug(  NIST::HexDump(buffer, 64, 20).c_str());
+    return byteArray.size()-4;
+#else
+#if 0
+    QByteArray sendArray;
+    QDataStream out(&sendArray,QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_6);
+    out.writeBytes((char *) buffer, size) ;
+    socket->write(sendArray);
+#else
+
+
+QObject: Cannot create children for a parent that is in a different thread.
+(Parent is SimpleMessageTest(0x178a0620), parent's thread is QThread(0x3d4020), current thread is QtSocketThreadBase(0x17864a08)
+at:
+thread->socket = new QTcpSocket( this );
+
+
+Tue 05/09/2017_ 8:25:24.39
+QObject: Cannot create children for a parent that is in a different thread.
+(Parent is SimpleMessageTest(0x17a10628), parent's thread is QThread(0x3d4020), current thread is QtSocketThreadBase(0x18a18a60)
+QObject: Cannot create children for a parent that is in a different thread.
+(Parent is SimpleMessageTest(0x17a10628), parent's thread is QThread(0x3d4020), current thread is QtSocketThreadBase(0x17a18580)
+
+
+Tue 05/09/2017_ 8:25:24.39
+Problem:
+QSocketNotifier: Socket notifiers cannot be enabled or disabled from another thread
+QSocketNotifier: Socket notifiers cannot be enabled or disabled from another thread
+ASSERT failure in QCoreApplication::sendEvent: "Cannot send events to objects owned by a different thread. Current thread 17b280e8. Receiver '' (of type 'QNativeSocketEngine') was created in thread db4020", file kernel\qcoreapplication.cpp, line 568
+Invalid parameter passed to C runtime function.
+Invalid parameter passed to C runtime function.
+QSocketNotifier: Socket notifiers cannot be enabled or disabled from another thread
+QSocketNotifier: Socket notifiers cannot be enabled or disabled from another thread
+ASSERT failure in QCoreApplication::sendEvent: "Cannot send events to objects owned by a different thread. Current thread 17ac6d80. Receiver '' (of type 'QNativeSocketEngine') was created in thread db4020", file kernel\qcoreapplication.cpp, line 568
+Invalid parameter passed to C runtime function.
+Invalid parameter passed to C runtime function.
+Anser:
+MOVED ALL SOCKET STUFF INTO EACH THREAD
+
+
+Sun 05/07/17 04:12:21 PM
+C11 replacements of boost
+http://thispointer.com/how-to-put-a-thread-to-sleep-in-c11-sleep_for-sleep_until/
+http://www.cplusplus.com/reference/functional/bind/
+
+
+
+
+Comma character is treated as list separator by QSettings. INI values with commas are parsed as string lists. You can convert a string list back to original string as follows:
+
+QVariant value = settings.value("key");
+QString string;
+if (value.type() == QVariant::StringList) {
+  string = value.toStringList().join(",");
+} else {
+  string = value.toString();
+}
+
+
+
+Tue 25 Apr 2017 11:24:50 AM EDT 
+parse tree of boost really hung gdb.
+Not sure why, switched to QSetting which too had issues
+Also - comma in setting really messed up value
+
+
+    //settings.beginGroup("system");
+    //const QStringList childKeys = settings.childKeys();
+    //qDebug( "%s\n", childKeys.join(",").toStdString().c_str());
+    QString list = value.toStringList().join(",");
+    qDebug("%s\n", list.toStdString().c_str() );
+    for(size_t i=0; i<robots.size(); i++)
+    {
+        qDebug("Parse %s\n", RCS::VectorDump<std::string>(w.rosThread.robotconfig.jointnames[robots[i]]).c_str());
+
+    }
+
+
+#include "NIST/Boost.h"
+
+
+#if 0
+    try {
+        pt::ptree root;
+        std::cout << path << "\n";
+        pt::ini_parser::read_ini(path + "/config/" + ROSPACKAGENAME + ".ini", root);
+        std::vector<std::string> robots = GetIniTypes<std::string>(root, "system.robots");
+        //std::string robotname = root.get<std::string>(robots[i] + ".longname");
+        for(size_t i=0; i< robots.size(); i++)
+        {
+            std::vector<std::string> jointnames = GetIniTypes<std::string>(root, robots[i] + ".joints");
+            std::cout<< RCS::VectorDump<std::string> (jointnames) << "\n";
+            w.rosThread.rjoints[robots[i]]  = jointnames;
+
+        }
+    }
+    catch (std::exception &e) {
+        qDebug( "%s\n", e.what());
+        throw;
+    }
+#endif
+
+    static char * robots[] = {"fanuc","motoman"};
+    for(size_t i=0; i<2; i++)
+    {
+
+        qDebug("Robot %s\n", RCS::VectorDump<std::string>(rosThread.robots.jointnames[robots[i]]).c_str());
+
+    }
+
+//    ui->tableWidget->setItem(0, 0, tableItems[0][0]);
+//    ui->tableWidget->setItem(0, 1, tableItems[0][1]);
+//    ui->tableWidget->setItem(0, 2, tableItems[0][2]);
+//    tableItems[0][0]->setText(QString("0.1"));
+ //   tableItems[0][1]->setText(QString(".11"));
+//    tableItems[
+tableItems[0][2]->setText(QString(".22!!"));0][2]->setText(QString(".22"));
+
+
+//    QTimer *timer = new QTimer(this);
+//    connect(timer, SIGNAL(timeout()), ui->tableWidget, SLOT(UpdateViews()));
+//    timer->start(5000);
+    //connect(ui->tableWidget, SIGNAL(cellChanged(int, int)), otherObject, SLOT(youSlot(int, int));
+    #if 0
+        fillTableWidget();
+
+        // Now do the robots joints
+        size_t n = Globals.max_joints; // rosThread.robots.maxjoints();
+        jnttableItems=QTableItems(4,n);
+        jnttableItems.Fill<std::string>(robots[Globals.index].jointnames[Globals.RobotName], 0);
+        qDebug("jnttableItems =%s\n", jnttableItems.Dump().c_str());
+    #endif
+    //    rosThread._tableitems=&tableItems;
+     //   rosThread._jnttableitems=&jnttableItems;
+    //    ui->tableWidget_2->setRowCount(4);
+    //    ui->tableWidget_2->setColumnCount(n);
+    //    for(size_t i=0; i< 4; i++)
+    //        for(size_t j=0; j< n; j++)
+    //             ui->tableWidget_2->setItem(i, j, jnttableItems[i][j]);
+
+    // Like to resize the tables to fit their column contents, but not urgent
+    // QT 5.2
+    //    ui->tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    //    ui->tableWidget_2->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+
+
+void MainWindow::fillTableWidget()
+{
+    size_t nrow, ncolumn;
+    QStringList list,listv;
+
+    nrow = 2;
+ //   nrow += rosThread.poses.size();
+
+    ncolumn = 6;
+    //set size of QTableWidget
+    ui->tableWidget->setRowCount(nrow);
+    ui->tableWidget->setColumnCount(ncolumn);
+
+    //add header to QTableWidgetItem
+    list<<"X" << "Y" << "Z"<<"Roll" << "Pitch" << "Yaw";
+    ui->tableWidget->setHorizontalHeaderLabels(list);
+    listv << Globals.robot.c_str();
+//    for(size_t i=0; i< rosThread.poses.size(); i++)
+//        listv << rosThread.poses[i].c_str(); // substr(rosThread.poses[i].find_last_of('/') + 1).c_str();
+
+    tableItems=QTableItems(nrow,6);
+    tableItems.SetRowNames(listv);
+    ui->tableWidget->setVerticalHeaderLabels(listv);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    std::string str = tableItems.Dump();
+    std::cerr << str;
+    for(size_t i=0; i< nrow; i++)
+        for(size_t j=0; j< ncolumn; j++)
+             ui->tableWidget->setItem(i, j, tableItems[i][j]);
+}
+
+
+
+///////////////
+// ui->plainTextEdit->setCursor(QTextCursor::End);
+//  ui->plainTextEdit->appendPlainText ("hello world");
+ // here is the connection
+//    connect(ui->actionReply, SIGNAL(triggered()), this, SLOT(doDebugMenu()));
+//    connect(ui->actionNone, SIGNAL(triggered()), this, SLOT(doDebugMenu()));
+//    connect(ui->actionAll, SIGNAL(triggered()), this, SLOT(doDebugMenu()));
+//    connect(ui->actionFeedback, SIGNAL(triggered()), this, SLOT(doDebugMenu()));
+//    connect(ui->actionRun, SIGNAL(triggered()), this, SLOT(doDebugMenu()));
+
+}
+void MainWindow::doDebugMenu()
+{
+QAction *pAction = qobject_cast<QAction*>(sender());
+qDebug(pAction->objectName().toLatin1());
+}

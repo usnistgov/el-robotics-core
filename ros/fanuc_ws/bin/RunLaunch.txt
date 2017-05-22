@@ -1,0 +1,8 @@
+
+source devel/setup.bash
+
+roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch
+
+roslaunch fanuc_lrmate200id_moveit_config moveit_planning_execution.launch sim:=false robot_ip:=129.168.1.34
+
+

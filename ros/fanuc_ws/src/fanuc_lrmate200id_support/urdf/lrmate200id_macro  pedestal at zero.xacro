@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find fanuc_resources)/urdf/common_materials.xacro"/>
+  <xacro:include filename="$(find fanuc_resources)/urdf/common_constants.xacro"/>
+  <xacro:include filename="$(find fanuc_lrmate200id_support)/urdf/visuals.xacro"/>
+  <xacro:include filename="$(find fanuc_lrmate200id_support)/urdf/jointlimits.xacro"/>
+ <!-- <xacro:include filename="$(find fanuc_lrmate200id_support)/urdf/robotiq_c2_model_macro.xacro" /> -->
+
+  <xacro:macro name="fanuc_lrmate200id" params="prefix">
+    <link name="${prefix}base_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+	<xacro:insert_mesh_base_link />
+        <xacro:material_fanuc_gray28 />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+  	<xacro:insert_mesh_base_link />
+      </collision>
+    </link>
+    <link name="${prefix}link_1">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link1 />
+        <xacro:material_fanuc_yellow />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link1 />
+      </collision>
+    </link>
+    <link name="${prefix}link_2">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link2 />
+        <xacro:material_fanuc_yellow />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link2 />
+      </collision>
+    </link>
+    <link name="${prefix}link_3">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link3 />
+        <xacro:material_fanuc_yellow />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link3 />
+      </collision>
+    </link>
+    <link name="${prefix}link_4">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link4 />
+        <xacro:material_fanuc_yellow />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link4 />
+      </collision>
+    </link>
+    <link name="${prefix}link_5">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link5 />
+        <xacro:material_fanuc_yellow />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+ 	<xacro:insert_mesh_link5 />
+      </collision>
+    </link>
+    <link name="${prefix}link_6">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+	<xacro:insert_mesh_link6 />
+        <xacro:material_fanuc_black />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+	<xacro:insert_mesh_link6 />
+      </collision>
+    </link>
+
+ <!--   <link name="${prefix}tool0" /> -->
+ 
+    <joint name="${prefix}joint_1" type="revolute">
+      <origin xyz="0 0 0.330" rpy="0 0 0" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}link_1" />
+      <axis xyz="0 0 1" />
+      <limit effort="${joint1effort}" lower="${joint1lower}" upper="${joint1upper}" velocity="${joint1velocity}" />
+    </joint>
+    <joint name="${prefix}joint_2" type="revolute">
+      <origin xyz="0.050 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_1" />
+      <child link="${prefix}link_2" />
+      <axis xyz="0 1 0" />
+      <limit effort="${joint2effort}" lower="${joint2lower}" upper="${joint2upper}" velocity="${joint2velocity}" />
+    </joint>
+    <joint name="${prefix}joint_3" type="revolute">
+      <origin xyz="0 0 0.330" rpy="0 0 0"/>
+      <parent link="${prefix}link_2" />
+      <child link="${prefix}link_3" />
+      <axis xyz="0 -1 0" />
+      <limit effort="${joint3effort}" lower="${joint3lower}" upper="${joint3upper}" velocity="${joint3velocity}" />
+    </joint>
+    <joint name="${prefix}joint_4" type="revolute">
+      <origin xyz="0 0 0.035" rpy="0 0 0"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
+      <axis xyz="-1 0 0"/>
+      <limit effort="${joint4effort}" lower="${joint4lower}" upper="${joint4upper}" velocity="${joint4velocity}" />
+    </joint>
+    <joint name="${prefix}joint_5" type="revolute">
+      <origin xyz="0.335 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
+      <axis xyz="0 -1 0"/>
+      <limit effort="${joint5effort}" lower="${joint5lower}" upper="${joint5upper}" velocity="${joint5velocity}" />
+    </joint>
+    <joint name="${prefix}joint_6" type="revolute">
+      <origin xyz="0.080 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
+      <axis xyz="-1 0 0"/>
+      <limit effort="${joint6effort}" lower="${joint6lower}" upper="${joint6upper}" velocity="${joint6velocity}" />
+    </joint>
+
+
+    <!-- ROS base_link to Fanuc World Coordinates transform -->
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 0.330" rpy="0 0 0"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
+    </joint>
+
+
+  </xacro:macro>
+</robot>

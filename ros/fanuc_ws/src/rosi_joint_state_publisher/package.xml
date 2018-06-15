@@ -1,0 +1,17 @@
+<package format="2">
+  <name>rosi_joint_state_publisher</name>
+  <version>1.0.0</version>
+  <description>
+    This package contains a tool for setting and publishing joint state values for a given URDF using ROS Industrial Simple Message Real Robot Interface.
+  </description>
+    <maintainer email="john.michaloski@nist.gov">John Michaloski</maintainer>
+
+  <license>None</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>python_qt_binding</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+
+</package>

@@ -1,7 +1,6 @@
 <launch>
 
 <arg name="ns" default="gomotion_ros" />
-
 <arg name="inifile" default="gomotion.ini" />
 <arg name="robot_description" default="robot.urdf" />
 <arg name="source_list" default="[joint_states]" />

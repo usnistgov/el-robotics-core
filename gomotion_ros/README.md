@@ -1,7 +1,7 @@
 This package is an interface between a running Go Motion controller and a ROS JointState topic.
 
 In RViz, you need to set the "Fixed Frame" to be "base_link", and
-"Add" a "Rpbpt Model". Save this to something like myrobot.rviz and
+"Add" a "Robot Model". Save this to something like myrobot.rviz and
 pass this as an arg to the rviz node launch.
 
 Demo January 31 2017

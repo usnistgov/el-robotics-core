@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 
   ros_argc = argc - optind;
   ros_argv = &argv[optind];
-  ros::init(ros_argc, ros_argv, node_name);
+  ros::init(ros_argc, ros_argv, "");
 
   ros::NodeHandle n;
   ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>(std::string("joint_states"), 1);

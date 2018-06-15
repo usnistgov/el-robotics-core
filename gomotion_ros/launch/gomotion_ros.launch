@@ -1,13 +1,12 @@
 <launch>
 
-<arg name="ns" default="gomotion_ros" />
-
 <!--
     Run as, e.g., 
 
     roslaunch gomotion_ros gomotion_ros.launch ns:=fanuc inifile:=gomotion/etc/fanuc-lrmate-200id.ini
 -->
 
+<arg name="ns" default="gomotion_ros" />
 <arg name="inifile" default="gomotion.ini" />
 <arg name="debug" default="" />
 
